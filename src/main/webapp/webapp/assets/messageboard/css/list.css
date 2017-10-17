@@ -1,0 +1,30 @@
+.pagination {
+	margin: 10px 0px;
+}
+
+#post__li {
+	height: 72%;
+	overflow: auto;
+}
+
+.show {
+	display: block;
+}
+
+.hide {
+	display: none;
+}
+
+.search_h {
+	position: fixed;
+	top: 0;
+	padding-top: 10px;
+	left: 0;
+	background: #fff;
+	width: 100%
+}
+
+#post_ul {
+	height: 75%;
+	overflow: auto;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<!-- 配置日志输出文件名字 追加读写 -->
+		<RollingFile name="infoFile" fileName="/var/cxf_ws01"
+			filePattern="/var/95020log/med/info.%d{yyyy-MM-dd}.log" append="true">
+			<!-- 输出格式 -->
+			<PatternLayout
+				pattern="[%l] [%t] [%-4r] [%d{yyyy-MM-dd HH:mm:ss,SSS}] [%p] \: %m%n" />
+			<!-- 设置策略 -->
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="false" />
+			</Policies>
+		</RollingFile>
+		<!-- 标准输出 -->
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="[%l] [%t] [%-4r] [%d{yyyy-MM-dd HH:mm:ss,SSS}] [%p] \: %m%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+
+		<!-- 配置记录器级别 -->
+		<Root level="debug">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="infoFile" />
+		</Root>
+	</Loggers>
+</Configuration> 

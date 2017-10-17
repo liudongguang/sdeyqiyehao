@@ -1,0 +1,109 @@
+/* Write your styles */
+/*首页四项的样式开始*/
+*{
+    margin: 0!important;
+    /*padding: 0;*/
+}
+.sy_out{
+    width: 100%!important;
+    margin: 0!important;
+}
+.sy_menu_ul{
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+}
+.sy_menu_img{
+    width: 22px!important;
+    margin-left: 4px!important;
+}
+.sy_border_bottom{
+    border-bottom: none!important;
+}
+.sy_doc_top{
+    border-bottom: none!important;
+    background-color: #fff;
+}
+.sy_doc_foot{
+    background-color: #fff;
+    margin-bottom: 18px!important;
+    padding:8px 0 0 0;
+    border-radius: 5px;
+}
+.sy_doc_foot_son{
+    border-bottom: none!important;
+    background-color: #fff;
+}
+.sy_all_part_bg{
+    background-color: #f2f2f2;
+}
+.sy_img_icon{
+    width: 30px;
+    margin-left: 6px;
+}
+.sy_text_icon{
+    font-size: 14px;
+    color: #000;
+}
+.sy_ipt_search{
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    margin-top: 2px!important;
+    height: 33px;
+    border: none!important;
+}
+.sy_small_icon{
+    width:25px;
+    height: 25px;
+    margin-top: 6px;
+    margin-left: 8px!important;
+}
+.sy_table{
+    margin-top: 0!important;
+    margin-bottom:18px!important;
+    background-color: #fff;
+    border: solid 1px #fff;
+    border-top: solid 1px #ddd;
+}
+.sy_health_table{
+    margin-top: 18px!important;
+    border: none!important;
+    background-color: white;
+}
+.sy_hospital_center{
+    background-color: #fff;
+    margin-top: 10px!important;
+    padding:8px 0 0 0;
+    border-radius: 5px;
+}
+.sy_hospital_center_son{
+    border-bottom: none!important;
+    background-color: #fff;
+    padding:0 10px;
+}
+.sy_me_icon{
+    display: block;
+    float: left;
+    line-height: 60px;
+    /*margin-top: 21px!important;*/
+    margin-left: 15px!important;
+    margin-right: 8px!important;
+}
+.sy_wo_li_a{
+    color: #000;
+    line-height: 40px;
+    font-size: 16px;
+}
+.sy_wo_li_i{
+    line-height: 33px;
+}
+.sy_ul_li_border_top{
+    border-top: none!important;
+    height: 60px;
+}
+.sy_ul_li_border_bottom{
+    border-bottom: none!important;
+}
+/*首页四项的样式结束*/
+/*95020问诊页面的样式开始*/

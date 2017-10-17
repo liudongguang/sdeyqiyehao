@@ -1,0 +1,135 @@
+group 'com.ldg.sdeyqiyehao'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+war {
+    archiveName 'sdeyqiyehao.war'
+}
+
+repositories {
+    mavenCentral()
+}
+configurations {
+    mybatisGenerator
+}
+ext {
+    springVersion = "4.3.7.RELEASE"
+    log4jVersion = "2.8.1"
+    mybatisVersion = "3.4.2"
+    mybatisSpringVersion = "1.3.1"
+    aspectjVersion = "1.8.9"
+}
+dependencies {
+    compile fileTree(dir:'libs',include:['*.jar'])
+    compile("org.springframework:spring-aop:$springVersion",
+            "org.springframework:spring-orm:$springVersion",
+            "org.springframework:spring-jdbc:$springVersion",
+            "org.springframework:spring-instrument-tomcat:$springVersion",
+            "org.springframework:spring-instrument:$springVersion",
+            "org.springframework:spring-framework-bom:$springVersion",
+            "org.springframework:spring-expression:$springVersion",
+            "org.springframework:spring-core:$springVersion",
+            "org.springframework:spring-context-support:$springVersion",
+            "org.springframework:spring-context:$springVersion",
+            "org.springframework:spring-beans:$springVersion",
+            "org.springframework:spring-aspects:$springVersion",
+            "org.springframework:spring-test:$springVersion",
+            "org.springframework:spring-tx:$springVersion",
+            "org.springframework:spring-web:$springVersion",
+            "org.springframework:spring-webmvc:$springVersion",
+            "org.springframework:spring-webmvc-portlet:$springVersion",
+            "cglib:cglib:3.2.1",
+            "asm:asm:3.3.1",
+            "org.aspectj:aspectjrt:$aspectjVersion",
+            "org.aspectj:aspectjweaver:$aspectjVersion",
+            "aopalliance:aopalliance:1.0"
+    )
+    compile(
+            "org.apache.logging.log4j:log4j-api:$log4jVersion",
+            "org.apache.logging.log4j:log4j-core:$log4jVersion",
+            "org.apache.logging.log4j:log4j-web:$log4jVersion",
+            "org.apache.logging.log4j:log4j-1.2-api:$log4jVersion",
+            "org.apache.logging.log4j:log4j-jcl:$log4jVersion",
+            "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
+    )
+    compile(
+            "org.mybatis:mybatis:$mybatisVersion",
+            "org.mybatis:mybatis-spring:$mybatisSpringVersion",
+            "tk.mybatis:mapper:3.4.0",
+            "javax.persistence:persistence-api:1.0.2",
+            "com.github.pagehelper:pagehelper:5.0.0",
+            "mysql:mysql-connector-java:5.1.44"
+    )
+    compile(
+            "org.hibernate:hibernate-validator:5.1.3.Final",
+            "org.apache.commons:commons-dbcp2:2.1.1",
+            "org.apache.commons:commons-lang3:3.4",
+            "commons-fileupload:commons-fileupload:1.3.1",
+            "commons-io:commons-io:2.4",
+            "com.fasterxml.jackson.core:jackson-databind:2.9.0.pr1"
+    )
+    compile(
+            "redis.clients:jedis:2.9.0",
+            "org.springframework.data:spring-data-redis:1.8.1.RELEASE",
+            "org.quartz-scheduler:quartz:2.3.0",
+            "org.quartz-scheduler:quartz-jobs:2.3.0",
+            'org.apache.poi:poi:3.15',
+            'org.apache.poi:poi-ooxml:3.15',
+            "javax.mail:mail:1.5.0-b01"
+    )
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'javax.servlet:jstl:1.2'
+    compile 'com.belerweb:pinyin4j:2.5.1'
+    compile 'org.apache.httpcomponents:httpclient:4.5.3'
+    compile 'org.apache.httpcomponents:httpmime:4.5.3'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0-b03'
+    mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.3.5'
+    mybatisGenerator files('libs/ojdbc8.jar')
+    mybatisGenerator 'mysql:mysql-connector-java:5.1.40'
+    mybatisGenerator 'tk.mybatis:mapper:3.3.9'
+}
+def getDbProperties = {
+    def properties = new Properties()
+    file("src/main/resources/generator/initGenerator.properties").withInputStream { inputStream ->
+        properties.load(inputStream)
+    }
+    properties
+}
+task mybatisGenerate << {
+    def properties = getDbProperties()
+    ant.properties['targetProject'] = projectDir.path
+    ant.properties['driverClass'] = properties.getProperty("jdbc.driverClassName")
+    ant.properties['connectionURL'] = properties.getProperty("jdbc.url")
+    ant.properties['userId'] = properties.getProperty("jdbc.user")
+    ant.properties['password'] = properties.getProperty("jdbc.pass")
+    ant.properties['tableName'] = properties.getProperty("tableName")
+    ant.properties['src_main_java'] = sourceSets.main.java.srcDirs[0].path
+    ant.properties['src_main_resources'] = sourceSets.main.resources.srcDirs[0].path
+    ant.properties['packageName'] = properties.getProperty("packageName")
+    ant.taskdef(
+            name: 'mbgenerator',
+            classname: 'org.mybatis.generator.ant.GeneratorAntTask',
+            classpath: configurations.mybatisGenerator.asPath
+    )
+    ant.mbgenerator(overwrite: true,
+            configfile: 'src/main/resources/generator/generatorConfig.xml', verbose: true) {
+        propertyset {
+            propertyref(name: 'targetProject')
+            propertyref(name: 'userId')
+            propertyref(name: 'driverClass')
+            propertyref(name: 'connectionURL')
+            propertyref(name: 'password')
+            propertyref(name: 'tableName')
+            propertyref(name: 'src_main_java')
+            propertyref(name: 'src_main_resources')
+            propertyref(name: 'packageName')
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!--1.配制事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 2.配制事务属性 advice：通知 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!--根据方法名指定事务的属性， 让这个方法的传播性为创建自己的事务 -->
+			<tx:method name="get*" read-only="true" isolation="READ_COMMITTED" />
+			<tx:method name="find*" read-only="true" isolation="READ_COMMITTED" />
+			<tx:method name="*" isolation="READ_COMMITTED" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 3.配制事务切点，以及把事务切入点和事务属性关联起来 -->
+	<aop:config>
+		<!-- com.ldg.api.service包 下所有接口的所有方法 -->
+		<aop:pointcut expression="execution(* com.weixin.api.service.*.*(..))"
+			id="txPointCut" />
+		<!-- 切入点与事务属性关联起来 advisor:顾问，劝告者 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut" />
+	</aop:config>
+</beans>

@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* 你自己的样式 */
+.span_wid{
+    width: 25%!important;
+    display: inline-block;
+}
+.mar_right{
+    margin-right: 10px!important;
+    display: inline-block;
+}
