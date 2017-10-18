@@ -22,7 +22,7 @@
 	<Loggers>
 
 		<!-- 配置记录器级别 -->
-		<Root level="debug">
+		<Root level="ERROR">
 			<AppenderRef ref="STDOUT" />
 			<AppenderRef ref="infoFile" />
 		</Root>
