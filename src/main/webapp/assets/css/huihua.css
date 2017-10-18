@@ -75,11 +75,14 @@
 .list-group-item:hover{ color:#333}	
 }
 
-/* .list-group{ max-height:450px; overflow-y: auto;-webkit-overflow-scrolling:touch; border-radius:10px;margin-bottom:0px}
+/*
+    .list-group{ max-height:450px; overflow-y: auto;-webkit-overflow-scrolling:touch; border-radius:10px;margin-bottom:0px}
+
 	.list-group-item{ background: #045499; opacity: 0.75;color: #fff}
 	.list-group-item:hover{ color: #333}
-	.navbar-collapse{ padding:0} */
+	.navbar-collapse{ padding:0} 
 }
+*/
 /*@media only screen and (max-width:320px) {
 	.nav_downn {
 		position: absolute;

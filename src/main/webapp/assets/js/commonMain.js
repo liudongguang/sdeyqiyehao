@@ -177,6 +177,8 @@ function openframe() {
 		var href = $(this).attr("href");
 		var x = '360px';
 		var y = '500px';
+		var px= $(this).attr("width");
+        var py= $(this).attr("height");
 		if (px) {
 			x = px;
 		}

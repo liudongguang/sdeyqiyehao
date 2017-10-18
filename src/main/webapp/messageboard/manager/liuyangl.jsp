@@ -60,7 +60,7 @@
 									<div class="table_btspan_cz">查看</div>
 								</button>
 								<button class="btn btn-outline-success table_bt_cz_fourzi"
-									button-frame width="650%" height="80%"
+									button-frame width="65%" height="80%"
 									href="${pageContext.request.contextPath }/messageboard/getLiuYanPingLunByID?messageid=${obj.id}&toptitle=${obj.title}">
 									<div class="table_btspan_cz">评论管理</div>
 								</button>

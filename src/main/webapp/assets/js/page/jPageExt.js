@@ -18,7 +18,7 @@ jQuery(document).ready(function () {
         if (num == 0 || num == (total + 1)) {
 
         } else {
-            var subURL = loadDataURL + "?pageNum=" + num;
+            var subURL = loadDataURL;
             if(loadDataURL.indexOf("?")!=-1){
             	subURL+="&"
             }else{
