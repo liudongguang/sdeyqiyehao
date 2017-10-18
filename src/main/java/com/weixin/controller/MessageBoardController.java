@@ -122,7 +122,7 @@ public class MessageBoardController {
 	@RequestMapping(value = "/liuYanListForMore")
 	public String liuYanListForMore(HttpServletRequest request, PageParam pageParam,MessageboardSearchParam searchParam)
 			throws UnsupportedEncodingException {
-		Page<MessageboardMessageSuper> page = messagesv.liuYanList(pageParam, searchTitle);
+		Page<MessageboardMessageSuper> page = messagesv.liuYanList(pageParam, searchParam);
 		request.setAttribute("morepage", page.toPageInfo());
 		return "/messageboard/list2_more.jsp";
 	}
@@ -130,8 +130,7 @@ public class MessageBoardController {
 	/**
 	 * 获取留言详情
 	 * 
-	 * @param request
-	 * @param pageParam
+	 * @param request	 *
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
@@ -163,8 +162,7 @@ public class MessageBoardController {
 	/**
 	 * 评论列表
 	 * 
-	 * @param request
-	 * @param msghuifu
+	 * @param request	 *
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
@@ -180,7 +178,6 @@ public class MessageBoardController {
 	 * 评论列表 更多
 	 * 
 	 * @param request
-	 * @param msghuifu
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */

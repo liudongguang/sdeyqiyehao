@@ -11,7 +11,7 @@ public interface MessageBoardService {
 
 	int saveLiuyanContent(MessageboardMessage message);
 
-	Page<MessageboardMessageSuper> liuYanList(PageParam pageParam, String searchTitle);
+	Page<MessageboardMessageSuper> liuYanList(PageParam pageParam, MessageboardSearchParam searchParam);
 
 	MessageboardMessage getLiuYanByID(Integer id);
 

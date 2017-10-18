@@ -26,12 +26,13 @@ public class MessageBoardServiceImpl implements MessageBoardService {
 		return messageDao.insertSelective(message);
 	}
 
+
 	@Override
 	public Page<MessageboardMessageSuper> liuYanList(PageParam pageParam, MessageboardSearchParam searchParam) {
 		if (pageParam != null) {
 			PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), true);
 		}
-		Page<MessageboardMessageSuper> page = messageDao.liuYanList(searchTitle);
+		Page<MessageboardMessageSuper> page = messageDao.liuYanList(searchParam);
 		for (MessageboardMessageSuper msg : page) {
 			Integer plcount=msgHFDao.getPingLunCountByMsgID(msg.getId());
 			msg.setPinglunCount(plcount);

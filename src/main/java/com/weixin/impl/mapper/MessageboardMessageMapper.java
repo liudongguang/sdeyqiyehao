@@ -3,6 +3,7 @@ package com.weixin.impl.mapper;
 import com.github.pagehelper.Page;
 import com.weixin.api.po.MessageboardMessage;
 import com.weixin.vo.MessageboardMessageSuper;
+import com.weixin.vo.MessageboardSearchParam;
 import org.apache.ibatis.annotations.Param;
 
 public interface MessageboardMessageMapper {
@@ -42,7 +43,7 @@ public interface MessageboardMessageMapper {
 	 */
 	int updateByPrimaryKey(MessageboardMessage record);
 
-	Page<MessageboardMessageSuper> liuYanList(@Param("title") String searchTitle);
+	Page<MessageboardMessageSuper> liuYanList(MessageboardSearchParam searchParam);
 
 
 }
