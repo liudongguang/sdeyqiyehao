@@ -1,0 +1,47 @@
+.container-fluid{
+    padding-left: 0px;
+}
+.fuMenu{
+    margin-bottom: 0px;
+}
+.table_bt_cz{
+    width: 48px;
+    height: 23px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.table_bt_cz_fourzi{
+    width: 72px;
+    height: 23px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.table_btspan_cz{
+    position: relative;
+    left: 0px;
+    top:-5px;
+}
+.margin-bottom10{
+    margin-bottom: 10px;
+}
+
+.img_headimg{
+    width: 40px;
+    height: 40px;
+}
+.padding20{
+    padding: 20px;
+}
+.pagination{
+   margin-bottom: 0px;
+}
+
+#toPageNumID{
+    width: 50px;
+    margin-right: 5px;
+    height:30px;
+}
+#pageRealBTID{
+    height: 30px;
+    margin-left: 5px;
+}
