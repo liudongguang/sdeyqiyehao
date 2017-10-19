@@ -33,10 +33,10 @@
 		from messageboard_huifu
 		<where>
 			messageid = #{messageid,jdbcType=INTEGER}
-			<if test="userName != null">
+			<if test="userName != null and userName !=''">
 				AND wxqyusername like CONCAT(#{userName}, '%')  
 			</if>
-			<if test="guanjianzi != null">
+			<if test="guanjianzi != null and guanjianzi!=''">
 				AND hfnr like CONCAT('%', #{guanjianzi}, '%')  
 			</if>
 		</where>

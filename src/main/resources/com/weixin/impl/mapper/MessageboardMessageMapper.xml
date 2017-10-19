@@ -162,10 +162,10 @@
 			<if test="title != null and title != ''">
 				title like CONCAT('%',#{title},'%')
 			</if>
-			<if test="userName != null and title != ''">
+			<if test="userName != null and userName != ''">
 				AND wxqyusername like CONCAT(#{userName}, '%')  
 			</if>
-			<if test="guanjianzi != null and title != ''">
+			<if test="guanjianzi != null and guanjianzi != ''">
 				AND content like CONCAT('%', #{guanjianzi}, '%')  
 			</if>
 		</where>
