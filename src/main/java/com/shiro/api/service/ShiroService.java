@@ -1,7 +1,6 @@
 package com.shiro.api.service;
 
 import com.github.pagehelper.PageInfo;
-import com.ldg.api.vo.PageParam;
 import com.shiro.api.po.TShiroPermission;
 import com.shiro.api.po.TShiroRoles;
 import com.shiro.api.po.TShiroUsers;
@@ -11,6 +10,7 @@ import com.shiro.vo.RoleAndPermission;
 import com.shiro.vo.RoleAndPermissionList;
 import com.shiro.vo.UserAndRole;
 import com.shiro.vo.UserAndRoleList;
+import com.weixin.vo.PageParam;
 
 import java.util.List;
 

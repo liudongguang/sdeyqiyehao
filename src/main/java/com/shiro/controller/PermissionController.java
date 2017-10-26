@@ -2,8 +2,7 @@ package com.shiro.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ldg.api.constant.CommConstant;
-import com.ldg.api.vo.PageParam;
-import com.ldg.api.vo.ResultMsg;
+import com.ldg.api.vo.ResultMsg2;
 import com.shiro.api.po.TShiroPermission;
 import com.shiro.api.po.TShiroRoles;
 import com.shiro.api.po.TShiroUsers;
@@ -13,6 +12,7 @@ import com.shiro.vo.RoleAndPermission;
 import com.shiro.vo.RoleAndPermissionList;
 import com.shiro.vo.UserAndRole;
 import com.shiro.vo.UserAndRoleList;
+import com.weixin.vo.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,8 +63,8 @@ public class PermissionController {
      */
     @RequestMapping(value = "/checkPermissionName")
     @ResponseBody
-    public ResultMsg checkPermissionName(HttpServletRequest request, TShiroPermission param) {
-        ResultMsg rs=new ResultMsg();
+    public ResultMsg2 checkPermissionName(HttpServletRequest request, TShiroPermission param) {
+        ResultMsg2 rs=new ResultMsg2();
         Integer id=shiroService.selectPermissionNameByName(param);
         if(id!=null){
             rs.setErrcode(1);
@@ -118,8 +118,8 @@ public class PermissionController {
      */
     @RequestMapping(value = "/checkRoleName")
     @ResponseBody
-    public ResultMsg checkRoleName(HttpServletRequest request, TShiroRoles param) {
-        ResultMsg rs=new ResultMsg();
+    public ResultMsg2 checkRoleName(HttpServletRequest request, TShiroRoles param) {
+        ResultMsg2 rs=new ResultMsg2();
         Integer id=shiroService.selectRoleNameByName(param);
         if(id!=null){
             rs.setErrcode(1);
@@ -211,8 +211,8 @@ public class PermissionController {
      */
     @RequestMapping(value = "/checkUserName")
     @ResponseBody
-    public ResultMsg checkUserName(HttpServletRequest request, TShiroUsers param) {
-        ResultMsg rs=new ResultMsg();
+    public ResultMsg2 checkUserName(HttpServletRequest request, TShiroUsers param) {
+        ResultMsg2 rs=new ResultMsg2();
         Integer id=shiroService.selectUserNameByName(param);
         if(id!=null){
             rs.setErrcode(1);

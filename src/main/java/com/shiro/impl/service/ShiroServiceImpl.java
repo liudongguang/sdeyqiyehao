@@ -2,7 +2,7 @@ package com.shiro.impl.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ldg.api.vo.PageParam;
+
 import com.shiro.api.po.*;
 import com.shiro.api.service.ShiroService;
 import com.shiro.bo.TShiroUsersExt;
@@ -14,6 +14,7 @@ import com.shiro.vo.RoleAndPermission;
 import com.shiro.vo.RoleAndPermissionList;
 import com.shiro.vo.UserAndRole;
 import com.shiro.vo.UserAndRoleList;
+import com.weixin.vo.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
