@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="clearfix"></div>
 <div class="form-group">
-    <button class="btn btn-primary-outline" data-pjax href="pajaxapimain/permissions/user/add.jsp">新增</button>
+    <button class="btn btn-primary-outline" data-pjax href="jsp/permissions/user/add.jsp">新增</button>
 </div>
 <div class="table-responsive">
     <table id="dataTable" class="table table-striped table-hover table-bordered">
@@ -33,23 +33,22 @@
         </tbody>
     </table>
 </div>
-<!--
-分页开始
--->
-<div id="pagesDIV" style="margin: 0 auto"></div>
+
+<div id="pagesDIV" class="d-flex justify-content-end align-items-center">
+</div>
 <input id="pageNum" type="hidden" value="${page.pageNum}"/>
 <input id="pageSize" type="hidden" value="${page.pageSize}"/>
 <input id="pages" type="hidden" value="${page.pages}"/>
 <input id="total" type="hidden" value="${page.total}"/>
 <input id="loadDataURL" type="hidden" value="permission_shiro/getUserPageInfo"/>
 <input id="searFormID" type="hidden" value="subForm"/>
-<input id="containerID" type="hidden" value="mainContainer"/>
-
-<!--
-分页结束
--->
+<input id="containerID" type="hidden" value="pajaxMainContainer"/>
 <script language="javascript" type="text/javascript">
-    jPageInit();
+    jQuery.ajax({
+        url: "assets/js/page/jPageExt.js",
+        dataType: "script",
+        cache: true
+    })
 </script>
 
 
