@@ -23,5 +23,12 @@ public class MessageboardSearchParam {
 	public void setGuanjianzi(String guanjianzi) {
 		this.guanjianzi = guanjianzi;
 	}
-	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 }

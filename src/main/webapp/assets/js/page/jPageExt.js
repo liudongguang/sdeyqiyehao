@@ -7,7 +7,6 @@ jQuery(document).ready(function () {
     var searFormID = $("#searFormID").val();//有提交的表单
     var noAjaxPageVal = $("#noAjaxPage").val();
     var containerIDVal = $("#containerID").val();
-    var basePath= $("#basePath").val();
     $("#pagesDIV").page({count: total, pageNo: pageNum, pageSize: pageSize, skipPart: true});
     //分页按钮点击事件
     $("#pagesDIV > div > ul > li ").click(function () {
@@ -18,22 +17,14 @@ jQuery(document).ready(function () {
         if (num == 0 || num == (total + 1)) {
 
         } else {
-            var subURL = loadDataURL;
-            if(loadDataURL.indexOf("?")!=-1){
-            	subURL+="&"
-            }else{
-            	subURL+="?"
-            }
-            subURL+="pageNum=" + num;
+            var subURL = loadDataURL + "?pageNum=" + num;
             if (searFormID && $("#" + searFormID).length != 0) {
                 var formSerialize = $("#" + searFormID).serialize();
                 subURL = subURL + "&" + formSerialize;
             }
-            
             if (noAjaxPageVal == 1) {
                 location.href = basePath + subURL;
             } else {
-            	alert(subURL)
                 pajaxRequest(subURL,'#' + containerIDVal);
             }
         }
