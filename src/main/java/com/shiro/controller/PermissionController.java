@@ -40,7 +40,7 @@ public class PermissionController {
     public String getPermissionPageInfo(HttpServletRequest request, PageParam pageParam) {
         PageInfo<TShiroPermission> permissions = shiroService.getPermissionPageInfo(pageParam);
         request.setAttribute(CommConstant.PAGE_REQUEST_ATTR, permissions);
-        return "/pajaxapimain/permissions/permission/index.jsp";
+        return "/jsp/permissions/permission/index.jsp";
     }
 
     /**
@@ -95,7 +95,7 @@ public class PermissionController {
     public String getRolePageInfo(HttpServletRequest request, PageParam pageParam) {
         PageInfo<RoleAndPermissionList> permissions = shiroService.getRoleAndPermissionPageInfo(pageParam);
         request.setAttribute(CommConstant.PAGE_REQUEST_ATTR, permissions);
-        return "/pajaxapimain/permissions/role/index.jsp";
+        return "/jsp/permissions/role/index.jsp";
     }
 
     /**
@@ -149,7 +149,7 @@ public class PermissionController {
      */
     @RequestMapping(value = "/distributionPermission")
     public String distributionPermission(HttpServletRequest request, TShiroRoles param) {
-        return "/pajaxapimain/permissions/role/distribution_permission.jsp";
+        return "/jsp/permissions/role/distribution_permission.jsp";
     }
 
     /**
@@ -188,7 +188,7 @@ public class PermissionController {
     public String getUserPageInfo(HttpServletRequest request, PageParam pageParam) {
         PageInfo<UserAndRoleList> userRole = shiroService.getUserAndRolePageInfo(pageParam);
         request.setAttribute(CommConstant.PAGE_REQUEST_ATTR, userRole);
-        return "/pajaxapimain/permissions/user/index.jsp";
+        return "/jsp/permissions/user/index.jsp";
     }
 
     /**
@@ -242,7 +242,7 @@ public class PermissionController {
      */
     @RequestMapping(value = "/distributionRole")
     public String distributionRole(HttpServletRequest request, TShiroRoles param) {
-        return "/pajaxapimain/permissions/user/distribution_role.jsp";
+        return "/jsp/permissions/user/distribution_role.jsp";
     }
 
     /**
