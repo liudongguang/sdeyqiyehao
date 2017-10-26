@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.impl.mapper.TShiroPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.shiro.api.po.TShiroPermission">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="permissionname" jdbcType="VARCHAR" property="permissionname" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <select id="getPermissionPageInfo" resultMap="BaseResultMap">
+        SELECT uid,permissionname,description from t_shiro_permission order by uid desc
+  </select>
+  <select id="getPermissionByRoleID" resultMap="BaseResultMap">
+    SELECT permissionid as uid,permissionname from fullrolepermission where roleid=#{roleid,jdbcType=INTEGER}  order by permissionid desc
+  </select>
+  <select id="selectPermissionNameByName" parameterType="com.shiro.api.po.TShiroPermission" resultType="int">
+    SELECT uid from t_shiro_permission where permissionname=#{permissionname,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

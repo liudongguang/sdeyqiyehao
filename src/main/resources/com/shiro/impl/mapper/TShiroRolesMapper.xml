@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.impl.mapper.TShiroRolesMapper">
+  <resultMap id="BaseResultMap" type="com.shiro.api.po.TShiroRoles">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="rolename" jdbcType="VARCHAR" property="rolename" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <resultMap id="rolePermissionMap" type="com.shiro.vo.RoleAndPermissionList">
+    <id property="uid" column="roleid" javaType="int" jdbcType="INTEGER" />
+    <result property="rolename" column="rolename" javaType="string" jdbcType="VARCHAR"/>
+    <result property="description" column="roledescription" javaType="string" jdbcType="VARCHAR"/>
+    <collection property="permissions"  ofType="com.shiro.api.po.TShiroPermission">
+      <id property="uid" column="permissionid" javaType="int" jdbcType="INTEGER"/>
+      <result property="permissionname" column="permissionname" javaType="string" jdbcType="VARCHAR"/>
+    </collection>
+  </resultMap>
+  <select id="getRolePageInfo" resultMap="BaseResultMap">
+      SELECT uid,rolename,description from t_shiro_roles order by uid desc
+  </select>
+  <select id="getRoleAndPermissionPageInfo" resultMap="rolePermissionMap">
+    SELECT role.uid as roleid,role.rolename,role.description as roledescription,
+           permission.uid as permissionid,permission.permissionname as permissionname
+    from projectapi.t_shiro_roles role
+      left join projectapi.t_shiro_roles_permission rolepermission on role.uid=rolepermission.roleid
+      left join projectapi.t_shiro_permission permission on permission.uid=rolepermission.permissionid
+     order by role.uid desc
+  </select>
+  <select id="selectRoleNameByName" parameterType="com.shiro.api.po.TShiroRoles" resultType="int">
+    SELECT uid from t_shiro_roles where rolename=#{rolename,jdbcType=VARCHAR}
+  </select>
+  <select id="getRoleAndPermissionListPageInfo" resultType="com.shiro.vo.RoleAndPermissionList">
+   SELECT uid,rolename from t_shiro_roles order by uid desc
+  </select>
+  <select id="selectRoleNameByUserID" resultType="com.shiro.api.po.TShiroRoles">
+    SELECT roleid as uid,rolename from fulluserrole where userid=#{userid,jdbcType=INTEGER} order by uid desc
+  </select>
+</mapper>

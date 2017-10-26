@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.impl.mapper.TShiroRolesPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.shiro.api.po.TShiroRolesPermission">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="roleid" jdbcType="INTEGER" property="roleid" />
+    <result column="permissionid" jdbcType="INTEGER" property="permissionid" />
+  </resultMap>
+  <delete id="deleteByRoleID" parameterType="int">
+         DELETE  from t_shiro_roles_permission where roleid=#{roleID,jdbcType=INTEGER}
+  </delete>
+  <insert id="batchInsertRolePermissions" parameterType="list">
+    insert into t_shiro_roles_permission (roleid, permissionid)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.roleid,jdbcType=INTEGER}, #{item.permissionid,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+
+  <select id="getOwnPermissionByRoleID" resultType="com.shiro.api.po.TShiroPermission" parameterType="int">
+    SELECT pms.uid,pms.permissionname FROM t_shiro_roles_permission rolepermission
+      left join t_shiro_permission pms on rolepermission.permissionid=pms.uid
+    where rolepermission.roleid=#{roleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPermissionID" parameterType="int">
+    DELETE  from t_shiro_roles_permission where permissionid=#{permissionid,jdbcType=INTEGER}
+  </delete>
+</mapper>

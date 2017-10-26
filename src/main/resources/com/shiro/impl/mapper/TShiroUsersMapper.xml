@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.impl.mapper.TShiroUsersMapper">
+  <resultMap id="BaseResultMap" type="com.shiro.api.po.TShiroUsers">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <insert id="insertUser" parameterType="com.shiro.bo.TShiroUsersExt">
+    insert into t_shiro_users (username, password, salt, createtime) VALUES
+      (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+       #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <select id="findUserByUsername" resultType="com.shiro.bo.TShiroUsersExt">
+         SELECT username,password,salt from t_shiro_users where username=#{username,jdbcType=VARCHAR}
+  </select>
+  <select id="selectUserNameByName" parameterType="com.shiro.api.po.TShiroUsers" resultType="int">
+       select uid from t_shiro_users where username=#{username,jdbcType=VARCHAR}
+  </select>
+  <resultMap id="userRoleMap" type="com.shiro.vo.UserAndRoleList">
+    <id property="uid" column="uid" javaType="int" jdbcType="INTEGER" />
+    <result property="username" column="username" javaType="string" jdbcType="VARCHAR"/>
+    <result property="createtime" column="createtime" javaType="date" jdbcType="TIMESTAMP"/>
+    <collection property="roles"  ofType="com.shiro.api.po.TShiroRoles">
+      <id property="uid" column="roleid" javaType="int" jdbcType="INTEGER"/>
+      <result property="rolename" column="rolename" javaType="string" jdbcType="VARCHAR"/>
+    </collection>
+  </resultMap>
+  <select id="getUserAndRolePageInfo" resultMap="userRoleMap">
+    select user.uid,user.username,user.createtime,role.uid roleid,role.rolename from projectapi.t_shiro_users user
+    left join projectapi.t_shiro_users_roles userrole on user.uid=userrole.userid
+    left join  projectapi.t_shiro_roles role on role.uid=userrole.roleid
+    order by user.uid desc
+  </select>
+
+  <select id="getUserAndRoleListPageInfo" resultType="com.shiro.vo.UserAndRoleList">
+      SELECT uid,username,createtime FROM  t_shiro_users
+  </select>
+  <!--用户关联的角色与权限-->
+  <resultMap id="userRolePermissionMap" type="com.shiro.bo.UserRolePermissonInfo">
+    <id property="userid" column="userid" javaType="int" jdbcType="INTEGER" />
+    <result property="username" column="username" javaType="string" jdbcType="VARCHAR"/>
+    <collection property="roleList"  ofType="com.shiro.bo.UserRolePermissonInfo_role">
+      <id property="roleid" column="roleid" javaType="int" jdbcType="INTEGER"/>
+      <result property="rolename" column="rolename" javaType="string" jdbcType="VARCHAR"/>
+      <collection property="permissionList"  ofType="com.shiro.bo.UserRolePermissonInfo_permission">
+        <id property="permissionid" column="permissionid" javaType="int" jdbcType="INTEGER"/>
+        <result property="permissionname" column="permissionname" javaType="string" jdbcType="VARCHAR"/>
+      </collection>
+    </collection>
+  </resultMap>
+  <select id="selectRoleAndPermisssionByUserName" resultMap="userRolePermissionMap">
+      select uid as userid,username,roleid,rolename,permissionid,permissionname from projectapi.fullpermission
+    WHERE username=#{username,jdbcType=VARCHAR}
+  </select>
+</mapper>
