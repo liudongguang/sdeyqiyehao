@@ -9,17 +9,17 @@ import java.util.List;
  * Created by LiuDongguang on 2017/7/27.
  */
 public class UserAndRoleList {
-    private Integer uid;
+    private Integer userid;
     private String username;
     private Date createtime;
     private List<TShiroRoles> roles;
 
-    public Integer getUid() {
-        return uid;
+    public Integer getUserid() {
+        return userid;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
     public String getUsername() {
@@ -44,15 +44,5 @@ public class UserAndRoleList {
 
     public void setRoles(List<TShiroRoles> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "UserAndRoleList{" +
-                "uid=" + uid +
-                ", username='" + username + '\'' +
-                ", createtime=" + createtime +
-                ", roles=" + roles +
-                '}';
     }
 }

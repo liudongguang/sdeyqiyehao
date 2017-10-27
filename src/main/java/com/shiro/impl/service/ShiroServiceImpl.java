@@ -157,9 +157,9 @@ public class ShiroServiceImpl implements ShiroService {
     @Override
     public PageInfo<UserAndRoleList> getUserAndRolePageInfo(PageParam pageParam) {
         PageInfo<UserAndRoleList> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), true).doSelectPageInfo(() -> shiroUserDao.getUserAndRoleListPageInfo());
-        pageInfo.getList().forEach(item->{
-             item.setRoles(roleDao.selectRoleNameByUserID(item.getUid()));
-        });
+//        pageInfo.getList().forEach(item->{
+//             item.setRoles(roleDao.selectRoleNameByUserID(item.getUid()));
+//        });
         return pageInfo;
     }
 
@@ -176,7 +176,7 @@ public class ShiroServiceImpl implements ShiroService {
                 return rm;
             }).collect(Collectors.toList());
             usersRoleDao.batchInsertUserRoles(rmList);
-            ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
+           // ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
         }
         return 0;
     }

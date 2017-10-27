@@ -18,7 +18,7 @@
         </thead>
         <tbody>
         <c:forEach items="${page.list}" var="obj">
-            <tr id="${obj.uid}">
+            <tr id="${obj.userid}">
                 <td>${obj.username}</td>
                 <td><fmt:formatDate value="${obj.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>
@@ -26,8 +26,8 @@
                         ${permission.rolename}
                     </c:forEach>
                 </td>
-                <td><a class="btn btn-success-outline btn-sm" data-pjax  href="permission_shiro/distributionRole?uid=${obj.uid}&rolename=${obj.username}">角色分配</a>
-                    <a class="btn btn-danger-outline btn-sm" data-pjax delmark href="permission_shiro/deleteUser?uid=${obj.uid}">删除</a></td>
+                <td><a class="btn btn-success-outline btn-sm" pajax-data  href="permission_shiro/distributionRole?uid=${obj.userid}&rolename=${obj.username}">角色分配</a>
+                    <a class="btn btn-danger-outline btn-sm" pajax-data del href="permission_shiro/deleteUser?uid=${obj.userid}">删除</a></td>
             </tr>
         </c:forEach>
         </tbody>
