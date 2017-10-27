@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="clearfix"></div>
 <div class="form-group">
-    <button class="btn btn-primary-outline" data-pjax href="jsp/permissions/permission/add.jsp">新增</button>
+    <button class="btn btn-outline-primary" pajax-data href="jsp/permissions/permission/add.jsp">新增</button>
 </div>
 <div class="table-responsive">
     <table id="dataTable" class="table table-striped table-hover table-bordered">
@@ -20,7 +20,7 @@
             <tr id="${obj.uid}">
                 <td>${obj.permissionname}</td>
                 <td>${obj.description}</td>
-                <td><a class="btn btn-danger-outline btn-sm" data-pjax delmark href="permission_shiro/deletePermission?uid=${obj.uid}">删除</a></td>
+                <td><a class="btn btn-danger-outline btn-sm" pajax-data del href="permission_shiro/deletePermission?uid=${obj.uid}">删除</a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -42,6 +42,7 @@
         dataType: "script",
         cache: true
     })
+    initPajaxRequestForClick("#pajaxMainContainer");
 </script>
 
 

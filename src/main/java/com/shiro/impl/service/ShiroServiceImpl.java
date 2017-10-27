@@ -110,7 +110,7 @@ public class ShiroServiceImpl implements ShiroService {
                 return rm;
             }).collect(Collectors.toList());
             roleAndPermissionDao.batchInsertRolePermissions(rmList);
-            ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
+            //ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
         }
     }
 
@@ -118,9 +118,9 @@ public class ShiroServiceImpl implements ShiroService {
     public PageInfo<RoleAndPermissionList> getRoleAndPermissionPageInfo(PageParam pageParam) {
        // PageInfo<RoleAndPermissionList> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), true).doSelectPageInfo(() -> roleDao.getRoleAndPermissionPageInfo());
         PageInfo<RoleAndPermissionList> roles = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), true).doSelectPageInfo(() -> roleDao.getRoleAndPermissionListPageInfo());
-        roles.getList().stream().forEach(item->{
-            item.setPermissions(permissionDao.getPermissionByRoleID(item.getUid()));
-        });
+//        roles.getList().stream().forEach(item->{
+//            item.setPermissions(permissionDao.getPermissionByRoleID(item.getUid()));
+//        });
         return roles;
     }
 

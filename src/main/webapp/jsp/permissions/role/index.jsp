@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="clearfix"></div>
 <div class="form-group">
-    <button class="btn btn-primary-outline" data-pjax href="jsp/permissions/role/add.jsp">新增</button>
+    <button class="btn btn-outline-primary" pajax-data href="jsp/permissions/role/add.jsp">新增</button>
 </div>
 <div class="table-responsive">
     <table id="dataTable" class="table table-striped table-hover table-bordered">
@@ -18,16 +18,16 @@
         </thead>
         <tbody>
         <c:forEach items="${page.list}" var="obj">
-            <tr id="${obj.uid}">
+            <tr id="${obj.roleid}">
                 <td>${obj.rolename}</td>
-                <td>${obj.description}</td>
+                <td>${obj.roledescription}</td>
                 <td>
                     <c:forEach items="${obj.permissions}" var="permission">
                         ${permission.permissionname}
                     </c:forEach>
                 </td>
-                <td><a class="btn btn-success-outline btn-sm" data-pjax  href="permission_shiro/distributionPermission?uid=${obj.uid}&rolename=${obj.rolename}">权限分配</a>
-                    <a class="btn btn-danger-outline btn-sm" data-pjax delmark href="permission_shiro/deleteRole?uid=${obj.uid}">删除</a></td>
+                <td><a class="btn btn-success-outline btn-sm" pajax-data  href="permission_shiro/distributionPermission?uid=${obj.roleid}&rolename=${obj.rolename}">权限分配</a>
+                    <a class="btn btn-danger-outline btn-sm" pajax-data del href="permission_shiro/deleteRole?uid=${obj.roleid}">删除</a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -49,6 +49,7 @@
         dataType: "script",
         cache: true
     })
+    initPajaxRequestForClick("#pajaxMainContainer");
 </script>
 
 

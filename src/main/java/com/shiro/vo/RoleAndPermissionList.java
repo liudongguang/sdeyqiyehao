@@ -8,9 +8,9 @@ import java.util.List;
  * Created by LiuDongguang on 2017/7/27.
  */
 public class RoleAndPermissionList {
-    private Integer uid;
+    private Integer roleid;
     private String rolename;
-    private String description;
+    private String roledescription;
     private List<TShiroPermission> permissions;
 
     public String getRolename() {
@@ -21,12 +21,12 @@ public class RoleAndPermissionList {
         this.rolename = rolename;
     }
 
-    public String getDescription() {
-        return description;
+    public String getRoledescription() {
+        return roledescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRoledescription(String roledescription) {
+        this.roledescription = roledescription;
     }
 
     public List<TShiroPermission> getPermissions() {
@@ -37,21 +37,12 @@ public class RoleAndPermissionList {
         this.permissions = permissions;
     }
 
-    public Integer getUid() {
-        return uid;
+    public Integer getRoleid() {
+
+        return roleid;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
-    }
-
-    @Override
-    public String toString() {
-        return "RoleAndPermissionList{" +
-                "uid=" + uid +
-                ", rolename='" + rolename + '\'' +
-                ", description='" + description + '\'' +
-                ", permissions=" + permissions +
-                '}';
+    public void setRoleid(Integer roleid) {
+        this.roleid = roleid;
     }
 }

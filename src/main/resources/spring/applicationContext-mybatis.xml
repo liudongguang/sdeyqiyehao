@@ -8,7 +8,7 @@
 		<!-- 数据源 -->
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- 多个包需要逗号分割 -->
 		<property name="basePackage" value="com.weixin.impl.mapper,com.shiro.impl.mapper"></property>
 		<!--sqlSessionFactoryBeanName会后执行，让数据源先去加载 -->

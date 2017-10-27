@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="clearfix"></div>
 <div class="form-group">
-    <button class="btn btn-primary-outline" data-pjax href="jsp/permissions/user/add.jsp">新增</button>
+    <button class="btn btn-outline-primary" pajax-data href="jsp/permissions/user/add.jsp">新增</button>
 </div>
 <div class="table-responsive">
     <table id="dataTable" class="table table-striped table-hover table-bordered">
@@ -49,6 +49,7 @@
         dataType: "script",
         cache: true
     })
+    initPajaxRequestForClick("#pajaxMainContainer");
 </script>
 
 

@@ -79,7 +79,7 @@
 				<!-- 菜单-结束 -->
 			</div>
 		</div>
-		<div class="col-md-10" id="pajaxMainContainer" style="padding: 10px"></div>
+		<div class="col-md-10" id="pajaxMainContainer" style="padding: 20px"></div>
 	</div>
 </div>
 <script language="javascript" type="text/javascript" src="assets/js/jquery3.2.1.js"></script>

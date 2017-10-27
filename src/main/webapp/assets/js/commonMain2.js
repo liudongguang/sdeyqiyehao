@@ -46,7 +46,7 @@ function pajaxRequest(url, continerID, pushstate, pushdata) {
     //post不用设置超时时间
     $.pjax({url: url, container: continerID, type: "post", push: push, data: data})
 }
-////////
+////////普通ajax提交
 function ajaxRequest(url, requestData, handlerFunction, datatype) {
     var dataType = "json";
     if (datatype) {
@@ -81,14 +81,14 @@ function ajaxRequest(url, requestData, handlerFunction, datatype) {
         }
     })
 }
-//////
+//////pajax提交
 function initPajaxRequestForClick(continerID) {
     var $click = $("[pajax-data]");
     $click.click(function () {
         var href = $(this).attr("href");
         var del = $(this).attr("del");
         if (href) {
-            if (del) {
+            if (del||del=="") {
                 layer.confirm('请谨慎操作！', {icon: 3, title: '删除条目'}, function (index) {
                     //do something
                     pajaxRequest(href, continerID);
@@ -100,41 +100,114 @@ function initPajaxRequestForClick(continerID) {
         } else {
             layer.alert("缺少请求地址！");
         }
+        return false;
     });
 }
-////
+////初始化异步提交form表单，使用pajax提交表单
 function initPajaxFormRequestForClick(continerID) {
     var $form = $("[pajax-form]");
     //$.pjax.submit(event, '#pjax-container')
     $form.submit(function (event) {
         var action = $(this).attr("action");
-        if (action) {
-            $.pjax.submit(event, continerID)
+        var checkurl = $(this).attr("checkurl");
+        if (checkurl) {
+            var data = {};
+            //要检查的属性
+            $(this).find("[checkparam]").each(function () {
+                var $checkParam = $(this);
+                var pname = $checkParam.attr("name");
+                var pvalue = $checkParam.val();
+                data[pname] = pvalue;
+            })
+            ajaxRequest(checkurl, data, function (data) {
+                if (data.errcode == 1) {
+                    layer.alert(data.errmsg);
+                } else {
+                    if (action) {
+                        $.pjax.submit(event, continerID)
+                    } else {
+                        layer.alert("表单没有提交路径！");
+                    }
+                }
+            });
         } else {
-            layer.alert("表单没有提交路径！");
+            if (action) {
+                $.pjax.submit(event, continerID)
+            } else {
+                layer.alert("表单没有提交路径！");
+            }
         }
         return false;
     })
 }
-///////////
+///////////初始化异步提交form表单
 function ajaxFormInitial($form, successFun) {
     $form.on('submit', function (e) {
         e.preventDefault(); // prevent native submit
-        $(this).ajaxSubmit({
-            beforeSubmit: function () {
-                loadIndex = layer.load(0, {
-                    shade: [0.8, '#fff']
-                });
-            },
-            success: function (data, status) {
-                layer.close(loadIndex);
-                layer.close(openLayerWindowID);
-                successFun(data, status);
-            },
-            error: function () {
-                layer.close(loadIndex);
-                layer.alert("请求出错！")
-            }
-        })
+        var checkurl = $(this).attr("checkurl");
+        var action = $(this).attr("action");
+        var $thisform = $(this);
+        if (checkurl) {
+            var data = {};
+            //要检查的属性
+            $(this).find("[checkparam]").each(function () {
+                var $checkParam = $(this);
+                var pname = $checkParam.attr("name");
+                var pvalue = $checkParam.val();
+                data[pname] = pvalue;
+            })
+            ajaxRequest(checkurl, data, function (data) {
+                if (data.errcode == 1) {
+                    layer.alert(data.errmsg);
+                } else {
+                    //检查通过
+                    if (action) {
+                        $thisform.ajaxSubmit({
+                            beforeSubmit: function () {
+                                loadIndex = layer.load(0, {
+                                    shade: [0.8, '#fff']
+                                });
+                            },
+                            success: function (data, status) {
+                                layer.close(loadIndex);
+                                layer.close(openLayerWindowID);
+                                successFun(data, status);
+                            },
+                            error: function () {
+                                layer.close(loadIndex);
+                                layer.alert("请求出错！")
+                            }
+                        })
+                    } else {
+                        layer.alert("表单没有提交路径！");
+                    }
+                }
+            });
+            return false;
+        } else {
+            $thisform.ajaxSubmit({
+                beforeSubmit: function () {
+                    loadIndex = layer.load(0, {
+                        shade: [0.8, '#fff']
+                    });
+                },
+                success: function (data, status) {
+                    layer.close(loadIndex);
+                    layer.close(openLayerWindowID);
+                    successFun(data, status);
+                },
+                error: function () {
+                    layer.close(loadIndex);
+                    layer.alert("请求出错！")
+                }
+            })
+        }
     });
 }
+//字符串替换函数
+String.prototype.format = function () {
+    if (arguments.length == 0) return this;
+    for (var s = this, i = 0; i < arguments.length; i++)
+        s = s.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
+    return s;
+};

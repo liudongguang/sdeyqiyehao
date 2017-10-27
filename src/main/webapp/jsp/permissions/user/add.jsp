@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div class="clearfix"></div>
 <div class="col-md-5">
-    <form class="form-horizontal" id="subform" method="post" action="permission_shiro/saveUser">
+    <form class="form-horizontal" id="subform" method="post" action="permission_shiro/saveUser" checkurl="permission_shiro/checkUserName">
         <div class="form-group">
             <label class="control-label">用户名</label>
             <input name="username" type="text" required checkparam  class="form-control" placeholder="用户名名" maxlength="8"/>
