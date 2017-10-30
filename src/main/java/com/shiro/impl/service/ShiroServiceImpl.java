@@ -18,9 +18,7 @@ import com.weixin.vo.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +36,6 @@ public class ShiroServiceImpl implements ShiroService {
     private TShiroRolesPermissionMapper roleAndPermissionDao;
     @Autowired
     private TShiroUsersRolesMapper usersRoleDao;
-
 
 
     @Override
@@ -102,21 +99,28 @@ public class ShiroServiceImpl implements ShiroService {
     public void saveRoleAndPermission(RoleAndPermission param) {
         String permisseions = param.getPermissionIDS();
         if (permisseions != null && permisseions.length() != 0) {
-            int delNum = roleAndPermissionDao.deleteByRoleID(param.getRoleID());
-            List<TShiroRolesPermission> rmList = Arrays.asList(param.getPermissionIDS().split(",")).stream().map(item -> {
-                TShiroRolesPermission rm = new TShiroRolesPermission();
-                rm.setRoleid(param.getRoleID());
-                rm.setPermissionid(Integer.valueOf(item));
-                return rm;
-            }).collect(Collectors.toList());
-            roleAndPermissionDao.batchInsertRolePermissions(rmList);
+//            int delNum = roleAndPermissionDao.deleteByRoleID(param.getRoleID());
+//            List<TShiroRolesPermission> rmList = Arrays.asList(param.getPermissionIDS().split(",")).stream().map(item -> {
+//                TShiroRolesPermission rm = new TShiroRolesPermission();
+//                rm.setRoleid(param.getRoleID());
+//                rm.setPermissionid(Integer.valueOf(item));
+//                return rm;
+//            }).collect(Collectors.toList());
+//            roleAndPermissionDao.batchInsertRolePermissions(rmList);
             //ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
+            //1.找出角色现有的权限
+            List<TShiroPermission> ownPermissionByRoleID = roleAndPermissionDao.getOwnPermissionByRoleID(param.getRoleID());
+            //2.现有权限跟传入的权限比较，获取增加的与删除的，分别进行处理
+            final List<String> permissions = Arrays.asList(param.getPermissionIDS().split(","));
+            //3.现有的集合中有的传入的集合中没有的进入删除序列，现有集合没有的传入集合有的进入添加序列，相同的不动
+            Map<Integer, Integer> olderMap = ownPermissionByRoleID.stream().collect(Collectors.toMap(TShiroPermission::getUid, TShiroPermission::getUid));
+            Map<Integer, Integer> newMap =permissions.stream().map(Integer::valueOf).collect(Collectors.toMap(Integer::valueOf, Integer::valueOf));
         }
     }
 
     @Override
     public PageInfo<RoleAndPermissionList> getRoleAndPermissionPageInfo(PageParam pageParam) {
-       // PageInfo<RoleAndPermissionList> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), true).doSelectPageInfo(() -> roleDao.getRoleAndPermissionPageInfo());
+        // PageInfo<RoleAndPermissionList> pageInfo = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), true).doSelectPageInfo(() -> roleDao.getRoleAndPermissionPageInfo());
         PageInfo<RoleAndPermissionList> roles = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), true).doSelectPageInfo(() -> roleDao.getRoleAndPermissionListPageInfo());
 //        roles.getList().stream().forEach(item->{
 //            item.setPermissions(permissionDao.getPermissionByRoleID(item.getUid()));
@@ -142,6 +146,7 @@ public class ShiroServiceImpl implements ShiroService {
     public TShiroUsersExt findUserByUsername(String username) {
         return shiroUserDao.findUserByUsername(username);
     }
+
     @Override
     public Integer selectUserNameByName(TShiroUsers param) {
         return shiroUserDao.selectUserNameByName(param);
@@ -176,7 +181,7 @@ public class ShiroServiceImpl implements ShiroService {
                 return rm;
             }).collect(Collectors.toList());
             usersRoleDao.batchInsertUserRoles(rmList);
-           // ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
+            // ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
         }
         return 0;
     }
