@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns="http://www.ehcache.org/v3">
+
+    <persistence directory="${java.io.tmpdir}/shiro-ehcache"/>
+    <cache alias="shiro-activeSessionCache">
+        <key-type serializer="org.ehcache.impl.serialization.CompactJavaSerializer">
+            java.lang.Object
+        </key-type>
+        <value-type serializer="org.ehcache.impl.serialization.CompactJavaSerializer">
+            java.lang.Object
+        </value-type>
+        <resources>
+            <heap unit="entries">10000</heap>
+            <disk unit="GB">1</disk>
+        </resources>
+    </cache>
+
+    <!--模版方法里定义的时间为准-->
+    <cache-template name="defaultCacheConfiguration">
+        <expiry>
+            <tti unit="hours">1</tti>
+        </expiry>
+        <heap unit="entries">10000</heap>
+    </cache-template>
+    <!--授权-->
+    <cache alias="AuthorizationCahce" uses-template="defaultCacheConfiguration">
+    </cache>
+    <!--认证-->
+    <cache alias="AuthenticationCahce" uses-template="defaultCacheConfiguration">
+    </cache>
+</config>

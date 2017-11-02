@@ -91,8 +91,7 @@ dependencies {
             "org.apache.shiro:shiro-web:$shiroVersion",
             "org.apache.shiro:shiro-aspectj:$shiroVersion",
             "org.apache.shiro:shiro-spring:$shiroVersion",
-            "org.apache.shiro:shiro-ehcache:$shiroVersion",
-            "org.ehcache:ehcache:3.3.1",
+            "org.ehcache:ehcache:3.4.0",
             "javax.cache:cache-api:1.0.0"
     )
 
