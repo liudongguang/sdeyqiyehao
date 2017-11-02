@@ -5,11 +5,13 @@ import com.shiro.bo.TShiroUsersExt;
 import com.shiro.bo.UserRolePermissonInfo;
 import com.shiro.bo.UserRolePermissonInfo_permission;
 import com.shiro.bo.UserRolePermissonInfo_role;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,23 +26,24 @@ public class UserRealm extends AuthorizingRealm {
     private ShiroService shiroService;
 
     /**
-     *授权
+     * 授权
+     *
      * @param principals
      * @return
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String) principals.getPrimaryPrincipal();
-        UserRolePermissonInfo urp=shiroService.selectRoleAndPermisssionByUserName(username);
+        UserRolePermissonInfo urp = shiroService.selectRoleAndPermisssionByUserName(username);
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         // 根据用户名查询当前用户拥有的角色
         Set<String> roleNames = new HashSet<>();
         // 根据用户名查询当前用户权限
-        Set<String> permissionNames =new HashSet<>();
+        Set<String> permissionNames = new HashSet<>();
         for (UserRolePermissonInfo_role item : urp.getRoleList()) {
             String rolename = item.getRolename();
             roleNames.add(rolename);
-            for(UserRolePermissonInfo_permission permission:item.getPermissionList()){
+            for (UserRolePermissonInfo_permission permission : item.getPermissionList()) {
                 permissionNames.add(permission.getPermissionname());
             }
         }
@@ -53,6 +56,7 @@ public class UserRealm extends AuthorizingRealm {
 
     /**
      * 登陆认证
+     *
      * @param token
      * @return
      * @throws AuthenticationException
@@ -80,5 +84,26 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username,
                 user.getPassword(), ByteSource.Util.bytes(user.getCredentialsSalt()), getName());
         return authenticationInfo;
+    }
+
+    /**
+     * 清除自己
+     */
+    public void clearAuthz() {
+        this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+    }
+
+    /**
+     * 清除其他人
+     *
+     * @param principal
+     */
+    public void clearAuthzForUser(String principal) {
+        System.out.println(getAuthorizationCache().size() + "+++++++++++");
+        this.getAuthorizationCache().remove(principal);
+    }
+
+    public void clearAllAuthz() {
+        this.getAuthorizationCache().clear();
     }
 }

@@ -107,7 +107,7 @@ public class ShiroServiceImpl implements ShiroService {
 //                return rm;
 //            }).collect(Collectors.toList());
 //            roleAndPermissionDao.batchInsertRolePermissions(rmList);
-            //ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
+            ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
             //1.找出角色现有的权限
             List<TShiroPermission> ownPermissionByRoleID = roleAndPermissionDao.getOwnPermissionByRoleID(param.getRoleID());
             //2.现有权限跟传入的权限比较，获取增加的与删除的，分别进行处理
@@ -181,7 +181,7 @@ public class ShiroServiceImpl implements ShiroService {
                 return rm;
             }).collect(Collectors.toList());
             usersRoleDao.batchInsertUserRoles(rmList);
-            // ShiroAuthorizationHelper.clearAuthorizationInfo();//清除缓存
+            ShiroAuthorizationHelper.clearAuthorizationInfoForUser(param.getUserName());//清除缓存
         }
         return 0;
     }
@@ -195,4 +195,5 @@ public class ShiroServiceImpl implements ShiroService {
     public UserRolePermissonInfo selectRoleAndPermisssionByUserName(String username) {
         return shiroUserDao.selectRoleAndPermisssionByUserName(username);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.shiro.util;
 
+import com.shiro.UserRealm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.mgt.RealmSecurityManager;
@@ -12,12 +13,16 @@ public class ShiroAuthorizationHelper {
     /**
      * 清除用户的授权信息
      */
+    public static void clearAuthorizationInfoForUser(String userName) {
+        RealmSecurityManager rsm = (RealmSecurityManager)SecurityUtils.getSecurityManager();
+        UserRealm realm = (UserRealm)rsm.getRealms().iterator().next();
+        realm.clearAuthzForUser(userName);
+        System.out.println("清除了"+userName+"的权限");
+    }
+
     public static void clearAuthorizationInfo() {
-        if (SecurityUtils.getSubject().isAuthenticated()) {
-            RealmSecurityManager securityManager =
-                    (RealmSecurityManager) SecurityUtils.getSecurityManager();
-            Cache<Object, Object> AuthorizationCahce = securityManager.getCacheManager().getCache("AuthorizationCahce");
-            AuthorizationCahce.clear();
-        }
+        RealmSecurityManager rsm = (RealmSecurityManager)SecurityUtils.getSecurityManager();
+        UserRealm realm = (UserRealm)rsm.getRealms().iterator().next();
+        realm.clearAllAuthz();
     }
 }  

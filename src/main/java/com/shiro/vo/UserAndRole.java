@@ -6,6 +6,15 @@ package com.shiro.vo;
 public class UserAndRole {
     private Integer userID;
     private String roleIDS;
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Integer getUserID() {
         return userID;

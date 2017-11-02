@@ -26,7 +26,7 @@
                         ${permission.rolename}
                     </c:forEach>
                 </td>
-                <td><a class="btn btn-success-outline btn-sm" pajax-data  href="permission_shiro/distributionRole?uid=${obj.userid}&rolename=${obj.username}">角色分配</a>
+                <td><a class="btn btn-success-outline btn-sm" pajax-data  href="permission_shiro/distributionRole?uid=${obj.userid}&username=${obj.username}">角色分配</a>
                     <a class="btn btn-danger-outline btn-sm" pajax-data del href="permission_shiro/deleteUser?uid=${obj.userid}">删除</a></td>
             </tr>
         </c:forEach>
