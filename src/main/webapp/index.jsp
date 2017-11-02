@@ -71,6 +71,7 @@
 									<p class="zcd" id="zcd1" href="permission_shiro/getPermissionPageInfo">权限管理</p>
 									<p class="zcd" id="zcd2" href="permission_shiro/getRolePageInfo">角色管理</p>
 									<p class="zcd" id="zcd3" href="permission_shiro/getUserPageInfo">用户管理</p>
+									<p class="zcd" id="zcd4" href="shirotest/testQX">权限测试</p>
 								</div>
 							</li>
 						</ul>

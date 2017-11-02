@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 /**
  * Created by LiuDongguang on 2017/11/2.
@@ -50,5 +51,12 @@ public class TestShiroController {
         subject.getSession().setAttribute("user",shiroService.findUserByUsername(loginUser.getUsername()));
         return "redirect:/index.jsp";
     }
-
+    @RequestMapping(value = "/testQX")
+    public String getPermissionPageInfo(HttpServletRequest request, PageParam pageParam) {
+         ///
+        Subject subject = SecurityUtils.getSubject();
+        subject.hasAllRoles(Arrays.asList("ddd"));
+        ////
+        return "/error.jsp";
+    }
 }

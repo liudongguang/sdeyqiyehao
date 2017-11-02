@@ -24,7 +24,11 @@ import java.util.Set;
 public class UserRealm extends AuthorizingRealm {
     @Autowired
     private ShiroService shiroService;
-
+    select * from sdeyqiyehao.t_shiro_users ur
+    left join sdeyqiyehao.t_shiro_users_roles user_role on ur.uid=user_role.userid
+    left join sdeyqiyehao.t_shiro_roles role on user_role.roleid=role.uid
+    left join sdeyqiyehao.t_shiro_roles_permission role_permission on role.uid=role_permission.roleid
+    left join sdeyqiyehao.t_shiro_permission permission on permission.uid=role_permission.permissionid
     /**
      * 授权
      *
