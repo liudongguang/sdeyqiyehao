@@ -12,6 +12,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,11 +25,6 @@ import java.util.Set;
 public class UserRealm extends AuthorizingRealm {
     @Autowired
     private ShiroService shiroService;
-    select * from sdeyqiyehao.t_shiro_users ur
-    left join sdeyqiyehao.t_shiro_users_roles user_role on ur.uid=user_role.userid
-    left join sdeyqiyehao.t_shiro_roles role on user_role.roleid=role.uid
-    left join sdeyqiyehao.t_shiro_roles_permission role_permission on role.uid=role_permission.roleid
-    left join sdeyqiyehao.t_shiro_permission permission on permission.uid=role_permission.permissionid
     /**
      * 授权
      *
@@ -103,8 +99,10 @@ public class UserRealm extends AuthorizingRealm {
      * @param principal
      */
     public void clearAuthzForUser(String principal) {
-        System.out.println(getAuthorizationCache().size() + "+++++++++++");
-        this.getAuthorizationCache().remove(principal);
+        Subject subject = SecurityUtils.getSubject();
+        String realmName = subject.getPrincipals().getRealmNames().iterator().next();
+        SimplePrincipalCollection spc=new SimplePrincipalCollection(principal,realmName);
+        getAuthorizationCache().remove(spc);
     }
 
     public void clearAllAuthz() {

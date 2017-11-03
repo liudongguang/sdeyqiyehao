@@ -17,7 +17,6 @@ public class ShiroAuthorizationHelper {
         RealmSecurityManager rsm = (RealmSecurityManager)SecurityUtils.getSecurityManager();
         UserRealm realm = (UserRealm)rsm.getRealms().iterator().next();
         realm.clearAuthzForUser(userName);
-        System.out.println("清除了"+userName+"的权限");
     }
 
     public static void clearAuthorizationInfo() {

@@ -55,7 +55,7 @@ public class TestShiroController {
     public String getPermissionPageInfo(HttpServletRequest request, PageParam pageParam) {
          ///
         Subject subject = SecurityUtils.getSubject();
-        subject.hasAllRoles(Arrays.asList("ddd"));
+        System.out.println(subject.hasAllRoles(Arrays.asList("ddd")));
         ////
         return "/error.jsp";
     }

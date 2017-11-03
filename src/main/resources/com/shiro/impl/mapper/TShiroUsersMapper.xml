@@ -86,14 +86,16 @@
         </collection>
     </resultMap>
     <select id="selectRoleAndPermisssionByUserName" resultMap="userRolePermissionMap">
-        SELECT
-            uid AS userid,
-            username,
-            roleid,
-            rolename,
-            permissionid,
-            permissionname
-        FROM projectapi.fullpermission
-        WHERE username = #{username,jdbcType=VARCHAR}
+        select   ur.uid AS userid,
+            ur.username as username,
+            role.uid as roleid,
+            role.rolename as rolename,
+            permission.uid as permissionid,
+            permission.permissionname as permissionname from sdeyqiyehao.t_shiro_users ur
+            left join sdeyqiyehao.t_shiro_users_roles user_role on ur.uid=user_role.userid
+            left join sdeyqiyehao.t_shiro_roles role on user_role.roleid=role.uid
+            left join sdeyqiyehao.t_shiro_roles_permission role_permission on role.uid=role_permission.roleid
+            left join sdeyqiyehao.t_shiro_permission permission on permission.uid=role_permission.permissionid
+        where ur.username=#{username,jdbcType=VARCHAR}
     </select>
 </mapper>
