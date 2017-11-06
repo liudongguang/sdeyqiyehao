@@ -2,6 +2,7 @@ package com.ldg.api.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
@@ -44,6 +45,7 @@ public class JsonUtil {
 	public final static <T> List<T> getListByString(String source, Class<T> clazz)
 			throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper jacksonMapper = new ObjectMapper();
+		jacksonMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 		JavaType javaType = jacksonMapper.getTypeFactory().constructParametrizedType(ArrayList.class, List.class,
 				clazz);
 		List<T> lst = (List<T>) jacksonMapper.readValue(source, javaType);

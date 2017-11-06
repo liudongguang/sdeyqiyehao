@@ -23,7 +23,7 @@
 	<!-- 3.配制事务切点，以及把事务切入点和事务属性关联起来 -->
 	<aop:config>
 		<!-- com.ldg.api.service包 下所有接口的所有方法 -->
-		<aop:pointcut expression="(execution(* com.weixin.api.service.*.*(..)) or execution(* com.shiro.api.service.*.*(..)))"
+		<aop:pointcut expression="(execution(* com.weixin.api.service.*.*(..)) or execution(* com.shiro.api.service.*.*(..))or execution(* com.yzcx.api.service.*.*(..)))"
 			id="txPointCut" />
 		<!-- 切入点与事务属性关联起来 advisor:顾问，劝告者 -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut" />
