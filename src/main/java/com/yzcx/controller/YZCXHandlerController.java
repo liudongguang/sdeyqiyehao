@@ -23,10 +23,10 @@ public class YZCXHandlerController{
 	@ResponseBody
 	public ResultMsg2 testmz(YZCXSearchParam param) throws IOException, ParseException {
 		System.out.println("-------------");
-		param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-10-06 00:00:00"));
-		param.setEnd(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-10-08 23:00:00"));
+		param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-09-01 00:00:00"));
+		param.setEnd(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-10-05 23:59:59"));
 		YZCXHandlerData handlerData=yzcXscheduleService.getmzinfo(param);
-		yzcXscheduleService.saveYZCXData(handlerData);
+		yzcXscheduleService.saveYZCXData(handlerData,param);
 		return new ResultMsg2();
 	}
 }

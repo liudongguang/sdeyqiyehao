@@ -12,5 +12,5 @@ import java.io.UnsupportedEncodingException;
 public interface YZCXscheduleService {
     YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException;
 
-    void saveYZCXData(YZCXHandlerData handlerData);
+    void saveYZCXData(YZCXHandlerData handlerData,YZCXSearchParam param);
 }

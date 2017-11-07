@@ -11,6 +11,7 @@ import com.yzcx.api.vo.*;
 import com.yzcx.api.vo.parsejson.Json_Jbzd;
 import com.yzcx.api.vo.parsejson.Json_Menzhen;
 import com.yzcx.api.vo.parsejson.Json_Yuyue;
+import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ import java.util.stream.Collectors;
 public class YZCXscheduleServiceImpl implements YZCXscheduleService {
     @Autowired
     private YzcxHandleInfoMapper yzcxHandleInfoMapper;
+    @Autowired
+    private YzcxHandleImportdateMapper yzcxHandleImportdateMapper;
 
     @Override
     public YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException {
@@ -67,7 +70,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         //按日期，急诊分组   0 普通  1 急诊
         Map<String, Map<String, Long>> mzgroupByjizhen = menzhenRs.getData().stream().map(item -> {
             item.setGhrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getGhrq()));
-            String sfjz=item.getSfjz().intValue()==0?YZCXConstant.jizhen:YZCXConstant.putong;
+            String sfjz = item.getSfjz().intValue() == 0 ? YZCXConstant.jizhen : YZCXConstant.putong;
             item.setSfjzStr(sfjz);
             return item;
         }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getSfjzStr, Collectors.counting())));
@@ -97,9 +100,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             return item;
         }).collect(Collectors.groupingBy(JBZDLiang::getRqStr, Collectors.groupingBy(JBZDLiang::getJbmc, Collectors.counting())));
         YZCXHandlerData yzcxHandlerData = new YZCXHandlerData();
-        yzcxHandlerData.setMenzhenlist(handlerMap(menzhenGroup, YZCXConstant.menzhen,YZCXConstant.menzhenStr));
-        yzcxHandlerData.setYuyuelist(handlerMap(yuyueGroup, YZCXConstant.yueyue,YZCXConstant.yueyueStr));
-        yzcxHandlerData.setJbzdlist(handlerMap(jbzdGroup, YZCXConstant.jbzd,YZCXConstant.jbzdStr));
+        yzcxHandlerData.setMenzhenlist(handlerMap(menzhenGroup, YZCXConstant.menzhen, YZCXConstant.menzhenStr));
+        yzcxHandlerData.setYuyuelist(handlerMap(yuyueGroup, YZCXConstant.yueyue, YZCXConstant.yueyueStr));
+        yzcxHandlerData.setJbzdlist(handlerMap(jbzdGroup, YZCXConstant.jbzd, YZCXConstant.jbzdStr));
         yzcxHandlerData.setMenzhen_kslist(handlerMap2(ksmc, YZCXConstant.menzhen_ks));
         yzcxHandlerData.setMenzhen_yslist(handlerMap2(mzgroupByys, YZCXConstant.menzhen_ys));
         yzcxHandlerData.setMenzhen_sfjzlist(handlerMap2(mzgroupByjizhen, YZCXConstant.menzhen_sfjz));
@@ -110,7 +113,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         return yzcxHandlerData;
     }
 
-    private List<YzcxHandleInfo> handlerMap(Map<String, Long> data, int type,String typeStr) {
+    private List<YzcxHandleInfo> handlerMap(Map<String, Long> data, int type, String typeStr) {
         List<YzcxHandleInfo> menzhen = new ArrayList<>();
         data.forEach((k, v) -> {
             YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
@@ -126,13 +129,14 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         });
         return menzhen;
     }
+
     private List<YzcxHandleInfo> handlerMap2(Map<String, Map<String, Long>> data, int type) {
         List<YzcxHandleInfo> rtList = new ArrayList<>();
         data.forEach((k, v) -> {
-            String date=k;
-            v.forEach((k2,v2)->{
-                String name=k2;
-                Long count=v2;
+            String date = k;
+            v.forEach((k2, v2) -> {
+                String name = k2;
+                Long count = v2;
                 YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
                 try {
                     yzcxHandleInfo.setHandledate(LdgDateUtil.getYyyy_mm_ddDate(date));
@@ -147,8 +151,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         });
         return rtList;
     }
+
     @Override
-    public void saveYZCXData(YZCXHandlerData handlerData) {
+    public void saveYZCXData(YZCXHandlerData handlerData,YZCXSearchParam param) {
         yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhenlist());
         yzcxHandleInfoMapper.batchInsert(handlerData.getYuyuelist());
         yzcxHandleInfoMapper.batchInsert(handlerData.getJbzdlist());
@@ -159,5 +164,8 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_kslist());
         yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_yslist());
         yzcxHandleInfoMapper.batchInsert(handlerData.getJbzd_jblist());
+        ///保存处理的日期
+        final List<Date> dateByBetween = LdgDateUtil.getDateByBetween(param.getStart(), param.getEnd());
+        yzcxHandleImportdateMapper.batchInsert(dateByBetween);
     }
 }
