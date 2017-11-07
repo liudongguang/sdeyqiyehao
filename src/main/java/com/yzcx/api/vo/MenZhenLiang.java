@@ -21,7 +21,15 @@ public class MenZhenLiang {
     private String ysmc;
     @Column(name = "SFJZ")
     private Integer sfjz;
+    private String sfjzStr;
 
+    public String getSfjzStr() {
+        return sfjzStr;
+    }
+
+    public void setSfjzStr(String sfjzStr) {
+        this.sfjzStr = sfjzStr;
+    }
 
     public String getGhrqStr() {
         return ghrqStr;

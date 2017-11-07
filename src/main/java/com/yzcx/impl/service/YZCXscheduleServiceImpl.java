@@ -2,16 +2,17 @@ package com.yzcx.impl.service;
 
 import com.ldg.api.util.JsonUtil;
 import com.weixin.util.HttpClientUtil;
+import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.service.YZCXscheduleService;
 import com.yzcx.api.util.LdgDateUtil;
+import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXProperties;
-import com.yzcx.api.vo.JBZDLiang;
-import com.yzcx.api.vo.MenZhenLiang;
-import com.yzcx.api.vo.YZCXSearchParam;
-import com.yzcx.api.vo.YuYueLiang;
+import com.yzcx.api.vo.*;
 import com.yzcx.api.vo.parsejson.Json_Jbzd;
 import com.yzcx.api.vo.parsejson.Json_Menzhen;
 import com.yzcx.api.vo.parsejson.Json_Yuyue;
+import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,8 +25,11 @@ import java.util.stream.Collectors;
  */
 @Service
 public class YZCXscheduleServiceImpl implements YZCXscheduleService {
+    @Autowired
+    private YzcxHandleInfoMapper yzcxHandleInfoMapper;
+
     @Override
-    public void getmzinfo(YZCXSearchParam param) throws IOException {
+    public YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException {
         /////
         Map<String, String> requestparam = new HashMap();
         requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
@@ -38,47 +42,122 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         //
         String yuyueurl = YZCXProperties.getRequestPropertiesVal("yuyue");//获取预约信息
         HttpClientUtil yuyuehc = HttpClientUtil.getInstance();
-        final String yuyue = yuyuehc.sendHttpPost(yuyueurl,requestparam);
+        final String yuyue = yuyuehc.sendHttpPost(yuyueurl, requestparam);
         Json_Yuyue yuyueRs = JsonUtil.getObjectByJSON(yuyue, Json_Yuyue.class);
         //
         String jbzdurl = YZCXProperties.getRequestPropertiesVal("jbzd");//获取疾病信息
         HttpClientUtil jbzdhc = HttpClientUtil.getInstance();
-        final String jbzd = jbzdhc.sendHttpPost(jbzdurl,requestparam);
+        final String jbzd = jbzdhc.sendHttpPost(jbzdurl, requestparam);
         Json_Jbzd jbzdRs = JsonUtil.getObjectByJSON(jbzd, Json_Jbzd.class);
         //////////////////////////////////////////////////////
         Map<String, Long> menzhenGroup = menzhenRs.getData().stream().map(item -> {
             item.setGhrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getGhrq()));
             return item;
         }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.counting()));
-        System.out.println(menzhenGroup);
+        //按日期，科室名称分组
+        Map<String, Map<String, Long>> ksmc = menzhenRs.getData().stream().map(item -> {
+            item.setGhrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getGhrq()));
+            return item;
+        }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getKsmc, Collectors.counting())));
+        //按日期，医生分组
+        Map<String, Map<String, Long>> mzgroupByys = menzhenRs.getData().stream().map(item -> {
+            item.setGhrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getGhrq()));
+            return item;
+        }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getYsmc, Collectors.counting())));
+        //按日期，急诊分组   0 普通  1 急诊
+        Map<String, Map<String, Long>> mzgroupByjizhen = menzhenRs.getData().stream().map(item -> {
+            item.setGhrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getGhrq()));
+            String sfjz=item.getSfjz().intValue()==0?YZCXConstant.jizhen:YZCXConstant.putong;
+            item.setSfjzStr(sfjz);
+            return item;
+        }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getSfjzStr, Collectors.counting())));
+/////////////////////////////////////////////////////////////////
         Map<String, Long> yuyueGroup = yuyueRs.getData().stream().map(item -> {
             item.setYyrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getYyrq()));
             return item;
         }).collect(Collectors.groupingBy(YuYueLiang::getYyrqStr, Collectors.counting()));
-        System.out.println(yuyueGroup);
+        //日期，科室，分组
+        Map<String, Map<String, Long>> yuyuegroupByKS = yuyueRs.getData().stream().map(item -> {
+            item.setYyrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getYyrq()));
+            return item;
+        }).collect(Collectors.groupingBy(YuYueLiang::getYyrqStr, Collectors.groupingBy(YuYueLiang::getKs, Collectors.counting())));
+        //预约日期，医生 分组
+        Map<String, Map<String, Long>> yuyuegroupByYS = yuyueRs.getData().stream().map(item -> {
+            item.setYyrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getYyrq()));
+            return item;
+        }).collect(Collectors.groupingBy(YuYueLiang::getYyrqStr, Collectors.groupingBy(YuYueLiang::getYs, Collectors.counting())));
+        /////////////////////////////////////////////////////////////////////////
         Map<String, Long> jbzdGroup = jbzdRs.getData().stream().map(item -> {
             item.setRqStr(LdgDateUtil.getYyyy_mm_ddString(item.getRq()));
             return item;
         }).collect(Collectors.groupingBy(JBZDLiang::getRqStr, Collectors.counting()));
-        System.out.println(jbzdGroup);
+        //预约日期，疾病分组
+        Map<String, Map<String, Long>> jbzdGroupByJB = jbzdRs.getData().stream().map(item -> {
+            item.setRqStr(LdgDateUtil.getYyyy_mm_ddString(item.getRq()));
+            return item;
+        }).collect(Collectors.groupingBy(JBZDLiang::getRqStr, Collectors.groupingBy(JBZDLiang::getJbmc, Collectors.counting())));
+        YZCXHandlerData yzcxHandlerData = new YZCXHandlerData();
+        yzcxHandlerData.setMenzhenlist(handlerMap(menzhenGroup, YZCXConstant.menzhen,YZCXConstant.menzhenStr));
+        yzcxHandlerData.setYuyuelist(handlerMap(yuyueGroup, YZCXConstant.yueyue,YZCXConstant.yueyueStr));
+        yzcxHandlerData.setJbzdlist(handlerMap(jbzdGroup, YZCXConstant.jbzd,YZCXConstant.jbzdStr));
+        yzcxHandlerData.setMenzhen_kslist(handlerMap2(ksmc, YZCXConstant.menzhen_ks));
+        yzcxHandlerData.setMenzhen_yslist(handlerMap2(mzgroupByys, YZCXConstant.menzhen_ys));
+        yzcxHandlerData.setMenzhen_sfjzlist(handlerMap2(mzgroupByjizhen, YZCXConstant.menzhen_sfjz));
+        yzcxHandlerData.setYuyue_kslist(handlerMap2(yuyuegroupByKS, YZCXConstant.yuyue_ks));
+        yzcxHandlerData.setYuyue_yslist(handlerMap2(yuyuegroupByYS, YZCXConstant.yuyue_ys));
+        yzcxHandlerData.setJbzd_jblist(handlerMap2(jbzdGroupByJB, YZCXConstant.jbzd_jb));
+
+        return yzcxHandlerData;
     }
 
-    public static void main(String[] args) throws ParseException {
-        List<MenZhenLiang>  menzhenHandler=new ArrayList<>();
-        MenZhenLiang mz1=new MenZhenLiang();
-        mz1.setGhrq(new Date());
-        MenZhenLiang mz2=new MenZhenLiang();
-        mz2.setGhrq(LdgDateUtil.getYyyy_mm_ddDate("2017-11-05"));
-        MenZhenLiang mz3=new MenZhenLiang();
-        mz3.setGhrq(LdgDateUtil.getYyyy_mm_ddDate("2017-11-05"));
-        menzhenHandler.add(mz1);
-        menzhenHandler.add(mz2);
-        menzhenHandler.add(mz3);
-        Map<String, Long> collect = menzhenHandler.stream().map(item -> {
-            item.setGhrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getGhrq()));
-            return item;
-        }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.counting()));
-        System.out.println(collect);
-
+    private List<YzcxHandleInfo> handlerMap(Map<String, Long> data, int type,String typeStr) {
+        List<YzcxHandleInfo> menzhen = new ArrayList<>();
+        data.forEach((k, v) -> {
+            YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
+            yzcxHandleInfo.setHandletype(type);
+            yzcxHandleInfo.setCount(Integer.valueOf(v.toString()));
+            yzcxHandleInfo.setName(typeStr);
+            try {
+                yzcxHandleInfo.setHandledate(LdgDateUtil.getYyyy_mm_ddDate(k));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            menzhen.add(yzcxHandleInfo);
+        });
+        return menzhen;
+    }
+    private List<YzcxHandleInfo> handlerMap2(Map<String, Map<String, Long>> data, int type) {
+        List<YzcxHandleInfo> rtList = new ArrayList<>();
+        data.forEach((k, v) -> {
+            String date=k;
+            v.forEach((k2,v2)->{
+                String name=k2;
+                Long count=v2;
+                YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
+                try {
+                    yzcxHandleInfo.setHandledate(LdgDateUtil.getYyyy_mm_ddDate(date));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                yzcxHandleInfo.setHandletype(type);
+                yzcxHandleInfo.setCount(Integer.valueOf(count.toString()));
+                yzcxHandleInfo.setName(name);
+                rtList.add(yzcxHandleInfo);
+            });
+        });
+        return rtList;
+    }
+    @Override
+    public void saveYZCXData(YZCXHandlerData handlerData) {
+        yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhenlist());
+        yzcxHandleInfoMapper.batchInsert(handlerData.getYuyuelist());
+        yzcxHandleInfoMapper.batchInsert(handlerData.getJbzdlist());
+        ///
+        yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_kslist());
+        yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_yslist());
+        yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_sfjzlist());
+        yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_kslist());
+        yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_yslist());
+        yzcxHandleInfoMapper.batchInsert(handlerData.getJbzd_jblist());
     }
 }
