@@ -12,8 +12,18 @@ public class JBZDLiang {
 
     @Column(name = "RQ")
     private Date rq;
+    private String rqStr;
     @Column(name = "JBMC")
     private String jbmc;
+
+
+    public String getRqStr() {
+        return rqStr;
+    }
+
+    public void setRqStr(String rqStr) {
+        this.rqStr = rqStr;
+    }
 
     public Date getRq() {
         return rq;

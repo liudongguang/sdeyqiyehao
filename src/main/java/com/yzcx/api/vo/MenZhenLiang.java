@@ -14,12 +14,22 @@ public class MenZhenLiang {
     private BigDecimal brid;
     @Column(name = "GHRQ")
     private Date ghrq;
+    private String ghrqStr;
     @Column(name = "KSMC")
     private String ksmc;
     @Column(name = "YSMC")
     private String ysmc;
     @Column(name = "SFJZ")
     private Integer sfjz;
+
+
+    public String getGhrqStr() {
+        return ghrqStr;
+    }
+
+    public void setGhrqStr(String ghrqStr) {
+        this.ghrqStr = ghrqStr;
+    }
 
     public Date getGhrq() {
         return ghrq;

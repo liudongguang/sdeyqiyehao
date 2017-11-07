@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class LdgDateUtil {
     private final static String yyyy_mm_dd_hh_mm_ss = "yyyy-MM-dd hh:mm:ss";
-
+    private final static String yyyy_mm_dd = "yyyy-MM-dd";
 
     public static String getYyyy_mm_dd_hh_mm_ssString(Date date) {
         return DateFormatUtils.format(date, yyyy_mm_dd_hh_mm_ss);
@@ -19,5 +19,13 @@ public class LdgDateUtil {
 
     public static Date getYyyy_mm_dd_hh_mm_ssDate(String dateStr) throws ParseException {
         return DateUtils.parseDate(dateStr, yyyy_mm_dd_hh_mm_ss);
+    }
+
+    public static String getYyyy_mm_ddString(Date date) {
+        return DateFormatUtils.format(date, yyyy_mm_dd);
+    }
+
+    public static Date getYyyy_mm_ddDate(String dateStr) throws ParseException {
+        return DateUtils.parseDate(dateStr, yyyy_mm_dd);
     }
 }

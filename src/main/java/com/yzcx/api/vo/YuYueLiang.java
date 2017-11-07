@@ -14,10 +14,20 @@ public class YuYueLiang {
     private BigDecimal brid;
     @Column(name = "YYRQ")
     private Date yyrq;
+    private String yyrqStr;
     @Column(name = "KS")
     private String ks;
     @Column(name = "YS")
     private String ys;
+
+
+    public String getYyrqStr() {
+        return yyrqStr;
+    }
+
+    public void setYyrqStr(String yyrqStr) {
+        this.yyrqStr = yyrqStr;
+    }
 
     public BigDecimal getBrid() {
         return brid;
