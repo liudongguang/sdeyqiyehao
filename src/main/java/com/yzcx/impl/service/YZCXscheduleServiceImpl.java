@@ -126,7 +126,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         data.forEach((k, v) -> {
             YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
             yzcxHandleInfo.setHandletype(type);
-            yzcxHandleInfo.setCount(Integer.valueOf(v.toString()));
+            yzcxHandleInfo.setCount(Double.valueOf(v.toString()));
             yzcxHandleInfo.setName(typeStr);
             try {
                 yzcxHandleInfo.setHandledate(LdgDateUtil.getYyyy_mm_ddDate(k));
@@ -152,7 +152,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
                     e.printStackTrace();
                 }
                 yzcxHandleInfo.setHandletype(type);
-                yzcxHandleInfo.setCount(Integer.valueOf(count.toString()));
+                yzcxHandleInfo.setCount(Double.valueOf(count.toString()));
                 yzcxHandleInfo.setName(name);
                 rtList.add(yzcxHandleInfo);
             });
@@ -187,13 +187,13 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             return msg;
         }
         List<YzcxHandleInfo> list = yzcxHandleInfoMapper.montho_mzinfo(param);
-        Map<Integer, Map<String, Integer>> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfo::getHandletype, Collectors.groupingBy(YzcxHandleInfo::getName, Collectors.summingInt(YzcxHandleInfo::getCount))));
+        Map<Integer, Map<String, Double>> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfo::getHandletype, Collectors.groupingBy(YzcxHandleInfo::getName, Collectors.summingDouble(YzcxHandleInfo::getCount))));
         List<YzcxHandleInfo> menzhen = new ArrayList<>();
         collect.forEach((v, k) -> {
             Integer handletype = v;
             k.forEach((v2, k2) -> {
                 String name = v2;
-                Integer sum = k2;
+                Double sum = k2;
                 YzcxHandleInfo yzcxHandleInfo=new YzcxHandleInfo();
                 yzcxHandleInfo.setName(name);
                 yzcxHandleInfo.setCount(sum);

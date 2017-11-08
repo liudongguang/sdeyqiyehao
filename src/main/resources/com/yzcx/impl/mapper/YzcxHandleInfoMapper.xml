@@ -18,7 +18,7 @@
         )
         values
         <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.handledate,jdbcType=TIMESTAMP}, #{item.count,jdbcType=INTEGER},
+            (#{item.handledate,jdbcType=TIMESTAMP}, #{item.count,jdbcType=DOUBLE},
             #{item.handletype,jdbcType=INTEGER},#{item.name,jdbcType=VARCHAR})
         </foreach>
     </insert>
