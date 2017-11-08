@@ -16,7 +16,7 @@ public class YzcxHandleInfo {
     /**
      * 数量
      */
-    private Integer count;
+    private Double count;
 
     /**
      * 1.门诊  2.预约 3.疾病诊断
@@ -62,7 +62,7 @@ public class YzcxHandleInfo {
      *
      * @return count - 数量
      */
-    public Integer getCount() {
+    public Double getCount() {
         return count;
     }
 
@@ -71,7 +71,7 @@ public class YzcxHandleInfo {
      *
      * @param count 数量
      */
-    public void setCount(Integer count) {
+    public void setCount(Double count) {
         this.count = count;
     }
 

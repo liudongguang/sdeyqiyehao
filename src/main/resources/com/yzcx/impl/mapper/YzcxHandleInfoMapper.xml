@@ -7,7 +7,7 @@
     -->
     <id column="uid" jdbcType="INTEGER" property="uid" />
     <result column="handledate" jdbcType="TIMESTAMP" property="handledate" />
-    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="count" jdbcType="DOUBLE" property="count" />
     <result column="handletype" jdbcType="INTEGER" property="handletype" />
     <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
@@ -23,7 +23,7 @@
         </foreach>
     </insert>
 
-    <select id="montho_mzinfo" resultType="com.yzcx.api.po.YzcxHandleInfo" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+    <select id="montho_mzinfo" parameterType="com.yzcx.api.vo.YZCXSearchParam" resultType="com.yzcx.api.po.YzcxHandleInfo">
         select handledate,count,handletype,name from yzcx_handle_info where handledate BETWEEN #{start} and #{end}
     </select>
 </mapper>

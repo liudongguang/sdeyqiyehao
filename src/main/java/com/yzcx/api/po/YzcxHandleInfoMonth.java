@@ -10,7 +10,7 @@ public class YzcxHandleInfoMonth {
 
     private Date handledate;
 
-    private Integer count;
+    private Double count;
 
     private Integer handletype;
 
@@ -47,14 +47,14 @@ public class YzcxHandleInfoMonth {
     /**
      * @return count
      */
-    public Integer getCount() {
+    public Double getCount() {
         return count;
     }
 
     /**
      * @param count
      */
-    public void setCount(Integer count) {
+    public void setCount(Double count) {
         this.count = count;
     }
 
