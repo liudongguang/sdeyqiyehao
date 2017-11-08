@@ -22,4 +22,8 @@
             #{item.handletype,jdbcType=INTEGER},#{item.name,jdbcType=VARCHAR})
         </foreach>
     </insert>
+
+    <select id="montho_mzinfo" resultType="com.yzcx.api.po.YzcxHandleInfo" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+        select handledate,count,handletype,name from yzcx_handle_info where handledate BETWEEN #{start} and #{end}
+    </select>
 </mapper>

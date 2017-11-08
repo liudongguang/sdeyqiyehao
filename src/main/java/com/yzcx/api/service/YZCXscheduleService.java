@@ -1,5 +1,6 @@
 package com.yzcx.api.service;
 
+import com.ldg.api.vo.ResultMsg2;
 import com.yzcx.api.vo.YZCXHandlerData;
 import com.yzcx.api.vo.YZCXSearchParam;
 
@@ -13,4 +14,7 @@ public interface YZCXscheduleService {
     YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException;
 
     void saveYZCXData(YZCXHandlerData handlerData,YZCXSearchParam param);
+
+
+    ResultMsg2 montho_mzinfo(YZCXSearchParam param);
 }
