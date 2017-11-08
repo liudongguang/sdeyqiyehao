@@ -24,9 +24,17 @@ public class LdgDateUtil {
     private final static String yyyy_mm_dd_23_59_59 = "yyyy-MM-dd 23:59:59";
     private final static String yyyy_mm_dd_HH_00_00 = "yyyy-MM-dd HH:00:00";
     public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_HH_00_00=DateTimeFormatter.ofPattern(yyyy_mm_dd_HH_00_00);
-
+    public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_00_00_00=DateTimeFormatter.ofPattern(yyyy_mm_dd_00_00_00);
+    public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_23_59_59=DateTimeFormatter.ofPattern(yyyy_mm_dd_23_59_59);
     public static String getyyyy_mm_dd_HH_00_00String(Date date) {
         return DateFormatUtils.format(date, yyyy_mm_dd_HH_00_00);
+    }
+    public static String getyyyy_mm_dd_00_00_00String(Date date) {
+        return DateFormatUtils.format(date, yyyy_mm_dd_00_00_00);
+    }
+
+    public static Date getyyyy_mm_dd_00_00_00Date(String dateStr) throws ParseException {
+        return DateUtils.parseDate(dateStr, yyyy_mm_dd_00_00_00);
     }
     public static String getYyyy_mm_dd_hh_mm_ssString(Date date) {
         return DateFormatUtils.format(date, yyyy_mm_dd_hh_mm_ss);
@@ -101,6 +109,14 @@ public class LdgDateUtil {
     public static Date getDayLastTime() throws ParseException {
         Date now=new Date();
         String str= DateFormatUtils.format(now,yyyy_mm_dd_23_59_59);
+        return DateUtils.parseDate(str, yyyy_mm_dd_hh_mm_ss);
+    }
+    public static Date get000000Time(Date date) throws ParseException {
+        String str= DateFormatUtils.format(date,yyyy_mm_dd_00_00_00);
+        return DateUtils.parseDate(str, yyyy_mm_dd_hh_mm_ss);
+    }
+    public static Date get235959Time(Date date) throws ParseException {
+        String str= DateFormatUtils.format(date,yyyy_mm_dd_23_59_59);
         return DateUtils.parseDate(str, yyyy_mm_dd_hh_mm_ss);
     }
 }

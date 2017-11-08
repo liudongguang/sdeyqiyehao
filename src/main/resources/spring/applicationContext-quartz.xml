@@ -1,34 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="Access_token" class="com.weixin.util.Access_token"></bean>
-	<!-- 配置方法映射工厂类 -->
-	<bean id="jobDetail"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="Access_token"></property>
-		<property name="targetMethod" value="init_Access_token"></property>
-		<property name="concurrent" value="false"></property>
-		<!-- concurrent : false表示等上一个任务执行完后再开启新的任务 -->
-	</bean>
-	<!-- 配置任务高度的的时间/周期 -->
-	<bean id="getTokenJobTrigger" 
-		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="jobDetail"></property>
-		<!-- 每隔一小时55分30秒执行一次： -->
-		<property name="cronExpression" value="30 55 */1 * * ?"></property>
-		<!-- 延时几毫秒后执行
-		<property name="startDelay" value="1000"></property>
-		 -->
-	</bean>
-	<bean id="schedulerFactoryBean" 
-		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="triggers">
-			<list>
-				<ref bean="getTokenJobTrigger" />
-			</list>
-		</property>
-	</bean>
+    <bean id="Access_token" class="com.weixin.util.Access_token"></bean>
+    <!-- 配置方法映射工厂类 -->
+    <bean id="jobDetail"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="Access_token"></property>
+        <property name="targetMethod" value="init_Access_token"></property>
+        <property name="concurrent" value="false"></property>
+        <!-- concurrent : false表示等上一个任务执行完后再开启新的任务 -->
+    </bean>
+    <!-- 配置任务高度的的时间/周期 -->
+    <bean id="getTokenJobTrigger"
+          class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail"></property>
+        <!-- 每隔一小时55分30秒执行一次： -->
+        <property name="cronExpression" value="30 55 */1 * * ?"></property>
+        <!-- 延时几毫秒后执行
+        <property name="startDelay" value="1000"></property>
+         -->
+    </bean>
+
+    <bean id="yzcxData" class="com.yzcx.impl.service.YZCXscheduleServiceImpl"></bean>
+    <bean id="yzcxDataJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="yzcxData"></property>
+        <property name="targetMethod" value="menzhenDayHandler"></property>
+        <property name="concurrent" value="false"></property>
+        <!-- concurrent : false表示等上一个任务执行完后再开启新的任务 -->
+    </bean>
+    <bean id="yzcxTrigger"
+          class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="yzcxDataJob"></property>
+        <!-- 每5分钟执行一次： -->
+        <property name="cronExpression" value="0 0/5 * * * ?"></property>
+        <!-- 延时几毫秒后执行
+        <property name="startDelay" value="1000"></property>
+         -->
+    </bean>
+
+    <!-- -->
+    daysGuiDang
+    <bean id="yzcxData2" class="com.yzcx.controller.YZCXHandlerController"></bean>
+    <bean id="yzcxDataJob2"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="yzcxData2"></property>
+        <property name="targetMethod" value="daysGuiDang"></property>
+        <property name="concurrent" value="false"></property>
+        <!-- concurrent : false表示等上一个任务执行完后再开启新的任务 -->
+    </bean>
+    <bean id="yzcxTrigger2"
+          class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="yzcxDataJob2"></property>
+        <!-- 每天凌晨1点执行一次： -->
+        <property name="cronExpression" value="0 0 1 * * ?"></property>
+        <!-- 延时几毫秒后执行
+        <property name="startDelay" value="1000"></property>
+         -->
+    </bean>
+    <!-- -->
+
+    <bean id="schedulerFactoryBean"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="getTokenJobTrigger"/>
+                <ref bean="yzcxTrigger"/>
+                <ref bean="yzcxTrigger2"/>
+            </list>
+        </property>
+    </bean>
 </beans>

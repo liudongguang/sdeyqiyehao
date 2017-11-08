@@ -238,8 +238,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
     }
 
     @Override
-    public void menzhenDayHandler(YZCXSearchParam param) throws ParseException {
+    public void menzhenDayHandler() throws ParseException {
         Date nowDate = new Date();
+        YZCXSearchParam param=new YZCXSearchParam();
         param.setStart(LdgDateUtil.getDayZeroTime());
         param.setEnd(nowDate);
         //1.获取当前日期的记录
@@ -254,13 +255,10 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
             param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(formatStr));
             int delNum=yzcxHandleInfoDayMapper.deleteByTime(param);
-            System.out.println("删除数："+delNum);
         } else {
             requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
             requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
         }
-
-        System.out.println(requestparam);
         /////
         String menzhenurl = YZCXProperties.getRequestPropertiesVal("menzhen");//获取门诊信息
         HttpClientUtil hc = HttpClientUtil.getInstance();
