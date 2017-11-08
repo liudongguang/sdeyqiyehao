@@ -6,6 +6,7 @@ import com.yzcx.api.vo.YZCXSearchParam;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 
 /**
  * Created by LiuDongguang on 2017/11/3.
@@ -18,5 +19,5 @@ public interface YZCXscheduleService {
 
     ResultMsg2 montho_mzinfo(YZCXSearchParam param);
 
-    void menzhenDayHandler(YZCXSearchParam param);
+    void menzhenDayHandler(YZCXSearchParam param) throws ParseException;
 }

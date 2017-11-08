@@ -16,11 +16,16 @@ import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -184,7 +189,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
 
     @Override
     public ResultMsg2 montho_mzinfo(YZCXSearchParam param) {
-        ResultMsg2 msg= new ResultMsg2();
+        ResultMsg2 msg = new ResultMsg2();
         int count = yzcxHandleInfoMonthMapper.selectImportState(param);
         if (count != 0) {
             msg.setErrmsg("已导入！");
@@ -198,7 +203,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             k.forEach((v2, k2) -> {
                 String name = v2;
                 Double sum = k2;
-                YzcxHandleInfo yzcxHandleInfo=new YzcxHandleInfo();
+                YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
                 yzcxHandleInfo.setName(name);
                 yzcxHandleInfo.setCount(sum);
                 yzcxHandleInfo.setHandletype(handletype);
@@ -209,6 +214,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandleInfoMonthMapper.batchInsert(menzhen);
         return msg;
     }
+
     private List<YzcxHandleInfo> handlerMap3(Map<String, Map<String, Long>> data, int type) {
         List<YzcxHandleInfo> rtList = new ArrayList<>();
         data.forEach((k, v) -> {
@@ -230,11 +236,31 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         });
         return rtList;
     }
+
     @Override
-    public void menzhenDayHandler(YZCXSearchParam param) {
+    public void menzhenDayHandler(YZCXSearchParam param) throws ParseException {
+        Date nowDate = new Date();
+        param.setStart(LdgDateUtil.getDayZeroTime());
+        param.setEnd(nowDate);
+        //1.获取当前日期的记录
+        int count = yzcxHandleInfoDayMapper.getMZDayCount(param);
+        //2.如果有值那么删除近2个小时的，重置获取数据的时间
         Map<String, String> requestparam = new HashMap();
-        requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
-        requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
+        if (count != 0) {
+            LocalDateTime localDate = LdgDateUtil.parseDateToLocalDateTime(nowDate);
+            localDate = localDate.minus(1, ChronoUnit.HOURS);
+            String formatStr=localDate.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
+            requestparam.put("starte",formatStr);
+            requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
+            param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(formatStr));
+            int delNum=yzcxHandleInfoDayMapper.deleteByTime(param);
+            System.out.println("删除数："+delNum);
+        } else {
+            requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
+            requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
+        }
+
+        System.out.println(requestparam);
         /////
         String menzhenurl = YZCXProperties.getRequestPropertiesVal("menzhen");//获取门诊信息
         HttpClientUtil hc = HttpClientUtil.getInstance();
@@ -249,6 +275,13 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             return item;
         }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getSfjzStr, Collectors.counting())));
         List<YzcxHandleInfo> yzcxHandleInfos = handlerMap3(collect, YZCXConstant.menzhen_sfjz);
-        yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);
+         yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);
+    }
+
+    public static void main(String[] args) {
+        LocalDateTime localDate = LocalDateTime.now();
+        localDate = localDate.minus(1, ChronoUnit.HOURS);
+        String format = localDate.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
+        System.out.println(format);
     }
 }

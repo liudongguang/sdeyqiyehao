@@ -5,10 +5,8 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +20,14 @@ public class LdgDateUtil {
     private final static String yyyy_mm_dd_hh = "yyyy-MM-dd HH";
     private final static String yyyy_mm_dd = "yyyy-MM-dd";
     private final static ZoneId zoneId = ZoneId.systemDefault();
+    private final static String yyyy_mm_dd_00_00_00 = "yyyy-MM-dd 00:00:00";
+    private final static String yyyy_mm_dd_23_59_59 = "yyyy-MM-dd 23:59:59";
+    private final static String yyyy_mm_dd_HH_00_00 = "yyyy-MM-dd HH:00:00";
+    public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_HH_00_00=DateTimeFormatter.ofPattern(yyyy_mm_dd_HH_00_00);
 
+    public static String getyyyy_mm_dd_HH_00_00String(Date date) {
+        return DateFormatUtils.format(date, yyyy_mm_dd_HH_00_00);
+    }
     public static String getYyyy_mm_dd_hh_mm_ssString(Date date) {
         return DateFormatUtils.format(date, yyyy_mm_dd_hh_mm_ss);
     }
@@ -59,7 +64,11 @@ public class LdgDateUtil {
         LocalDate localDate = instant.atZone(zoneId).toLocalDate();
         return localDate;
     }
-
+    public static LocalDateTime parseDateToLocalDateTime(Date date) {
+        Instant instant = date.toInstant();
+        LocalDateTime localDate = instant.atZone(zoneId).toLocalDateTime();
+        return localDate;
+    }
     public static List<Date> getDateByBetween(Date start, Date end) {
         List<Date> listDate = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
@@ -84,9 +93,14 @@ public class LdgDateUtil {
         return listDate;
     }
 
-    public static void main(String[] args) throws ParseException {
-        Date start = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-09-01 00:00:00");
-        Date end = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-09-05 00:00:00");
-        System.out.println(getDateByBetween(start, end));
+    public static Date getDayZeroTime() throws ParseException {
+        Date now=new Date();
+        String str= DateFormatUtils.format(now,yyyy_mm_dd_00_00_00);
+        return DateUtils.parseDate(str, yyyy_mm_dd_hh_mm_ss);
+    }
+    public static Date getDayLastTime() throws ParseException {
+        Date now=new Date();
+        String str= DateFormatUtils.format(now,yyyy_mm_dd_23_59_59);
+        return DateUtils.parseDate(str, yyyy_mm_dd_hh_mm_ss);
     }
 }

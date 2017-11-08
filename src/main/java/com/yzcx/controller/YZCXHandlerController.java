@@ -31,8 +31,6 @@ public class YZCXHandlerController{
 	public ResultMsg2 menzhenDayHandler(YZCXSearchParam param) throws IOException, ParseException {
 		System.out.println("-------------");
 		ResultMsg2 msg=new ResultMsg2();
-		param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-11-08 00:00:00"));
-		param.setEnd(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-11-08 23:59:59"));
 		yzcXscheduleService.menzhenDayHandler(param);
 		return msg;
 	}
