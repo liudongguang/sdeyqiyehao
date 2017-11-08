@@ -19,6 +19,31 @@ public class YZCXHandlerController{
 	@Autowired
 	private YZCXscheduleService yzcXscheduleService;
 
+	/**
+	 * 日处理
+	 * @param param
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/menzhenDayHandler")
+	@ResponseBody
+	public ResultMsg2 menzhenDayHandler(YZCXSearchParam param) throws IOException, ParseException {
+		System.out.println("-------------");
+		ResultMsg2 msg=new ResultMsg2();
+		param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-11-08 00:00:00"));
+		param.setEnd(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-11-08 23:59:59"));
+		yzcXscheduleService.menzhenDayHandler(param);
+		return msg;
+	}
+
+	/**
+	 * 日归档
+	 * @param param
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/testmz")
 	@ResponseBody
 	public ResultMsg2 testmz(YZCXSearchParam param) throws IOException, ParseException {
@@ -35,6 +60,13 @@ public class YZCXHandlerController{
 		return msg;
 	}
 
+	/**
+	 * 月归档
+	 * @param param
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/testmzMonth")
 	@ResponseBody
 	public ResultMsg2 testmzMonth(YZCXSearchParam param) throws IOException, ParseException {

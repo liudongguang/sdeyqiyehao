@@ -30,13 +30,13 @@
 		<ul id="navToggle" class="burger slide">    <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
 			<li></li><li></li><li></li>
 		</ul>
-		<h1>全院概览</h1>
+		<h1>门诊信息</h1>
 	</header>
 
 	<nav class="slide">
 		<ul>
-			<li><a href="webyzcx/index" class="active">全院概览</a></li>
-			<li><a href="webyzcx/menzhen">门诊信息</a></li>
+			<li><a href="webyzcx/index">全院概览</a></li>
+			<li><a href="webyzcx/menzhen" class="active">门诊信息</a></li>
 			<li><a href="list3.html">医院总收入</a></li>
 			<li><a href="list4.html">医技信息</a></li>
 			<li><a href="list5.html">医生出诊</a></li>
@@ -46,12 +46,13 @@
 			<li><a href="list9.html">会诊信息</a></li>
 		</ul>
 	</nav>
+
 	<div class="content slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
 		<ul class="responsive">
 			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
 				<div class="tit_sty">
 					<span class="tit_sty_span1">当日门诊分析</span>
-					<span class="tit_sty_span2"><a href="indexnext.html">查看月门诊量&nbsp;></a></span>
+					<span class="tit_sty_span2"><a href="list2next.html">查看月门诊量&nbsp;></a></span>
 				</div>
 				<div class="tit_sty_div_all">
 					<div class="tit_sty_div_all_tab1">
@@ -121,45 +122,24 @@
                     });
 				</script>
 			</li>
-			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;margin-bottom: -65px!important;">
+			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">
-					<span class="tit_sty_span1">住院工作量日报</span>
-					<a href="indexnext_2f.html"><span class="tit_sty_span2">详情&nbsp;></span></a>
+					<span class="tit_sty_span1">门诊预约分析</span>
+					<a href="list2next.html"><span class="tit_sty_span2">查看月门诊量&nbsp;></span></a>
 				</div>
-				<div class="tit_sty_div_all" style="padding-bottom: 30px!important;">
-					<div class="tit_sty_div_all_tab3">
+				<p style="display: inline-block;padding-top: 5px;color: #000">统计今天至2016年12月16日近7日内的情况：</p>
+				<div class="tit_sty_div_all">
+					<div class="tit_sty_div_all_tab4">
 						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">入院</p>
-							<p>1000</p>
+							<p class="tit_sty_div_all_tab1_div1_p">预约总人数</p>
+							<p>3213</p>
 						</div>
 					</div>
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">出院</p>
-							<p>500</p>
-						</div>
-					</div>
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">空床</p>
-							<p>500</p>
-						</div>
-					</div>
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">病危</p>
-							<p>500</p>
-						</div>
-					</div>
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">病重</p>
-							<p>500</p>
-						</div>
-					</div>
+					<div style="width: 100%;height: 10px"></div>
 				</div>
+				<div style="clear: left;width: 100%;height: 15px"></div>
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-				<div id="container1" style="min-width: 100%; height: 700px;margin: 30px auto;"></div>
+				<div id="container1" style="min-width: 100%; height: 700px;"></div>
 				<script type="text/javascript">
                     $(function () {
                         $('#container1').highcharts({
@@ -197,7 +177,7 @@
                             },
                             series: [{
                                 name: '入院',
-                                data: [27, 4, 3, 4, 10, 1, 1, 2, 1, 1, 8, 5, 2, 1, 1, 1, 1, 5, 3, 1, 1, 3, 5, 6, 1, 1, 3, 1, 3, 3, 9, 15, 12, 3, 3, 3, 1, 3, 1, 1]
+                                data: [2231, 245, 222, 185, 135, 90, 50, 35, 30, 20, 20, 15, 10, 8, 7, 6, 5, 5, 10, 10, 20, 20, 10, 5, 8, 7, 6, 5, 3, 3, 9, 15, 12, 3, 3, 3, 1, 3, 1, 1]
                             }],
                             credits: {
                                 enabled:false
@@ -208,67 +188,6 @@
                         });
                     });
 
-				</script>
-			</li>
-			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 1px!important;padding-top: 1px!important;">
-				<div class="tit_sty" style="border:none!important;">
-					<span class="tit_sty_span1"><img style="vertical-align: middle;width: 30px;height: 30px" src="assets/yzcx/image/money.png" alt=""/>11月总收入</span>
-					<span class="tit_sty_span2">123800075.00</span>
-				</div>
-			</li>
-			<li class="header-section" style="background-color: #ecf0f1!important;">
-				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-				<div id="container3" style="min-width: 100%; height: 300px;margin: 0 auto"></div>
-				<script type="text/javascript">
-                    $(function () {
-                        $('#container3').highcharts({
-                            chart: {
-                                type: 'bar'
-                            },
-                            title: {
-                                text: ' '
-                            },
-                            subtitle: {
-                                text: ' '
-                            },
-                            xAxis: {
-                                categories: ['其他', '药品', '医疗'],
-                                title: {
-                                    text: null
-                                }
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: '单位：元',
-                                    align: 'high'
-                                },
-                                labels: {
-                                    overflow: 'justify'
-                                }
-                            },
-                            tooltip: {
-                                valueSuffix: '元'
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: {
-                                        enabled: true
-                                    }
-                                }
-                            },
-                            series: [{
-                                name: '收入',
-                                data: [207, 500, 635]
-                            }],
-                            credits: {
-                                enabled:false
-                            },
-                            exporting: {
-                                enabled:false
-                            }
-                        });
-                    });
 				</script>
 			</li>
 		</ul>
@@ -277,7 +196,7 @@
 </div>
 
 <!--<script src="http://libs.useso.com/js/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>-->
-<script>window.jQuery || document.write('<script src="assets/yzcx/js/jquery-1.11.0.min.js"><\/script>')</script>
-<script type="text/javascript" language="javascript" src="assets/yzcx/js/trunk.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-1.11.0.min.js"><\/script>')</script>
+<script type="text/javascript" language="javascript" src="js/trunk.js"></script>
 </body>
 </html>

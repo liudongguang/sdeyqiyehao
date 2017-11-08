@@ -13,6 +13,7 @@ import com.yzcx.api.vo.parsejson.Json_Jbzd;
 import com.yzcx.api.vo.parsejson.Json_Menzhen;
 import com.yzcx.api.vo.parsejson.Json_Yuyue;
 import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
+import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by LiuDongguang on 2017/11/3.
@@ -34,6 +36,8 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
     private YzcxHandleImportdateMapper yzcxHandleImportdateMapper;
     @Autowired
     private YzcxHandleInfoMonthMapper yzcxHandleInfoMonthMapper;
+    @Autowired
+    private YzcxHandleInfoDayMapper yzcxHandleInfoDayMapper;
 
     @Override
     public YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException {
@@ -204,5 +208,47 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         });
         yzcxHandleInfoMonthMapper.batchInsert(menzhen);
         return msg;
+    }
+    private List<YzcxHandleInfo> handlerMap3(Map<String, Map<String, Long>> data, int type) {
+        List<YzcxHandleInfo> rtList = new ArrayList<>();
+        data.forEach((k, v) -> {
+            String date = k;
+            v.forEach((k2, v2) -> {
+                String name = k2;
+                Long count = v2;
+                YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
+                try {
+                    yzcxHandleInfo.setHandledate(LdgDateUtil.getyyyy_mm_dd_hhDate(date));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                yzcxHandleInfo.setHandletype(type);
+                yzcxHandleInfo.setCount(Double.valueOf(count.toString()));
+                yzcxHandleInfo.setName(name);
+                rtList.add(yzcxHandleInfo);
+            });
+        });
+        return rtList;
+    }
+    @Override
+    public void menzhenDayHandler(YZCXSearchParam param) {
+        Map<String, String> requestparam = new HashMap();
+        requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
+        requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
+        /////
+        String menzhenurl = YZCXProperties.getRequestPropertiesVal("menzhen");//获取门诊信息
+        HttpClientUtil hc = HttpClientUtil.getInstance();
+        final String s = hc.sendHttpPost(menzhenurl, requestparam);
+        Json_Menzhen menzhenRs = JsonUtil.getObjectByJSON(s, Json_Menzhen.class);
+        Map<String, Map<String, Long>> collect = menzhenRs.getData().stream().map(item -> {
+            Date ghrq = item.getGhrq();
+            String ghrqStr = LdgDateUtil.getyyyy_mm_dd_hhString(ghrq);
+            item.setGhrqStr(ghrqStr);
+            String sfjz = item.getSfjz().intValue() == 0 ? YZCXConstant.jizhen : YZCXConstant.putong;
+            item.setSfjzStr(sfjz);
+            return item;
+        }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getSfjzStr, Collectors.counting())));
+        List<YzcxHandleInfo> yzcxHandleInfos = handlerMap3(collect, YZCXConstant.menzhen_sfjz);
+        yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);
     }
 }

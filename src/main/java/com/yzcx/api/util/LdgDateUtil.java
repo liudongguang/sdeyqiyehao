@@ -4,6 +4,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,7 +18,8 @@ import java.util.List;
  * Created by LiuDongguang on 2017/11/6.
  */
 public class LdgDateUtil {
-    private final static String yyyy_mm_dd_hh_mm_ss = "yyyy-MM-dd hh:mm:ss";
+    private final static String yyyy_mm_dd_hh_mm_ss = "yyyy-MM-dd HH:mm:ss";
+    private final static String yyyy_mm_dd_hh = "yyyy-MM-dd HH";
     private final static String yyyy_mm_dd = "yyyy-MM-dd";
     private final static ZoneId zoneId = ZoneId.systemDefault();
 
@@ -35,6 +37,15 @@ public class LdgDateUtil {
 
     public static Date getYyyy_mm_ddDate(String dateStr) throws ParseException {
         return DateUtils.parseDate(dateStr, yyyy_mm_dd);
+    }
+
+
+    public static String getyyyy_mm_dd_hhString(Date date) {
+        return DateFormatUtils.format(date, yyyy_mm_dd_hh);
+    }
+
+    public static Date getyyyy_mm_dd_hhDate(String dateStr) throws ParseException {
+        return DateUtils.parseDate(dateStr, yyyy_mm_dd_hh);
     }
 
     public static Date parseLocalDateToDate(LocalDate localDate) {

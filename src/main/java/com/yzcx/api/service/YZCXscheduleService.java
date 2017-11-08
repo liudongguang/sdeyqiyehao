@@ -17,4 +17,6 @@ public interface YZCXscheduleService {
 
 
     ResultMsg2 montho_mzinfo(YZCXSearchParam param);
+
+    void menzhenDayHandler(YZCXSearchParam param);
 }

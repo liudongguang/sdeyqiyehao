@@ -116,7 +116,7 @@ public class MessageBoardController {
 			throws UnsupportedEncodingException {
 		Page<MessageboardMessageSuper> page = messagesv.liuYanList(pageParam, searchParam);
 		request.setAttribute("page", page.toPageInfo());
-		return "/messageboard/list2.jsp";
+		return "/messageboard/menzhen.jsp";
 	}
 
 	@RequestMapping(value = "/liuYanListForMore")
