@@ -16,6 +16,7 @@ public class YzcxHandleInfoDay {
 
     private String name;
 
+
     /**
      * @return uid
      */

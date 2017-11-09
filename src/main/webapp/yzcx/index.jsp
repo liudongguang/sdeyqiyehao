@@ -78,49 +78,7 @@
 			<li class="header-section" style="background-color: #ecf0f1!important;">
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 				<div id="container" style="width: 100%; height: 300px;margin: 0 auto"></div>
-				<script type="text/javascript">
-                    $(function () {
-                        $('#container').highcharts({
-                            chart: {
-                                type: 'column'
-                            },
-                            title: {
-                                text: ' '
-                            },
-                            xAxis: {
-                                categories: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24']
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: '单位：人'
-                                }
-                            },
-                            tooltip: {
-                                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}人</b><br/>',
-                                shared: true
-                            },
-                            plotOptions: {
-                                column: {
-                                    stacking: 'normal'
-                                }
-                            },
-                            series: [{
-                                name: '门诊',
-                                data: [3, 3, 4, 7, 2, 4, 7, 450, 510, 470, 370, 42, 54, 200, 230, 153, 47, 79, 72, 4, 7, 2, 7, 2]
-                            }, {
-                                name: '急诊',
-                                data: [3, 4, 4, 2, 5, 4, 2, 5, 14, 14, 12, 15, 14, 12, 15, 4, 4, 2, 5, 4, 2, 5, 2, 5]
-                            }],
-                            credits: {
-                                enabled:false
-                            },
-                            exporting: {
-                                enabled:false
-                            }
-                        });
-                    });
-				</script>
+
 			</li>
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;margin-bottom: -65px!important;">
 				<div class="tit_sty">
@@ -280,5 +238,11 @@
 <!--<script src="http://libs.useso.com/js/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>-->
 <script>window.jQuery || document.write('<script src="assets/yzcx/js/jquery-1.11.0.min.js"><\/script>')</script>
 <script type="text/javascript" language="javascript" src="assets/yzcx/js/trunk.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
+<script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
+<script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
+<script type="text/javascript" language="javascript" src="assets/yzcx/index.js"></script>
 </body>
 </html>

@@ -7,6 +7,8 @@ import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.vo.YZCXHandlerData;
 import com.yzcx.api.vo.YZCXSearchParam;
+import com.yzcx.api.vo.highchat.HighchartsConfig;
+import com.yzcx.api.vo.highchat.HighchartsConfig_arr;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
 import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +24,27 @@ import java.text.ParseException;
 @Controller
 @RequestMapping(value = "/webyzcx")
 public class YZCXWebController {
-	@Autowired
-	private YZCXSearchService yzcxSearchService;
-	@RequestMapping(value = "/index")
-	public String index(HttpServletRequest request, YZCXSearchParam param) throws IOException, ParseException {
-		QyglVo qygl=yzcxSearchService.getQygl_ri();
-		request.setAttribute(YZCXConstant.obj,qygl);
-		return "/yzcx/index.jsp";
-	}
+    @Autowired
+    private YZCXSearchService yzcxSearchService;
 
-	@RequestMapping(value = "/menzhen")
-	public String menzhen(YZCXSearchParam param) throws IOException, ParseException {
+    @RequestMapping(value = "/index")
+    public String index(HttpServletRequest request, YZCXSearchParam param) throws IOException, ParseException {
+        QyglVo qygl = yzcxSearchService.getQygl_ri();
+        request.setAttribute(YZCXConstant.obj, qygl);
+        return "/yzcx/index.jsp";
+    }
 
-		return "/yzcx/menzhen.jsp";
-	}
+    @RequestMapping(value = "/indexChart")
+    @ResponseBody
+    public HighchartsConfig indexChart(HttpServletRequest request) throws IOException, ParseException {
+        HighchartsConfig mzChart = yzcxSearchService.getQygl_riChart();
+        return mzChart;
+    }
+
+    @RequestMapping(value = "/menzhen")
+    public String menzhen(YZCXSearchParam param) throws IOException, ParseException {
+
+        return "/yzcx/menzhen.jsp";
+    }
 
 }
