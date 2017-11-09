@@ -19,6 +19,7 @@ public class HighchartsConfig_arr {
     }
     private Chart chart=new Chart();
     private Credits credits=new Credits();
+    private Exporting exporting=new Exporting();
     private Title title=new Title();
     private Subtitle subtitle;
     private XAxis xAxis=new XAxis();
@@ -27,6 +28,14 @@ public class HighchartsConfig_arr {
     private Legend legend=new Legend();
     private List<Series_arr> series=new ArrayList<>();
     private PlotOptions plotOptions=new PlotOptions();
+
+    public Exporting getExporting() {
+        return exporting;
+    }
+
+    public void setExporting(Exporting exporting) {
+        this.exporting = exporting;
+    }
 
     public Chart getChart() {
         return chart;

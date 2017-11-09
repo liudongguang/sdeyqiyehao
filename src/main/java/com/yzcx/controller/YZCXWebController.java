@@ -36,8 +36,8 @@ public class YZCXWebController {
 
     @RequestMapping(value = "/indexChart")
     @ResponseBody
-    public HighchartsConfig indexChart(HttpServletRequest request) throws IOException, ParseException {
-        HighchartsConfig mzChart = yzcxSearchService.getQygl_riChart();
+    public HighchartsConfig_arr indexChart(HttpServletRequest request) throws IOException, ParseException {
+        HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart();
         return mzChart;
     }
 

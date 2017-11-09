@@ -12,6 +12,24 @@ public class Series {
     private String name;
     private List<? extends Number> data;
     private String type;
+    private Long pointStart;
+    private Long pointInterval;
+
+    public Long getPointStart() {
+        return pointStart;
+    }
+
+    public void setPointStart(Long pointStart) {
+        this.pointStart = pointStart;
+    }
+
+    public Long getPointInterval() {
+        return pointInterval;
+    }
+
+    public void setPointInterval(Long pointInterval) {
+        this.pointInterval = pointInterval;
+    }
 
     public String getType() {
         return type;
