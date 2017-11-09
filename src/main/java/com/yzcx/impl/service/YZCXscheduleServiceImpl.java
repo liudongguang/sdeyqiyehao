@@ -87,7 +87,8 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         //按日期，急诊分组   0 普通  1 急诊
         Map<String, Map<String, Long>> mzgroupByjizhen = menzhenRs.getData().stream().map(item -> {
             item.setGhrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getGhrq()));
-            String sfjz = item.getSfjz().intValue() == 0 ? YZCXConstant.jizhen : YZCXConstant.putong;
+            //0  普通  1 急诊
+            String sfjz = item.getSfjz().intValue() == 0 ? YZCXConstant.putong : YZCXConstant.jizhen;
             item.setSfjzStr(sfjz);
             return item;
         }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getSfjzStr, Collectors.counting())));
@@ -268,7 +269,8 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             Date ghrq = item.getGhrq();
             String ghrqStr = LdgDateUtil.getyyyy_mm_dd_hhString(ghrq);
             item.setGhrqStr(ghrqStr);
-            String sfjz = item.getSfjz().intValue() == 0 ? YZCXConstant.jizhen : YZCXConstant.putong;
+            //0  普通  1 急诊
+            String sfjz = item.getSfjz().intValue() == 0 ? YZCXConstant.putong : YZCXConstant.jizhen;
             item.setSfjzStr(sfjz);
             return item;
         }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getSfjzStr, Collectors.counting())));

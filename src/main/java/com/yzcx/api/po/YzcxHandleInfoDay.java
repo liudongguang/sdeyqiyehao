@@ -85,4 +85,15 @@ public class YzcxHandleInfoDay {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "YzcxHandleInfoDay{" +
+                "uid=" + uid +
+                ", handledate=" + handledate +
+                ", count=" + count +
+                ", handletype=" + handletype +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

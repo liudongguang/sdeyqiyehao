@@ -5,11 +5,11 @@ import com.yzcx.api.service.YZCXscheduleService;
 import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.vo.YZCXHandlerData;
 import com.yzcx.api.vo.YZCXSearchParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import java.time.temporal.ChronoUnit;
 @Controller
 @RequestMapping(value = "/yzcxdata")
 public class YZCXHandlerController {
-    @Autowired
+    @Resource(name="YZCXscheduleService")
     private YZCXscheduleService yzcXscheduleService;
 
     /**
@@ -32,7 +32,7 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/menzhenDayHandler")
     @ResponseBody
     public ResultMsg2 menzhenDayHandler(YZCXSearchParam param) throws IOException, ParseException {
-        System.out.println("-------------");
+        System.out.println("------日处理-------");
         ResultMsg2 msg = new ResultMsg2();
         yzcXscheduleService.menzhenDayHandler();
         return msg;
@@ -69,6 +69,11 @@ public class YZCXHandlerController {
         }
         yzcXscheduleService.saveYZCXData(handlerData, param);
         return msg;
+    }
+
+    public void excuteRiguidang() throws IOException, ParseException {
+        System.out.println("------日归档-------");
+        daysGuiDang(null);
     }
 
     /**

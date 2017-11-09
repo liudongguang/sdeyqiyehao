@@ -30,4 +30,14 @@
         DELETE FROM yzcx_handle_info_day
         WHERE handledate BETWEEN #{start} AND #{end}
     </delete>
+    <select id="selectByDate" resultMap="BaseResultMap">
+        SELECT
+            handledate,
+            count,
+            handletype,
+            name
+        FROM yzcx_handle_info_day
+        WHERE handletype = 6 AND
+              handledate BETWEEN #{dayZeroTime} AND #{dayLastTime} order by handledate
+    </select>
 </mapper>

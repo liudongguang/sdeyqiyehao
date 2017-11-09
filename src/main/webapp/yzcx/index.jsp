@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!doctype html>
 <html lang="zh">
 <head>
@@ -57,19 +58,19 @@
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
 							<p class="tit_sty_div_all_tab1_div1_p">总人次</p>
-							<p>3152</p>
+							<p><fmt:formatNumber type="number" value="${obj.putong+obj.jizhen}" pattern="0" maxFractionDigits="0"/> </p>
 						</div>
 					</div>
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
 							<p class="tit_sty_div_all_tab1_div1_p">门诊</p>
-							<p>2986</p>
+							<p><fmt:formatNumber type="number" value="${obj.putong}" pattern="0" maxFractionDigits="0"/></p>
 						</div>
 					</div>
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
 							<p class="tit_sty_div_all_tab1_div1_p">急诊</p>
-							<p>165</p>
+							<p><fmt:formatNumber type="number" value="${obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
 						</div>
 					</div>
 				</div>

@@ -3,6 +3,7 @@ package com.yzcx.impl.mapper;
 import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.po.YzcxHandleInfoDay;
 import com.yzcx.api.vo.YZCXSearchParam;
+import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.Date;
@@ -14,4 +15,6 @@ public interface YzcxHandleInfoDayMapper extends Mapper<YzcxHandleInfoDay> {
     int getMZDayCount(YZCXSearchParam param);
 
     int deleteByTime(YZCXSearchParam param);
+
+    List<YzcxHandleInfoDay> selectByDate(@Param("dayZeroTime") Date dayZeroTime, @Param("dayLastTime") Date dayLastTime);
 }
