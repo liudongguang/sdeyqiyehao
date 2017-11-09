@@ -17,5 +17,5 @@ public interface YZCXSearchService {
 
     QyglVo getQygl_ri() throws ParseException;
 
-    HighchartsConfig_arr getQygl_riChart() throws ParseException;
+    HighchartsConfig_arr getQygl_riChart(int chartType) throws ParseException;
 }

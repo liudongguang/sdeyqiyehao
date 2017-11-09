@@ -14,7 +14,15 @@ public class XAxis {
     private Axis_labels labels;
     private List<PlotBands> plotBands;
     private DateTimeLabelFormats dateTimeLabelFormats=new  DateTimeLabelFormats();
+    private Integer tickInterval;
 
+    public Integer getTickInterval() {
+        return tickInterval;
+    }
+
+    public void setTickInterval(Integer tickInterval) {
+        this.tickInterval = tickInterval;
+    }
 
     public String getType() {
         return type;

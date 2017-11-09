@@ -37,14 +37,21 @@ public class YZCXWebController {
     @RequestMapping(value = "/indexChart")
     @ResponseBody
     public HighchartsConfig_arr indexChart(HttpServletRequest request) throws IOException, ParseException {
-        HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart();
+        HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart(1);
         return mzChart;
     }
 
     @RequestMapping(value = "/menzhen")
-    public String menzhen(YZCXSearchParam param) throws IOException, ParseException {
-
+    public String menzhen(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+        QyglVo qygl = yzcxSearchService.getQygl_ri();
+        request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/menzhen.jsp";
+    }
+    @RequestMapping(value = "/menzhenChart")
+    @ResponseBody
+    public HighchartsConfig_arr menzhen(HttpServletRequest request) throws IOException, ParseException {
+        HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart(2);
+        return mzChart;
     }
 
 }

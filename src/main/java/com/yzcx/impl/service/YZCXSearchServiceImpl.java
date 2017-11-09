@@ -48,16 +48,20 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     }
 
     @Override
-    public HighchartsConfig_arr getQygl_riChart() throws ParseException {
+    public HighchartsConfig_arr getQygl_riChart(int chartType) throws ParseException {
         Date startTime = LdgDateUtil.getDayZeroTime();
         List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDate(startTime, LdgDateUtil.getDayLastTime());
         HighchartsConfig_arr hcfg = HighChartUtils.createArrBasicChat("", "单位：人");
+        if(chartType==2){
+            hcfg.getChart().setType("column");
+        }
         //hcfg.getxAxis().setCategories(Arrays.asList(YZCXConstant.dayHours));
         hcfg.getxAxis().setType("datetime");
         DateTimeLabelFormats dlf = new DateTimeLabelFormats();
         dlf.setHour("%H");
         dlf.setDay("%H");
         hcfg.getxAxis().setDateTimeLabelFormats(dlf);
+        hcfg.getxAxis().setTickInterval(3600*1000);
         Tooltip tooltip = new Tooltip();
         tooltip.setPointFormat("<span style=\"color:{series.color}\">{series.name}</span>: <b>{point.y}人</b><br/>");
         hcfg.setTooltip(tooltip);
