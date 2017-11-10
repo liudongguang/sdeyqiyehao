@@ -50,7 +50,7 @@ public class YZCXWebController {
     @RequestMapping(value = "/menzhenChart")
     @ResponseBody
     public HighchartsConfig_arr menzhen(HttpServletRequest request) throws IOException, ParseException {
-        HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart(2);
+        HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart(1);
         return mzChart;
     }
 
