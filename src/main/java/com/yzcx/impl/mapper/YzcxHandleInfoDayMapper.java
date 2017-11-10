@@ -17,4 +17,6 @@ public interface YzcxHandleInfoDayMapper extends Mapper<YzcxHandleInfoDay> {
     int deleteByTime(YZCXSearchParam param);
 
     List<YzcxHandleInfoDay> selectByDate(@Param("dayZeroTime") Date dayZeroTime, @Param("dayLastTime") Date dayLastTime);
+
+    List<YzcxHandleInfoDay> selectYuYueByDate(@Param("dayZeroTime")Date dayZeroTime,@Param("dayLastTime") Date dayLastTime);
 }

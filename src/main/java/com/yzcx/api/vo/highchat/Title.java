@@ -8,6 +8,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Title {
     private String text;
+    private String  align;
+
+    public String getAlign() {
+        return align;
+    }
+
+    public void setAlign(String align) {
+        this.align = align;
+    }
 
     public String getText() {
         return text;

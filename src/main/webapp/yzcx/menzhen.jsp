@@ -86,12 +86,12 @@
 					<span class="tit_sty_span1">门诊预约分析</span>
 					<a href="list2next.html"><span class="tit_sty_span2">查看月门诊量&nbsp;></span></a>
 				</div>
-				<p style="display: inline-block;padding-top: 5px;color: #000">统计今天至2016年12月16日近7日内的情况：</p>
+				<p style="display: inline-block;padding-top: 5px;color: #000">统计今天前十名科室的预约情况：</p>
 				<div class="tit_sty_div_all">
 					<div class="tit_sty_div_all_tab4">
 						<div class="tit_sty_div_all_tab1_div1">
 							<p class="tit_sty_div_all_tab1_div1_p">预约总人数</p>
-							<p>3213</p>
+							<p><fmt:formatNumber type="number" value="${obj.yuyueshu}" pattern="0" maxFractionDigits="0"/></p>
 						</div>
 					</div>
 					<div style="width: 100%;height: 10px"></div>
@@ -99,55 +99,7 @@
 				<div style="clear: left;width: 100%;height: 15px"></div>
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 				<div id="container1" style="min-width: 100%; height: 700px;"></div>
-				<script type="text/javascript">
-                    $(function () {
-                        $('#container1').highcharts({
-                            chart: {
-                                type: 'bar'
-                            },
-                            title: {
-                                text: ' '
-                            },
-                            xAxis: {
-                                categories: ['产科', '创伤骨科', '儿内科', '耳鼻咽喉头颈外科', '妇科', '感染/肝病科', '肛肠外科', '关节外科','呼吸内科', '急诊科', '脊柱外科', '甲状腺外科', '健康管理科', '介入科', '介入医技', '口腔科','临床医技科室', '麻醉二科', '泌尿外科', '男科', '皮肤科','普外二科', '普外一科', '乳腺外科', '神经内科', '神经外科', '肾移植科', '肾脏内科', '手足外科','消化内科','心血管内科', '心血管内科特检','心血管外科', '胸外科', '血液净化', '眼科', '整形烧伤医技', '肿瘤防治中心', '重症医学科', '周围血管病科'],
-                                title: {
-                                    text: null
-                                }
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: '单位：人',
-                                    align: 'high'
-                                },
-                                labels: {
-                                    overflow: 'justify'
-                                }
-                            },
-                            tooltip: {
-                                valueSuffix: ' 人	'
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: {
-                                        enabled: true
-                                    }
-                                }
-                            },
-                            series: [{
-                                name: '入院',
-                                data: [2231, 245, 222, 185, 135, 90, 50, 35, 30, 20, 20, 15, 10, 8, 7, 6, 5, 5, 10, 10, 20, 20, 10, 5, 8, 7, 6, 5, 3, 3, 9, 15, 12, 3, 3, 3, 1, 3, 1, 1]
-                            }],
-                            credits: {
-                                enabled:false
-                            },
-                            exporting: {
-                                enabled:false
-                            }
-                        });
-                    });
 
-				</script>
 			</li>
 		</ul>
 	</div>

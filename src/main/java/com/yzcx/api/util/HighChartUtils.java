@@ -28,6 +28,11 @@ public class HighChartUtils {
         config.getChart().setInverted(inverted);
         return config;
     }
+    public final static HighchartsConfig createBasicChat(String title,String yAxisTitle,String chartType){
+        HighchartsConfig config = createBasicChat(title,yAxisTitle);
+        config.getChart().setType(chartType);
+        return config;
+    }
 
 
     public final static HighchartsConfig_arr createArrBasicChat(String title, String yAxisTitle){

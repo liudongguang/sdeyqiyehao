@@ -20,6 +20,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/webyzcx")
@@ -49,9 +51,13 @@ public class YZCXWebController {
     }
     @RequestMapping(value = "/menzhenChart")
     @ResponseBody
-    public HighchartsConfig_arr menzhen(HttpServletRequest request) throws IOException, ParseException {
+    public Map<String,Object> menzhen(HttpServletRequest request) throws IOException, ParseException {
+        Map<String,Object> rs=new HashMap<>();
         HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart(1);
-        return mzChart;
+        HighchartsConfig yuyueChart=yzcxSearchService.getYuyue_riChart();
+        rs.put("menzhen",mzChart);
+        rs.put("yuyue",yuyueChart);
+        return rs;
     }
 
 }

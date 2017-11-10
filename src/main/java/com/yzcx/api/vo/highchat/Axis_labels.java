@@ -8,6 +8,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Axis_labels {
     private Integer rotation;
+    private String overflow;
+
+    public String getOverflow() {
+        return overflow;
+    }
+
+    public void setOverflow(String overflow) {
+        this.overflow = overflow;
+    }
 
     public Integer getRotation() {
         return rotation;

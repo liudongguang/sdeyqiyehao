@@ -19,5 +19,4 @@ public interface YZCXConstant {
     int yuyue_ys = 8;//预约医生
     int jbzd_jb = 9;//疾病诊断
     String obj = "obj";
-    String[] dayHours = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24"};
 }

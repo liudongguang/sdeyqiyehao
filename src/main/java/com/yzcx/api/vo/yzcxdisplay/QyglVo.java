@@ -7,7 +7,16 @@ package com.yzcx.api.vo.yzcxdisplay;
 public class QyglVo {
     private Double putong;
     private Double jizhen;
+    private Double yuyueshu;
 
+
+    public Double getYuyueshu() {
+        return yuyueshu;
+    }
+
+    public void setYuyueshu(Double yuyueshu) {
+        this.yuyueshu = yuyueshu;
+    }
 
     public Double getPutong() {
         return putong;

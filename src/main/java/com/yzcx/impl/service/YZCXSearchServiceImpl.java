@@ -46,6 +46,9 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             rs.setPutong(Double.valueOf(double_putong));
             rs.setJizhen(Double.valueOf(double_jizhen));
         }
+        List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
+        Double yuyuesum = list.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
+        rs.setYuyueshu(yuyuesum);
         return rs;
     }
 
@@ -108,6 +111,38 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             }
             return series_data;
         }
+        return null;
+    }
+
+    @Override
+    public HighchartsConfig getYuyue_riChart() throws ParseException {
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
+         if(list!=null&&list.size()>0) {
+             HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
+             XAxis xAxis = hcfg.getxAxis();
+             List<String> categories = new ArrayList<>();
+             YAxis yAxis = hcfg.getyAxis();
+             yAxis.getTitle().setText("单位：人");
+             hcfg.getTooltip().setPointFormat("{series.name}:{point.y} 人");
+             PlotOptions plotOptions = new PlotOptions();
+             plotOptions.setColumn(null);
+             plotOptions.setSpline(null);
+             hcfg.setPlotOptions(plotOptions);
+             List<Series> series = hcfg.getSeries();
+             int maxIndex = list.size() > 9?10:list.size()-1;
+             Series series1=new Series();
+             series1.setName("预约");
+             List<Integer> series1_Data=new ArrayList<>();
+             for(int i=0;i<=maxIndex;i++){
+                 YzcxHandleInfoDay yzcxHandleInfoDay = list.get(i);
+                 categories.add(yzcxHandleInfoDay.getName());
+                 series1_Data.add(yzcxHandleInfoDay.getCount().intValue());
+             }
+             xAxis.setCategories(categories);
+             series1.setData(series1_Data);
+             series.add(series1);
+             return hcfg;
+         }
         return null;
     }
 

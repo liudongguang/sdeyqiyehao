@@ -9,6 +9,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class PlotOptions {
     private PlotOptions_spline spline=new PlotOptions_spline();
     private PlotOptions_column column=new PlotOptions_column();
+    private PlotOptions_bar bar=new PlotOptions_bar();
+
+    public PlotOptions_bar getBar() {
+        return bar;
+    }
+
+    public void setBar(PlotOptions_bar bar) {
+        this.bar = bar;
+    }
 
     public PlotOptions_spline getSpline() {
         return spline;
@@ -61,6 +70,32 @@ public class PlotOptions {
 
         public void setStacking(String stacking) {
             this.stacking = stacking;
+        }
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private class PlotOptions_bar{
+        private PlotOptions_bar_dataLabels dataLabels=new PlotOptions_bar_dataLabels();
+
+        public PlotOptions_bar_dataLabels getDataLabels() {
+            return dataLabels;
+        }
+
+        public void setDataLabels(PlotOptions_bar_dataLabels dataLabels) {
+            this.dataLabels = dataLabels;
+        }
+    }
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private class PlotOptions_bar_dataLabels{
+        private Boolean enabled=true;
+
+        public Boolean getEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled(Boolean enabled) {
+            this.enabled = enabled;
         }
     }
 
