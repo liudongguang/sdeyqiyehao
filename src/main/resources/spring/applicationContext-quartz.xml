@@ -42,7 +42,7 @@
         <property name="startDelay" value="1000"></property>
          -->
     </bean>
-   <!--日归档-->
+    <!--日归档 start-->
     <bean id="yzcxController" class="com.yzcx.controller.YZCXHandlerController" scope="prototype"></bean>
     <bean id="yzcxControllerJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -60,8 +60,26 @@
         <property name="startDelay" value="1000"></property>
          -->
     </bean>
-
-
+    <!--日归档 end-->
+    <!--月归档 start-->
+    <bean id="yzcxControllerJob_yue"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="yzcxController" >
+        </property>
+        <property name="targetMethod" value="excutemonthGuidang"></property>
+        <property name="concurrent" value="false"></property>
+        <!-- concurrent : false表示等上一个任务执行完后再开启新的任务 -->
+    </bean>
+    <bean id="yzcxYueguidangTrigger"
+          class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="yzcxControllerJob_yue"></property>
+        <!-- 每月1号凌晨1点执行一次 -->
+        <property name="cronExpression" value="0 0 1 1 * ?"></property>
+        <!-- 延时几毫秒后执行
+        <property name="startDelay" value="1000"></property>
+         -->
+    </bean>
+    <!--月归档 end-->
     <bean id="schedulerFactoryBean"
           class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
@@ -69,6 +87,7 @@
                 <ref bean="getTokenJobTrigger"/>
                 <ref bean="yzcxTrigger"/>
                 <ref bean="yzcxRiguidangTrigger"></ref>
+                <ref bean="yzcxYueguidangTrigger"></ref>
             </list>
         </property>
     </bean>

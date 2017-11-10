@@ -40,10 +40,12 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         QyglVo rs = new QyglVo();
         List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
         Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
-        String double_putong = collect.get(YZCXConstant.putong).toString();
-        String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
-        rs.setPutong(Double.valueOf(double_putong));
-        rs.setJizhen(Double.valueOf(double_jizhen));
+        if(collect.size()>0){
+            String double_putong = collect.get(YZCXConstant.putong).toString();
+            String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
+            rs.setPutong(Double.valueOf(double_putong));
+            rs.setJizhen(Double.valueOf(double_jizhen));
+        }
         return rs;
     }
 

@@ -13,12 +13,16 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.TemporalUnit;
 
 @Controller
 @RequestMapping(value = "/yzcxdata")
 public class YZCXHandlerController {
-    @Resource(name="YZCXscheduleService")
+    @Resource(name = "YZCXscheduleService")
     private YZCXscheduleService yzcXscheduleService;
 
     /**
@@ -51,29 +55,36 @@ public class YZCXHandlerController {
     public ResultMsg2 daysGuiDang(YZCXSearchParam param) throws IOException, ParseException {
         System.out.println("-------------");
         ResultMsg2 msg = new ResultMsg2();
-        if (param != null) {
-            param.setStart(LdgDateUtil.get000000Time(param.getStart()));
-            param.setEnd(LdgDateUtil.get235959Time(param.getEnd()));
-        } else {
-            LocalDate localDate = LocalDate.now();
-            localDate = localDate.minus(1, ChronoUnit.DAYS);//前一天
-            String start = localDate.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_00_00_00);
-            String end = localDate.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_23_59_59);
-            param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(start));
-            param.setEnd(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(end));
-        }
+        param.setStart(LdgDateUtil.get000000Time(param.getStart()));
+        param.setEnd(LdgDateUtil.get235959Time(param.getEnd()));
         YZCXHandlerData handlerData = yzcXscheduleService.getmzinfo(param);
         if (handlerData == null) {
             msg.setErrmsg("已导入！");
             return msg;
         }
         yzcXscheduleService.saveYZCXData(handlerData, param);
+        System.out.println("daysGuiDang执行完成！");
         return msg;
     }
 
+    /**
+     * 日归档，自动执行于凌晨1点
+     *
+     * @throws IOException
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/excuteRiguidang")
+    @ResponseBody
     public void excuteRiguidang() throws IOException, ParseException {
-        System.out.println("------日归档-------");
-        daysGuiDang(null);
+        System.out.println("------excuteRiguidang------");
+        YZCXSearchParam param = new YZCXSearchParam();
+        LocalDate localDate = LocalDate.now();
+        localDate = localDate.minus(1, ChronoUnit.DAYS);//前一天
+        param.setStart(LdgDateUtil.parseLocalDateToDate(localDate));
+        param.setEnd(LdgDateUtil.parseLocalDateToDate(localDate));
+        //param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-10-01 00:00:00"));
+        //param.setEnd(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-11-09 23:59:59"));
+        daysGuiDang(param);
     }
 
     /**
@@ -84,13 +95,39 @@ public class YZCXHandlerController {
      * @throws IOException
      * @throws ParseException
      */
-    @RequestMapping(value = "/testmzMonth")
+    @RequestMapping(value = "/monthGuidang")
     @ResponseBody
-    public ResultMsg2 testmzMonth(YZCXSearchParam param) throws IOException, ParseException {
-        System.out.println("-------------");
-        param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-09-01 00:00:00"));
-        param.setEnd(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-09-30 23:59:59"));
+    public ResultMsg2 monthGuidang(YZCXSearchParam param) throws IOException, ParseException {
+        System.out.println("------月归档-------");
+        param.setStart(LdgDateUtil.get000000Time(param.getStart()));
+        param.setEnd(LdgDateUtil.get235959Time(param.getEnd()));
         ResultMsg2 msg = yzcXscheduleService.montho_mzinfo(param);
         return msg;
     }
+
+    /**
+     * 月归档，执行于每月的1日
+     *
+     * @throws IOException
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/excutemonthGuidang")
+    @ResponseBody
+    public void excutemonthGuidang() throws IOException, ParseException {
+        System.out.println("------excutemonthGuidang-------");
+        LocalDate localDate=LocalDate.now();
+        localDate=localDate.minusMonths(1);//获取上一个月
+        LocalDate start=localDate.with(TemporalAdjusters.firstDayOfMonth());//一月开始的日期
+        LocalDate end=localDate.with(TemporalAdjusters.lastDayOfMonth());//一月结束的日期
+        YZCXSearchParam param = new YZCXSearchParam();
+        param.setStart(LdgDateUtil.parseLocalDateToDate(start));
+        param.setEnd(LdgDateUtil.parseLocalDateToDate(end));
+        monthGuidang(param);
+    }
+
+//    public static void main(String[] args) throws IOException, ParseException {
+//        YZCXHandlerController ycl=new YZCXHandlerController();
+//        ycl.excuteRiguidang();
+//    }
+
 }
