@@ -47,8 +47,10 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             rs.setJizhen(Double.valueOf(double_jizhen));
         }
         List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
-        Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
-        rs.setYuyueshu(yuyuesum);
+        if(yuyuelist.size()>0) {
+            Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
+            rs.setYuyueshu(yuyuesum);
+        }
         return rs;
     }
 
@@ -117,6 +119,9 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     @Override
     public HighchartsConfig getYuyue_riChart() throws ParseException {
         List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
+        list.forEach(item->{
+            System.out.println(item);
+        });
          if(list!=null&&list.size()>0) {
              HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
              XAxis xAxis = hcfg.getxAxis();

@@ -37,7 +37,7 @@
           class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="yzcxDataJob"></property>
         <!-- 每5分钟执行一次： -->
-        <property name="cronExpression" value="0 0/5 * * * ?"></property>
+        <property name="cronExpression" value="0 0/1 * * * ?"></property>
         <!-- 延时几毫秒后执行
         <property name="startDelay" value="1000"></property>
          -->

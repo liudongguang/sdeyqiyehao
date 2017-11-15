@@ -149,6 +149,13 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         return menzhen;
     }
 
+    /**
+     * 处理日期格式化为YYYY-MM-DD
+     *
+     * @param data
+     * @param type
+     * @return
+     */
     private List<YzcxHandleInfo> handlerMap2(Map<String, Map<String, Long>> data, int type) {
         List<YzcxHandleInfo> rtList = new ArrayList<>();
         data.forEach((k, v) -> {
@@ -171,6 +178,13 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         return rtList;
     }
 
+    /**
+     * 处理日期格式为yyyy-mm-dd hh
+     *
+     * @param data
+     * @param type
+     * @return
+     */
     private List<YzcxHandleInfo> handlerMap3(Map<String, Map<String, Long>> data, int type) {
         List<YzcxHandleInfo> rtList = new ArrayList<>();
         data.forEach((k, v) -> {
@@ -257,6 +271,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             requestparam.put("starte", formatStr);
             requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
             param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(formatStr));
+            //删除前一个小时到现在的
             int delNum = yzcxHandleInfoDayMapper.deleteByTime(param);
         } else {
             requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
@@ -276,8 +291,10 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             item.setSfjzStr(sfjz);
             return item;
         }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getSfjzStr, Collectors.counting())));
-        List<YzcxHandleInfo> yzcxHandleInfos = handlerMap3(collect, YZCXConstant.menzhen_sfjz);
-        yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);
+        if (collect.size() > 0) {
+            List<YzcxHandleInfo> yzcxHandleInfos = handlerMap3(collect, YZCXConstant.menzhen_sfjz);
+            yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);
+        }
         /////预约
         String yuyueurl = YZCXProperties.getRequestPropertiesVal("yuyue");//获取预约信息
         HttpClientUtil yuyuehc = HttpClientUtil.getInstance();
@@ -285,11 +302,13 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         Json_Yuyue yuyueRs = JsonUtil.getObjectByJSON(yuyue, Json_Yuyue.class);
         //日期，科室，分组
         Map<String, Map<String, Long>> yuyuegroupByKS = yuyueRs.getData().stream().map(item -> {
-            item.setYyrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getYyrq()));
+            item.setYyrqStr(LdgDateUtil.getyyyy_mm_dd_hhString(item.getYyrq()));
             return item;
         }).collect(Collectors.groupingBy(YuYueLiang::getYyrqStr, Collectors.groupingBy(YuYueLiang::getKs, Collectors.counting())));
-        List<YzcxHandleInfo> yuyueyks = handlerMap2(yuyuegroupByKS, YZCXConstant.yuyue_ks);
-        yzcxHandleInfoDayMapper.batchInsert(yuyueyks);
+        if (yuyuegroupByKS.size() > 0) {
+            List<YzcxHandleInfo> yuyueyks = handlerMap3(yuyuegroupByKS, YZCXConstant.yuyue_ks);
+            yzcxHandleInfoDayMapper.batchInsert(yuyueyks);
+        }
     }
 
     public static void main(String[] args) {
