@@ -119,9 +119,6 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     @Override
     public HighchartsConfig getYuyue_riChart() throws ParseException {
         List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
-        list.forEach(item->{
-            System.out.println(item);
-        });
          if(list!=null&&list.size()>0) {
              HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
              XAxis xAxis = hcfg.getxAxis();
@@ -134,12 +131,23 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
              plotOptions.setSpline(null);
              hcfg.setPlotOptions(plotOptions);
              List<Series> series = hcfg.getSeries();
-             int maxIndex = list.size() > 9?10:list.size()-1;
+             ////// 计算总和获取前十名
+             Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+             List<YzcxHandleInfoDay> tempList=new ArrayList<>();
+             collect.forEach((k,v)->{
+                 YzcxHandleInfoDay yzd=new YzcxHandleInfoDay();
+                 yzd.setCount(v);
+                 yzd.setName(k);
+                 tempList.add(yzd);
+             });
+             Collections.sort(tempList,Comparator.comparingDouble(YzcxHandleInfoDay::getCount).reversed());
+             /////
+            // int maxIndex = tempList.size() > 9?10:list.size()-1;
              Series series1=new Series();
              series1.setName("预约");
              List<Integer> series1_Data=new ArrayList<>();
-             for(int i=0;i<=maxIndex;i++){
-                 YzcxHandleInfoDay yzcxHandleInfoDay = list.get(i);
+             for(int i=0;i<=tempList.size()-1;i++){
+                 YzcxHandleInfoDay yzcxHandleInfoDay = tempList.get(i);
                  categories.add(yzcxHandleInfoDay.getName());
                  series1_Data.add(yzcxHandleInfoDay.getCount().intValue());
              }
