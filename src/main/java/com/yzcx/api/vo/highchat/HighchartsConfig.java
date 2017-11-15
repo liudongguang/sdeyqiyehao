@@ -22,12 +22,22 @@ public class HighchartsConfig{
     private Credits credits=new Credits();
     private Title title=new Title();
     private Subtitle subtitle=new Subtitle();
+    private Exporting exporting=new Exporting();
     private XAxis xAxis=new XAxis();
     private YAxis yAxis=new YAxis();
     private Tooltip tooltip=new Tooltip();
     private Legend legend=new Legend();
     private List<Series> series=new ArrayList<>();
     private PlotOptions plotOptions;
+
+
+    public Exporting getExporting() {
+        return exporting;
+    }
+
+    public void setExporting(Exporting exporting) {
+        this.exporting = exporting;
+    }
 
     public Chart getChart() {
         return chart;
