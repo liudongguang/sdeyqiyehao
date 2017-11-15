@@ -47,7 +47,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             rs.setJizhen(Double.valueOf(double_jizhen));
         }
         List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
-        Double yuyuesum = list.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
+        Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
         rs.setYuyueshu(yuyuesum);
         return rs;
     }

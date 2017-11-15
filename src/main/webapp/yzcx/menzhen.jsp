@@ -53,7 +53,7 @@
 			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
 				<div class="tit_sty">
 					<span class="tit_sty_span1">当日门诊分析</span>
-					<span class="tit_sty_span2"><a href="list2next.html">查看月门诊量&nbsp;></a></span>
+					<span class="tit_sty_span2"><a href="yzcx/menzhen_yue.jsp">查看月门诊量&nbsp;></a></span>
 				</div>
 				<div class="tit_sty_div_all">
 					<div class="tit_sty_div_all_tab1">
@@ -84,7 +84,7 @@
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">
 					<span class="tit_sty_span1">门诊预约分析</span>
-					<a href="list2next.html"><span class="tit_sty_span2">查看月门诊量&nbsp;></span></a>
+					<a href="yzcx/menzhen_yuyue_yue.jsp"><span class="tit_sty_span2">查看月预约量&nbsp;></span></a>
 				</div>
 				<p style="display: inline-block;padding-top: 5px;color: #000">统计今天前十名科室的预约情况：</p>
 				<div class="tit_sty_div_all">
@@ -107,8 +107,6 @@
 </div>
 
 <!--<script src="http://libs.useso.com/js/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>-->
-<script>window.jQuery || document.write('<script src="js/jquery-1.11.0.min.js"><\/script>')</script>
-<script type="text/javascript" language="javascript" src="js/trunk.js"></script>
 <script type="text/javascript" language="javascript" src="assets/yzcx/js/trunk.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
 <script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>

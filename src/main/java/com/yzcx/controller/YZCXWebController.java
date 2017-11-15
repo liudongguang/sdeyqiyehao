@@ -29,6 +29,14 @@ public class YZCXWebController {
     @Autowired
     private YZCXSearchService yzcxSearchService;
 
+    /**
+     * 进入医院概况页面
+     * @param request
+     * @param param
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @RequestMapping(value = "/index")
     public String index(HttpServletRequest request, YZCXSearchParam param) throws IOException, ParseException {
         QyglVo qygl = yzcxSearchService.getQygl_ri();
@@ -36,6 +44,13 @@ public class YZCXWebController {
         return "/yzcx/index.jsp";
     }
 
+    /**
+     * 医院概况页面  图标数据
+     * @param request
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @RequestMapping(value = "/indexChart")
     @ResponseBody
     public HighchartsConfig_arr indexChart(HttpServletRequest request) throws IOException, ParseException {
@@ -43,12 +58,28 @@ public class YZCXWebController {
         return mzChart;
     }
 
+    /**
+     * 进入门诊页面
+     * @param request
+     * @param param
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @RequestMapping(value = "/menzhen")
     public String menzhen(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
         QyglVo qygl = yzcxSearchService.getQygl_ri();
         request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/menzhen.jsp";
     }
+
+    /**
+     * 获取门诊页面的图表数据
+     * @param request
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @RequestMapping(value = "/menzhenChart")
     @ResponseBody
     public Map<String,Object> menzhen(HttpServletRequest request) throws IOException, ParseException {
