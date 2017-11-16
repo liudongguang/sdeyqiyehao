@@ -181,6 +181,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
             rs.setPutong(Double.valueOf(double_putong));
             rs.setJizhen(Double.valueOf(double_jizhen));
+            rs.setParam(param);
             return rs;
         }
         return null;

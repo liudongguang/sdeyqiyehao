@@ -27,7 +27,7 @@
 	<!--<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>-->
 	<script src="assets/yzcx/js/jquery.monthpicker.js"></script>
 	<style type="text/css">
-		.input{width: 63px;padding:4px;border:1px solid #2f4554;border-radius: 5px}
+		.input{width: 78px;padding:4px;border:1px solid #2f4554;border-radius: 5px}
 	</style>
 </head>
 <body>
@@ -62,7 +62,7 @@
 					<span class="tit_sty_span2"><a href="list2.html">查看年门诊预约量&nbsp;&gt;</a></span>
 					<span class="tit_sty_span2"><a href="list2.html">&lt;查看日门诊预约量&nbsp;|</a></span>
 					<img style="width: 35px;vertical-align: middle;" src="image/data.png" alt=""/>
-					<input type="text" class="input" id="monthly" placeholder="选择月份">
+					<input type="text" class="input" id="monthly" placeholder="选择月份" value="<fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM-dd"></fmt:formatDate>">
 				</div>
 			</li>
 			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
@@ -70,7 +70,7 @@
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
 							<p class="tit_sty_div_all_tab1_div1_p">总人次</p>
-							<p><fmt:formatNumber type="number" value="${obj.putong+obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
+							<p><fmt:formatNumber type="number" value=" ${obj.putong+obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
 						</div>
 					</div>
 					<div class="tit_sty_div_all_tab1">
