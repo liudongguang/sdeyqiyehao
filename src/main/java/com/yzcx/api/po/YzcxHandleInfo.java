@@ -106,4 +106,15 @@ public class YzcxHandleInfo {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "YzcxHandleInfo{" +
+                "uid=" + uid +
+                ", handledate=" + handledate +
+                ", count=" + count +
+                ", handletype=" + handletype +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

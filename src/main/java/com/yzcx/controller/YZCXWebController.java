@@ -91,4 +91,25 @@ public class YZCXWebController {
         return rs;
     }
 
+    /**
+     * 跳转月的门诊量页面
+     * @param request
+     * @param param
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/menzhen_yue")
+    public String menzhen_yue(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+
+        return "/yzcx/menzhen_yue.jsp";
+    }
+    /**
+     *  跳转月的门诊预约量页面
+     */
+    @RequestMapping(value = "/menzhen_yuyue_yue")
+    public String menzhen_yuyue_yue(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+
+        return "/yzcx/menzhen_yuyue_yue.jsp";
+    }
 }

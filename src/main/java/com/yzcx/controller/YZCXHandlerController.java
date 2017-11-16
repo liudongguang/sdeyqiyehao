@@ -18,6 +18,8 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/yzcxdata")
@@ -68,7 +70,7 @@ public class YZCXHandlerController {
     }
 
     /**
-     * 日归档，自动执行于凌晨1点
+     * 日归档，自动执行于凌晨1点  只归档前一天的内容
      *
      * @throws IOException
      * @throws ParseException
@@ -87,6 +89,25 @@ public class YZCXHandlerController {
         daysGuiDang(param);
     }
 
+    /**
+     * 初始化去年1月到今年本月前一月的信息
+     * @throws IOException
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/initYZCXSystem")
+    @ResponseBody
+    public void initYZCXSystem() throws IOException, ParseException {
+        LdgDateUtil.getQianyinianStartUntilBeforeMonth().forEach(it->{
+            System.out.println(it);
+            try {
+                daysGuiDang(it);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+    }
     /**
      * 月归档
      *
@@ -124,10 +145,4 @@ public class YZCXHandlerController {
         param.setEnd(LdgDateUtil.parseLocalDateToDate(end));
         monthGuidang(param);
     }
-
-//    public static void main(String[] args) throws IOException, ParseException {
-//        YZCXHandlerController ycl=new YZCXHandlerController();
-//        ycl.excuteRiguidang();
-//    }
-
 }

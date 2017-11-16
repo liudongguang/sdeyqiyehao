@@ -21,14 +21,14 @@
             #{item.handletype,jdbcType=INTEGER},#{item.name,jdbcType=VARCHAR})
         </foreach>
     </insert>
-    <select id="getMZDayCount" resultType="int" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+    <select id="getDayTypeCount" resultType="int" parameterType="com.yzcx.api.vo.YZCXSearchParam">
         SELECT count(1)
         FROM yzcx_handle_info_day
-        WHERE handledate BETWEEN #{start} AND #{end}
+        WHERE handledate BETWEEN #{start} AND #{end} and handletype=#{handletype}
     </select>
-    <delete id="deleteByTime" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+    <delete id="deleteByTimeForType" parameterType="com.yzcx.api.vo.YZCXSearchParam">
         DELETE FROM yzcx_handle_info_day
-        WHERE handledate BETWEEN #{start} AND #{end}
+        WHERE handledate BETWEEN #{start} AND #{end} and handletype=#{handletype}
     </delete>
     <select id="selectByDate" resultMap="BaseResultMap">
         SELECT

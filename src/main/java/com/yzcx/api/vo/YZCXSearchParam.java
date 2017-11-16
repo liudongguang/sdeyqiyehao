@@ -1,5 +1,7 @@
 package com.yzcx.api.vo;
 
+import com.yzcx.api.util.LdgDateUtil;
+
 import java.util.Date;
 
 /**
@@ -8,6 +10,15 @@ import java.util.Date;
 public class YZCXSearchParam {
     private Date start;
     private Date end;
+    private Integer handletype;
+
+    public Integer getHandletype() {
+        return handletype;
+    }
+
+    public void setHandletype(Integer handletype) {
+        this.handletype = handletype;
+    }
 
     public Date getStart() {
         return start;
@@ -28,8 +39,8 @@ public class YZCXSearchParam {
     @Override
     public String toString() {
         return "YZCXSearchParam{" +
-                "start=" + start +
-                ", end=" + end +
+                "start=" + LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(start) +
+                ", end=" + LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(end) +
                 '}';
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
@@ -37,8 +38,9 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     @Override
     public QyglVo getQygl_ri() throws ParseException {
+        LocalDateTime now=LocalDateTime.now();
         QyglVo rs = new QyglVo();
-        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDate(LdgDateUtil.getDayZeroTime(now), LdgDateUtil.getDayLastTime(now));
         Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         if(collect.size()>0){
             String double_putong = collect.get(YZCXConstant.putong).toString();
@@ -46,7 +48,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             rs.setPutong(Double.valueOf(double_putong));
             rs.setJizhen(Double.valueOf(double_jizhen));
         }
-        List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
+        List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(now), LdgDateUtil.getDayLastTime(now));
         if(yuyuelist.size()>0) {
             Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
             rs.setYuyueshu(yuyuesum);
@@ -56,8 +58,9 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     @Override
     public HighchartsConfig_arr getQygl_riChart(int chartType) throws ParseException {
-        Date startTime = LdgDateUtil.getDayZeroTime();
-        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDate(startTime, LdgDateUtil.getDayLastTime());
+        LocalDateTime now=LocalDateTime.now();
+        Date startTime = LdgDateUtil.getDayZeroTime(now);
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDate(startTime, LdgDateUtil.getDayLastTime(now));
         HighchartsConfig_arr hcfg = HighChartUtils.createArrBasicChat("", "单位：人");
         if(chartType==2){
             hcfg.getChart().setType("column");
@@ -118,7 +121,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     @Override
     public HighchartsConfig getYuyue_riChart() throws ParseException {
-        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(), LdgDateUtil.getDayLastTime());
+        LocalDateTime now=LocalDateTime.now();
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(now), LdgDateUtil.getDayLastTime(now));
          if(list!=null&&list.size()>0) {
              HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
              XAxis xAxis = hcfg.getxAxis();

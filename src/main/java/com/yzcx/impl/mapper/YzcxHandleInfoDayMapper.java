@@ -12,9 +12,9 @@ import java.util.List;
 public interface YzcxHandleInfoDayMapper extends Mapper<YzcxHandleInfoDay> {
     void batchInsert(List<YzcxHandleInfo> yzcxHandleInfos);
 
-    int getMZDayCount(YZCXSearchParam param);
+    int getDayTypeCount(YZCXSearchParam param);
 
-    int deleteByTime(YZCXSearchParam param);
+    int deleteByTimeForType(YZCXSearchParam param);
 
     List<YzcxHandleInfoDay> selectByDate(@Param("dayZeroTime") Date dayZeroTime, @Param("dayLastTime") Date dayLastTime);
 

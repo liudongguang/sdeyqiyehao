@@ -16,7 +16,6 @@ import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +23,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by LiuDongguang on 2017/11/3.
@@ -128,7 +125,6 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandlerData.setYuyue_kslist(handlerMap2(yuyuegroupByKS, YZCXConstant.yuyue_ks));
         yzcxHandlerData.setYuyue_yslist(handlerMap2(yuyuegroupByYS, YZCXConstant.yuyue_ys));
         yzcxHandlerData.setJbzd_jblist(handlerMap2(jbzdGroupByJB, YZCXConstant.jbzd_jb));
-
         return yzcxHandlerData;
     }
 
@@ -256,26 +252,35 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
 
     @Override
     public void menzhenDayHandler() throws ParseException {
-        Date nowDate = new Date();
+        LocalDate now=LocalDate.now();
+        LocalDateTime nowTime=LocalDateTime.now();
         YZCXSearchParam param = new YZCXSearchParam();
-        param.setStart(LdgDateUtil.getDayZeroTime());
-        param.setEnd(nowDate);
-        //1.获取当前日期的记录
-        int count = yzcxHandleInfoDayMapper.getMZDayCount(param);
+        param.setStart(LdgDateUtil.getDayZeroTime(nowTime));
+        param.setEnd(LdgDateUtil.getDayLastTime(nowTime));
+        String nowDateTime_Str= nowTime.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_mm_ss);  //当前时间字符串形式
+        Date nowDateTime=LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(nowDateTime_Str);//当前时间日期格式
+        String date00= LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart());
+        String date23=LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd());
+        ////
+        //1.获取当前日期的记录  门诊情况
+        param.setHandletype(YZCXConstant.menzhen_sfjz);
+        int count = yzcxHandleInfoDayMapper.getDayTypeCount(param);
         //2.如果有值那么删除近2个小时的，重置获取数据的时间
         Map<String, String> requestparam = new HashMap();
         if (count != 0) {
-            LocalDateTime localDate = LdgDateUtil.parseDateToLocalDateTime(nowDate);
-            localDate = localDate.minus(1, ChronoUnit.HOURS);
-            String formatStr = localDate.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
-            requestparam.put("starte", formatStr);
-            requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
-            param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(formatStr));
-            //删除前一个小时到现在的
-            int delNum = yzcxHandleInfoDayMapper.deleteByTime(param);
+            LocalDateTime beforeOneHource = nowTime.minus(1, ChronoUnit.HOURS);
+            String startTime = beforeOneHource.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
+            requestparam.put("starte", startTime);
+            requestparam.put("end",nowDateTime_Str);
+            YZCXSearchParam param2 = new YZCXSearchParam();
+            param2.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(startTime));
+            param2.setEnd(nowDateTime);
+            //删除前一个小时到现在的 门诊情况
+            param2.setHandletype(YZCXConstant.menzhen_sfjz);
+            int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param2);//删除上一个小时到当前时间的记录，下面重新插入
         } else {
-            requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
-            requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
+            requestparam.put("starte",date00);
+            requestparam.put("end", date23);
         }
         /////门诊
         String menzhenurl = YZCXProperties.getRequestPropertiesVal("menzhen");//获取门诊信息
@@ -295,7 +300,23 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             List<YzcxHandleInfo> yzcxHandleInfos = handlerMap3(collect, YZCXConstant.menzhen_sfjz);
             yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);
         }
-        /////预约
+        /////////////////////////////////////////////预约，如果没有数据获取全部的预约信息，如果存在则取当前时间到本日结束的时间，删除当前时间到日结束时间的数据
+        //1.获取当前日期的记录  门诊情况
+        param.setHandletype(YZCXConstant.yuyue_ks);
+        int yuyueCount = yzcxHandleInfoDayMapper.getDayTypeCount(param);//查询一天全时段数据
+        //如果有数据，删除当前时间到日结束的时间
+        if(yuyueCount!=0){
+            requestparam.put("starte",nowDateTime_Str);
+            requestparam.put("end",date23);
+            YZCXSearchParam param2 = new YZCXSearchParam();
+            param2.setStart(nowDateTime);
+            param2.setEnd(param.getEnd());
+            param2.setHandletype(YZCXConstant.yuyue_ks);
+            int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param2);//删除当前时间到本日结束的数据，下面重新插入
+        }else{
+            requestparam.put("starte",date00);
+            requestparam.put("end",date23);
+        }
         String yuyueurl = YZCXProperties.getRequestPropertiesVal("yuyue");//获取预约信息
         HttpClientUtil yuyuehc = HttpClientUtil.getInstance();
         final String yuyue = yuyuehc.sendHttpPost(yuyueurl, requestparam);
