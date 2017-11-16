@@ -172,7 +172,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     @Override
     public QyglVo getQygl_month() throws ParseException {
         YZCXSearchParam param=YZCXControllerUtil.getBeforeOneMonth();
-        param.setHandletype(YZCXConstant.menzhen_sfjz);//获取普通，急诊
+        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));//获取普通，急诊
         List<YzcxHandleInfoMonth> list = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
         Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         if(collect.size()>0){
@@ -189,8 +189,46 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     @Override
     public HighchartsConfig getQygl_yueChart() throws ParseException {
         YZCXSearchParam param=YZCXControllerUtil.getBeforeOneMonth();
-        param.setHandletype(YZCXConstant.menzhen_sfjz);//获取普通，急诊
-       // List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectMonthByDateAndType(param);
+        param.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_jizhen,YZCXConstant.jbzd_ks_menzhen));//获取普通，急诊
+        List<YzcxHandleInfoMonth> jzlist = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        if(jzlist!=null&&jzlist.size()>0) {
+            HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
+            XAxis xAxis = hcfg.getxAxis();
+            List<String> categories = new ArrayList<>();
+            YAxis yAxis = hcfg.getyAxis();
+            yAxis.getTitle().setText("单位：人");
+            hcfg.getTooltip().setPointFormat("{series.name}:{point.y} 人");
+            PlotOptions plotOptions = new PlotOptions();
+            plotOptions.setColumn(null);
+            plotOptions.setSpline(null);
+            hcfg.setPlotOptions(plotOptions);
+            List<Series> series = hcfg.getSeries();
+            final Map<String, Map<Integer, Double>> collect = jzlist.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.groupingBy(YzcxHandleInfoMonth::getHandletype, Collectors.summingDouble(YzcxHandleInfoMonth::getCount))));
+            /////
+            // int maxIndex = tempList.size() > 9?10:list.size()-1;
+            Series series1=new Series();
+            series1.setName("门诊");
+            Series series2=new Series();
+            series2.setName("急诊");
+            List<Integer> series1_Data=new ArrayList<>();
+            List<Integer> series2_Data=new ArrayList<>();
+            collect.forEach((ksname,v)->{
+                v.forEach((type,sum)->{
+                    categories.add(ksname);
+                    if(type==YZCXConstant.jbzd_ks_menzhen){
+                        series1_Data.add(sum.intValue());
+                    }else{
+                        series2_Data.add(sum.intValue());
+                    }
+                });
+            });
+            xAxis.setCategories(categories);
+            series1.setData(series1_Data);
+            series2.setData(series2_Data);
+            series.add(series1);
+            series.add(series2);
+            return hcfg;
+        }
         return null;
     }
 }

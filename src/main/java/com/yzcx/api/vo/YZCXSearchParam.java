@@ -3,6 +3,7 @@ package com.yzcx.api.vo;
 import com.yzcx.api.util.LdgDateUtil;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by LiuDongguang on 2017/11/6.
@@ -10,13 +11,13 @@ import java.util.Date;
 public class YZCXSearchParam {
     private Date start;
     private Date end;
-    private Integer handletype;
+    private List<Integer> handletype;
 
-    public Integer getHandletype() {
+    public List<Integer> getHandletype() {
         return handletype;
     }
 
-    public void setHandletype(Integer handletype) {
+    public void setHandletype(List<Integer> handletype) {
         this.handletype = handletype;
     }
 

@@ -90,58 +90,6 @@
 			<li class="header-section" style="background-color: #ecf0f1!important;">
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 				<div id="container" style="min-width: 100%; height: 700px;margin: 0 auto"></div>
-				<script type="text/javascript">
-                    $(function () {
-                        $('#container').highcharts({
-                            chart: {
-                                type: 'bar'
-                            },
-                            title: {
-                                text: ' '
-                            },
-                            xAxis: {
-                                categories: ['妇科', '肝胆外科', '营养科', '心理科', '核医学科', '急诊科', '干部保健', '普外二科','骨创伤科', '康复医学科', '疼痛科', '皮肤科', '耳鼻喉科', '小儿内科', '眼科', '影像介入科','感染性疾病科', '中医科', '口腔科', '呼吸内科', '内分泌科','神经内科', '肾脏内科', '消化内科', '心脏内科', '血液内科', '肿瘤科', '门规门诊', '肛肠外科','骨关节科','脊柱外科', '泌尿外科','普外一科', '手足外科', '神经外科', '小儿外科', '血管外科', '心血管外科', '胸外科', '乳腺外科','整形烧伤外科', '产科', '甲状腺外科','儿童保健门诊'],
-                                title: {
-                                    text: null
-                                }
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: '单位：人',
-                                    align: 'high'
-                                },
-                                labels: {
-                                    overflow: 'justify'
-                                }
-                            },
-                            tooltip: {
-                                valueSuffix: ' millions'
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: {
-                                        enabled: true
-                                    }
-                                }
-                            },
-                            series: [{
-                                name: '门诊',
-                                data: [7664, 15, 7, 26, 4968, 292, 145, 1051, 103, 23, 3902, 3414, 12358, 2364, 78,903, 2770, 2376, 1640, 3875, 2462, 1102, 3566, 2189, 404, 164, 2405, 463, 869,903, 2770, 2376, 1640, 3875, 2462, 1102, 3566, 2189, 404, 164, 2405, 463, 869]
-                            }, {
-                                name: '预约',
-                                data: [1992, 65, 90, 168, 175, 225, 152, 46, 108, 100, 35, 1197, 421, 203, 603,1005, 200, 500, 1473, 102, 100, 93, 31, 425, 2381, 3514, 1050, 2252, 2708, 1622, 1188, 197, 111, 251, 451, 138, 23, 171, 780, 40, 9431, 451, 165]
-                            }],
-                            credits: {
-                                enabled:false
-                            },
-                            exporting: {
-                                enabled:false
-                            }
-                        });
-                    });
-
-				</script>
 			</li>
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">

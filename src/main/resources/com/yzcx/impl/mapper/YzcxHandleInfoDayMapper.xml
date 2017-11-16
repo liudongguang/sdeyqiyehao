@@ -24,11 +24,28 @@
     <select id="getDayTypeCount" resultType="int" parameterType="com.yzcx.api.vo.YZCXSearchParam">
         SELECT count(1)
         FROM yzcx_handle_info_day
-        WHERE handledate BETWEEN #{start} AND #{end} and handletype=#{handletype}
+        <where>
+            handledate BETWEEN #{start} AND #{end}
+            <if test="handletype!=null and handletype.size>0">
+                AND
+                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                    handletype = #{htype}
+                </foreach>
+            </if>
+
+        </where>
     </select>
     <delete id="deleteByTimeForType" parameterType="com.yzcx.api.vo.YZCXSearchParam">
         DELETE FROM yzcx_handle_info_day
-        WHERE handledate BETWEEN #{start} AND #{end} and handletype=#{handletype}
+        <where>
+            handledate BETWEEN #{start} AND #{end}
+            <if test="handletype!=null and handletype.size>0">
+                AND
+                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                    handletype = #{htype}
+                </foreach>
+            </if>
+        </where>
     </delete>
     <select id="selectByDate" resultMap="BaseResultMap">
         SELECT

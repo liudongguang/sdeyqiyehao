@@ -31,7 +31,15 @@
         handletype,
         name
         FROM yzcx_handle_info_month
-        WHERE handletype = #{handletype} AND
-        handledate BETWEEN #{start} AND #{end}
+        <where>
+            handledate BETWEEN #{start} AND #{end}
+            <if test="handletype!=null and handletype.size>0">
+                AND
+                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                    handletype = #{htype}
+                </foreach>
+            </if>
+
+        </where>
     </select>
 </mapper>
