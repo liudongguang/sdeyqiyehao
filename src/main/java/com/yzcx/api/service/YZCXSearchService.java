@@ -20,4 +20,8 @@ public interface YZCXSearchService {
     HighchartsConfig_arr getQygl_riChart(int chartType) throws ParseException;
 
     HighchartsConfig getYuyue_riChart() throws ParseException;
+
+    QyglVo getQygl_month() throws ParseException;
+
+    HighchartsConfig getQygl_yueChart() throws ParseException;
 }

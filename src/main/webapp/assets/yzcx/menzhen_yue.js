@@ -6,4 +6,8 @@ $(document).ready(function() {
             console.log('Month: ' + m + ', year: ' + y);
         }
     })
+    Highcharts.setOptions({ global: { useUTC: false } });
+    ajaxRequest("webyzcx/menzhen_yueChart", null, function (data) {
+        $('#container').highcharts(data.menzhen);
+    });
 })

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!doctype html>
 <html lang="zh">
 <head>
@@ -58,9 +59,32 @@
 			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 1px!important;">
 				<div class="tit_sty" style="border:none!important;">
 					<!--<span style="font-size: 16px;color: #2f4554">当日门诊分析</span>-->
-					<span class="tit_sty_span2"><a href="list2.html">查看月门诊预约量&nbsp;></a></span>
+					<span class="tit_sty_span2"><a href="list2.html">查看年门诊预约量&nbsp;&gt;</a></span>
+					<span class="tit_sty_span2"><a href="list2.html">&lt;查看日门诊预约量&nbsp;|</a></span>
 					<img style="width: 35px;vertical-align: middle;" src="image/data.png" alt=""/>
 					<input type="text" class="input" id="monthly" placeholder="选择月份">
+				</div>
+			</li>
+			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
+				<div class="tit_sty_div_all">
+					<div class="tit_sty_div_all_tab1">
+						<div class="tit_sty_div_all_tab1_div1">
+							<p class="tit_sty_div_all_tab1_div1_p">总人次</p>
+							<p><fmt:formatNumber type="number" value="${obj.putong+obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
+						</div>
+					</div>
+					<div class="tit_sty_div_all_tab1">
+						<div class="tit_sty_div_all_tab1_div1">
+							<p class="tit_sty_div_all_tab1_div1_p">门诊</p>
+							<p><fmt:formatNumber type="number" value="${obj.putong}" pattern="0" maxFractionDigits="0"/></p>
+						</div>
+					</div>
+					<div class="tit_sty_div_all_tab1">
+						<div class="tit_sty_div_all_tab1_div1">
+							<p class="tit_sty_div_all_tab1_div1_p">急诊</p>
+							<p><fmt:formatNumber type="number" value="${obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
+						</div>
+					</div>
 				</div>
 			</li>
 			<li class="header-section" style="background-color: #ecf0f1!important;">

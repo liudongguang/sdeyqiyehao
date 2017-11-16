@@ -90,7 +90,13 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             item.setSfjzStr(sfjz);
             return item;
         }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getSfjzStr, Collectors.counting())));
-/////////////////////////////////////////////////////////////////
+        /////按时间，科室，照普通急诊分组
+        Map<String, Map<String, Map<Integer, Long>>> dateksmenjizhenMap = menzhenRs.getData().stream().map(item -> {
+            item.setGhrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getGhrq()));
+            return item;
+        }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getKsmc, Collectors.groupingBy(MenZhenLiang::getSfjz, Collectors.counting()))));
+
+        /////////////////////////////////////////////////////////////////
         Map<String, Long> yuyueGroup = yuyueRs.getData().stream().map(item -> {
             item.setYyrqStr(LdgDateUtil.getYyyy_mm_ddString(item.getYyrq()));
             return item;
@@ -125,9 +131,37 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandlerData.setYuyue_kslist(handlerMap2(yuyuegroupByKS, YZCXConstant.yuyue_ks));
         yzcxHandlerData.setYuyue_yslist(handlerMap2(yuyuegroupByYS, YZCXConstant.yuyue_ys));
         yzcxHandlerData.setJbzd_jblist(handlerMap2(jbzdGroupByJB, YZCXConstant.jbzd_jb));
+        yzcxHandlerData.setKs_menzhen_putong_jizhenList(handlerKsMenzhen_jizhenMenzhen(dateksmenjizhenMap));
         return yzcxHandlerData;
     }
-
+   private List<YzcxHandleInfo> handlerKsMenzhen_jizhenMenzhen(Map<String, Map<String, Map<Integer, Long>>> map){
+       List<YzcxHandleInfo> ksmenzhenmenjizhen = new ArrayList<>();
+       map.forEach((date,v)->{
+           v.forEach((ksname,menjizhenCount)->{
+               //   0 普通  1 急诊
+               menjizhenCount.forEach((zhenduanType,count)->{
+                   YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
+                   yzcxHandleInfo.setCount(Double.valueOf(count.toString()));
+                   try {
+                       yzcxHandleInfo.setHandledate(LdgDateUtil.getYyyy_mm_ddDate(date));
+                   } catch (ParseException e) {
+                       e.printStackTrace();
+                   }
+                   yzcxHandleInfo.setHandletype(zhenduanType==0?YZCXConstant.jbzd_ks_menzhen:YZCXConstant.jbzd_ks_jizhen);
+                   yzcxHandleInfo.setName(ksname);
+                   ksmenzhenmenjizhen.add(yzcxHandleInfo);
+               });
+           });
+       });
+       return  ksmenzhenmenjizhen;
+   }
+    /**
+     * yyyymmdd日期
+     * @param data
+     * @param type
+     * @param typeStr
+     * @return
+     */
     private List<YzcxHandleInfo> handlerMap(Map<String, Long> data, int type, String typeStr) {
         List<YzcxHandleInfo> menzhen = new ArrayList<>();
         data.forEach((k, v) -> {
@@ -215,6 +249,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_kslist());
         yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_yslist());
         yzcxHandleInfoMapper.batchInsert(handlerData.getJbzd_jblist());
+        yzcxHandleInfoMapper.batchInsert(handlerData.getKs_menzhen_putong_jizhenList());
         ///保存处理的日期
         final List<Date> dateByBetween = LdgDateUtil.getDateByBetween(param.getStart(), param.getEnd());
         yzcxHandleImportdateMapper.batchInsert(dateByBetween);
@@ -330,12 +365,5 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             List<YzcxHandleInfo> yuyueyks = handlerMap3(yuyuegroupByKS, YZCXConstant.yuyue_ks);
             yzcxHandleInfoDayMapper.batchInsert(yuyueyks);
         }
-    }
-
-    public static void main(String[] args) {
-        LocalDateTime localDate = LocalDateTime.now();
-        localDate = localDate.minus(1, ChronoUnit.HOURS);
-        String format = localDate.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
-        System.out.println(format);
     }
 }

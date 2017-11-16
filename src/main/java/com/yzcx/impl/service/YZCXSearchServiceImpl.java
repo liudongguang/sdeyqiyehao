@@ -1,10 +1,13 @@
 package com.yzcx.impl.service;
 
 import com.yzcx.api.po.YzcxHandleInfoDay;
+import com.yzcx.api.po.YzcxHandleInfoMonth;
 import com.yzcx.api.service.YZCXSearchService;
 import com.yzcx.api.util.HighChartUtils;
 import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
+import com.yzcx.api.util.YZCXControllerUtil;
+import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.highchat.*;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
 import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
@@ -19,6 +22,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -99,7 +105,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             handleData.forEach(item -> {
                 map.put(LdgDateUtil.getHourNum(item.getHandledate()), item);
             });
-            YzcxHandleInfoDay yzcxHandleInfoDay = handleData.get(handleData.size() - 1);
+            YzcxHandleInfoDay yzcxHandleInfoDay = handleData.get(handleData.size() - 1);//获取最大的小时数
             Integer hourNum = LdgDateUtil.getHourNum(yzcxHandleInfoDay.getHandledate());
             List<Series_Data> series_data = new ArrayList<Series_Data>();
             for (Integer i = 0; i <= hourNum; i++) {
@@ -163,10 +169,28 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         return null;
     }
 
-    public static void main(String[] args) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        //Date date = Date.from(localDateTime.toInstant(ZoneOffset.UTC));
-        System.out.println(localDateTime);
+    @Override
+    public QyglVo getQygl_month() throws ParseException {
+        YZCXSearchParam param=YZCXControllerUtil.getBeforeOneMonth();
+        param.setHandletype(YZCXConstant.menzhen_sfjz);//获取普通，急诊
+        List<YzcxHandleInfoMonth> list = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+        if(collect.size()>0){
+            QyglVo rs = new QyglVo();
+            String double_putong = collect.get(YZCXConstant.putong).toString();
+            String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
+            rs.setPutong(Double.valueOf(double_putong));
+            rs.setJizhen(Double.valueOf(double_jizhen));
+            return rs;
+        }
+        return null;
+    }
 
+    @Override
+    public HighchartsConfig getQygl_yueChart() throws ParseException {
+        YZCXSearchParam param=YZCXControllerUtil.getBeforeOneMonth();
+        param.setHandletype(YZCXConstant.menzhen_sfjz);//获取普通，急诊
+       // List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectMonthByDateAndType(param);
+        return null;
     }
 }

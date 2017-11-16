@@ -39,8 +39,9 @@ public class YZCXSearchParam {
     @Override
     public String toString() {
         return "YZCXSearchParam{" +
-                "start=" + LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(start) +
-                ", end=" + LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(end) +
+                "start=" + start +
+                ", end=" + end +
+                ", handletype=" + handletype +
                 '}';
     }
 }

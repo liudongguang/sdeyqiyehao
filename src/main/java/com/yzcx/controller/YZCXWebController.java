@@ -101,8 +101,18 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen_yue")
     public String menzhen_yue(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-
+        QyglVo qygl = yzcxSearchService.getQygl_month();
+        request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/menzhen_yue.jsp";
+    }
+
+    @RequestMapping(value = "/menzhen_yueChart")
+    @ResponseBody
+    public Map<String,Object> menzhen_yueChart(HttpServletRequest request) throws IOException, ParseException {
+        Map<String,Object> rs=new HashMap<>();
+        HighchartsConfig menzhenChart=yzcxSearchService.getQygl_yueChart();
+        rs.put("menzhen",menzhenChart);
+        return rs;
     }
     /**
      *  跳转月的门诊预约量页面

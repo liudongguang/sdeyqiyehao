@@ -12,13 +12,23 @@ public class YZCXHandlerData {
     private List<YzcxHandleInfo> yuyuelist;//日预约量
     private List<YzcxHandleInfo> jbzdlist;//日诊断量
 
-    private List<YzcxHandleInfo> menzhen_kslist;//
-    private List<YzcxHandleInfo> menzhen_yslist;//
-    private List<YzcxHandleInfo> menzhen_sfjzlist;//
-    private List<YzcxHandleInfo> yuyue_kslist;//
-    private List<YzcxHandleInfo> yuyue_yslist;//
-    private List<YzcxHandleInfo> jbzd_jblist;//
+    private List<YzcxHandleInfo> menzhen_kslist;//科室信息
+    private List<YzcxHandleInfo> menzhen_yslist;//医生信息
+    private List<YzcxHandleInfo> menzhen_sfjzlist;//普通与急诊门诊
+    private List<YzcxHandleInfo> yuyue_kslist;//预约 科室
+    private List<YzcxHandleInfo> yuyue_yslist;//预约医生
+    private List<YzcxHandleInfo> jbzd_jblist;// 疾病
+    //////
+    private  List<YzcxHandleInfo> ks_menzhen_putong_jizhenList;
 
+
+    public List<YzcxHandleInfo> getKs_menzhen_putong_jizhenList() {
+        return ks_menzhen_putong_jizhenList;
+    }
+
+    public void setKs_menzhen_putong_jizhenList(List<YzcxHandleInfo> ks_menzhen_putong_jizhenList) {
+        this.ks_menzhen_putong_jizhenList = ks_menzhen_putong_jizhenList;
+    }
 
     public List<YzcxHandleInfo> getMenzhenlist() {
         return menzhenlist;

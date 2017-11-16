@@ -145,4 +145,24 @@ public class YZCXHandlerController {
         param.setEnd(LdgDateUtil.parseLocalDateToDate(end));
         monthGuidang(param);
     }
+
+    /**
+     * 初始化去年1月到现在前一个月的数据
+     * @throws IOException
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/initYZCXMonthSystem")
+    @ResponseBody
+    public void initYZCXMonthSystem() throws IOException, ParseException {
+        LdgDateUtil.getQianyinianStartUntilBeforeMonth().forEach(it->{
+            System.out.println(it);
+            try {
+                monthGuidang(it);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

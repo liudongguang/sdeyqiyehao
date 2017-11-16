@@ -18,5 +18,7 @@ public interface YZCXConstant {
     int yuyue_ks = 7;//预约科室
     int yuyue_ys = 8;//预约医生
     int jbzd_jb = 9;//疾病诊断
+    int jbzd_ks_jizhen = 10;//科室急诊
+    int jbzd_ks_menzhen = 11;//科室门诊
     String obj = "obj";
 }

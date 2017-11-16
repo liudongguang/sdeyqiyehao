@@ -86,7 +86,7 @@
 					<span class="tit_sty_span1">门诊预约分析</span>
 					<a href="webyzcx/menzhen_yuyue_yue"><span class="tit_sty_span2">查看月预约量&nbsp;></span></a>
 				</div>
-				<p style="display: inline-block;padding-top: 5px;color: #000">统计今天前十名科室的预约情况：</p>
+				<p style="display: inline-block;padding-top: 5px;color: #000">统计今天科室的预约情况：</p>
 				<div class="tit_sty_div_all">
 					<div class="tit_sty_div_all_tab4">
 						<div class="tit_sty_div_all_tab1_div1">
