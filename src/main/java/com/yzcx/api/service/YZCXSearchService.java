@@ -20,10 +20,15 @@ public interface YZCXSearchService {
     HighchartsConfig_arr getQygl_riChart(int chartType) throws ParseException;
 
     HighchartsConfig getYuyue_riChart() throws ParseException;
+    HighchartsConfig getJiBing_riChart() throws ParseException;
 
     QyglVo getQygl_month(YZCXSearchParam cparam) throws ParseException;
 
     HighchartsConfig getQygl_yueChart(YZCXSearchParam param) throws ParseException;
 
     HighchartsConfig getQygl_yueChart_tongqimenzhen(YZCXSearchParam param) throws ParseException;
+
+    HighchartsConfig getQygl_yueChart_jibing(YZCXSearchParam param) throws ParseException;
+
+
 }

@@ -18,13 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,9 +38,10 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     @Override
     public QyglVo getQygl_ri() throws ParseException {
-        LocalDateTime now = LocalDateTime.now();
         QyglVo rs = new QyglVo();
-        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDate(LdgDateUtil.getDayZeroTime(now), LdgDateUtil.getDayLastTime(now));
+        YZCXSearchParam param=YZCXControllerUtil.getSearchParamForDay();
+        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         if (collect.size() > 0) {
             String double_putong = collect.get(YZCXConstant.putong).toString();
@@ -54,7 +49,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             rs.setPutong(Double.valueOf(double_putong));
             rs.setJizhen(Double.valueOf(double_jizhen));
         }
-        List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(now), LdgDateUtil.getDayLastTime(now));
+        param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
+        List<YzcxHandleInfoDay> yuyuelist =  yzcxHandleInfoDayMapper.selectByDateAndType(param);;
         if (yuyuelist.size() > 0) {
             Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
             rs.setYuyueshu(yuyuesum);
@@ -64,9 +60,9 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     @Override
     public HighchartsConfig_arr getQygl_riChart(int chartType) throws ParseException {
-        LocalDateTime now = LocalDateTime.now();
-        Date startTime = LdgDateUtil.getDayZeroTime(now);
-        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDate(startTime, LdgDateUtil.getDayLastTime(now));
+        YZCXSearchParam param=YZCXControllerUtil.getSearchParamForDay();
+        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         HighchartsConfig_arr hcfg = HighChartUtils.createArrBasicChat("", "单位：人");
         if (chartType == 2) {
             hcfg.getChart().setType("column");
@@ -87,12 +83,12 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         List<YzcxHandleInfoDay> putong = collect.get(YZCXConstant.putong);
         List<YzcxHandleInfoDay> jizhen = collect.get(YZCXConstant.jizhen);
         menzhens.setName(YZCXConstant.putong);
-        menzhens.setPointStart(startTime.getTime());//
+        menzhens.setPointStart(param.getStart().getTime());//
         menzhens.setPointInterval(3600 * 1000L);//跨度1个小时
         menzhens.setData(getDisData(putong));
         hcfg.getSeries().add(menzhens);
         jizhens.setName(YZCXConstant.jizhen);
-        jizhens.setPointStart(startTime.getTime());//
+        jizhens.setPointStart(param.getStart().getTime());//
         jizhens.setPointInterval(3600 * 1000L);//跨度1个小时
         jizhens.setData(getDisData(jizhen));
         hcfg.getSeries().add(jizhens);
@@ -127,8 +123,9 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     @Override
     public HighchartsConfig getYuyue_riChart() throws ParseException {
-        LocalDateTime now = LocalDateTime.now();
-        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectYuYueByDate(LdgDateUtil.getDayZeroTime(now), LdgDateUtil.getDayLastTime(now));
+        YZCXSearchParam param=YZCXControllerUtil.getSearchParamForDay();
+        param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         if (list != null && list.size() > 0) {
             HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
             XAxis xAxis = hcfg.getxAxis();
@@ -170,10 +167,51 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     }
 
     @Override
+    public HighchartsConfig getJiBing_riChart() throws ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForDay();
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.jbzd_jb));//
+        List<YzcxHandleInfoDay> jzlist = yzcxHandleInfoDayMapper.selectByDateAndType(yzcxSearchParam);
+        Map<String, Double> jbzdmap = jzlist.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+        jzlist.clear();
+        jbzdmap.forEach((jbname,count)->{
+            YzcxHandleInfoDay yzcxHandleInfoDay=new YzcxHandleInfoDay();
+            yzcxHandleInfoDay.setName(jbname);
+            yzcxHandleInfoDay.setCount(count);
+            jzlist.add(yzcxHandleInfoDay);
+        });
+        if (jzlist != null && jzlist.size() > 0) {
+            Collections.sort(jzlist, Comparator.comparingDouble(YzcxHandleInfoDay::getCount).reversed());
+            HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
+            XAxis xAxis = hcfg.getxAxis();
+            List<String> categories = new ArrayList<>();
+            xAxis.setCategories(categories);
+            YAxis yAxis = hcfg.getyAxis();
+            yAxis.getTitle().setText("单位：人");
+            hcfg.getTooltip().setPointFormat("{series.name}:{point.y} 人");
+            PlotOptions plotOptions = new PlotOptions();
+            plotOptions.setColumn(null);
+            plotOptions.setSpline(null);
+            hcfg.setPlotOptions(plotOptions);
+            List<Series> series = hcfg.getSeries();
+            Series series1 = new Series();
+            series1.setName("诊断");
+            List<Integer> series1_Data = new ArrayList<>();
+            for(int i=0;i<10;i++){
+                YzcxHandleInfoDay yzcxHandleInfoDay=jzlist.get(i);
+                categories.add(yzcxHandleInfoDay.getName());
+                series1_Data.add(yzcxHandleInfoDay.getCount().intValue());
+            }
+            series1.setData(series1_Data);
+            series.add(series1);
+            return hcfg;
+        }
+        return null;
+    }
+
+    @Override
     public QyglVo getQygl_month(YZCXSearchParam cparam) throws ParseException {
-        YZCXSearchParam param = YZCXControllerUtil.getSearchParam(cparam);
-        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));//获取普通，急诊
-        List<YzcxHandleInfoMonth> list = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        cparam.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));//获取普通，急诊
+        List<YzcxHandleInfoMonth> list = yzcxHandleInfoMonthMapper.selectByDateAndType(cparam);
         Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         if (collect.size() > 0) {
             QyglVo rs = new QyglVo();
@@ -181,7 +219,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
             rs.setPutong(Double.valueOf(double_putong));
             rs.setJizhen(Double.valueOf(double_jizhen));
-            rs.setParam(param);
+            rs.setParam(cparam);
             return rs;
         }
         return null;
@@ -189,9 +227,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     @Override
     public HighchartsConfig getQygl_yueChart(YZCXSearchParam cparam) throws ParseException {
-        YZCXSearchParam param = YZCXControllerUtil.getSearchParam(cparam);
-        param.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_jizhen, YZCXConstant.jbzd_ks_menzhen));//获取普通，急诊
-        List<YzcxHandleInfoMonth> jzlist = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        cparam.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_jizhen, YZCXConstant.jbzd_ks_menzhen));//获取普通，急诊
+        List<YzcxHandleInfoMonth> jzlist = yzcxHandleInfoMonthMapper.selectByDateAndType(cparam);
         if (jzlist != null && jzlist.size() > 0) {
             HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
             XAxis xAxis = hcfg.getxAxis();
@@ -231,7 +268,6 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
                     series1_Data.add(item.getCount().intValue());
                     series2_Data.add(null);
                 } else {
-                    System.out.println(item.getName()+"    "+item.getCount().intValue());
                     series2_Data.add(item.getCount().intValue());
                     series1_Data.add(null);
                 }
@@ -248,16 +284,15 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     @Override
     public HighchartsConfig getQygl_yueChart_tongqimenzhen(YZCXSearchParam cparam) throws ParseException {
-        YZCXSearchParam param = YZCXControllerUtil.getSearchParam(cparam);
-        param.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_menzhen, YZCXConstant.jbzd_ks_jizhen));//获取普通，急诊
-        List<YzcxHandleInfoMonth> currentlist = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        cparam.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_menzhen, YZCXConstant.jbzd_ks_jizhen));//获取普通，急诊
+        List<YzcxHandleInfoMonth> currentlist = yzcxHandleInfoMonthMapper.selectByDateAndType(cparam);
         if (currentlist.size() == 0) {
             return null;
         }
-        String currentDateStr = LdgDateUtil.get_zhongwen_yyyyMM(param.getStart());
-        param = YZCXControllerUtil.getSearchParamBeforeOneYear(param);//获取前一年同月日期
-        String qunianDateStr = LdgDateUtil.get_zhongwen_yyyyMM(param.getStart());
-        List<YzcxHandleInfoMonth> qunianlist = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        String currentDateStr = LdgDateUtil.get_zhongwen_yyyyMM(cparam.getStart());
+        cparam = YZCXControllerUtil.getSearchParamBeforeOneYear(cparam);//获取前一年同月日期
+        String qunianDateStr = LdgDateUtil.get_zhongwen_yyyyMM(cparam.getStart());
+        List<YzcxHandleInfoMonth> qunianlist = yzcxHandleInfoMonthMapper.selectByDateAndType(cparam);
         if (qunianlist.size() == 0) {
             return null;
         }
@@ -292,5 +327,38 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         series.add(series1);
         series.add(series2);
         return hcfg;
+    }
+
+    @Override
+    public HighchartsConfig getQygl_yueChart_jibing(YZCXSearchParam param) throws ParseException {
+        param.setHandletype(Arrays.asList(YZCXConstant.jbzd_jb));//
+        List<YzcxHandleInfoMonth> jzlist = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        if (jzlist != null && jzlist.size() > 0) {
+            Collections.sort(jzlist, Comparator.comparingDouble(YzcxHandleInfoMonth::getCount).reversed());
+            HighchartsConfig hcfg = HighChartUtils.createBasicChat("", "单位：人", "bar");
+            XAxis xAxis = hcfg.getxAxis();
+            List<String> categories = new ArrayList<>();
+            xAxis.setCategories(categories);
+            YAxis yAxis = hcfg.getyAxis();
+            yAxis.getTitle().setText("单位：人");
+            hcfg.getTooltip().setPointFormat("{series.name}:{point.y} 人");
+            PlotOptions plotOptions = new PlotOptions();
+            plotOptions.setColumn(null);
+            plotOptions.setSpline(null);
+            hcfg.setPlotOptions(plotOptions);
+            List<Series> series = hcfg.getSeries();
+            Series series1 = new Series();
+            series1.setName("诊断");
+            List<Integer> series1_Data = new ArrayList<>();
+            for(int i=0;i<10;i++){
+                YzcxHandleInfoMonth yzcxHandleInfoMonth=jzlist.get(i);
+                categories.add(yzcxHandleInfoMonth.getName());
+                series1_Data.add(yzcxHandleInfoMonth.getCount().intValue());
+            }
+            series1.setData(series1_Data);
+            series.add(series1);
+            return hcfg;
+        }
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import com.yzcx.api.service.YZCXSearchService;
 import com.yzcx.api.service.YZCXscheduleService;
 import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
+import com.yzcx.api.util.YZCXControllerUtil;
 import com.yzcx.api.vo.YZCXHandlerData;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.highchat.HighchartsConfig;
@@ -86,8 +87,10 @@ public class YZCXWebController {
         Map<String,Object> rs=new HashMap<>();
         HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart(1);
         HighchartsConfig yuyueChart=yzcxSearchService.getYuyue_riChart();
+        HighchartsConfig jibingChart=yzcxSearchService.getJiBing_riChart();
         rs.put("menzhen",mzChart);
         rs.put("yuyue",yuyueChart);
+        rs.put("jibingChart",jibingChart);
         return rs;
     }
 
@@ -101,19 +104,31 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen_yue")
     public String menzhen_yue(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        QyglVo qygl = yzcxSearchService.getQygl_month(param);
+        YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForMonth(param);
+        QyglVo qygl = yzcxSearchService.getQygl_month(cparam);
         request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/menzhen_yue.jsp";
     }
 
+    /**
+     * 月图表查询
+     * @param request
+     * @param param
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @RequestMapping(value = "/menzhen_yueChart")
     @ResponseBody
     public Map<String,Object> menzhen_yueChart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForMonth(param);
         Map<String,Object> rs=new HashMap<>();
-        HighchartsConfig menzhenChart=yzcxSearchService.getQygl_yueChart(param);
+        HighchartsConfig menzhenChart=yzcxSearchService.getQygl_yueChart(yzcxSearchParam);
         rs.put("menzhenChart",menzhenChart);
-        HighchartsConfig tongqimenzhenChart =yzcxSearchService.getQygl_yueChart_tongqimenzhen(param);
+        HighchartsConfig tongqimenzhenChart =yzcxSearchService.getQygl_yueChart_tongqimenzhen(yzcxSearchParam);
         rs.put("tongqimenzhenChart",tongqimenzhenChart);
+        HighchartsConfig jibingmenzhenChart=yzcxSearchService.getQygl_yueChart_jibing(yzcxSearchParam);
+        rs.put("jibingChart",jibingmenzhenChart);
         return rs;
     }
     /**

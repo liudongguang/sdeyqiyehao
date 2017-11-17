@@ -17,6 +17,7 @@ public class JBZDLiang {
     private String jbmc;
 
 
+
     public String getRqStr() {
         return rqStr;
     }
@@ -39,5 +40,14 @@ public class JBZDLiang {
 
     public void setJbmc(String jbmc) {
         this.jbmc = jbmc;
+    }
+
+    @Override
+    public String toString() {
+        return "JBZDLiang{" +
+                "rq=" + rq +
+                ", rqStr='" + rqStr + '\'' +
+                ", jbmc='" + jbmc + '\'' +
+                '}';
     }
 }

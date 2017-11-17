@@ -47,25 +47,23 @@
             </if>
         </where>
     </delete>
-    <select id="selectByDate" resultMap="BaseResultMap">
+    <select id="selectByDateAndType" resultMap="BaseResultMap" parameterType="com.yzcx.api.vo.YZCXSearchParam">
         SELECT
             handledate,
             count,
             handletype,
             name
         FROM yzcx_handle_info_day
-        WHERE handletype = 6 AND
-              handledate BETWEEN #{dayZeroTime} AND #{dayLastTime} order by handledate
-    </select>
-    <select id="selectYuYueByDate" resultMap="BaseResultMap">
-        SELECT
-        handledate,
-        count,
-        handletype,
-        name
-        FROM yzcx_handle_info_day
-        WHERE handletype = 7 AND
-        handledate BETWEEN #{dayZeroTime} AND #{dayLastTime} order by count desc
+        <where>
+            handledate BETWEEN #{start} AND #{end}
+            <if test="handletype!=null and handletype.size>0">
+                AND
+                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                    handletype = #{htype}
+                </foreach>
+            </if>
+
+        </where>
     </select>
 
 </mapper>

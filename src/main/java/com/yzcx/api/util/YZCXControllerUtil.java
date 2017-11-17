@@ -23,12 +23,24 @@ public class YZCXControllerUtil {
     }
 
     /**
+     * 获取当天的零点到23：59：59
+     * @return
+     * @throws ParseException
+     */
+    public static YZCXSearchParam getSearchParamForDay() throws ParseException {
+        YZCXSearchParam yzcxSearchParam=new YZCXSearchParam();
+        Date now=new Date();
+        yzcxSearchParam.setStart(LdgDateUtil.get000000Time(now));
+        yzcxSearchParam.setEnd(LdgDateUtil.get235959Time(now));
+        return yzcxSearchParam;
+    }
+    /**
      * 根据传入的日期来返回查询时间段
      * @param cparam
      * @return
      * @throws ParseException
      */
-    public static YZCXSearchParam getSearchParam(YZCXSearchParam cparam) throws ParseException {
+    public static YZCXSearchParam getSearchParamForMonth(YZCXSearchParam cparam) throws ParseException {
         Date startDate=cparam.getStart();
         if(startDate!=null){
             LocalDateTime localDateTime = LdgDateUtil.parseDateToLocalDateTime(startDate);
@@ -49,4 +61,6 @@ public class YZCXControllerUtil {
         cparam.setEnd(LdgDateUtil.getDayLastTime(localDateTimeEnd));
         return cparam;
     }
+
+
 }

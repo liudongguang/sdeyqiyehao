@@ -284,7 +284,10 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         return msg;
     }
 
-
+    /**
+     * 门诊5分钟一更新
+     * @throws ParseException
+     */
     @Override
     public void menzhenDayHandler() throws ParseException {
         LocalDateTime nowTime=LocalDateTime.now();
@@ -367,6 +370,24 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         if (yuyuegroupByKS.size() > 0) {
             List<YzcxHandleInfo> yuyueyks = handlerMap3(yuyuegroupByKS, YZCXConstant.yuyue_ks);
             yzcxHandleInfoDayMapper.batchInsert(yuyueyks);
+        }
+        ////////////////////////////////////////////////////疾病////////////////////////////////////////////////////////////////
+        String jibingurl = YZCXProperties.getRequestPropertiesVal("jbzd");//获取预约信息
+        requestparam.put("starte",date00);
+        requestparam.put("end", date23);
+        HttpClientUtil jibinghc = HttpClientUtil.getInstance();
+        final String jibing = jibinghc.sendHttpPost(jibingurl, requestparam);
+        Json_Jbzd jibingRs = JsonUtil.getObjectByJSON(jibing, Json_Jbzd.class);
+        Map<String, Map<String, Long>> jbzdData = jibingRs.getData().stream().map(item -> {
+            item.setRqStr(LdgDateUtil.getyyyy_mm_dd_hhString(item.getRq()));
+            return item;
+        }).collect(Collectors.groupingBy(JBZDLiang::getRqStr, Collectors.groupingBy(JBZDLiang::getJbmc, Collectors.counting())));
+        if (jbzdData.size() > 0) {
+            List<YzcxHandleInfo> jbzdList = handlerMap3(jbzdData, YZCXConstant.jbzd_jb);
+            param.setHandletype(Arrays.asList(YZCXConstant.jbzd_jb));
+            System.out.println(param);
+            int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+            yzcxHandleInfoDayMapper.batchInsert(jbzdList);
         }
     }
 }
