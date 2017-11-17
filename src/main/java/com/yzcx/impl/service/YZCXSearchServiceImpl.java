@@ -170,8 +170,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     }
 
     @Override
-    public QyglVo getQygl_month() throws ParseException {
-        YZCXSearchParam param=YZCXControllerUtil.getBeforeOneMonth();
+    public QyglVo getQygl_month(YZCXSearchParam cparam) throws ParseException {
+        YZCXSearchParam param=YZCXControllerUtil.getSearchParam(cparam);
         param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));//获取普通，急诊
         List<YzcxHandleInfoMonth> list = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
         Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
@@ -188,8 +188,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     }
 
     @Override
-    public HighchartsConfig getQygl_yueChart() throws ParseException {
-        YZCXSearchParam param=YZCXControllerUtil.getBeforeOneMonth();
+    public HighchartsConfig getQygl_yueChart(YZCXSearchParam cparam) throws ParseException {
+        YZCXSearchParam param=YZCXControllerUtil.getSearchParam(cparam);
         param.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_jizhen,YZCXConstant.jbzd_ks_menzhen));//获取普通，急诊
         List<YzcxHandleInfoMonth> jzlist = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
         if(jzlist!=null&&jzlist.size()>0) {

@@ -101,17 +101,17 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen_yue")
     public String menzhen_yue(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        QyglVo qygl = yzcxSearchService.getQygl_month();
+        QyglVo qygl = yzcxSearchService.getQygl_month(param);
         request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/menzhen_yue.jsp";
     }
 
     @RequestMapping(value = "/menzhen_yueChart")
     @ResponseBody
-    public Map<String,Object> menzhen_yueChart(HttpServletRequest request) throws IOException, ParseException {
+    public Map<String,Object> menzhen_yueChart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
         Map<String,Object> rs=new HashMap<>();
-        HighchartsConfig menzhenChart=yzcxSearchService.getQygl_yueChart();
-        rs.put("menzhen",menzhenChart);
+        HighchartsConfig menzhenChart=yzcxSearchService.getQygl_yueChart(param);
+        rs.put("menzhenChart",menzhenChart);
         return rs;
     }
     /**
