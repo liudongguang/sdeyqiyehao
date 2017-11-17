@@ -24,4 +24,6 @@ public interface YZCXSearchService {
     QyglVo getQygl_month(YZCXSearchParam cparam) throws ParseException;
 
     HighchartsConfig getQygl_yueChart(YZCXSearchParam param) throws ParseException;
+
+    HighchartsConfig getQygl_yueChart_tongqimenzhen(YZCXSearchParam param) throws ParseException;
 }

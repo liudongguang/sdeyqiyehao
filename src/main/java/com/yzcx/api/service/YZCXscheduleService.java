@@ -20,4 +20,5 @@ public interface YZCXscheduleService {
     ResultMsg2 montho_mzinfo(YZCXSearchParam param);
 
     void menzhenDayHandler() throws ParseException;
+
 }

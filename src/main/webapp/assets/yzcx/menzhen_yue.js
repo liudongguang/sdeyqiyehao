@@ -19,7 +19,8 @@ $(document).ready(function() {
         }
     })
     Highcharts.setOptions({ global: { useUTC: false } });
-    ajaxRequest("webyzcx/menzhen_yueChart", {start:$('#monthly').val()}, function (data) {
+    ajaxRequest("webyzcx/menzhen_yueChart", {start:$('#monthly').val()+"-01"}, function (data) {
         $('#container').highcharts(data.menzhenChart);
+        $('#container2').highcharts(data.tongqimenzhenChart);
     });
 })

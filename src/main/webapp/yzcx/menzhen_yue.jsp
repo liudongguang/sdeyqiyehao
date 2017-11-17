@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html lang="zh">
 <head>
@@ -60,9 +61,9 @@
 				<div class="tit_sty" style="border:none!important;">
 					<!--<span style="font-size: 16px;color: #2f4554">当日门诊分析</span>-->
 					<span class="tit_sty_span2"><a href="list2.html">查看年门诊预约量&nbsp;&gt;</a></span>
-					<span class="tit_sty_span2"><a href="list2.html">&lt;查看日门诊预约量&nbsp;|</a></span>
-					<img style="width: 35px;vertical-align: middle;" src="image/data.png" alt=""/>
-					<input type="text" class="input" id="monthly" placeholder="选择月份" value="<fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM-dd"></fmt:formatDate>">
+					<span class="tit_sty_span2"><a href="webyzcx/menzhen">&lt;查看日门诊预约量&nbsp;|</a></span>
+					<img style="width: 35px;vertical-align: middle;" src="assets/yzcx/image/data.png" alt=""/>
+					<input type="text" class="input" id="monthly" placeholder="选择月份" value="<fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM"></fmt:formatDate>">
 				</div>
 			</li>
 			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
@@ -70,19 +71,24 @@
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
 							<p class="tit_sty_div_all_tab1_div1_p">总人次</p>
-							<p><fmt:formatNumber type="number" value=" ${obj.putong+obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
+							<p>
+                                <c:if test="${obj.putong!=null && obj.jizhen!=null}">
+								<fmt:formatNumber type="number" value=" ${obj.putong+obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
+							</c:if>
 						</div>
 					</div>
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
 							<p class="tit_sty_div_all_tab1_div1_p">门诊</p>
-							<p><fmt:formatNumber type="number" value="${obj.putong}" pattern="0" maxFractionDigits="0"/></p>
+							<p> <c:if test="${obj.putong!=null}">
+								<fmt:formatNumber type="number" value="${obj.putong}" pattern="0" maxFractionDigits="0"/></c:if></p>
 						</div>
 					</div>
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
 							<p class="tit_sty_div_all_tab1_div1_p">急诊</p>
-							<p><fmt:formatNumber type="number" value="${obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
+							<p> <c:if test="${obj.jizhen!=null}">
+								<fmt:formatNumber type="number" value="${obj.jizhen}" pattern="0" maxFractionDigits="0"/></c:if></p>
 						</div>
 					</div>
 				</div>
@@ -98,59 +104,6 @@
 				</div>
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 				<div id="container2" style="width: 100%; height: 300px;margin: 0 auto"></div>
-				<script type="text/javascript">
-                    $(function () {
-                        $('#container2').highcharts({
-                            chart: {
-                                type: 'column'
-                            },
-                            title: {
-                                text: ' '
-                            },
-//							subtitle: {
-//								text: 'Source: WorldClimate.com'
-//							},
-                            xAxis: {
-                                categories: [
-                                    '2016年1月',
-                                    '2016年2月'
-                                ],
-                                crosshair: true
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: '单位：人'
-                                }
-                            },
-                            tooltip: {
-                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                                '<td style="padding:0"><b>{point.y:1f} 人</b></td></tr>',
-                                footerFormat: '</table>',
-                                shared: true,
-                                useHTML: true
-                            },
-                            plotOptions: {
-                                column: {
-                                    pointPadding: 0.2,
-                                    borderWidth: 0
-                                }
-                            },
-                            series: [{
-                                name: '门诊',
-                                data: [ 106, 129]
-                            }],
-                            credits: {
-                                enabled:false
-                            },
-                            exporting: {
-                                enabled:false
-                            }
-                        });
-                    });
-
-				</script>
 			</li>
 		</ul>
 	</div>

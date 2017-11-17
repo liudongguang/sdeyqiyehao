@@ -112,6 +112,8 @@ public class YZCXWebController {
         Map<String,Object> rs=new HashMap<>();
         HighchartsConfig menzhenChart=yzcxSearchService.getQygl_yueChart(param);
         rs.put("menzhenChart",menzhenChart);
+        HighchartsConfig tongqimenzhenChart =yzcxSearchService.getQygl_yueChart_tongqimenzhen(param);
+        rs.put("tongqimenzhenChart",tongqimenzhenChart);
         return rs;
     }
     /**

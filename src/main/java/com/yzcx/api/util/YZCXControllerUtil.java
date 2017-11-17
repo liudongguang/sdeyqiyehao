@@ -39,4 +39,14 @@ public class YZCXControllerUtil {
         }
         return cparam;
     }
+
+    public static YZCXSearchParam getSearchParamBeforeOneYear(YZCXSearchParam cparam) throws ParseException {
+        LocalDateTime localDateTimeStart = LdgDateUtil.parseDateToLocalDateTime(cparam.getStart());
+        LocalDateTime localDateTimeEnd = LdgDateUtil.parseDateToLocalDateTime(cparam.getEnd());
+        localDateTimeStart=localDateTimeStart.minus(1,ChronoUnit.YEARS);
+        localDateTimeEnd=localDateTimeEnd.minus(1,ChronoUnit.YEARS);
+        cparam.setStart(LdgDateUtil.getDayZeroTime(localDateTimeStart));
+        cparam.setEnd(LdgDateUtil.getDayLastTime(localDateTimeEnd));
+        return cparam;
+    }
 }

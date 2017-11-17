@@ -27,6 +27,7 @@ public class LdgDateUtil {
     private final static String yyyy_mm_dd_00_00_00 = "yyyy-MM-dd 00:00:00";
     private final static String yyyy_mm_dd_23_59_59 = "yyyy-MM-dd 23:59:59";
     private final static String yyyy_mm_dd_HH_00_00 = "yyyy-MM-dd HH:00:00";
+    private final static String  zhongwen_yyyyMM="yyyy年MM月";
     private final static String HH = "HH";
     public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_HH_00_00 = DateTimeFormatter.ofPattern(yyyy_mm_dd_HH_00_00);
     public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_HH_mm_ss = DateTimeFormatter.ofPattern(yyyy_mm_dd_hh_mm_ss);
@@ -206,4 +207,12 @@ public class LdgDateUtil {
         return listDate;
     }
 
+    /**
+     * yyyy年mm月
+     * @param date
+     * @return
+     */
+    public static String get_zhongwen_yyyyMM(Date date) {
+        return DateFormatUtils.format(date, zhongwen_yyyyMM);
+    }
 }

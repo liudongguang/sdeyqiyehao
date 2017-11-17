@@ -338,22 +338,12 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         /////////////////////////////////////////////预约，如果没有数据获取全部的预约信息，如果存在则取当前时间到本日结束的时间，删除当前时间到日结束时间的数据
         //1.获取当前日期的记录  门诊情况
         param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
-        int yuyueCount = yzcxHandleInfoDayMapper.getDayTypeCount(param);//查询一天全时段数据
-        //如果有数据，删除当前时间到日结束的时间
-        if(yuyueCount!=0){
-            requestparam.put("starte",nowDateTime_Str);
-            requestparam.put("end",date23);
-            YZCXSearchParam param2 = new YZCXSearchParam();
-            param2.setStart(nowDateTime);
-            param2.setEnd(param.getEnd());
-            param2.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
-            int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param2);//删除当前时间到本日结束的数据，下面重新插入
-        }else{
-            requestparam.put("starte",date00);
-            requestparam.put("end",date23);
-        }
+        //如果有数据
+        int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param);//删除当天所有数据，下面重新插入
         String yuyueurl = YZCXProperties.getRequestPropertiesVal("yuyue");//获取预约信息
         HttpClientUtil yuyuehc = HttpClientUtil.getInstance();
+        requestparam.put("starte",date00);
+        requestparam.put("end", date23);
         final String yuyue = yuyuehc.sendHttpPost(yuyueurl, requestparam);
         Json_Yuyue yuyueRs = JsonUtil.getObjectByJSON(yuyue, Json_Yuyue.class);
         //日期，科室，分组

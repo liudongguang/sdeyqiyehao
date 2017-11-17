@@ -97,10 +97,22 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/initYZCXSystem")
     @ResponseBody
     public void initYZCXSystem() throws IOException, ParseException {
+        //日归档
         LdgDateUtil.getQianyinianStartUntilBeforeMonth().forEach(it->{
             System.out.println(it);
             try {
                 daysGuiDang(it);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+        //月归档
+        LdgDateUtil.getQianyinianStartUntilBeforeMonth().forEach(it->{
+            System.out.println(it);
+            try {
+                monthGuidang(it);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
@@ -144,25 +156,5 @@ public class YZCXHandlerController {
         param.setStart(LdgDateUtil.parseLocalDateToDate(start));
         param.setEnd(LdgDateUtil.parseLocalDateToDate(end));
         monthGuidang(param);
-    }
-
-    /**
-     * 初始化去年1月到现在前一个月的数据
-     * @throws IOException
-     * @throws ParseException
-     */
-    @RequestMapping(value = "/initYZCXMonthSystem")
-    @ResponseBody
-    public void initYZCXMonthSystem() throws IOException, ParseException {
-        LdgDateUtil.getQianyinianStartUntilBeforeMonth().forEach(it->{
-            System.out.println(it);
-            try {
-                monthGuidang(it);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        });
     }
 }
