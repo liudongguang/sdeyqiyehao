@@ -287,7 +287,6 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
 
     @Override
     public void menzhenDayHandler() throws ParseException {
-        LocalDate now=LocalDate.now();
         LocalDateTime nowTime=LocalDateTime.now();
         YZCXSearchParam param = new YZCXSearchParam();
         param.setStart(LdgDateUtil.getDayZeroTime(nowTime));
@@ -296,6 +295,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         Date nowDateTime=LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(nowDateTime_Str);//当前时间日期格式
         String date00= LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart());
         String date23=LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd());
+        String zhengshiTime = nowTime.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);//整点时间
+        Date zhengshiTime_Date=LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(zhengshiTime);
+
         ////
         //1.获取当前日期的记录  门诊情况
         param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
@@ -339,11 +341,22 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         //1.获取当前日期的记录  门诊情况
         param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
         //如果有数据
-        int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param);//删除当天所有数据，下面重新插入
+        int yuyuecount = yzcxHandleInfoDayMapper.getDayTypeCount(param);
+        if (yuyuecount != 0) {
+            YZCXSearchParam param2 = new YZCXSearchParam();
+            param2.setStart(zhengshiTime_Date);
+            param2.setEnd(param.getEnd());
+            param2.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
+            int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param2);//删除当前时间到本日末，下面重新插入
+            requestparam.put("starte", zhengshiTime);
+            requestparam.put("end",date23);
+        } else {
+            requestparam.put("starte",date00);
+            requestparam.put("end", date23);
+        }
+        //int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param);//删除当天所有数据，下面重新插入
         String yuyueurl = YZCXProperties.getRequestPropertiesVal("yuyue");//获取预约信息
         HttpClientUtil yuyuehc = HttpClientUtil.getInstance();
-        requestparam.put("starte",date00);
-        requestparam.put("end", date23);
         final String yuyue = yuyuehc.sendHttpPost(yuyueurl, requestparam);
         Json_Yuyue yuyueRs = JsonUtil.getObjectByJSON(yuyue, Json_Yuyue.class);
         //日期，科室，分组

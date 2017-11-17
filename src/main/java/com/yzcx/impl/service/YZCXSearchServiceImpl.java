@@ -213,15 +213,28 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             series2.setName("急诊");
             List<Integer> series1_Data = new ArrayList<>();
             List<Integer> series2_Data = new ArrayList<>();
+            ///排序
+            List<YzcxHandleInfoMonth> tempsortList = new ArrayList<>();
             collect.forEach((ksname, v) -> {
                 v.forEach((type, sum) -> {
-                    categories.add(ksname);
-                    if (type == YZCXConstant.jbzd_ks_menzhen) {
-                        series1_Data.add(sum.intValue());
-                    } else {
-                        series2_Data.add(sum.intValue());
-                    }
+                    YzcxHandleInfoMonth yzcxHandleInfoMonth = new YzcxHandleInfoMonth();
+                    yzcxHandleInfoMonth.setCount(sum);
+                    yzcxHandleInfoMonth.setHandletype(type);
+                    yzcxHandleInfoMonth.setName(ksname);
+                    tempsortList.add(yzcxHandleInfoMonth);
                 });
+            });
+            Collections.sort(tempsortList, Comparator.comparingDouble(YzcxHandleInfoMonth::getCount).reversed());
+            tempsortList.forEach(item -> {
+                categories.add(item.getName());
+                if (item.getHandletype() == YZCXConstant.jbzd_ks_menzhen) {
+                    series1_Data.add(item.getCount().intValue());
+                    series2_Data.add(null);
+                } else {
+                    System.out.println(item.getName()+"    "+item.getCount().intValue());
+                    series2_Data.add(item.getCount().intValue());
+                    series1_Data.add(null);
+                }
             });
             xAxis.setCategories(categories);
             series1.setData(series1_Data);

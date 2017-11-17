@@ -215,4 +215,6 @@ public class LdgDateUtil {
     public static String get_zhongwen_yyyyMM(Date date) {
         return DateFormatUtils.format(date, zhongwen_yyyyMM);
     }
+
+
 }

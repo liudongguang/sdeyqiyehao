@@ -60,8 +60,8 @@
 			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 1px!important;">
 				<div class="tit_sty" style="border:none!important;">
 					<!--<span style="font-size: 16px;color: #2f4554">当日门诊分析</span>-->
-					<span class="tit_sty_span2"><a href="list2.html">查看年门诊预约量&nbsp;&gt;</a></span>
-					<span class="tit_sty_span2"><a href="webyzcx/menzhen">&lt;查看日门诊预约量&nbsp;|</a></span>
+					<span class="tit_sty_span2"><a href="list2.html">查看年门诊量&nbsp;&gt;</a></span>
+					<span class="tit_sty_span2"><a href="webyzcx/menzhen">&lt;查看日门诊量&nbsp;|</a></span>
 					<img style="width: 35px;vertical-align: middle;" src="assets/yzcx/image/data.png" alt=""/>
 					<input type="text" class="input" id="monthly" placeholder="选择月份" value="<fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM"></fmt:formatDate>">
 				</div>

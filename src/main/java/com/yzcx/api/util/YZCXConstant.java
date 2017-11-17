@@ -14,7 +14,7 @@ public interface YZCXConstant {
     String jbzdStr = "疾病诊断";
     int menzhen_ks = 4;//门诊科室
     int menzhen_ys = 5;//门诊医生
-    int menzhen_sfjz = 6;//急诊
+    int menzhen_sfjz = 6;//急诊普通
     int yuyue_ks = 7;//预约科室
     int yuyue_ys = 8;//预约医生
     int jbzd_jb = 9;//疾病诊断
