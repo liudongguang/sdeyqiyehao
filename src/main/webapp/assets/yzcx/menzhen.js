@@ -4,6 +4,5 @@ $(document).ready(function() {
         $('#container').highcharts(data.menzhen);
         $('#container1').highcharts(data.yuyue);
         $('#container2').highcharts(data.jibingChart);
-        console.log(data)
     });
 })

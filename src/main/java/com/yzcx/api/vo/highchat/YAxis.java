@@ -11,6 +11,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class YAxis {
     private Title title=new Title();
+    private Integer min=0;
     private List<YAxis_PlotLine> plotLines=new ArrayList<>();
     private Axis_labels labels=new Axis_labels();
 
@@ -37,6 +38,14 @@ public class YAxis {
 
     public void setPlotLines(List<YAxis_PlotLine> plotLines) {
         this.plotLines = plotLines;
+    }
+
+    public Integer getMin() {
+        return min;
+    }
+
+    public void setMin(Integer min) {
+        this.min = min;
     }
 
     ///标示线是用来标记坐标轴上特殊值的一条直线，在绘图区内绘制一条自定义的线。标示线是个数组，即可以配置多个标示线。

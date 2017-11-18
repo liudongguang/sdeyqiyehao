@@ -20,6 +20,8 @@ $(document).ready(function() {
     })
     Highcharts.setOptions({ global: { useUTC: false } });
     ajaxRequest("webyzcx/menzhen_yuyue_yueChart", {start:$('#monthly').val()+"-01",menzhen:$.trim($("#menzhenID").text()),yuyue:$.trim($("#yuyueID").text())}, function (data) {
-        $('#container').highcharts(data.yuyueMonthChart);
+        $('#container').highcharts(data.yuyueMenzhenZhanbiMonthChart);
+        $('#container2').highcharts(data.menzhenYYChart);
+        $('#container3').highcharts(data.tongqiyuyueChart);
     });
 })

@@ -56,31 +56,9 @@
             <li class="header-section"
                 style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
                 <div class="tit_sty">
-                    <span class="tit_sty_span1">当日门诊分析</span>
-                    <span class="tit_sty_span2"><a href="webyzcx/menzhen_yue">查看月门诊量&nbsp;></a></span>
-                </div>
-                <div class="tit_sty_div_all">
-                    <div class="tit_sty_div_all_tab1">
-                        <div class="tit_sty_div_all_tab1_div1">
-                            <p class="tit_sty_div_all_tab1_div1_p">总人次</p>
-                            <p><fmt:formatNumber type="number" value="${obj.putong+obj.jizhen}" pattern="0"
-                                                 maxFractionDigits="0"/></p>
-                        </div>
-                    </div>
-                    <div class="tit_sty_div_all_tab1">
-                        <div class="tit_sty_div_all_tab1_div1">
-                            <p class="tit_sty_div_all_tab1_div1_p">门诊</p>
-                            <p><fmt:formatNumber type="number" value="${obj.putong}" pattern="0"
-                                                 maxFractionDigits="0"/></p>
-                        </div>
-                    </div>
-                    <div class="tit_sty_div_all_tab1">
-                        <div class="tit_sty_div_all_tab1_div1">
-                            <p class="tit_sty_div_all_tab1_div1_p">急诊</p>
-                            <p><fmt:formatNumber type="number" value="${obj.jizhen}" pattern="0"
-                                                 maxFractionDigits="0"/></p>
-                        </div>
-                    </div>
+                    <span class="tit_sty_span1">当年门诊分析</span>
+                    <span class="tit_sty_span2"><a href="webyzcx/menzhen_yue">查看月门诊量&nbsp;&gt;</a></span>
+                    <span class="tit_sty_span2"><a href="webyzcx/menzhen">&lt;查看日门诊量&nbsp;|</a></span>
                 </div>
             </li>
             <li class="header-section" style="background-color: #ecf0f1!important;">
@@ -90,27 +68,7 @@
             </li>
             <li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
                 <div class="tit_sty">
-                    <span class="tit_sty_span1">门诊预约分析</span>
-                    <a href="webyzcx/menzhen_yuyue_yue"><span class="tit_sty_span2">查看月预约量&nbsp;></span></a>
-                </div>
-                <p style="display: inline-block;padding-top: 5px;color: #000">统计今天科室的预约情况：</p>
-                <div class="tit_sty_div_all">
-                    <div class="tit_sty_div_all_tab4">
-                        <div class="tit_sty_div_all_tab1_div1">
-                            <p class="tit_sty_div_all_tab1_div1_p">预约总人数</p>
-                            <p><fmt:formatNumber type="number" value="${obj.yuyueshu}" pattern="0"
-                                                 maxFractionDigits="0"/></p>
-                        </div>
-                    </div>
-                    <div style="width: 100%;height: 10px"></div>
-                </div>
-                <div style="clear: left;width: 100%;height: 15px"></div>
-                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-                <div id="container1" style="min-width: 100%; height: 350px;"></div>
-            </li>
-            <li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
-                <div class="tit_sty">
-                    <span class="tit_sty_span1">疾病占比排名</span>
+                    <span class="tit_sty_span1">同期分析</span>
                     <!--<span style="font-size: 12px;float: right">详情&nbsp;></span>-->
                 </div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
@@ -128,6 +86,6 @@
 <script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
 <script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
-<script type="text/javascript" language="javascript" src="assets/yzcx/menzhen.js"></script>
+<script type="text/javascript" language="javascript" src="assets/yzcx/menzhen_year.js"></script>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class YZCXControllerUtil {
         return yzcxSearchParam;
     }
     /**
-     * 根据传入的日期来返回查询时间段
+     * 根据传入的日期来返回查询时间段,时间段为一个月的第一天和这一个月的最后一天，若没有传入值则返回上个月的开始与结尾
      * @param cparam
      * @return
      * @throws ParseException
@@ -52,6 +52,12 @@ public class YZCXControllerUtil {
         return cparam;
     }
 
+    /**
+     * 开始时间与结束时间都减去一年，即为前一年的月份日期
+     * @param cparam
+     * @return
+     * @throws ParseException
+     */
     public static YZCXSearchParam getSearchParamBeforeOneYear(YZCXSearchParam cparam) throws ParseException {
         LocalDateTime localDateTimeStart = LdgDateUtil.parseDateToLocalDateTime(cparam.getStart());
         LocalDateTime localDateTimeEnd = LdgDateUtil.parseDateToLocalDateTime(cparam.getEnd());
@@ -62,5 +68,22 @@ public class YZCXControllerUtil {
         return cparam;
     }
 
-
+    /**
+     * 获取一年的开始与结尾
+     * @param param
+     * @return
+     * @throws ParseException
+     */
+    public static YZCXSearchParam getSearchParamForYear(YZCXSearchParam param) throws ParseException {
+        Date startDate=param.getStart();
+        LocalDateTime localDateTime =null;
+        if(startDate==null){
+            localDateTime=LocalDateTime.now();
+        }else{
+            localDateTime = LdgDateUtil.parseDateToLocalDateTime(startDate);
+        }
+        param.setStart(LdgDateUtil.getDayZeroTime(localDateTime.with(TemporalAdjusters.firstDayOfYear())));
+        param.setEnd(LdgDateUtil.getDayLastTime(localDateTime.with(TemporalAdjusters.lastDayOfYear())));
+        return param;
+    }
 }

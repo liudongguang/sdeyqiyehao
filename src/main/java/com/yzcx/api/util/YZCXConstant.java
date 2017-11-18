@@ -4,6 +4,8 @@ package com.yzcx.api.util;
  * Created by LiuDongguang on 2017/11/7.
  */
 public interface YZCXConstant {
+    String[] months={"01月","02月","03月","04月","05月","06月","07月","08月","09月","10月","11月","12月"};
+
     String jizhen = "急诊";
     String putong = "普通门诊";
     int menzhen = 1;
