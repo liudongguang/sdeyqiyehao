@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Title {
-    private String text;
+    private String text=" ";
     private String  align;
 
     public String getAlign() {

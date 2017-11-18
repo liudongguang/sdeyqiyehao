@@ -28,7 +28,7 @@ public class YZCXHandlerController {
     private YZCXscheduleService yzcXscheduleService;
 
     /**
-     * 日处理
+     * 日处理---5分钟一更新
      *
      * @param param
      * @return

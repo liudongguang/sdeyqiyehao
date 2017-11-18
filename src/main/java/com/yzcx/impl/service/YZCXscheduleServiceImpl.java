@@ -385,7 +385,6 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         if (jbzdData.size() > 0) {
             List<YzcxHandleInfo> jbzdList = handlerMap3(jbzdData, YZCXConstant.jbzd_jb);
             param.setHandletype(Arrays.asList(YZCXConstant.jbzd_jb));
-            System.out.println(param);
             int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param);
             yzcxHandleInfoDayMapper.batchInsert(jbzdList);
         }

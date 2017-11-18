@@ -9,6 +9,10 @@ import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXControllerUtil;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.highchat.*;
+import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
+import com.yzcx.api.vo.highchat.pie.Series_pie;
+import com.yzcx.api.vo.highchat.pie.Series_pie_data;
+import com.yzcx.api.vo.yzcxdisplay.Menzhen_Month_Yuyue;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
 import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
@@ -18,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -61,6 +64,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     @Override
     public HighchartsConfig_arr getQygl_riChart(int chartType) throws ParseException {
         YZCXSearchParam param=YZCXControllerUtil.getSearchParamForDay();
+        System.out.println(param);
         param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
         List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         HighchartsConfig_arr hcfg = HighChartUtils.createArrBasicChat("", "单位：人");
@@ -97,6 +101,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 
     private List<Series_Data> getDisData(List<YzcxHandleInfoDay> handleData) {
         if (handleData != null && handleData.size() != 0) {
+            //Collections.sort(handleData,Comparator.comparing(YzcxHandleInfoDay::getHandledate));//排序
             Map<Integer, YzcxHandleInfoDay> map = new HashMap<>();
             handleData.forEach(item -> {
                 map.put(LdgDateUtil.getHourNum(item.getHandledate()), item);
@@ -360,5 +365,45 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             return hcfg;
         }
         return null;
+    }
+
+    @Override
+    public Menzhen_Month_Yuyue getMenzhen_Month_Yuyue_month(YZCXSearchParam param) throws ParseException {
+        Menzhen_Month_Yuyue rs = new Menzhen_Month_Yuyue();
+        param.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_menzhen));//获取门诊
+        List<YzcxHandleInfoMonth> list = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        if(list.size()>0){
+            Double menzhensum = list.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
+            rs.setMenzhen(menzhensum);
+        }
+        param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
+        List<YzcxHandleInfoMonth> yuyuelist =  yzcxHandleInfoMonthMapper.selectByDateAndType(param);;
+        if (yuyuelist.size() > 0) {
+            Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
+            rs.setYuyue(yuyuesum);
+        }
+        rs.setParam(param);
+        return rs;
+    }
+
+    @Override
+    public HighchartsConfig_pie getMenzhenYuyue_yueChart(Menzhen_Month_Yuyue menzhen_month_yuyue) {
+        HighchartsConfig_pie hcfg = new HighchartsConfig_pie();
+        hcfg.getTitle().setText("月预约占门诊比例图");
+        List<Series_pie> series = hcfg.getSeries();
+        Series_pie series1 = new Series_pie();
+        series.add(series1);
+        Series_pie_data data1 =new Series_pie_data();
+        Series_pie_data data2 =new Series_pie_data();
+        data1.setName("门诊");
+        data2.setName("预约");
+        double yymzbili=menzhen_month_yuyue.getYuyue()/menzhen_month_yuyue.getMenzhen();
+        data1.setY(1-yymzbili);
+        data2.setY(yymzbili);
+        data1.setLdgnumber(menzhen_month_yuyue.getMenzhen());
+        data2.setLdgnumber(menzhen_month_yuyue.getYuyue());
+        series1.getData().add(data1);
+        series1.getData().add(data2);
+        return hcfg;
     }
 }

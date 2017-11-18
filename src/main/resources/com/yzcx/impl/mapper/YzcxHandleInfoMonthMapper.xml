@@ -39,7 +39,7 @@
                     handletype = #{htype}
                 </foreach>
             </if>
-
         </where>
+        order by handledate
     </select>
 </mapper>

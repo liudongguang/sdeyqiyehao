@@ -10,6 +10,8 @@ import com.yzcx.api.vo.YZCXHandlerData;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.highchat.HighchartsConfig;
 import com.yzcx.api.vo.highchat.HighchartsConfig_arr;
+import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
+import com.yzcx.api.vo.yzcxdisplay.Menzhen_Month_Yuyue;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
 import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,7 +138,21 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen_yuyue_yue")
     public String menzhen_yuyue_yue(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-
+        YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForMonth(param);
+        Menzhen_Month_Yuyue menzhen_month_yuyue = yzcxSearchService.getMenzhen_Month_Yuyue_month(cparam);
+        request.setAttribute(YZCXConstant.obj, menzhen_month_yuyue);
+        System.out.println(menzhen_month_yuyue);
         return "/yzcx/menzhen_yuyue_yue.jsp";
+    }
+
+    @RequestMapping(value = "/menzhen_yuyue_yueChart")
+    @ResponseBody
+    public Map<String,Object> menzhen_yuyue_yueChart(HttpServletRequest request,YZCXSearchParam param,Menzhen_Month_Yuyue menzhen_month_yuyue) throws IOException, ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForMonth(param);
+        Map<String,Object> rs=new HashMap<>();
+        HighchartsConfig_pie yuyueMonthChart=yzcxSearchService.getMenzhenYuyue_yueChart(menzhen_month_yuyue);
+        rs.put("yuyueMonthChart",yuyueMonthChart);
+
+        return rs;
     }
 }
