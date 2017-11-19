@@ -73,7 +73,6 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     @Override
     public HighchartsConfig_arr getQygl_riChart(int chartType) throws ParseException {
         YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
-        System.out.println(param);
         param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
         List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         HighchartsConfig_arr hcfg = HighChartUtils.createArrBasicChat("", "单位：人");
