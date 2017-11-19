@@ -447,7 +447,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             });
             Collections.sort(tempList, Comparator.comparingDouble(YzcxHandleInfoMonth::getCount).reversed());
             /////
-            int maxIndex = tempList.size() > 9 ? 10 : list.size() - 1;
+            int maxIndex = tempList.size() > 9 ? 9 : list.size() - 1;
             Series series1 = new Series();
             series1.setName("预约");
             List<Integer> series1_Data = new ArrayList<>();
