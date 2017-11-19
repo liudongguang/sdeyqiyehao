@@ -554,4 +554,44 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         series.add(seriesData_jizhen);
         return hcfg;
     }
+
+    @Override
+    public HighchartsConfig_column getMenzhenTongqi_year_chart(YZCXSearchParam yzcxSearchParam) throws ParseException {
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_menzhen, YZCXConstant.jbzd_ks_jizhen));//获取普通，急诊
+        List<YzcxHandleInfoMonth> currentlist = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
+        if (currentlist.size() == 0) {
+            return null;
+        }
+        String currentDateStr = LdgDateUtil.getYearHanzi(yzcxSearchParam.getStart());
+        YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);//获取前一年同月日期
+        String qunianDateStr = LdgDateUtil.getYearHanzi(yzcxSearchParam.getStart());
+        List<YzcxHandleInfoMonth> qunianlist = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
+        if (qunianlist.size() == 0) {
+            return null;
+        }
+        Map<Integer, Double> currentData = currentlist.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getHandletype, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+        Map<Integer, Double> qunianData = qunianlist.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getHandletype, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+        HighchartsConfig_column hcfg = new HighchartsConfig_column();
+        XAxis xAxis = hcfg.getxAxis();
+        List<String> categories = new ArrayList<>();
+        categories.add(qunianDateStr);
+        categories.add(currentDateStr);
+        xAxis.setCategories(categories);//x轴设置完毕
+        YAxis yAxis = hcfg.getyAxis();
+        yAxis.getTitle().setText("单位：人");
+        List<Series_column> series = hcfg.getSeries();
+        Series_column seriesData_menzhen=new Series_column();
+        Series_column seriesData_jizhen=new Series_column();
+        seriesData_menzhen.setName(YZCXConstant.putong);
+        seriesData_jizhen.setName(YZCXConstant.jizhen);
+        List<? super Number> menzhenData = seriesData_menzhen.getData();
+        List<? super Number> jizhendata = seriesData_jizhen.getData();
+        menzhenData.add(qunianData.get(YZCXConstant.jbzd_ks_menzhen).intValue());
+        menzhenData.add(currentData.get(YZCXConstant.jbzd_ks_menzhen).intValue());
+        jizhendata.add(qunianData.get(YZCXConstant.jbzd_ks_jizhen).intValue());
+        jizhendata.add(currentData.get(YZCXConstant.jbzd_ks_jizhen).intValue());
+        series.add(seriesData_menzhen);
+        series.add(seriesData_jizhen);
+        return hcfg;
+    }
 }

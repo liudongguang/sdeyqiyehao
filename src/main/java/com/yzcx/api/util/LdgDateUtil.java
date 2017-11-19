@@ -29,6 +29,7 @@ public class LdgDateUtil {
     private final static String yyyy_mm_dd_HH_00_00 = "yyyy-MM-dd HH:00:00";
     private final static String  zhongwen_yyyyMM="yyyy年MM月";
     private final static String  zhongwen_MM="MM月";
+    private final static String  zhongwen_yyyy="yyyy年";
     private final static String HH = "HH";
     public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_HH_00_00 = DateTimeFormatter.ofPattern(yyyy_mm_dd_HH_00_00);
     public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_HH_mm_ss = DateTimeFormatter.ofPattern(yyyy_mm_dd_hh_mm_ss);
@@ -224,5 +225,13 @@ public class LdgDateUtil {
      */
     public static String getMonthHanzi(Date handledate) {
         return DateFormatUtils.format(handledate, zhongwen_MM);
+    }
+    /**
+     * mm月
+     * @param handledate
+     * @return
+     */
+    public static String getYearHanzi(Date handledate) {
+        return DateFormatUtils.format(handledate, zhongwen_yyyy);
     }
 }

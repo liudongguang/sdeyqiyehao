@@ -114,4 +114,11 @@ public interface YZCXSearchService {
      * @return
      */
     HighchartsConfig_column getMenzhen_year_chart(YZCXSearchParam param);
+
+    /**
+     * 获取同期  一年中的对比图
+     * @param yzcxSearchParam
+     * @return
+     */
+    HighchartsConfig_column getMenzhenTongqi_year_chart(YZCXSearchParam yzcxSearchParam) throws ParseException;
 }

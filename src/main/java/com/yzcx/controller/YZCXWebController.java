@@ -140,6 +140,15 @@ public class YZCXWebController {
         return "/yzcx/menzhen_yuyue_yue.jsp";
     }
 
+    /**
+     * 门诊预约  月的图表
+     * @param request
+     * @param param
+     * @param menzhen_month_yuyue
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @RequestMapping(value = "/menzhen_yuyue_yueChart")
     @ResponseBody
     public Map<String,Object> menzhen_yuyue_yueChart(HttpServletRequest request,YZCXSearchParam param,Menzhen_Month_Yuyue menzhen_month_yuyue) throws IOException, ParseException {
@@ -154,11 +163,27 @@ public class YZCXWebController {
         return rs;
     }
 
-
+    /**
+     * 跳转门诊 年信息
+     * @param request
+     * @param param
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @RequestMapping(value = "/menzhen_year")
     public String menzhen_year(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
         return "/yzcx/menzhen_year.jsp";
     }
+
+    /**
+     * 获取门诊年图表
+     * @param request
+     * @param param
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     @RequestMapping(value = "/menzhen_year_chart")
     @ResponseBody
     public Map<String,Object> menzhen_year_chart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
@@ -166,6 +191,8 @@ public class YZCXWebController {
         YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForYear(param);
         HighchartsConfig_column menzhe_year =yzcxSearchService.getMenzhen_year_chart(yzcxSearchParam);
         rs.put("menzhe_year",menzhe_year);
+        HighchartsConfig_column menzheTongqi_year =yzcxSearchService.getMenzhenTongqi_year_chart(yzcxSearchParam);
+        rs.put("menzheTongqi_year",menzheTongqi_year);
         return rs;
     }
 }
