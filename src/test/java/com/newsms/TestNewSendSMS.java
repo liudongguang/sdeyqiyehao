@@ -7,6 +7,7 @@ import org.junit.Test;
 import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -16,10 +17,10 @@ public class TestNewSendSMS {
         String requestURL="http://123.58.1.111:81/smsJson.aspx";
         HttpClientUtil htc = HttpClientUtil.getInstance();
         SendMessage sendMessage=new SendMessage();
-        sendMessage.setAccount("abc");
-        sendMessage.setPassword(LdgMD5Util.MD5("abc01",32).toUpperCase());
-        sendMessage.setMobile("17615827028");
-        sendMessage.setContent("ddddd地方【邦尼云】");
+        sendMessage.setAccount("sdyy01");
+        sendMessage.setPassword(LdgMD5Util.MD5("sdyy01",32).toUpperCase());
+        sendMessage.setMobile("18364104688");
+        sendMessage.setContent(URLEncoder.encode("您好，请回复数字评价本次住院情况：1、满意 2、不满意。可在数字后附上说明或致电95020120。祝您早日康复。【山大二院】", "UTF-8"));
         String url=sendMessage.getUrlParam(requestURL);
        // System.out.println(url);
         String s = htc.sendHttpsGet(url);

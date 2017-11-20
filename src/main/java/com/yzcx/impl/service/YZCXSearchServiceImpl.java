@@ -382,15 +382,14 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     @Override
     public Menzhen_Month_Yuyue getMenzhen_Month_Yuyue_month(YZCXSearchParam param) throws ParseException {
         Menzhen_Month_Yuyue rs = new Menzhen_Month_Yuyue();
-        param.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_menzhen));//获取门诊
+        param.setHandletype(Arrays.asList(YZCXConstant.menzhen));//获取门诊
         List<YzcxHandleInfoMonth> list = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
         if (list.size() > 0) {
             Double menzhensum = list.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
-            rs.setMenzhen(menzhensum);
+            rs.setZongmenzhen(menzhensum);
         }
         param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
         List<YzcxHandleInfoMonth> yuyuelist = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
-        ;
         if (yuyuelist.size() > 0) {
             Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
             rs.setYuyue(yuyuesum);
@@ -408,12 +407,12 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         series.add(series1);
         Series_pie_data data1 = new Series_pie_data();
         Series_pie_data data2 = new Series_pie_data();
-        data1.setName("门诊");
-        data2.setName("预约");
-        double yymzbili = menzhen_month_yuyue.getYuyue() / menzhen_month_yuyue.getMenzhen();
+        data1.setName("门诊挂号");
+        data2.setName("门诊预约");
+        double yymzbili = menzhen_month_yuyue.getYuyue() / menzhen_month_yuyue.getZongmenzhen();
         data1.setY(1 - yymzbili);
         data2.setY(yymzbili);
-        data1.setLdgnumber(menzhen_month_yuyue.getMenzhen());
+        data1.setLdgnumber(menzhen_month_yuyue.getZongmenzhen());
         data2.setLdgnumber(menzhen_month_yuyue.getYuyue());
         series1.getData().add(data1);
         series1.getData().add(data2);

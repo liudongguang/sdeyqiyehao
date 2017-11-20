@@ -69,16 +69,23 @@
 				<div class="tit_sty_div_all">
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">门诊</p>
-							<p id="menzhenID"><c:if test="${obj.menzhen!=null}">
-								<fmt:formatNumber type="number" value="${obj.menzhen}" pattern="0" maxFractionDigits="0"/></c:if></p>
+							<p class="tit_sty_div_all_tab1_div1_p">总门诊</p>
+							<p id="zongmenzhenID"><c:if test="${obj.zongmenzhen!=null}">
+								<fmt:formatNumber type="number" value="${obj.zongmenzhen}" pattern="0" maxFractionDigits="0"/></c:if></p>
 						</div>
 					</div>
 					<div class="tit_sty_div_all_tab1">
 						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">预约</p>
+							<p class="tit_sty_div_all_tab1_div1_p">门诊预约</p>
 							<p id="yuyueID"><c:if test="${obj.yuyue!=null}">
 								<fmt:formatNumber type="number" value="${obj.yuyue}" pattern="0" maxFractionDigits="0"/></c:if></p>
+						</div>
+					</div>
+					<div class="tit_sty_div_all_tab1">
+						<div class="tit_sty_div_all_tab1_div1">
+							<p class="tit_sty_div_all_tab1_div1_p">门诊挂号</p>
+							<p id="menzhenGuaHaoID"><c:if test="${obj.menzhenGuaHao!=null}">
+								<fmt:formatNumber type="number" value="${obj.menzhenGuaHao}" pattern="0" maxFractionDigits="0"/></c:if></p>
 						</div>
 					</div>
 				</div>
@@ -89,7 +96,7 @@
 			</li>
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">
-					<span class="tit_sty_span1">门诊预约分析</span>
+					<span class="tit_sty_span1">当月门诊预约排名（前十名）</span>
 					<!--<span style="font-size: 12px;float: right">详情&nbsp;></span>-->
 				</div>
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
