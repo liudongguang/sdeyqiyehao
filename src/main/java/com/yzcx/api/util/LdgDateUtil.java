@@ -116,7 +116,35 @@ public class LdgDateUtil {
         listDate.add(parseLocalDateToDate(newstart));//包含结尾时间
         return listDate;
     }
-
+    public static List<YZCXSearchParam> getYZCXSearchParamByBetween(Date start, Date end) throws ParseException {
+        List<YZCXSearchParam> listDate = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(start);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(end);
+        LocalDateTime newstart = LocalDateTime.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),0,0);
+        LocalDateTime newend = LocalDateTime.of(calendar2.get(Calendar.YEAR), calendar2.get(Calendar.MONTH) + 1, calendar2.get(Calendar.DAY_OF_MONTH),0,0);
+        if (newstart.isAfter(newend)) {
+            System.out.println("开始时间不能在结束时间之后");
+            return null;
+        }
+        while (true) {
+            if (newstart.isBefore(newend)) {
+                YZCXSearchParam param=new YZCXSearchParam();
+                param.setStart(LdgDateUtil.getDayZeroTime(newstart));
+                param.setEnd(LdgDateUtil.getDayLastTime(newstart));
+                listDate.add(param);
+                newstart = newstart.plusDays(1);
+            } else {
+                break;
+            }
+        }
+        YZCXSearchParam param=new YZCXSearchParam();
+        param.setStart(LdgDateUtil.getDayZeroTime(newstart));
+        param.setEnd(LdgDateUtil.getDayLastTime(newstart));
+        listDate.add(param);
+        return listDate;
+    }
     public static Date getDayZeroTime(Date date) throws ParseException {
         String str = DateFormatUtils.format(date, yyyy_mm_dd_00_00_00);
         return DateUtils.parseDate(str, yyyy_mm_dd_hh_mm_ss);

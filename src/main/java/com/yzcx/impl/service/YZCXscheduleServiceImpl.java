@@ -123,7 +123,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandlerData.setKs_menzhen_putong_jizhenList(YZCXscheduleMapToListHandler.handlerKsMenzhen_jizhenMenzhen(dateksmenjizhenMap));
     }
 
-    private void handlerFeiYongRiGuiDang(YZCXHandlerData yzcxHandlerData, Map<String, String> requestparam) {
+    private void handlerFeiYongRiGuiDang(YZCXHandlerData yzcxHandlerData, Map<String, String> requestparam, YZCXSearchParam param) {
         String menzhenurl = YZCXProperties.getRequestPropertiesVal("fyxx");//获取门诊信息
         HttpClientUtil hc = HttpClientUtil.getInstance();
         final String s = hc.sendHttpPost(menzhenurl, requestparam);
@@ -145,45 +145,128 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             return false;
         }).collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
         Double zhuyuanyiliaoFei = zhuyuanfy.stream().filter(item -> {
-            if (YZCXConstant.zhuyuan_caoyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_xiyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_chenghaofei.equals(item.getFyxm())||YZCXConstant.qitafei.equals(item.getFyxm())) {
+            if (YZCXConstant.zhuyuan_caoyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_xiyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_chenghaofei.equals(item.getFyxm()) || YZCXConstant.qitafei.equals(item.getFyxm())) {
                 return false;
             }
             return true;
         }).collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
-        System.out.println(zhuyuanYaoFei+"  "+zhuyuanQiTaFei+"  "+zhuyuanyiliaoFei);
+
+        Double menzhenYaoFei = menzhenyaofei.stream().collect(Collectors.summingDouble(FYXXmenzhenchufang::getHjje));
+        Double menzhenQitaiFei = menzhenfyyj.stream().filter(item -> {
+            if (YZCXConstant.qitafei.equals(item.getFygb())) {
+                return true;
+            }
+            return false;
+        }).collect(Collectors.summingDouble(FYXXmenzhenyiji::getHjje));
+        Double menzhenyiliaoFei = menzhenfyyj.stream().filter(item -> {
+            if (YZCXConstant.qitafei.equals(item.getFygb())) {
+                return false;
+            }
+            return true;
+        }).collect(Collectors.summingDouble(FYXXmenzhenyiji::getHjje));
+        List<YzcxHandleInfo> feiyongList = new ArrayList<>();
+        YzcxHandleInfo yzcxFeiYong_zhuyuanyiliaoFei = new YzcxHandleInfo();
+        yzcxFeiYong_zhuyuanyiliaoFei.setCount(zhuyuanyiliaoFei);
+        yzcxFeiYong_zhuyuanyiliaoFei.setHandledate(param.getStart());
+        yzcxFeiYong_zhuyuanyiliaoFei.setHandletype(YZCXConstant.feiyong);
+        yzcxFeiYong_zhuyuanyiliaoFei.setName(YZCXConstant.zhuyuan_yiliao);
+        feiyongList.add(yzcxFeiYong_zhuyuanyiliaoFei);
+        /////
+        YzcxHandleInfo yzcxFeiYong_zhuyuanQiTaFei = new YzcxHandleInfo();
+        yzcxFeiYong_zhuyuanQiTaFei.setCount(zhuyuanQiTaFei);
+        yzcxFeiYong_zhuyuanQiTaFei.setHandledate(param.getStart());
+        yzcxFeiYong_zhuyuanQiTaFei.setHandletype(YZCXConstant.feiyong);
+        yzcxFeiYong_zhuyuanQiTaFei.setName(YZCXConstant.zhuyuan_qitai);
+        feiyongList.add(yzcxFeiYong_zhuyuanQiTaFei);
+        ///
+        YzcxHandleInfo yzcxFeiYong_zhuyuanYaoFei = new YzcxHandleInfo();
+        yzcxFeiYong_zhuyuanYaoFei.setCount(zhuyuanYaoFei);
+        yzcxFeiYong_zhuyuanYaoFei.setHandledate(param.getStart());
+        yzcxFeiYong_zhuyuanYaoFei.setHandletype(YZCXConstant.feiyong);
+        yzcxFeiYong_zhuyuanYaoFei.setName(YZCXConstant.zhuyuan_yaofei);
+        feiyongList.add(yzcxFeiYong_zhuyuanYaoFei);
+        //////////////
+        YzcxHandleInfo yzcxFeiYong_menzhenyiliaoFei = new YzcxHandleInfo();
+        yzcxFeiYong_menzhenyiliaoFei.setCount(menzhenyiliaoFei);
+        yzcxFeiYong_menzhenyiliaoFei.setHandledate(param.getStart());
+        yzcxFeiYong_menzhenyiliaoFei.setHandletype(YZCXConstant.feiyong);
+        yzcxFeiYong_menzhenyiliaoFei.setName(YZCXConstant.menzhen_yiliao);
+        feiyongList.add(yzcxFeiYong_menzhenyiliaoFei);
+        /////
+        YzcxHandleInfo yzcxFeiYong_menzhenQiTaFei = new YzcxHandleInfo();
+        yzcxFeiYong_menzhenQiTaFei.setCount(menzhenQitaiFei);
+        yzcxFeiYong_menzhenQiTaFei.setHandledate(param.getStart());
+        yzcxFeiYong_menzhenQiTaFei.setHandletype(YZCXConstant.feiyong);
+        yzcxFeiYong_menzhenQiTaFei.setName(YZCXConstant.menzhen_qitai);
+        feiyongList.add(yzcxFeiYong_menzhenQiTaFei);
+        ///
+        YzcxHandleInfo yzcxFeiYong_menzhenYaoFei = new YzcxHandleInfo();
+        yzcxFeiYong_menzhenYaoFei.setCount(menzhenYaoFei);
+        yzcxFeiYong_menzhenYaoFei.setHandledate(param.getStart());
+        yzcxFeiYong_menzhenYaoFei.setHandletype(YZCXConstant.feiyong);
+        yzcxFeiYong_menzhenYaoFei.setName(YZCXConstant.menzhen_yaofei);
+        feiyongList.add(yzcxFeiYong_menzhenYaoFei);
+        yzcxHandlerData.setFeiyongList(feiyongList);
     }
 
     @Override
-    public YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException {
+    public YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException, ParseException {
         /////
         Map<String, String> requestparam = new HashMap();
         requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
         requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
         /////
-//        int count = yzcxHandleImportdateMapper.selectImportState(param);
-//        if (count != 0) {
-//            return null;
-//        }
+        int count = yzcxHandleImportdateMapper.selectImportState(param);
+        if (count != 0) {
+            return null;
+        }
         YZCXHandlerData yzcxHandlerData = new YZCXHandlerData();
-        //handlerMenzhenRiGuiDang(yzcxHandlerData,requestparam);
-        handlerFeiYongRiGuiDang(yzcxHandlerData, requestparam);
+        handlerMenzhenRiGuiDang(yzcxHandlerData,requestparam);
+        List<YZCXSearchParam> yzcxSearchParamByBetween = LdgDateUtil.getYZCXSearchParamByBetween(param.getStart(), param.getEnd());
+        yzcxSearchParamByBetween.forEach(item -> {
+            handlerFeiYongRiGuiDang(yzcxHandlerData, requestparam, item);
+        });
         return yzcxHandlerData;
     }
 
 
     @Override
     public void saveYZCXData(YZCXHandlerData handlerData, YZCXSearchParam param) {
-        yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhenlist());
-        yzcxHandleInfoMapper.batchInsert(handlerData.getYuyuelist());
-        yzcxHandleInfoMapper.batchInsert(handlerData.getJbzdlist());
+        if (handlerData.getMenzhenlist() != null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhenlist());
+        }
+        if (handlerData.getYuyuelist() != null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getYuyuelist());
+        }
+        if (handlerData.getJbzdlist() != null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getJbzdlist());
+        }
+
         ///
-        yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_kslist());
-        yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_yslist());
-        yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_sfjzlist());
-        yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_kslist());
-        yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_yslist());
-        yzcxHandleInfoMapper.batchInsert(handlerData.getJbzd_jblist());
-        yzcxHandleInfoMapper.batchInsert(handlerData.getKs_menzhen_putong_jizhenList());
+        if (handlerData.getMenzhen_kslist()!=null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_kslist());
+        }
+        if (handlerData.getMenzhen_yslist()!=null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_yslist());
+        }
+        if (handlerData.getMenzhen_sfjzlist()!=null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getMenzhen_sfjzlist());
+        }
+        if (handlerData.getYuyue_kslist()!=null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_kslist());
+        }
+        if (handlerData.getYuyue_yslist()!=null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getYuyue_yslist());
+        }
+        if (handlerData.getJbzd_jblist()!=null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getJbzd_jblist());
+        }
+        if (handlerData.getKs_menzhen_putong_jizhenList()!=null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getKs_menzhen_putong_jizhenList());
+        }
+        if (handlerData.getFeiyongList()!=null) {
+            yzcxHandleInfoMapper.batchInsert(handlerData.getFeiyongList());
+        }
         ///保存处理的日期
         final List<Date> dateByBetween = LdgDateUtil.getDateByBetween(param.getStart(), param.getEnd());
         yzcxHandleImportdateMapper.batchInsert(dateByBetween);

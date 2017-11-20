@@ -65,7 +65,7 @@ public class YZCXHandlerController {
             msg.setErrmsg("已导入！");
             return msg;
         }
-        //yzcXscheduleService.saveYZCXData(handlerData, param);
+        yzcXscheduleService.saveYZCXData(handlerData, param);
         System.out.println("daysGuiDang执行完成！");
         return msg;
     }
@@ -80,9 +80,8 @@ public class YZCXHandlerController {
     @ResponseBody
     public void excuteRiguidang() throws IOException, ParseException {
         System.out.println("------excuteRiguidang------");
-        //param.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-10-01 00:00:00"));
-        //param.setEnd(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate("2017-11-09 23:59:59"));
         daysGuiDang(YZCXControllerUtil.getBeforeOneDay());
+        //daysGuiDang(YZCXControllerUtil.getBeforeOneMonth());
     }
 
     /**

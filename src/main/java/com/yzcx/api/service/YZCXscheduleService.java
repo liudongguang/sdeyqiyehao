@@ -12,7 +12,7 @@ import java.text.ParseException;
  * Created by LiuDongguang on 2017/11/3.
  */
 public interface YZCXscheduleService {
-    YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException;
+    YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException, ParseException;
 
     void saveYZCXData(YZCXHandlerData handlerData,YZCXSearchParam param);
 

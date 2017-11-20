@@ -20,7 +20,17 @@ public class YZCXHandlerData {
     private List<YzcxHandleInfo> jbzd_jblist;// 疾病
     //////
     private  List<YzcxHandleInfo> ks_menzhen_putong_jizhenList;
+    ///费用
+    private List<YzcxHandleInfo> feiyongList;
 
+
+    public List<YzcxHandleInfo> getFeiyongList() {
+        return feiyongList;
+    }
+
+    public void setFeiyongList(List<YzcxHandleInfo> feiyongList) {
+        this.feiyongList = feiyongList;
+    }
 
     public List<YzcxHandleInfo> getKs_menzhen_putong_jizhenList() {
         return ks_menzhen_putong_jizhenList;
