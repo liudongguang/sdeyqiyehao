@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -129,7 +128,29 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         HttpClientUtil hc = HttpClientUtil.getInstance();
         final String s = hc.sendHttpPost(menzhenurl, requestparam);
         Json_FeiYong fyxx = JsonUtil.getObjectByJSON(s, Json_FeiYong.class);
-        System.out.println(fyxx.getData().getZhuyuanfy().size());
+        FYXXModle data = fyxx.getData();
+        final List<FYXXzhuyuan> zhuyuanfy = data.getZhuyuanfy();
+        final List<FYXXmenzhenchufang> menzhenyaofei = data.getMenzhenfycf();
+        final List<FYXXmenzhenyiji> menzhenfyyj = data.getMenzhenfyyj();
+        Double zhuyuanYaoFei = zhuyuanfy.stream().filter(item -> {
+            if (YZCXConstant.zhuyuan_caoyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_xiyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_chenghaofei.equals(item.getFyxm())) {
+                return true;
+            }
+            return false;
+        }).collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
+        Double zhuyuanQiTaFei = zhuyuanfy.stream().filter(item -> {
+            if (YZCXConstant.qitafei.equals(item.getFyxm())) {
+                return true;
+            }
+            return false;
+        }).collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
+        Double zhuyuanyiliaoFei = zhuyuanfy.stream().filter(item -> {
+            if (YZCXConstant.zhuyuan_caoyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_xiyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_chenghaofei.equals(item.getFyxm())||YZCXConstant.qitafei.equals(item.getFyxm())) {
+                return false;
+            }
+            return true;
+        }).collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
+        System.out.println(zhuyuanYaoFei+"  "+zhuyuanQiTaFei+"  "+zhuyuanyiliaoFei);
     }
 
     @Override

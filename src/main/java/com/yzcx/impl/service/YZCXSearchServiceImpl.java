@@ -280,7 +280,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
                 });
             });
             Collections.sort(tempsortList, Comparator.comparingDouble(YzcxHandleInfoMonth::getCount).reversed());
-            tempsortList.forEach(item -> {
+            for(int i=0;i<(tempsortList.size()>10?10:tempsortList.size());i++){
+                YzcxHandleInfoMonth item=tempsortList.get(i);
                 categories.add(item.getName());
                 if (item.getHandletype() == YZCXConstant.jbzd_ks_menzhen) {
                     series1_Data.add(item.getCount().intValue());
@@ -289,7 +290,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
                     series2_Data.add(item.getCount().intValue());
                     series1_Data.add(null);
                 }
-            });
+            }
             xAxis.setCategories(categories);
             series1.setData(series1_Data);
             series2.setData(series2_Data);
@@ -610,7 +611,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             return null;
         }
         String currentDateStr = LdgDateUtil.getYearHanzi(yzcxSearchParam.getStart());
-        YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);//获取前一年同月日期
+        yzcxSearchParam=YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);//获取前一年同月日期
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_menzhen, YZCXConstant.jbzd_ks_jizhen));//获取普通，急诊
         String qunianDateStr = LdgDateUtil.getYearHanzi(yzcxSearchParam.getStart());
         List<YzcxHandleInfoMonth> qunianlist = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
         if (qunianlist.size() == 0) {
