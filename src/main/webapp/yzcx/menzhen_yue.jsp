@@ -83,19 +83,19 @@
 			</li>
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">
-					<span class="tit_sty_span1">日门诊人次</span>
+					<span class="tit_sty_span1">月门诊人次</span>
 					<!--<span style="font-size: 12px;float: right">详情&nbsp;></span>-->
 				</div>
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-				<div id="container4" style="min-width: 100%; height: 400px;margin: 0 auto"></div>
+				<div id="container4" style="min-width: 100%; height: 600px;margin: 0 auto;padding-top: 16px"></div>
 			</li>
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">
-					<span class="tit_sty_span1">科室门诊人次</span>
+					<span class="tit_sty_span1">月科室门诊人次</span>
 					<!--<span style="font-size: 12px;float: right">详情&nbsp;></span>-->
 				</div>
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-				<div id="container" style="min-width: 100%; height: 400px;margin: 0 auto"></div>
+				<div id="container" style="min-width: 100%; height: 600px;margin: 0 auto"></div>
 			</li>
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">
@@ -107,7 +107,7 @@
 			</li>
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">
-					<span class="tit_sty_span1">疾病占比排名</span>
+					<span class="tit_sty_span1">月疾病占比排名（前十名）</span>
 					<!--<span style="font-size: 12px;float: right">详情&nbsp;></span>-->
 				</div>
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->

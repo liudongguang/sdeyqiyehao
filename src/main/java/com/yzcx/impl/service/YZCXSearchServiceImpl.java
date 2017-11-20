@@ -460,7 +460,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         double yymzbili = menzhen_month_yuyue.getYuyue() / menzhen_month_yuyue.getZongmenzhen();
         data1.setY(1 - yymzbili);
         data2.setY(yymzbili);
-        data1.setLdgnumber(menzhen_month_yuyue.getZongmenzhen());
+        data1.setLdgnumber(menzhen_month_yuyue.getMenzhenGuaHao());
         data2.setLdgnumber(menzhen_month_yuyue.getYuyue());
         series1.getData().add(data1);
         series1.getData().add(data2);
@@ -521,6 +521,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         String currentDateStr = LdgDateUtil.get_zhongwen_yyyyMM(yzcxSearchParam.getStart());
         yzcxSearchParam = YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);//获取前一年同月日期
         String qunianDateStr = LdgDateUtil.get_zhongwen_yyyyMM(yzcxSearchParam.getStart());
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));//获取普通，急诊
         List<YzcxHandleInfoMonth> qunianlist = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
         if (qunianlist.size() == 0) {
             return null;
