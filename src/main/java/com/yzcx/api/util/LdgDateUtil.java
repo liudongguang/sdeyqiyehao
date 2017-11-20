@@ -63,7 +63,9 @@ public class LdgDateUtil {
     public static Date getYyyy_mm_ddDate(String dateStr) throws ParseException {
         return DateUtils.parseDate(dateStr, yyyy_mm_dd);
     }
-
+    public static String getYyyy_mm_ddDateStr(Date date) throws ParseException {
+        return DateFormatUtils.format(date, yyyy_mm_dd);
+    }
 
     public static String getyyyy_mm_dd_hhString(Date date) {
         return DateFormatUtils.format(date, yyyy_mm_dd_hh);

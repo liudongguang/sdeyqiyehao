@@ -23,5 +23,6 @@ $(document).ready(function() {
         $('#container').highcharts(data.menzhenChart);
         $('#container2').highcharts(data.tongqimenzhenChart);
         $('#container3').highcharts(data.jibingChart);
+        $('#container4').highcharts(data.everyDayOneMonthChart);
     });
 })

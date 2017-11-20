@@ -1,5 +1,6 @@
 package com.yzcx.impl.service;
 
+import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.po.YzcxHandleInfoDay;
 import com.yzcx.api.po.YzcxHandleInfoMonth;
 import com.yzcx.api.service.YZCXSearchService;
@@ -13,7 +14,6 @@ import com.yzcx.api.vo.highchat.bar.HighchartsConfig_bar;
 import com.yzcx.api.vo.highchat.bar.PlotOptions_bar_series;
 import com.yzcx.api.vo.highchat.bar.Series_bar;
 import com.yzcx.api.vo.highchat.column.HighchartsConfig_column;
-import com.yzcx.api.vo.highchat.column.PlotOptions_column;
 import com.yzcx.api.vo.highchat.column.PlotOptions_column_series;
 import com.yzcx.api.vo.highchat.column.Series_column;
 import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
@@ -21,6 +21,7 @@ import com.yzcx.api.vo.highchat.pie.Series_pie;
 import com.yzcx.api.vo.highchat.pie.Series_pie_data;
 import com.yzcx.api.vo.yzcxdisplay.Menzhen_Month_Yuyue;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
+import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoExt;
 import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoMonthExt;
 import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
@@ -377,6 +378,53 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             return hcfg;
         }
         return null;
+    }
+
+    @Override
+    public HighchartsConfig_bar getEveryDayOneMonthChart(YZCXSearchParam yzcxSearchParam) {
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
+        List<YzcxHandleInfo> monthDayData = yzcxHandleInfoMapper.selectByDateAndType(yzcxSearchParam); //获取一月中每天的信息
+        Map<String, Map<String, List<YzcxHandleInfoExt>>> collect = monthDayData.stream().map(item -> {
+            YzcxHandleInfoExt yzcxHandleInfoDayExt = new YzcxHandleInfoExt();
+            try {
+                yzcxHandleInfoDayExt.setHandledateStr(LdgDateUtil.getYyyy_mm_ddDateStr(item.getHandledate()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            yzcxHandleInfoDayExt.setCount(item.getCount());
+            yzcxHandleInfoDayExt.setName(item.getName());
+            return yzcxHandleInfoDayExt;
+        }).collect(Collectors.groupingBy(YzcxHandleInfoExt::getHandledateStr,LinkedHashMap::new,Collectors.groupingBy(YzcxHandleInfoExt::getName)));
+        //获取每天的统计信息
+        HighchartsConfig_bar hcfg = new HighchartsConfig_bar();
+        XAxis xAxis = hcfg.getxAxis();
+        List<String> categories = new ArrayList<>();
+        xAxis.setCategories(categories);
+        YAxis yAxis = hcfg.getyAxis();
+        yAxis.getTitle().setText("单位：人");
+        PlotOptions_bar_series plotOptions_bar_series= new PlotOptions_bar_series();
+        plotOptions_bar_series.setStacking("normal"); //叠加
+        hcfg.getPlotOptions().setSeries(plotOptions_bar_series);
+        List<Series_bar> series = hcfg.getSeries();
+        Series_bar seriesData_menzhen=new Series_bar();
+        Series_bar seriesData_jizhen=new Series_bar();
+        seriesData_menzhen.setName(YZCXConstant.putong);
+        seriesData_jizhen.setName(YZCXConstant.jizhen);
+        List<? super Number> menzhenData = seriesData_menzhen.getData();
+        List<? super Number> jizhendata = seriesData_jizhen.getData();
+        collect.forEach((date,map)->{
+            categories.add(date);
+            map.forEach((handletyeName,obj)->{
+                if(handletyeName.equals(YZCXConstant.jizhen)){
+                    jizhendata.add(obj.get(0).getCount());
+                }else if(handletyeName.equals(YZCXConstant.putong)){
+                    menzhenData.add(obj.get(0).getCount());
+                }
+            });
+        });
+        series.add(seriesData_menzhen);
+        series.add(seriesData_jizhen);
+        return hcfg;
     }
 
     @Override

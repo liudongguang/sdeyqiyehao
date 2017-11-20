@@ -127,6 +127,8 @@ public class YZCXWebController {
         rs.put("tongqimenzhenChart",tongqimenzhenChart);
         HighchartsConfig jibingmenzhenChart=yzcxSearchService.getQygl_yueChart_jibing(yzcxSearchParam);
         rs.put("jibingChart",jibingmenzhenChart);
+        HighchartsConfig_bar everyDayOneMonthChart=yzcxSearchService.getEveryDayOneMonthChart(yzcxSearchParam);
+        rs.put("everyDayOneMonthChart",everyDayOneMonthChart);
         return rs;
     }
     /**

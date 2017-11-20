@@ -42,14 +42,15 @@ public class YZCXControllerUtil {
      */
     public static YZCXSearchParam getSearchParamForMonth(YZCXSearchParam cparam) throws ParseException {
         Date startDate=cparam.getStart();
+        YZCXSearchParam rsparam=new YZCXSearchParam();
         if(startDate!=null){
             LocalDateTime localDateTime = LdgDateUtil.parseDateToLocalDateTime(startDate);
-            cparam.setStart(LdgDateUtil.getDayZeroTime(localDateTime.with(TemporalAdjusters.firstDayOfMonth())));
-            cparam.setEnd(LdgDateUtil.getDayLastTime(localDateTime.with(TemporalAdjusters.lastDayOfMonth())));
+            rsparam.setStart(LdgDateUtil.getDayZeroTime(localDateTime.with(TemporalAdjusters.firstDayOfMonth())));
+            rsparam.setEnd(LdgDateUtil.getDayLastTime(localDateTime.with(TemporalAdjusters.lastDayOfMonth())));
         }else{
             return getBeforeOneMonth();
         }
-        return cparam;
+        return rsparam;
     }
 
     /**
@@ -59,13 +60,14 @@ public class YZCXControllerUtil {
      * @throws ParseException
      */
     public static YZCXSearchParam getSearchParamBeforeOneYear(YZCXSearchParam cparam) throws ParseException {
+        YZCXSearchParam rsparam=new YZCXSearchParam();
         LocalDateTime localDateTimeStart = LdgDateUtil.parseDateToLocalDateTime(cparam.getStart());
         LocalDateTime localDateTimeEnd = LdgDateUtil.parseDateToLocalDateTime(cparam.getEnd());
         localDateTimeStart=localDateTimeStart.minus(1,ChronoUnit.YEARS);
         localDateTimeEnd=localDateTimeEnd.minus(1,ChronoUnit.YEARS);
-        cparam.setStart(LdgDateUtil.getDayZeroTime(localDateTimeStart));
-        cparam.setEnd(LdgDateUtil.getDayLastTime(localDateTimeEnd));
-        return cparam;
+        rsparam.setStart(LdgDateUtil.getDayZeroTime(localDateTimeStart));
+        rsparam.setEnd(LdgDateUtil.getDayLastTime(localDateTimeEnd));
+        return rsparam;
     }
 
     /**
@@ -75,6 +77,7 @@ public class YZCXControllerUtil {
      * @throws ParseException
      */
     public static YZCXSearchParam getSearchParamForYear(YZCXSearchParam param) throws ParseException {
+        YZCXSearchParam rsparam=new YZCXSearchParam();
         Date startDate=param.getStart();
         LocalDateTime localDateTime =null;
         if(startDate==null){
@@ -82,8 +85,8 @@ public class YZCXControllerUtil {
         }else{
             localDateTime = LdgDateUtil.parseDateToLocalDateTime(startDate);
         }
-        param.setStart(LdgDateUtil.getDayZeroTime(localDateTime.with(TemporalAdjusters.firstDayOfYear())));
-        param.setEnd(LdgDateUtil.getDayLastTime(localDateTime.with(TemporalAdjusters.lastDayOfYear())));
-        return param;
+        rsparam.setStart(LdgDateUtil.getDayZeroTime(localDateTime.with(TemporalAdjusters.firstDayOfYear())));
+        rsparam.setEnd(LdgDateUtil.getDayLastTime(localDateTime.with(TemporalAdjusters.lastDayOfYear())));
+        return rsparam;
     }
 }

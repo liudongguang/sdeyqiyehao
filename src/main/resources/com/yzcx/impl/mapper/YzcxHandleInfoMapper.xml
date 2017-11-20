@@ -26,4 +26,22 @@
     <select id="montho_mzinfo" parameterType="com.yzcx.api.vo.YZCXSearchParam" resultType="com.yzcx.api.po.YzcxHandleInfo">
         select handledate,count,handletype,name from yzcx_handle_info where handledate BETWEEN #{start} and #{end}
     </select>
+    <select id="selectByDateAndType" resultMap="BaseResultMap" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+        SELECT
+        handledate,
+        count,
+        handletype,
+        name
+        FROM yzcx_handle_info
+        <where>
+            handledate BETWEEN #{start} AND #{end}
+            <if test="handletype!=null and handletype.size>0">
+                AND
+                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                    handletype = #{htype}
+                </foreach>
+            </if>
+        </where>
+        order by handledate
+    </select>
 </mapper>

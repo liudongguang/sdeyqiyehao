@@ -121,4 +121,11 @@ public interface YZCXSearchService {
      * @return
      */
     HighchartsConfig_column getMenzhenTongqi_year_chart(YZCXSearchParam yzcxSearchParam) throws ParseException;
+
+    /**
+     * 获取一月每天的门诊，急诊情况
+     * @param yzcxSearchParam
+     * @return
+     */
+    HighchartsConfig_bar getEveryDayOneMonthChart(YZCXSearchParam yzcxSearchParam);
 }
