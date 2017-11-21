@@ -105,7 +105,7 @@ public class YZCXHandlerController {
         initDateList.forEach(it->{
             System.out.println(it);
             try {
-                monthGuidang(it);
+                System.out.println(monthGuidang(it));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ParseException e) {

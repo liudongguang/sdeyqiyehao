@@ -281,10 +281,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxSearchParamByBetween.forEach(item -> {
             item.setHandletype(Arrays.asList(YZCXConstant.importType_feiyong));
             int feiyongImportcount = yzcxHandleImportdateMapper.selectImportState(item);
-            System.out.println("feiyongImportcount" +feiyongImportcount+"   "+item);
             if(feiyongImportcount==0){
-                System.out.println("处理费用：" + item.getStart()+"   "+item.getEnd());
-               //handlerFeiYongRiGuiDang(yzcxHandlerData, item);
+                System.out.println("费用处理："+item);
+                handlerFeiYongRiGuiDang(yzcxHandlerData, item);
                 saveYZCXFeiyongData(yzcxHandlerData, item);//保存费用记录
             }else {
                 System.out.println(item.getStart()+"已处理......");
