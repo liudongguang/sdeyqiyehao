@@ -14,11 +14,25 @@ import java.text.ParseException;
 public interface YZCXscheduleService {
     YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException, ParseException;
 
-    void saveYZCXData(YZCXHandlerData handlerData,YZCXSearchParam param);
+    void saveYZCXMenzhenData(YZCXHandlerData handlerData, YZCXSearchParam param);
 
 
     ResultMsg2 montho_mzinfo(YZCXSearchParam param);
 
     void menzhenDayHandler() throws ParseException;
 
+    /**
+     * 获取费用信息
+     * @param param
+     * @return
+     * @throws ParseException
+     */
+    YZCXHandlerData getFeiyonginfo(YZCXSearchParam param) throws ParseException;
+
+    /**
+     * 保存费用信息
+     * @param handlerFeiYongData
+     * @param param
+     */
+    void saveYZCXFeiyongData(YZCXHandlerData handlerFeiYongData, YZCXSearchParam param);
 }

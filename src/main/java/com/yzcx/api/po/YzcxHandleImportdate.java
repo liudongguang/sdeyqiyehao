@@ -10,6 +10,9 @@ public class YzcxHandleImportdate {
 
     private Date importdate;
 
+    @Column(name = "importType")
+    private Integer importtype;
+
     /**
      * @return uid
      */
@@ -36,5 +39,19 @@ public class YzcxHandleImportdate {
      */
     public void setImportdate(Date importdate) {
         this.importdate = importdate;
+    }
+
+    /**
+     * @return importType
+     */
+    public Integer getImporttype() {
+        return importtype;
+    }
+
+    /**
+     * @param importtype
+     */
+    public void setImporttype(Integer importtype) {
+        this.importtype = importtype;
     }
 }

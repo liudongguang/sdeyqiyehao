@@ -14,15 +14,21 @@ import java.security.NoSuchAlgorithmException;
 public class TestNewSendSMS {
     @Test
     public void test1() throws Exception {
+        sendMSG("18364104688");
+        sendMSG("18678881931");
+        sendMSG("15335311320");
+        sendMSG("17615827028");
+    }
+    private static void sendMSG(String phone) throws Exception {
         String requestURL="http://123.58.1.111:81/smsJson.aspx";
         HttpClientUtil htc = HttpClientUtil.getInstance();
         SendMessage sendMessage=new SendMessage();
         sendMessage.setAccount("sdyy01");
         sendMessage.setPassword(LdgMD5Util.MD5("sdyy01",32).toUpperCase());
-        sendMessage.setMobile("18364104688");
+        sendMessage.setMobile(phone);
         sendMessage.setContent(URLEncoder.encode("您好，请回复数字评价本次住院情况：1、满意 2、不满意。可在数字后附上说明或致电95020120。祝您早日康复。【山大二院】", "UTF-8"));
         String url=sendMessage.getUrlParam(requestURL);
-       // System.out.println(url);
+        // System.out.println(url);
         String s = htc.sendHttpsGet(url);
         System.out.println(s);
     }

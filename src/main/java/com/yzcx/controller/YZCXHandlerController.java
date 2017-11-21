@@ -14,13 +14,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalUnit;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/yzcxdata")
@@ -60,12 +54,10 @@ public class YZCXHandlerController {
         ResultMsg2 msg = new ResultMsg2();
         param.setStart(LdgDateUtil.get000000Time(param.getStart()));
         param.setEnd(LdgDateUtil.get235959Time(param.getEnd()));
-        YZCXHandlerData handlerData = yzcXscheduleService.getmzinfo(param);
-        if (handlerData == null) {
-            msg.setErrmsg("已导入！");
-            return msg;
-        }
-        yzcXscheduleService.saveYZCXData(handlerData, param);
+        //YZCXHandlerData handlerData = yzcXscheduleService.getmzinfo(param);//获取门诊记录
+        //yzcXscheduleService.saveYZCXMenzhenData(handlerData, param);//保存门诊记录
+        YZCXHandlerData handlerFeiYongData = yzcXscheduleService.getFeiyonginfo(param);//获取费用记录
+        yzcXscheduleService.saveYZCXFeiyongData(handlerFeiYongData, param);//保存费用记录
         System.out.println("daysGuiDang执行完成！");
         return msg;
     }

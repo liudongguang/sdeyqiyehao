@@ -111,4 +111,21 @@ public class YZCXHandlerData {
     public void setJbzd_jblist(List<YzcxHandleInfo> jbzd_jblist) {
         this.jbzd_jblist = jbzd_jblist;
     }
+
+    @Override
+    public String toString() {
+        return "YZCXHandlerData{" +
+                "menzhenlist=" + menzhenlist +
+                ", yuyuelist=" + yuyuelist +
+                ", jbzdlist=" + jbzdlist +
+                ", menzhen_kslist=" + menzhen_kslist +
+                ", menzhen_yslist=" + menzhen_yslist +
+                ", menzhen_sfjzlist=" + menzhen_sfjzlist +
+                ", yuyue_kslist=" + yuyue_kslist +
+                ", yuyue_yslist=" + yuyue_yslist +
+                ", jbzd_jblist=" + jbzd_jblist +
+                ", ks_menzhen_putong_jizhenList=" + ks_menzhen_putong_jizhenList +
+                ", feiyongList=" + feiyongList +
+                '}';
+    }
 }

@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yzcx.impl.mapper.YzcxHandleImportdateMapper">
-    <resultMap id="BaseResultMap" type="com.yzcx.api.po.YzcxHandleImportdate">
-        <!--
-          WARNING - @mbg.generated
-        -->
-        <id column="uid" jdbcType="INTEGER" property="uid"/>
-        <result column="importdate" jdbcType="TIMESTAMP" property="importdate"/>
-    </resultMap>
+  <resultMap id="BaseResultMap" type="com.yzcx.api.po.YzcxHandleImportdate">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="importdate" jdbcType="TIMESTAMP" property="importdate" />
+    <result column="importType" jdbcType="INTEGER" property="importtype" />
+  </resultMap>
     <insert id="batchInsert" parameterType="java.util.List">
-        insert into yzcx_handle_importdate (importdate)
+        insert into yzcx_handle_importdate (importdate,importType)
         values
         <foreach collection="list" index="index" item="item" separator=",">
-            (#{item,jdbcType=TIMESTAMP})
+            (#{item.importdate,jdbcType=TIMESTAMP},#{item.importtype,jdbcType=INTEGER})
         </foreach>
     </insert>
 
-    <select id="selectImportState" resultType="int" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+    <select id="selectImportState" parameterType="com.yzcx.api.vo.YZCXSearchParam" resultType="int">
         SELECT count(1)
         FROM yzcx_handle_importdate
-        WHERE importdate BETWEEN #{start} AND #{end}
+        <where>
+            importdate BETWEEN #{start} AND #{end}
+            <if test="handletype!=null and handletype.size>0">
+                AND
+                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                    importType = #{htype}
+                </foreach>
+            </if>
+        </where>
     </select>
+
 </mapper>

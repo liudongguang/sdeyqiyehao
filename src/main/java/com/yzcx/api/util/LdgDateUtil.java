@@ -1,5 +1,6 @@
 package com.yzcx.api.util;
 
+import com.yzcx.api.po.YzcxHandleImportdate;
 import com.yzcx.api.vo.YZCXSearchParam;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by LiuDongguang on 2017/11/6.
@@ -116,6 +118,18 @@ public class LdgDateUtil {
         listDate.add(parseLocalDateToDate(newstart));//包含结尾时间
         return listDate;
     }
+    public static List<YzcxHandleImportdate> getDateByBetween(YZCXSearchParam param,int handleType) {
+
+        List<Date> dateByBetween = getDateByBetween(param.getStart(), param.getEnd());
+        final List<YzcxHandleImportdate> rsListDate = dateByBetween.stream().map(item -> {
+            YzcxHandleImportdate yzcxHandleImportdate = new YzcxHandleImportdate();
+            yzcxHandleImportdate.setImportdate(item);
+            yzcxHandleImportdate.setImporttype(handleType);
+            return yzcxHandleImportdate;
+        }).collect(Collectors.toList());
+        return rsListDate;
+    }
+
     public static List<YZCXSearchParam> getYZCXSearchParamByBetween(Date start, Date end) throws ParseException {
         List<YZCXSearchParam> listDate = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();

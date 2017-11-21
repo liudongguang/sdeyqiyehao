@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface YzcxHandleImportdateMapper extends Mapper<YzcxHandleImportdate> {
 
-    void batchInsert(List<Date> dateByBetween);
+    void batchInsert(List<YzcxHandleImportdate> dateByBetween);
 
     int selectImportState(YZCXSearchParam param);
 }
