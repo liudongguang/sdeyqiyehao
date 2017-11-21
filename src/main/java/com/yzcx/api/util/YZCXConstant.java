@@ -34,5 +34,12 @@ public interface YZCXConstant {
     String menzhen_yiliao="门诊医疗费";
     String menzhen_yaofei="门诊药费";
     String menzhen_qitai="门诊其他费";
+    int feiyong_zhuyuan_yaofei = 13;//住院药费
+    int feiyong_zhuyuan_qitafei = 14;//住院其他费
+    int feiyong_zhuyuan_yiliaofei = 15;//住院医疗费用
+    int feiyong_menzhen_yaofei = 16;//门诊药费
+    int feiyong_menzhen_qitafei = 17;//门诊其他费
+    int feiyong_menzhen_yiliaofei = 18;//门诊医疗费
+
     String obj = "obj";
 }

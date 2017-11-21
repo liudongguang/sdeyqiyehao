@@ -18,6 +18,7 @@ import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
+import com.yzcx.impl.service.handler.YzcxHandleInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -132,80 +133,74 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         final List<FYXXzhuyuan> zhuyuanfy = data.getZhuyuanfy();
         final List<FYXXmenzhenchufang> menzhenyaofei = data.getMenzhenfycf();
         final List<FYXXmenzhenyiji> menzhenfyyj = data.getMenzhenfyyj();
-        Double zhuyuanYaoFei = zhuyuanfy.stream().filter(item -> {
+        ///住院药费
+        List<FYXXzhuyuan> zhuyuanYaofeiList= zhuyuanfy.stream().filter(item -> {
             if (YZCXConstant.zhuyuan_caoyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_xiyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_chenghaofei.equals(item.getFyxm())) {
                 return true;
             }
             return false;
-        }).collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
-        Double zhuyuanQiTaFei = zhuyuanfy.stream().filter(item -> {
+        }).collect(Collectors.toList());
+        Double zhuyuanYaoFei =  zhuyuanYaofeiList.stream().collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
+        //住院其他费
+        List<FYXXzhuyuan> zhuyuanQitaList = zhuyuanfy.stream().filter(item -> {
             if (YZCXConstant.qitafei.equals(item.getFyxm())) {
                 return true;
             }
             return false;
-        }).collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
-        Double zhuyuanyiliaoFei = zhuyuanfy.stream().filter(item -> {
+        }).collect(Collectors.toList());
+        Double zhuyuanQiTaFei =zhuyuanQitaList.stream().collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
+        //住院医疗费
+        List<FYXXzhuyuan> zhuyuanYiLiaoFeiList = zhuyuanfy.stream().filter(item -> {
             if (YZCXConstant.zhuyuan_caoyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_xiyaofei.equals(item.getFyxm()) || YZCXConstant.zhuyuan_chenghaofei.equals(item.getFyxm()) || YZCXConstant.qitafei.equals(item.getFyxm())) {
                 return false;
             }
             return true;
-        }).collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
-
-        Double menzhenYaoFei = menzhenyaofei.stream().collect(Collectors.summingDouble(FYXXmenzhenchufang::getHjje));
-        Double menzhenQitaiFei = menzhenfyyj.stream().filter(item -> {
+        }).collect(Collectors.toList());
+        Double zhuyuanyiliaoFei =zhuyuanYiLiaoFeiList.stream().collect(Collectors.summingDouble(FYXXzhuyuan::getZjje));
+        ///////////////////////////////获取科室下的住院费用
+        //////////////////////////////
+        //门诊药费
+        List<FYXXmenzhenchufang> menzhenYaofeiList = menzhenyaofei.stream().collect(Collectors.toList());
+        Double menzhenYaoFei =menzhenYaofeiList.stream().collect(Collectors.summingDouble(FYXXmenzhenchufang::getHjje));
+        //门诊其他费
+        List<FYXXmenzhenyiji> menzhenQiTaList = menzhenfyyj.stream().filter(item -> {
             if (YZCXConstant.qitafei.equals(item.getFygb())) {
                 return true;
             }
             return false;
-        }).collect(Collectors.summingDouble(FYXXmenzhenyiji::getHjje));
-        Double menzhenyiliaoFei = menzhenfyyj.stream().filter(item -> {
+        }).collect(Collectors.toList());
+        Double menzhenQitaiFei =menzhenQiTaList.stream().collect(Collectors.summingDouble(FYXXmenzhenyiji::getHjje));
+        //门诊医疗费
+        List<FYXXmenzhenyiji> menzhenYiLiaoFei = menzhenfyyj.stream().filter(item -> {
             if (YZCXConstant.qitafei.equals(item.getFygb())) {
                 return false;
             }
             return true;
-        }).collect(Collectors.summingDouble(FYXXmenzhenyiji::getHjje));
+        }).collect(Collectors.toList());
+        Double menzhenyiliaoFei =menzhenYiLiaoFei.stream().collect(Collectors.summingDouble(FYXXmenzhenyiji::getHjje));
         List<YzcxHandleInfo> feiyongList = new ArrayList<>();
-        YzcxHandleInfo yzcxFeiYong_zhuyuanyiliaoFei = new YzcxHandleInfo();
-        yzcxFeiYong_zhuyuanyiliaoFei.setCount(zhuyuanyiliaoFei);
-        yzcxFeiYong_zhuyuanyiliaoFei.setHandledate(param.getStart());
-        yzcxFeiYong_zhuyuanyiliaoFei.setHandletype(YZCXConstant.feiyong);
-        yzcxFeiYong_zhuyuanyiliaoFei.setName(YZCXConstant.zhuyuan_yiliao);
-        feiyongList.add(yzcxFeiYong_zhuyuanyiliaoFei);
-        /////
-        YzcxHandleInfo yzcxFeiYong_zhuyuanQiTaFei = new YzcxHandleInfo();
-        yzcxFeiYong_zhuyuanQiTaFei.setCount(zhuyuanQiTaFei);
-        yzcxFeiYong_zhuyuanQiTaFei.setHandledate(param.getStart());
-        yzcxFeiYong_zhuyuanQiTaFei.setHandletype(YZCXConstant.feiyong);
-        yzcxFeiYong_zhuyuanQiTaFei.setName(YZCXConstant.zhuyuan_qitai);
-        feiyongList.add(yzcxFeiYong_zhuyuanQiTaFei);
-        ///
-        YzcxHandleInfo yzcxFeiYong_zhuyuanYaoFei = new YzcxHandleInfo();
-        yzcxFeiYong_zhuyuanYaoFei.setCount(zhuyuanYaoFei);
-        yzcxFeiYong_zhuyuanYaoFei.setHandledate(param.getStart());
-        yzcxFeiYong_zhuyuanYaoFei.setHandletype(YZCXConstant.feiyong);
-        yzcxFeiYong_zhuyuanYaoFei.setName(YZCXConstant.zhuyuan_yaofei);
-        feiyongList.add(yzcxFeiYong_zhuyuanYaoFei);
+        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_yiliao,YZCXConstant.feiyong,param.getStart(),zhuyuanyiliaoFei));
+        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_qitai,YZCXConstant.feiyong,param.getStart(),zhuyuanQiTaFei));
+        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_yaofei,YZCXConstant.feiyong,param.getStart(),zhuyuanYaoFei));
         //////////////
-        YzcxHandleInfo yzcxFeiYong_menzhenyiliaoFei = new YzcxHandleInfo();
-        yzcxFeiYong_menzhenyiliaoFei.setCount(menzhenyiliaoFei);
-        yzcxFeiYong_menzhenyiliaoFei.setHandledate(param.getStart());
-        yzcxFeiYong_menzhenyiliaoFei.setHandletype(YZCXConstant.feiyong);
-        yzcxFeiYong_menzhenyiliaoFei.setName(YZCXConstant.menzhen_yiliao);
-        feiyongList.add(yzcxFeiYong_menzhenyiliaoFei);
-        /////
-        YzcxHandleInfo yzcxFeiYong_menzhenQiTaFei = new YzcxHandleInfo();
-        yzcxFeiYong_menzhenQiTaFei.setCount(menzhenQitaiFei);
-        yzcxFeiYong_menzhenQiTaFei.setHandledate(param.getStart());
-        yzcxFeiYong_menzhenQiTaFei.setHandletype(YZCXConstant.feiyong);
-        yzcxFeiYong_menzhenQiTaFei.setName(YZCXConstant.menzhen_qitai);
-        feiyongList.add(yzcxFeiYong_menzhenQiTaFei);
+        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.menzhen_yiliao,YZCXConstant.feiyong,param.getStart(),menzhenyiliaoFei));
+        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.menzhen_qitai,YZCXConstant.feiyong,param.getStart(),menzhenQitaiFei));
+        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.menzhen_yaofei,YZCXConstant.feiyong,param.getStart(),menzhenYaoFei));
         ///
-        YzcxHandleInfo yzcxFeiYong_menzhenYaoFei = new YzcxHandleInfo();
-        yzcxFeiYong_menzhenYaoFei.setCount(menzhenYaoFei);
-        yzcxFeiYong_menzhenYaoFei.setHandledate(param.getStart());
-        yzcxFeiYong_menzhenYaoFei.setHandletype(YZCXConstant.feiyong);
-        yzcxFeiYong_menzhenYaoFei.setName(YZCXConstant.menzhen_yaofei);
-        feiyongList.add(yzcxFeiYong_menzhenYaoFei);
+        Map<String, Double> zhuyuanKS_yaofei = zhuyuanYaofeiList.stream().collect(Collectors.groupingBy(FYXXzhuyuan::getBrks, Collectors.summingDouble(FYXXzhuyuan::getZjje)));
+        Map<String, Double> zhuyuanKS_qitafei = zhuyuanQitaList.stream().collect(Collectors.groupingBy(FYXXzhuyuan::getBrks, Collectors.summingDouble(FYXXzhuyuan::getZjje)));
+        Map<String, Double> zhuyuanKS_yiliaofei = zhuyuanYiLiaoFeiList.stream().collect(Collectors.groupingBy(FYXXzhuyuan::getBrks, Collectors.summingDouble(FYXXzhuyuan::getZjje)));
+        ///
+        Map<String, Double> menzhenKS_yaofei = menzhenYaofeiList.stream().collect(Collectors.groupingBy(FYXXmenzhenchufang::getKs, Collectors.summingDouble(FYXXmenzhenchufang::getHjje)));
+        Map<String, Double> menzhenKS_qitafei = menzhenQiTaList.stream().collect(Collectors.groupingBy(FYXXmenzhenyiji::getKdks, Collectors.summingDouble(FYXXmenzhenyiji::getHjje)));
+        Map<String, Double> menzhenKS_yiliaofei = menzhenYiLiaoFei.stream().collect(Collectors.groupingBy(FYXXmenzhenyiji::getKdks, Collectors.summingDouble(FYXXmenzhenyiji::getHjje)));
+        //
+        YZCXscheduleMapToListHandler.handlerKsFeiyong(zhuyuanKS_yaofei,param.getStart(),YZCXConstant.feiyong_zhuyuan_yaofei);
+        YZCXscheduleMapToListHandler.handlerKsFeiyong(zhuyuanKS_qitafei,param.getStart(),YZCXConstant.feiyong_zhuyuan_qitafei);
+        YZCXscheduleMapToListHandler.handlerKsFeiyong(zhuyuanKS_yiliaofei,param.getStart(),YZCXConstant.feiyong_zhuyuan_yiliaofei);
+        YZCXscheduleMapToListHandler.handlerKsFeiyong(menzhenKS_yaofei,param.getStart(),YZCXConstant.feiyong_menzhen_yaofei);
+        YZCXscheduleMapToListHandler.handlerKsFeiyong(menzhenKS_qitafei,param.getStart(),YZCXConstant.feiyong_menzhen_qitafei);
+        YZCXscheduleMapToListHandler.handlerKsFeiyong(menzhenKS_yiliaofei,param.getStart(),YZCXConstant.feiyong_menzhen_yiliaofei);
         yzcxHandlerData.setFeiyongList(feiyongList);
     }
 

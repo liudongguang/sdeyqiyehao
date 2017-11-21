@@ -1,13 +1,23 @@
 package com.yzcx.api.util;
 
 import com.yzcx.api.po.YzcxHandleInfo;
+import com.yzcx.impl.service.handler.YzcxHandleInfoFactory;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class YZCXscheduleMapToListHandler {
+    public static List<YzcxHandleInfo> handlerKsFeiyong(Map<String,Double> ksAndSumJine,Date hejiDate,int handlerType){
+        List<YzcxHandleInfo> rsList=new ArrayList<>();
+        ksAndSumJine.forEach((ks,sumJine)->{
+            rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(ks,handlerType,hejiDate,sumJine));
+        });
+        return rsList;
+    }
+
     /**
      * 科室有关的门诊，急诊
      * @param map
