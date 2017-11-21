@@ -87,8 +87,8 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/initYZCXSystem")
     @ResponseBody
     public void initYZCXSystem() throws IOException, ParseException {
-        // List<YZCXSearchParam> initDateList=  LdgDateUtil.getQianyinianStartUntilBeforeMonth();
-        List<YZCXSearchParam> initDateList=  LdgDateUtil.getMonthJiangeByNum(1);
+        List<YZCXSearchParam> initDateList=  LdgDateUtil.getQianyinianStartUntilBeforeMonth();
+        //List<YZCXSearchParam> initDateList=  LdgDateUtil.getMonthJiangeByNum(1);
         System.out.println("初始化系统："+initDateList);
         //日归档
         initDateList.forEach(it->{
