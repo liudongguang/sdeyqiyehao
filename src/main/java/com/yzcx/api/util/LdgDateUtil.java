@@ -119,7 +119,6 @@ public class LdgDateUtil {
         return listDate;
     }
     public static List<YzcxHandleImportdate> getDateByBetween(YZCXSearchParam param,int handleType) {
-
         List<Date> dateByBetween = getDateByBetween(param.getStart(), param.getEnd());
         final List<YzcxHandleImportdate> rsListDate = dateByBetween.stream().map(item -> {
             YzcxHandleImportdate yzcxHandleImportdate = new YzcxHandleImportdate();

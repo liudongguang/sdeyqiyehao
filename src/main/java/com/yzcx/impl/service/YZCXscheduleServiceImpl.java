@@ -125,7 +125,10 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandlerData.setKs_menzhen_putong_jizhenList(YZCXscheduleMapToListHandler.handlerKsMenzhen_jizhenMenzhen(dateksmenjizhenMap));
     }
 
-    private void handlerFeiYongRiGuiDang(YZCXHandlerData yzcxHandlerData, Map<String, String> requestparam, YZCXSearchParam param) {
+    private void handlerFeiYongRiGuiDang(YZCXHandlerData yzcxHandlerData, YZCXSearchParam param) {
+        Map<String, String> requestparam = new HashMap();
+        requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
+        requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
         String menzhenurl = YZCXProperties.getRequestPropertiesVal("fyxx");//获取门诊信息
         HttpClientUtil hc = HttpClientUtil.getInstance();
         final String s = hc.sendHttpPost(menzhenurl, requestparam);
@@ -217,6 +220,8 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         int menzhenImportcount = yzcxHandleImportdateMapper.selectImportState(param);
         if (menzhenImportcount == 0) {
             handlerMenzhenRiGuiDang(yzcxHandlerData, requestparam);
+        } else {
+            return null;
         }
         return yzcxHandlerData;
     }
@@ -261,22 +266,30 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandleImportdateMapper.batchInsert(dateByBetween);
     }
 
+    /**
+     * 处理费用
+     * @param param
+     * @return
+     * @throws ParseException
+     */
     @Override
-    public YZCXHandlerData getFeiyonginfo(YZCXSearchParam param) throws ParseException {
-        Map<String, String> requestparam = new HashMap();
-        requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
-        requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
+    public YZCXHandlerData handlerFeiyonginfo(YZCXSearchParam param) throws ParseException {
         /////
         YZCXHandlerData yzcxHandlerData = new YZCXHandlerData();
         //获取时间段里 每天的时间区间
-        param.setHandletype(Arrays.asList(YZCXConstant.importType_feiyong));
-        int feiyongImportcount = yzcxHandleImportdateMapper.selectImportState(param);
-        if (feiyongImportcount == 0) {
-            List<YZCXSearchParam> yzcxSearchParamByBetween = LdgDateUtil.getYZCXSearchParamByBetween(param.getStart(), param.getEnd());
-            yzcxSearchParamByBetween.forEach(item -> {
-                handlerFeiYongRiGuiDang(yzcxHandlerData, requestparam, item);
-            });
-        }
+        List<YZCXSearchParam> yzcxSearchParamByBetween = LdgDateUtil.getYZCXSearchParamByBetween(param.getStart(), param.getEnd());
+        yzcxSearchParamByBetween.forEach(item -> {
+            item.setHandletype(Arrays.asList(YZCXConstant.importType_feiyong));
+            int feiyongImportcount = yzcxHandleImportdateMapper.selectImportState(item);
+            System.out.println("feiyongImportcount" +feiyongImportcount+"   "+item);
+            if(feiyongImportcount==0){
+                System.out.println("处理费用：" + item.getStart()+"   "+item.getEnd());
+               //handlerFeiYongRiGuiDang(yzcxHandlerData, item);
+                saveYZCXFeiyongData(yzcxHandlerData, item);//保存费用记录
+            }else {
+                System.out.println(item.getStart()+"已处理......");
+            }
+        });
         return yzcxHandlerData;
     }
 
@@ -287,6 +300,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         }
         ///保存处理的日期
         final List<YzcxHandleImportdate> dateByBetween = LdgDateUtil.getDateByBetween(param, YZCXConstant.importType_feiyong);
+        dateByBetween.forEach(ii->{
+            System.out.println(ii+"xxxx");
+        });
         yzcxHandleImportdateMapper.batchInsert(dateByBetween);
     }
 

@@ -32,8 +32,8 @@ import java.util.Map;
 //import org.apache.http.entity.mime.content.StringBody;
 
 public class HttpClientUtil {
-	private RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(50000).setConnectTimeout(50000)
-			.setConnectionRequestTimeout(50000).build();
+	private RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(150000).setConnectTimeout(150000)
+			.setConnectionRequestTimeout(150000).build();
 
 	private static HttpClientUtil instance = null;
 
@@ -108,7 +108,9 @@ public class HttpClientUtil {
 			nameValuePairs.add(new BasicNameValuePair(key, maps.get(key)));
 		}
 		try {
+			//httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -195,9 +197,8 @@ public class HttpClientUtil {
 	}
 
 	/**
-	 * 发送Get请求
-	 * 
-	 * @param httpPost
+	 * 发送Get请求	 *
+
 	 * @return
 	 */
 	private String sendHttpGet(HttpGet httpGet) {
@@ -233,8 +234,7 @@ public class HttpClientUtil {
 
 	/**
 	 * 发送Get请求Https
-	 * 
-	 * @param httpPost
+	 *
 	 * @return
 	 */
 	private String sendHttpsGet(HttpGet httpGet) {
@@ -273,8 +273,6 @@ public class HttpClientUtil {
 
 	/**
 	 * 发送Get请求,获取输入流
-	 * 
-	 * @param httpPost
 	 * @return
 	 */
 	public ResponseStream sendHttpGetForInputStream(String url) {

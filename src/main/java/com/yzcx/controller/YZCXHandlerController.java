@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/yzcxdata")
@@ -54,10 +55,12 @@ public class YZCXHandlerController {
         ResultMsg2 msg = new ResultMsg2();
         param.setStart(LdgDateUtil.get000000Time(param.getStart()));
         param.setEnd(LdgDateUtil.get235959Time(param.getEnd()));
-        //YZCXHandlerData handlerData = yzcXscheduleService.getmzinfo(param);//获取门诊记录
-        //yzcXscheduleService.saveYZCXMenzhenData(handlerData, param);//保存门诊记录
-        YZCXHandlerData handlerFeiYongData = yzcXscheduleService.getFeiyonginfo(param);//获取费用记录
-        yzcXscheduleService.saveYZCXFeiyongData(handlerFeiYongData, param);//保存费用记录
+        YZCXHandlerData handlerData = yzcXscheduleService.getmzinfo(param);//获取门诊记录
+        if(handlerData!=null){
+            yzcXscheduleService.saveYZCXMenzhenData(handlerData, param);//保存门诊记录
+            System.out.println("保存了门诊记录..");
+        }
+        YZCXHandlerData handlerFeiYongData = yzcXscheduleService.handlerFeiyonginfo(param);//获取费用记录
         System.out.println("daysGuiDang执行完成！");
         return msg;
     }
@@ -77,15 +80,18 @@ public class YZCXHandlerController {
     }
 
     /**
-     * 初始化去年1月到今年本月前一月的信息
+     * 初始化
      * @throws IOException
      * @throws ParseException
      */
     @RequestMapping(value = "/initYZCXSystem")
     @ResponseBody
     public void initYZCXSystem() throws IOException, ParseException {
+        // List<YZCXSearchParam> initDateList=  LdgDateUtil.getQianyinianStartUntilBeforeMonth();
+        List<YZCXSearchParam> initDateList=  LdgDateUtil.getMonthJiangeByNum(1);
+        System.out.println("初始化系统："+initDateList);
         //日归档
-        LdgDateUtil.getQianyinianStartUntilBeforeMonth().forEach(it->{
+        initDateList.forEach(it->{
             System.out.println(it);
             try {
                 daysGuiDang(it);
@@ -96,7 +102,7 @@ public class YZCXHandlerController {
             }
         });
         //月归档
-        LdgDateUtil.getQianyinianStartUntilBeforeMonth().forEach(it->{
+        initDateList.forEach(it->{
             System.out.println(it);
             try {
                 monthGuidang(it);

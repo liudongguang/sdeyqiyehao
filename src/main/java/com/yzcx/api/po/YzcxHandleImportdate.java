@@ -54,4 +54,13 @@ public class YzcxHandleImportdate {
     public void setImporttype(Integer importtype) {
         this.importtype = importtype;
     }
+
+    @Override
+    public String toString() {
+        return "YzcxHandleImportdate{" +
+                "uid=" + uid +
+                ", importdate=" + importdate +
+                ", importtype=" + importtype +
+                '}';
+    }
 }

@@ -27,7 +27,7 @@ public interface YZCXscheduleService {
      * @return
      * @throws ParseException
      */
-    YZCXHandlerData getFeiyonginfo(YZCXSearchParam param) throws ParseException;
+    YZCXHandlerData handlerFeiyonginfo(YZCXSearchParam param) throws ParseException;
 
     /**
      * 保存费用信息
