@@ -1,5 +1,6 @@
 package com.yzcx.api.util;
 
+import com.yzcx.api.bo.YzcxHandleInfo_FeiYong;
 import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.impl.service.handler.YzcxHandleInfoFactory;
 
@@ -123,5 +124,38 @@ public class YZCXscheduleMapToListHandler {
             });
         });
         return rtList;
+    }
+
+
+    public  static List<YzcxHandleInfo_FeiYong> getKSFeiyong(Map<String, Map<Integer, Double>> ksTypeNum) {
+        List<YzcxHandleInfo_FeiYong> ksFeiYongInfoList = new ArrayList<>();
+        ksTypeNum.forEach((ksName, map) -> {
+            YzcxHandleInfo_FeiYong yzcxHandleInfo_feiYong = new YzcxHandleInfo_FeiYong();
+            yzcxHandleInfo_feiYong.setKsname(ksName);
+            map.forEach((type, zongjine) -> {
+                switch (type) {
+                    case YZCXConstant.feiyong_zhuyuan_yiliaofei:
+                        yzcxHandleInfo_feiYong.setZhuyuanyiliaofei(zongjine);
+                        break;
+                    case YZCXConstant.feiyong_zhuyuan_yaofei:
+                        yzcxHandleInfo_feiYong.setZhuyuanyaofei(zongjine);
+                        break;
+                    case YZCXConstant.feiyong_zhuyuan_qitafei:
+                        yzcxHandleInfo_feiYong.setZhuyuanqitafei(zongjine);
+                        break;
+                    case YZCXConstant.feiyong_menzhen_yiliaofei:
+                        yzcxHandleInfo_feiYong.setMenzhenyiliaofei(zongjine);
+                        break;
+                    case YZCXConstant.feiyong_menzhen_yaofei:
+                        yzcxHandleInfo_feiYong.setMenzhenyaofei(zongjine);
+                        break;
+                    case YZCXConstant.feiyong_menzhen_qitafei:
+                        yzcxHandleInfo_feiYong.setMenzhenqitafei(zongjine);
+                        break;
+                }
+            });
+            ksFeiYongInfoList.add(yzcxHandleInfo_feiYong);
+        });
+        return ksFeiYongInfoList;
     }
 }

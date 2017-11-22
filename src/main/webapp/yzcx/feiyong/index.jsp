@@ -58,12 +58,21 @@
             </li>
             <li class="header-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
                 <div class="tit_sty">
-                    <span class="tit_sty_span1">按科室查看</span>
+                    <span class="tit_sty_span1">科室住院费用（前十名）</span>
                     <a href="#"><span class="tit_sty_span2">列表&nbsp;></span></a>
                 </div>
                 <div style="clear: left;width: 100%;height: 15px"></div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="container2" style="min-width: 100%; height: 300px;margin: 0 auto;"></div>
+            </li>
+            <li class="header-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
+                <div class="tit_sty">
+                    <span class="tit_sty_span1">科室门诊费用（前十名）</span>
+                    <a href="#"><span class="tit_sty_span2">列表&nbsp;></span></a>
+                </div>
+                <div style="clear: left;width: 100%;height: 15px"></div>
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <div id="container3" style="min-width: 100%; height: 300px;margin: 0 auto;"></div>
             </li>
         </ul>
     </div>
