@@ -89,9 +89,12 @@ nav li a:hover {color: #000;}
 /*  Removable CSS  */
 
 .header-section,
+.header-section2,
 .body-section,
-.footer-section 
+.footer-section
 {padding: 20px;}
+
+
 
 .header-section {background-color: #ffffff;}
 .body-section {background-color: #f4f5f6;}
