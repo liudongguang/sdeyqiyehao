@@ -11,7 +11,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="HandheldFriendly" content="True">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<title>查询系统</title>
+	<title>院长查询系统</title>
 	<link rel="stylesheet" type="text/css" media="all" href="assets/yzcx/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="assets/yzcx/css/default.css">
 	<link rel="stylesheet" type="text/css" media="all" href="assets/yzcx/css/trunk.css" />
@@ -91,7 +91,7 @@
 			</li>
 			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
 				<div class="tit_sty">
-					<span class="tit_sty_span1">月科室门诊人次</span>
+					<span class="tit_sty_span1">月科室门诊人次（前十名）</span>
 					<!--<span style="font-size: 12px;float: right">详情&nbsp;></span>-->
 				</div>
 				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->

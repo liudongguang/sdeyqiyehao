@@ -32,10 +32,10 @@ public interface YZCXConstant {
     String qitafei="其他费";
     String zhuyuan_yiliao="住院医疗费";
     String zhuyuan_yaofei="住院药费";
-    String zhuyuan_qitai="住院其他费";
+    String zhuyuan_qita ="住院其他费";
     String menzhen_yiliao="门诊医疗费";
     String menzhen_yaofei="门诊药费";
-    String menzhen_qitai="门诊其他费";
+    String menzhen_qita ="门诊其他费";
     int feiyong_zhuyuan_yaofei = 13;//住院药费
     int feiyong_zhuyuan_qitafei = 14;//住院其他费
     int feiyong_zhuyuan_yiliaofei = 15;//住院医疗费用

@@ -184,11 +184,11 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         Double menzhenyiliaoFei = menzhenYiLiaoFei.stream().collect(Collectors.summingDouble(FYXXmenzhenyiji::getHjje));
         List<YzcxHandleInfo> feiyongList = new ArrayList<>();
         feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_yiliao, YZCXConstant.feiyong, param.getStart(), zhuyuanyiliaoFei));
-        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_qitai, YZCXConstant.feiyong, param.getStart(), zhuyuanQiTaFei));
+        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_qita, YZCXConstant.feiyong, param.getStart(), zhuyuanQiTaFei));
         feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_yaofei, YZCXConstant.feiyong, param.getStart(), zhuyuanYaoFei));
         //////////////
         feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.menzhen_yiliao, YZCXConstant.feiyong, param.getStart(), menzhenyiliaoFei));
-        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.menzhen_qitai, YZCXConstant.feiyong, param.getStart(), menzhenQitaiFei));
+        feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.menzhen_qita, YZCXConstant.feiyong, param.getStart(), menzhenQitaiFei));
         feiyongList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.menzhen_yaofei, YZCXConstant.feiyong, param.getStart(), menzhenYaoFei));
         ///
         Map<String, Double> zhuyuanKS_yaofei = zhuyuanYaofeiList.stream().collect(Collectors.groupingBy(FYXXzhuyuan::getBrks, Collectors.summingDouble(FYXXzhuyuan::getZjje)));
@@ -299,9 +299,6 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         }
         ///保存处理的日期
         final List<YzcxHandleImportdate> dateByBetween = LdgDateUtil.getDateByBetween(param, YZCXConstant.importType_feiyong);
-        dateByBetween.forEach(ii->{
-            System.out.println(ii+"xxxx");
-        });
         yzcxHandleImportdateMapper.batchInsert(dateByBetween);
     }
 
