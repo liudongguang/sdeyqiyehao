@@ -36,6 +36,72 @@
     <%@ include file="../yzcxNav.jsp"%>
     <div class="content slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
         <ul class="responsive">
+            <li class="header-section"
+                style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
+                <div class="tit_sty">
+                    <span class="tit_sty_span1">当日门诊，住院收入占比</span>
+                    <!--
+                    <span class="tit_sty_span2"><a href="webyzcx/menzhen_yue">查看月门诊量&nbsp;></a></span>
+                    -->
+                </div>
+                <div class="tit_sty_div_all">
+                    <div class="tit_sty_div_all_tab1">
+                        <div class="tit_sty_div_all_tab1_div1">
+                            <p class="tit_sty_div_all_tab1_div1_p">总费用</p>
+                            <p id="zongfeiID"></p>
+                        </div>
+                    </div>
+                    <div class="tit_sty_div_all_tab1">
+                        <div class="tit_sty_div_all_tab1_div1">
+                            <p class="tit_sty_div_all_tab1_div1_p">门诊</p>
+                            <p id="menzhenID"></p>
+                        </div>
+                    </div>
+                    <div class="tit_sty_div_all_tab1">
+                        <div class="tit_sty_div_all_tab1_div1">
+                            <p class="tit_sty_div_all_tab1_div1_p">住院</p>
+                            <p id="zhuyuanID"></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="header-section" style="background-color: #ecf0f1!important;">
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <div id="container4" style="width: 100%; height: 300px;margin: 0 auto"></div>
+            </li>
+            <li class="header-section"
+                style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
+                <div class="tit_sty">
+                    <span class="tit_sty_span1">当日医疗，药品，其他收入占比</span>
+                    <!--
+                    <span class="tit_sty_span2"><a href="webyzcx/menzhen_yue">查看月门诊量&nbsp;></a></span>
+                    -->
+                </div>
+                <div class="tit_sty_div_all">
+                    <div class="tit_sty_div_all_tab1">
+                        <div class="tit_sty_div_all_tab1_div1">
+                            <p class="tit_sty_div_all_tab1_div1_p">医疗</p>
+                            <p id="yiliaoID"></p>
+                        </div>
+                    </div>
+                    <div class="tit_sty_div_all_tab1">
+                        <div class="tit_sty_div_all_tab1_div1">
+                            <p class="tit_sty_div_all_tab1_div1_p">药品</p>
+                            <p id="yaopinID"></p>
+                        </div>
+                    </div>
+                    <div class="tit_sty_div_all_tab1">
+                        <div class="tit_sty_div_all_tab1_div1">
+                            <p class="tit_sty_div_all_tab1_div1_p">其他</p>
+                            <p id="qitaID"></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="header-section" style="background-color: #ecf0f1!important;">
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <div id="container5" style="width: 100%; height: 300px;margin: 0 auto"></div>
+            </li>
             <li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 1px!important;">
                 <div class="tit_sty" style="border:none!important;">
                     <span class="tit_sty_span1"><img style="vertical-align: middle;width: 30px;height: 30px" src="image/money.png" alt=""/>住院总收入</span>

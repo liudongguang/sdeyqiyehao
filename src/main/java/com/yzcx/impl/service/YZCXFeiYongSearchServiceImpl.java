@@ -9,7 +9,10 @@ import com.yzcx.api.util.YZCXscheduleMapToListHandler;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.highchat.bar.HighchartsConfig_bar;
 import com.yzcx.api.vo.highchat.bar.Series_bar;
+import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
+import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie2;
 import com.yzcx.api.vo.yzcxdisplay.FeiYongHuiZong;
+import com.yzcx.api.vo.yzcxdisplay.FeiYongIndexData;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,10 +67,41 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         menzhenksfeiyongMap.put(YZCXConstant.menzhen_yaofei,menzhenqianshi.stream().map(item->{return item.getMenzhenyaofei();}).collect(Collectors.toList()));
         menzhenksfeiyongMap.put(YZCXConstant.menzhen_qita,menzhenqianshi.stream().map(item->{return item.getMenzhenqitafei();}).collect(Collectors.toList()));
         HighchartsConfig_bar ksmenzhenpaimingChart = HighChartBuilder.builderHighchartsConfig_bar(menzhenqianshi.stream().map(item->item.getKsname()).collect(Collectors.toList()), "单位：元", menzhenksfeiyongMap,true);
+        ////////////////////////////////////////////////
+        double zhuyuan=zhuyuanYiLiao+zhuyuanQiTa+zhuyuanYao;
+        double menzhen=menzhenYiLiao+menzhenQiTa+menzhenYao;
+        Map<String,Double> mzzyData=new HashMap<>();
+        Map<String,Map<String,Double>> mzzyZhanBi=new HashMap<>();
+        mzzyData.put("门诊",menzhen);
+        mzzyData.put("住院",zhuyuan);
+        mzzyZhanBi.put(" ",mzzyData);
+        HighchartsConfig_pie2 menzhenZhuYuanPie=HighChartBuilder.builderHighchartsConfig_pie(" ",mzzyZhanBi);
+        ///////////
+        double qita=zhuyuanQiTa+menzhenQiTa;
+        double yiliao=zhuyuanYiLiao+menzhenYiLiao;
+        double yaofei=zhuyuanYao+menzhenYao;
+        Map<String,Double> ylypqtData=new HashMap<>();
+        Map<String,Map<String,Double>> ylypqtZhanBi=new HashMap<>();
+        ylypqtData.put("医疗",yiliao);
+        ylypqtData.put("药品",yaofei);
+        ylypqtData.put("其他",qita);
+        ylypqtZhanBi.put(" ",ylypqtData);
+        HighchartsConfig_pie2 ylypqtYuanPie=HighChartBuilder.builderHighchartsConfig_pie(" ",ylypqtZhanBi);
+        ////////
+        FeiYongIndexData feiYongIndexData=new FeiYongIndexData();
+        feiYongIndexData.setMenzhenzong(menzhen);
+        feiYongIndexData.setZhuyuanzong(zhuyuan);
+        feiYongIndexData.setQita(qita);
+        feiYongIndexData.setYiliao(yiliao);
+        feiYongIndexData.setYaopin(yaofei);
+        ///////
         rs.put("zhuyuan", zhuyuanChart);
         rs.put("menzhen", menzhenChart);
         rs.put("kszhuyuan", kszhuyuanpaimingChart);
         rs.put("ksmenzhen", ksmenzhenpaimingChart);
+        rs.put("zhuyuanPie_mzzybi", menzhenZhuYuanPie);
+        rs.put("zhuyuanPie_ylypqt", ylypqtYuanPie);
+        rs.put("dataNum", feiYongIndexData);
         return rs;
     }
 

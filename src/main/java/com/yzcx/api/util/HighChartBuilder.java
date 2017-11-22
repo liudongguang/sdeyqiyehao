@@ -5,6 +5,7 @@ import com.yzcx.api.vo.highchat.YAxis;
 import com.yzcx.api.vo.highchat.bar.HighchartsConfig_bar;
 import com.yzcx.api.vo.highchat.bar.PlotOptions_bar_series;
 import com.yzcx.api.vo.highchat.bar.Series_bar;
+import com.yzcx.api.vo.highchat.pie.*;
 
 import java.util.List;
 import java.util.Map;
@@ -44,4 +45,21 @@ public class HighChartBuilder {
         return sbar;
     }
 
+    public static HighchartsConfig_pie2 builderHighchartsConfig_pie(String Title, Map<String,Map<String,Double>> nameAndData) {
+        HighchartsConfig_pie2 hcfg = new HighchartsConfig_pie2();
+        hcfg.getTitle().setText(Title);
+        List<Series_pie> series = hcfg.getSeries();
+        nameAndData.forEach((name,data)->{
+            Series_pie series1 = new Series_pie();
+            series1.setName(name);
+            data.forEach((dataName,num)->{
+                Series_pie_data sdata = new Series_pie_data();
+                sdata.setName(dataName);
+                sdata.setY(num);
+                series1.getData().add(sdata);
+            });
+            series.add(series1);
+        });
+        return hcfg;
+    }
 }
