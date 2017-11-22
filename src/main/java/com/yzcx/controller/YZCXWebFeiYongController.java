@@ -11,6 +11,7 @@ import com.yzcx.api.vo.highchat.HighchartsConfig_arr;
 import com.yzcx.api.vo.highchat.bar.HighchartsConfig_bar;
 import com.yzcx.api.vo.highchat.column.HighchartsConfig_column;
 import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
+import com.yzcx.api.vo.yzcxdisplay.FeiYongHuiZong;
 import com.yzcx.api.vo.yzcxdisplay.Menzhen_Month_Yuyue;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,10 @@ public class YZCXWebFeiYongController {
     private YZCXFeiYongSearchService yzcxFeiYongSearchService;
 
     @RequestMapping(value = "/index")
-    public String index(HttpServletRequest request, YZCXSearchParam param) throws IOException, ParseException {
+    public String index(HttpServletRequest request) throws IOException, ParseException {
+        YZCXSearchParam param= YZCXControllerUtil.getBeforeOneDay();
+        FeiYongHuiZong fyzong=yzcxFeiYongSearchService.getIndexFeiYongZong(param);
+        request.setAttribute(YZCXConstant.obj, fyzong);
         return "/yzcx/feiyong/index.jsp";
     }
 
