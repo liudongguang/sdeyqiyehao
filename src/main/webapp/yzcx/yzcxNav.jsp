@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
-<nav class="slide">
+<nav class="slide" id="navMenuID">
     <ul>
-        <li><a href="webyzcx/index">全院概览</a></li>
-        <li><a href="webyzcx/menzhen" class="active">门诊信息</a></li>
+        <li><a href="webyzcx/index" class="active">全院概览</a></li>
+        <li><a href="webyzcx/menzhen">门诊信息</a></li>
         <li><a href="webyzcxFeiYong/index">医院总收入</a></li>
         <li><a href="list4.html">医技信息</a></li>
         <li><a href="list5.html">医生出诊</a></li>
@@ -13,3 +13,4 @@
         <li><a href="list9.html">会诊信息</a></li>
     </ul>
 </nav>
+<script type="text/javascript" language="javascript" src="assets/yzcx/navControll.js"></script>

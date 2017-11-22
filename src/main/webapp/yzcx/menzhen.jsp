@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="assets/yzcx/css/highcharts.css"/>
 </head>
 <body>
+<input type="hidden" value="1" id="navNum"/>
 <div class="container">
 
     <header class="slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->

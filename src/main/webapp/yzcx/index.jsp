@@ -10,7 +10,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="HandheldFriendly" content="True">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<title>查询系统</title>
+	<title>院长查询系统</title>
 	<link rel="stylesheet" type="text/css" media="all" href="assets/yzcx/css/reset.css" />
 	<link rel="stylesheet" type="text/css" href="assets/yzcx/css/default.css">
 	<link rel="stylesheet" type="text/css" media="all" href="assets/yzcx/css/trunk.css" />
@@ -25,6 +25,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/yzcx/css/highcharts.css"/>
 </head>
 <body>
+<input type="hidden" value="0" id="navNum"/>
 <div class="container">
 
 	<header class="slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->

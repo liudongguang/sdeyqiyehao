@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="assets/yzcx/css/highcharts.css"/>
 </head>
 <body>
+<input type="hidden" value="2" id="navNum"/>
 <div class="container">
 
     <header class="slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
@@ -104,7 +105,7 @@
             </li>
             <li class="header-section2" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 1px!important;">
                 <div class="tit_sty" style="border:none!important;">
-                    <span class="tit_sty_span1"><img style="vertical-align: middle;width: 30px;height: 30px" src="image/money.png" alt=""/>住院总收入</span>
+                    <span class="tit_sty_span1"><img style="vertical-align: middle;width: 30px;height: 30px" src="assets/yzcx/image/money.png" alt=""/>住院总收入</span>
                     <span class="tit_sty_span2">${obj.zhuyuanzong}</span>
                 </div>
             </li>
@@ -114,7 +115,7 @@
             </li>
             <li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 1px!important;">
                 <div class="tit_sty" style="border:none!important;">
-                    <span class="tit_sty_span1"><img style="vertical-align: middle;width: 30px;height: 30px" src="image/money.png" alt=""/>门诊总收入</span>
+                    <span class="tit_sty_span1"><img style="vertical-align: middle;width: 30px;height: 30px" src="assets/yzcx/image/money.png" alt=""/>门诊总收入</span>
                     <span class="tit_sty_span2">${obj.menzhenzong}</span>
                 </div>
             </li>
