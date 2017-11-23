@@ -40,6 +40,9 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         Double menzhenYiLiao = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_yiliao);
         Double menzhenYao = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_yaofei);
         Double menzhenQiTa = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_qita);
+        if(zhuyuanYiLiao==null||zhuyuanYao==null||zhuyuanQiTa==null||menzhenYiLiao==null||menzhenYao==null||menzhenQiTa==null){
+            return rs;
+        }
         /////////////////////////////////////////////////////////////
         Map<String,List<Number>> zysrMap=new HashMap<>();
         zysrMap.put("住院收入", Arrays.asList(zhuyuanYiLiao, zhuyuanYao, zhuyuanQiTa));

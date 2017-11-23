@@ -41,7 +41,7 @@
                 style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
                 <div class="tit_sty">
                     <input type="hidden" value="${obj.qianribaifenbi}" id="qianribfbID"/>
-                    <span class="tit_sty_span1">总收入：<span id="dyhlvID"></span></span>
+                    <span class="tit_sty_span1">总收入：<img src="" id="dyhlvimgID" style="top: 6px;position: relative;"/><span id="dyhlvID"></span></span>
                     <span class="tit_sty_span2"><a href="webyzcxFeiYong/feiyong_yue_page">查看月费用&nbsp;></a></span>
                 </div>
             </li>
