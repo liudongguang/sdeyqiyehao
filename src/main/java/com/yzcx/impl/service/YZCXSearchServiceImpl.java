@@ -27,6 +27,7 @@ import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
+import com.yzcx.impl.service.handler.YzcxHandleInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -386,15 +387,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
         List<YzcxHandleInfo> monthDayData = yzcxHandleInfoMapper.selectByDateAndType(yzcxSearchParam); //获取一月中每天的信息
         Map<String, Map<String, List<YzcxHandleInfoExt>>> collect = monthDayData.stream().map(item -> {
-            YzcxHandleInfoExt yzcxHandleInfoDayExt = new YzcxHandleInfoExt();
-            try {
-                yzcxHandleInfoDayExt.setHandledateStr(LdgDateUtil.getYyyy_mm_ddDateStr(item.getHandledate()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            yzcxHandleInfoDayExt.setCount(item.getCount());
-            yzcxHandleInfoDayExt.setName(item.getName());
-            return yzcxHandleInfoDayExt;
+            return YzcxHandleInfoFactory.createYzcxHandleInfoExtForEveryDay(item.getHandledate(),item.getCount(),item.getName());
         }).collect(Collectors.groupingBy(YzcxHandleInfoExt::getHandledateStr,LinkedHashMap::new,Collectors.groupingBy(YzcxHandleInfoExt::getName)));
         //获取每天的统计信息
         HighchartsConfig_bar hcfg = new HighchartsConfig_bar();

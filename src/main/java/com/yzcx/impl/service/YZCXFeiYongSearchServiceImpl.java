@@ -2,20 +2,18 @@ package com.yzcx.impl.service;
 
 import com.yzcx.api.bo.YzcxHandleInfo_FeiYong;
 import com.yzcx.api.po.YzcxHandleInfo;
+import com.yzcx.api.po.YzcxHandleInfoMonth;
 import com.yzcx.api.service.YZCXFeiYongSearchService;
-import com.yzcx.api.util.HighChartBuilder;
-import com.yzcx.api.util.YZCXConstant;
-import com.yzcx.api.util.YZCXControllerUtil;
-import com.yzcx.api.util.YZCXscheduleMapToListHandler;
+import com.yzcx.api.util.*;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.highchat.bar.HighchartsConfig_bar;
-import com.yzcx.api.vo.highchat.bar.Series_bar;
-import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
 import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie2;
 import com.yzcx.api.vo.yzcxdisplay.FeiYongHuiZong;
 import com.yzcx.api.vo.yzcxdisplay.FeiYongIndexData;
+import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoExt;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
+import com.yzcx.impl.service.handler.YzcxHandleInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -133,6 +131,74 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         Double qiantianFeiYong = feiyongList_qiantian.stream().collect(Collectors.summingDouble(YzcxHandleInfo::getCount));
         double feiyonglv=((menzhenZong+zhuyuanZong-qiantianFeiYong)/qiantianFeiYong);
         feiYongHuiZong.setQianribaifenbi(feiyonglv);
+        return feiYongHuiZong;
+    }
+
+    @Override
+    public Map<String, Object> getfeiyong_yue(YZCXSearchParam yzcxSearchParam) {
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.feiyong));
+        List<YzcxHandleInfo> yzcxHandleInfos = yzcxHandleInfoMapper.selectByDateAndType(yzcxSearchParam);
+        ////每天信息
+        LinkedHashMap<String, Double> everyDayFeiYong = yzcxHandleInfos.stream().map(item -> {
+            return YzcxHandleInfoFactory.createYzcxHandleInfoExtForEveryDay(item.getHandledate(), item.getCount(), item.getName());
+        }).collect(Collectors.groupingBy(YzcxHandleInfoExt::getHandledateStr, LinkedHashMap::new, Collectors.summingDouble(YzcxHandleInfoExt::getCount)));
+        List<String> categoriesDays=new ArrayList<>();
+        List<Number> series_barDate=new ArrayList<>();
+        everyDayFeiYong.forEach((date,jine)->{
+            categoriesDays.add(date);
+            series_barDate.add(jine);
+        });
+        Map<String,List<Number>> everydayDateMap=new HashMap<>();
+        everydayDateMap.put("每日总费用",series_barDate);
+        HighchartsConfig_bar meitianChart = HighChartBuilder.builderHighchartsConfig_bar(categoriesDays, "单位：元", everydayDateMap,true);
+        ///科室费用
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.feiyong_zhuyuan_yaofei, YZCXConstant.feiyong_zhuyuan_qitafei, YZCXConstant.feiyong_zhuyuan_yiliaofei, YZCXConstant.feiyong_menzhen_yaofei, YZCXConstant.feiyong_menzhen_qitafei, YZCXConstant.feiyong_menzhen_yiliaofei));
+        List<YzcxHandleInfoMonth> ksfeiyongList = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
+        Map<String, Map<Integer, Double>> ksTypeNum = ksfeiyongList.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.groupingBy(YzcxHandleInfoMonth::getHandletype, Collectors.summingDouble(YzcxHandleInfoMonth::getCount))));
+        List<YzcxHandleInfo_FeiYong> ksFeiYongInfoList= YZCXscheduleMapToListHandler.getKSFeiyong(ksTypeNum);
+        Collections.sort(ksFeiYongInfoList,Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getZhuyuanZong).reversed());
+        List<YzcxHandleInfo_FeiYong> zhuyuanqianshi = ksFeiYongInfoList.stream().limit(10).collect(Collectors.toList());
+        Map<String,List<Number>> zhuyuanksfeiyongMap=new HashMap<>();
+        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_yiliao,zhuyuanqianshi.stream().map(item->{return item.getZhuyuanyiliaofei();}).collect(Collectors.toList()));
+        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_yaofei,zhuyuanqianshi.stream().map(item->{return item.getZhuyuanyaofei();}).collect(Collectors.toList()));
+        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_qita,zhuyuanqianshi.stream().map(item->{return item.getZhuyuanqitafei();}).collect(Collectors.toList()));
+        HighchartsConfig_bar kszhuyuanpaimingChart = HighChartBuilder.builderHighchartsConfig_bar(zhuyuanqianshi.stream().map(item->{return item.getKsname();}).collect(Collectors.toList()), "单位：元", zhuyuanksfeiyongMap,true);
+        Collections.sort(ksFeiYongInfoList,Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getMenzhenZong).reversed());
+        List<YzcxHandleInfo_FeiYong> menzhenqianshi = ksFeiYongInfoList.stream().limit(10).collect(Collectors.toList());
+        Map<String,List<Number>> menzhenksfeiyongMap=new HashMap<>();
+        menzhenksfeiyongMap.put(YZCXConstant.menzhen_yiliao,menzhenqianshi.stream().map(item->{return item.getMenzhenyiliaofei();}).collect(Collectors.toList()));
+        menzhenksfeiyongMap.put(YZCXConstant.menzhen_yaofei,menzhenqianshi.stream().map(item->{return item.getMenzhenyaofei();}).collect(Collectors.toList()));
+        menzhenksfeiyongMap.put(YZCXConstant.menzhen_qita,menzhenqianshi.stream().map(item->{return item.getMenzhenqitafei();}).collect(Collectors.toList()));
+        HighchartsConfig_bar ksmenzhenpaimingChart = HighChartBuilder.builderHighchartsConfig_bar(menzhenqianshi.stream().map(item->item.getKsname()).collect(Collectors.toList()), "单位：元", menzhenksfeiyongMap,true);
+
+        ///
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("meitianChart", meitianChart);
+        rs.put("kszhuyuanpaimingChart", kszhuyuanpaimingChart);
+        rs.put("ksmenzhenpaimingChart", ksmenzhenpaimingChart);
+        return rs;
+    }
+
+    @Override
+    public FeiYongHuiZong getFeiYong_Month_pagedata(YZCXSearchParam cparam) {
+        cparam.setHandletype(Arrays.asList(YZCXConstant.feiyong));
+        List<YzcxHandleInfoMonth> feiyongList = yzcxHandleInfoMonthMapper.selectByDateAndType(cparam);
+        Double zhuyuanZong = feiyongList.stream().filter(obj -> {
+            if (obj.getName().indexOf("住院") != -1) {
+                return true;
+            }
+            return false;
+        }).collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
+        Double menzhenZong = feiyongList.stream().filter(obj -> {
+            if (obj.getName().indexOf("门诊") != -1) {
+                return true;
+            }
+            return false;
+        }).collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
+        FeiYongHuiZong feiYongHuiZong = new FeiYongHuiZong();
+        feiYongHuiZong.setMenzhenzong(menzhenZong);
+        feiYongHuiZong.setZhuyuanzong(zhuyuanZong);
+        feiYongHuiZong.setParam(cparam);
         return feiYongHuiZong;
     }
 }

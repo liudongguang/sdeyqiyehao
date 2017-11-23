@@ -27,4 +27,18 @@ public interface YZCXFeiYongSearchService {
      * @return
      */
     FeiYongHuiZong getIndexFeiYongZong(YZCXSearchParam param) throws ParseException;
+
+    /**
+     * 获取费用月图表
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getfeiyong_yue(YZCXSearchParam yzcxSearchParam);
+
+    /**
+     * 获取月的汇总
+     * @param cparam
+     * @return
+     */
+    FeiYongHuiZong getFeiYong_Month_pagedata(YZCXSearchParam cparam);
 }
