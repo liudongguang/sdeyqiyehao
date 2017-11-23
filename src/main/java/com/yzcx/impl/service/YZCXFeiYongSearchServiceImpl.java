@@ -74,8 +74,8 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         Map<String,Map<String,Double>> mzzyZhanBi=new HashMap<>();
         mzzyData.put("门诊",menzhen);
         mzzyData.put("住院",zhuyuan);
-        mzzyZhanBi.put(" ",mzzyData);
-        HighchartsConfig_pie2 menzhenZhuYuanPie=HighChartBuilder.builderHighchartsConfig_pie(" ",mzzyZhanBi);
+        mzzyZhanBi.put("门诊，住院收入占比（昨日）",mzzyData);
+        HighchartsConfig_pie2 menzhenZhuYuanPie=HighChartBuilder.builderHighchartsConfig_pie("门诊，住院收入占比（昨日）",mzzyZhanBi);
         ///////////
         double qita=zhuyuanQiTa+menzhenQiTa;
         double yiliao=zhuyuanYiLiao+menzhenYiLiao;
@@ -85,8 +85,8 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         ylypqtData.put("医疗",yiliao);
         ylypqtData.put("药品",yaofei);
         ylypqtData.put("其他",qita);
-        ylypqtZhanBi.put(" ",ylypqtData);
-        HighchartsConfig_pie2 ylypqtYuanPie=HighChartBuilder.builderHighchartsConfig_pie(" ",ylypqtZhanBi);
+        ylypqtZhanBi.put("全院收入类别占比（昨日）",ylypqtData);
+        HighchartsConfig_pie2 ylypqtYuanPie=HighChartBuilder.builderHighchartsConfig_pie("全院收入类别占比（昨日）",ylypqtZhanBi);
         ////////
         FeiYongIndexData feiYongIndexData=new FeiYongIndexData();
         feiYongIndexData.setMenzhenzong(menzhen);
