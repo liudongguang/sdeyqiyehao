@@ -16,9 +16,20 @@ public class YZCXControllerUtil {
      * @return
      */
     public static YZCXSearchParam getBeforeOneDay() throws ParseException {
+        return getBeforeDayByNum(1);
+    }
+
+    /**
+     * 根据天数返回提前多少天
+     *
+     * @param numofDay
+     * @return
+     * @throws ParseException
+     */
+    public static YZCXSearchParam getBeforeDayByNum(int numofDay) throws ParseException {
         YZCXSearchParam param = new YZCXSearchParam();
         LocalDate localDate = LocalDate.now();
-        localDate = localDate.minus(1, ChronoUnit.DAYS);//前一天
+        localDate = localDate.minus(numofDay, ChronoUnit.DAYS);//前一天
         param.setStart(LdgDateUtil.parseLocalDateToDate(localDate));
         param.setEnd(LdgDateUtil.parseLocalDateToDate(localDate));
         return param;

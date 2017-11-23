@@ -26,5 +26,5 @@ public interface YZCXFeiYongSearchService {
      * @param param
      * @return
      */
-    FeiYongHuiZong getIndexFeiYongZong(YZCXSearchParam param);
+    FeiYongHuiZong getIndexFeiYongZong(YZCXSearchParam param) throws ParseException;
 }

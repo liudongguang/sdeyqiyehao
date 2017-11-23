@@ -15,4 +15,13 @@ $(document).ready(function() {
         $("#yaopinID").text(dataNum.yaopin.toFixed(2));
         $("#qitaID").text(dataNum.qita.toFixed(2));
     });
+    var qianribfbVal=$("#qianribfbID").val();
+    var zzStr=null;
+    if(qianribfbVal>0){
+        zzStr="增长";
+    }else {
+        zzStr="下降";
+    }
+    zzStr+=((qianribfbVal*100).toFixed(2))+"%";
+    $("#dyhlvID").text(zzStr);
 })

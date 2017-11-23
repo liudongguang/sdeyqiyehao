@@ -5,6 +5,7 @@ import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.service.YZCXFeiYongSearchService;
 import com.yzcx.api.util.HighChartBuilder;
 import com.yzcx.api.util.YZCXConstant;
+import com.yzcx.api.util.YZCXControllerUtil;
 import com.yzcx.api.util.YZCXscheduleMapToListHandler;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.highchat.bar.HighchartsConfig_bar;
@@ -18,6 +19,7 @@ import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -106,7 +108,7 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
     }
 
     @Override
-    public FeiYongHuiZong getIndexFeiYongZong(YZCXSearchParam param) {
+    public FeiYongHuiZong getIndexFeiYongZong(YZCXSearchParam param) throws ParseException {
         param.setHandletype(Arrays.asList(YZCXConstant.feiyong));
         List<YzcxHandleInfo> feiyongList = yzcxHandleInfoMapper.selectByDateAndType(param);
         Double zhuyuanZong = feiyongList.stream().filter(obj -> {
@@ -124,6 +126,13 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         FeiYongHuiZong feiYongHuiZong = new FeiYongHuiZong();
         feiYongHuiZong.setMenzhenzong(menzhenZong);
         feiYongHuiZong.setZhuyuanzong(zhuyuanZong);
+        ////获取前天数据
+        param= YZCXControllerUtil.getBeforeDayByNum(2);
+        param.setHandletype(Arrays.asList(YZCXConstant.feiyong));
+        List<YzcxHandleInfo> feiyongList_qiantian = yzcxHandleInfoMapper.selectByDateAndType(param);
+        Double qiantianFeiYong = feiyongList_qiantian.stream().collect(Collectors.summingDouble(YzcxHandleInfo::getCount));
+        double feiyonglv=((menzhenZong+zhuyuanZong-qiantianFeiYong)/qiantianFeiYong);
+        feiYongHuiZong.setQianribaifenbi(feiyonglv);
         return feiYongHuiZong;
     }
 }
