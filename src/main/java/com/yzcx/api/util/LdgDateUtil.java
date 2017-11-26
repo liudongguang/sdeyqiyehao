@@ -296,4 +296,20 @@ public class LdgDateUtil {
     public static String getYearHanzi(Date handledate) {
         return DateFormatUtils.format(handledate, zhongwen_yyyy);
     }
+
+    /**
+     * 是否当月
+     * @param yzcxSearchParam
+     * @return
+     */
+    public static boolean isDangYue(YZCXSearchParam yzcxSearchParam) {
+        Date start = yzcxSearchParam.getStart();
+        Date now=new Date();
+        String startS=get_zhongwen_yyyyMM(start);
+        String nowS=get_zhongwen_yyyyMM(now);
+        if(startS.equals(nowS)){
+            return true;
+        }
+        return false;
+    }
 }

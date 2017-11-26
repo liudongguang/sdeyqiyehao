@@ -156,7 +156,21 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         HighchartsConfig_bar meitianChart = HighChartBuilder.builderHighchartsConfig_bar(categoriesDays, "单位：元", everydayDateMap,true);
         ///科室费用
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.feiyong_zhuyuan_yaofei, YZCXConstant.feiyong_zhuyuan_qitafei, YZCXConstant.feiyong_zhuyuan_yiliaofei, YZCXConstant.feiyong_menzhen_yaofei, YZCXConstant.feiyong_menzhen_qitafei, YZCXConstant.feiyong_menzhen_yiliaofei));
-        List<YzcxHandleInfoMonth> ksfeiyongList = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
+        boolean isDangYue=LdgDateUtil.isDangYue(yzcxSearchParam);
+        List<YzcxHandleInfoMonth> ksfeiyongList = null;
+        if(isDangYue){
+            List<YzcxHandleInfo> dayDays=yzcxHandleInfoMapper.selectByDateAndType(yzcxSearchParam);
+            ksfeiyongList=dayDays.stream().map(item->{
+                YzcxHandleInfoMonth yzcxHandleInfoMonth=new YzcxHandleInfoMonth();
+                yzcxHandleInfoMonth.setName(item.getName());
+                yzcxHandleInfoMonth.setCount(item.getCount());
+                yzcxHandleInfoMonth.setHandletype(item.getHandletype());
+                return yzcxHandleInfoMonth;
+            }).collect(Collectors.toList());
+        }else{
+            ksfeiyongList = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
+        }
+
         Map<String, Map<Integer, Double>> ksTypeNum = ksfeiyongList.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.groupingBy(YzcxHandleInfoMonth::getHandletype, Collectors.summingDouble(YzcxHandleInfoMonth::getCount))));
         List<YzcxHandleInfo_FeiYong> ksFeiYongInfoList= YZCXscheduleMapToListHandler.getKSFeiyong(ksTypeNum);
         Collections.sort(ksFeiYongInfoList,Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getZhuyuanZong).reversed());
@@ -185,7 +199,20 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
     @Override
     public FeiYongHuiZong getFeiYong_Month_pagedata(YZCXSearchParam cparam) {
         cparam.setHandletype(Arrays.asList(YZCXConstant.feiyong));
-        List<YzcxHandleInfoMonth> feiyongList = yzcxHandleInfoMonthMapper.selectByDateAndType(cparam);
+        boolean isDangYue=LdgDateUtil.isDangYue(cparam);
+        List<YzcxHandleInfoMonth> feiyongList = null;
+        if(isDangYue){
+            List<YzcxHandleInfo> dayDays=yzcxHandleInfoMapper.selectByDateAndType(cparam);
+            feiyongList=dayDays.stream().map(item->{
+                YzcxHandleInfoMonth yzcxHandleInfoMonth=new YzcxHandleInfoMonth();
+                yzcxHandleInfoMonth.setName(item.getName());
+                yzcxHandleInfoMonth.setCount(item.getCount());
+                yzcxHandleInfoMonth.setHandletype(item.getHandletype());
+                return yzcxHandleInfoMonth;
+            }).collect(Collectors.toList());
+        }else{
+            feiyongList = yzcxHandleInfoMonthMapper.selectByDateAndType(cparam);
+        }
         Double zhuyuanZong = feiyongList.stream().filter(obj -> {
             if (obj.getName().indexOf("住院") != -1) {
                 return true;

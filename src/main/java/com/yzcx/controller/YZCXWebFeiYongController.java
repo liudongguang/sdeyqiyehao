@@ -48,7 +48,7 @@ public class YZCXWebFeiYongController {
      */
     @RequestMapping(value = "/feiyong_yue_page")
     public String feiyong_yue_page(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForMonth(param);
+        YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForThisMonth(param);
         FeiYongHuiZong feiYongHuiZong = yzcxFeiYongSearchService.getFeiYong_Month_pagedata(cparam);
         request.setAttribute(YZCXConstant.obj, feiYongHuiZong);
         return "/yzcx/feiyong/feiyong_yue.jsp";

@@ -48,7 +48,13 @@ public class YZCXControllerUtil {
         param.setEnd(LdgDateUtil.getDayLastTime(now.with(TemporalAdjusters.lastDayOfMonth())));
         return param;
     }
-
+    public static YZCXSearchParam getThisMonth() throws ParseException {
+        LocalDateTime now = LocalDateTime.now();
+        YZCXSearchParam param = new YZCXSearchParam();
+        param.setStart(LdgDateUtil.getDayZeroTime(now.with(TemporalAdjusters.firstDayOfMonth())));
+        param.setEnd(LdgDateUtil.getDayLastTime(now.with(TemporalAdjusters.lastDayOfMonth())));
+        return param;
+    }
     /**
      * 获取当天的零点到23：59：59
      *
@@ -83,6 +89,18 @@ public class YZCXControllerUtil {
         return rsparam;
     }
 
+    public static YZCXSearchParam getSearchParamForThisMonth(YZCXSearchParam cparam) throws ParseException {
+        Date startDate = cparam.getStart();
+        YZCXSearchParam rsparam = new YZCXSearchParam();
+        if (startDate != null) {
+            LocalDateTime localDateTime = LdgDateUtil.parseDateToLocalDateTime(startDate);
+            rsparam.setStart(LdgDateUtil.getDayZeroTime(localDateTime.with(TemporalAdjusters.firstDayOfMonth())));
+            rsparam.setEnd(LdgDateUtil.getDayLastTime(localDateTime.with(TemporalAdjusters.lastDayOfMonth())));
+        } else {
+            return getThisMonth();
+        }
+        return rsparam;
+    }
     /**
      * 开始时间与结束时间都减去一年，即为前一年的月份日期
      *
