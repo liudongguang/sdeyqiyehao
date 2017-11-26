@@ -437,4 +437,10 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             yzcxHandleInfoDayMapper.batchInsert(jbzdList);
         }
     }
+
+    @Override
+    public List<YZCXSearchParam> getExistDaysFromGuiDangDays(YZCXSearchParam searchParam) {
+        List<YZCXSearchParam> existsDays=yzcxHandleImportdateMapper.getExistDaysFromGuiDangDays(searchParam);
+        return existsDays;
+    }
 }

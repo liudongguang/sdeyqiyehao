@@ -30,5 +30,10 @@
             </if>
         </where>
     </select>
-
+    <select id="getExistDaysFromGuiDangDays" parameterType="com.yzcx.api.vo.YZCXSearchParam"
+            resultType="com.yzcx.api.vo.YZCXSearchParam">
+        SELECT
+        importdate as start
+        FROM yzcx_handle_importdate where importdate BETWEEN #{start} AND #{end} GROUP BY importdate
+    </select>
 </mapper>

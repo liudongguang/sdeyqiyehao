@@ -7,6 +7,7 @@ import com.yzcx.api.vo.YZCXSearchParam;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * Created by LiuDongguang on 2017/11/3.
@@ -35,4 +36,11 @@ public interface YZCXscheduleService {
      * @param param
      */
     void saveYZCXFeiyongData(YZCXHandlerData handlerFeiYongData, YZCXSearchParam param);
+
+    /**
+     * 获取时间段内日归档的日期
+     * @param searchParam
+     * @return
+     */
+    List<YZCXSearchParam> getExistDaysFromGuiDangDays(YZCXSearchParam searchParam);
 }

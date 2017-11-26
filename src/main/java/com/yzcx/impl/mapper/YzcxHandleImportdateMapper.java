@@ -12,4 +12,10 @@ public interface YzcxHandleImportdateMapper extends Mapper<YzcxHandleImportdate>
     void batchInsert(List<YzcxHandleImportdate> dateByBetween);
 
     int selectImportState(YZCXSearchParam param);
+    /**
+     * 获取时间段中的日期
+     * @param searchParam
+     * @return
+     */
+    List<YZCXSearchParam> getExistDaysFromGuiDangDays(YZCXSearchParam searchParam);
 }

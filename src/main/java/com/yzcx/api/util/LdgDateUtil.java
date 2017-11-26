@@ -218,7 +218,7 @@ public class LdgDateUtil {
     public static List<YZCXSearchParam> getMonthJiangeByNum(int jiangeYueNum) throws ParseException {
         List<YZCXSearchParam> rs = new ArrayList<>();
         LocalDate nowDate = LocalDate.now();
-        while (jiangeYueNum > 0) {
+        while (jiangeYueNum >= 0) {
             LocalDate newLocalDate=nowDate.minusMonths(jiangeYueNum);
             jiangeYueNum--;
             YZCXSearchParam nobj=new YZCXSearchParam();
@@ -229,6 +229,25 @@ public class LdgDateUtil {
         return rs;
     }
 
+    /**
+     * 获取提前月数1号，到本日之前,区间为一天
+     * @param tiqianNum
+     * @return
+     * @throws ParseException
+     */
+    public static List<YZCXSearchParam> getStartAndEndTimeByTiQianYueNum(int tiqianNum) throws ParseException {
+        List<YZCXSearchParam> rs = new ArrayList<>();
+        LocalDate nowDate = LocalDate.now();
+        LocalDate tiqianDate=nowDate.minusMonths(tiqianNum).with(TemporalAdjusters.firstDayOfMonth());
+        while (tiqianDate.isBefore(nowDate)) {
+            YZCXSearchParam nobj=new YZCXSearchParam();
+            nobj.setStart(get000000Time(parseLocalDateToDate(tiqianDate)));
+            nobj.setEnd(get235959Time(parseLocalDateToDate(tiqianDate)));
+            rs.add(nobj);
+            tiqianDate=tiqianDate.plusDays(1);
+        }
+        return rs;
+    }
     /**
      * 获取前一个月到去年年初的月份,跨度为1月
      * @return

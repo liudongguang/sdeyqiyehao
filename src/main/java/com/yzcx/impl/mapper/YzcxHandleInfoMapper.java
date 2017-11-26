@@ -16,4 +16,5 @@ public interface YzcxHandleInfoMapper extends Mapper<YzcxHandleInfo> {
      * @return
      */
     List<YzcxHandleInfo> selectByDateAndType(YZCXSearchParam yzcxSearchParam);
+
 }

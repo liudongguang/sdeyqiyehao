@@ -15,7 +15,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/yzcxdata")
@@ -106,6 +109,41 @@ public class YZCXHandlerController {
             System.out.println(it);
             try {
                 System.out.println(monthGuidang(it));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * 初始化一个月中没有初始化的，处理一月中，哪天没有日归档的
+     * @throws IOException
+     * @throws ParseException
+     */
+    @RequestMapping(value = "/initYZCXMonthSystem")
+    @ResponseBody
+    public void initYZCXMonthSystem() throws Exception {
+        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(0);
+        YZCXSearchParam searchParam=new YZCXSearchParam();
+        searchParam.setStart(initDateList.get(0).getStart());
+        searchParam.setEnd(initDateList.get(initDateList.size()-1).getEnd());
+        List<YZCXSearchParam> existDays=yzcXscheduleService.getExistDaysFromGuiDangDays(searchParam);
+        Map<Date, Date> existDaysMap = existDays.stream().collect(Collectors.toMap(YZCXSearchParam::getStart, YZCXSearchParam::getStart));
+        List<YZCXSearchParam> initDate = initDateList.stream().filter(item -> {
+            Date date = existDaysMap.get(item.getStart());
+            System.out.println(item+"   "+date);
+            if (date != null) {
+                return false;
+            }
+            return true;
+        }).collect(Collectors.toList());
+        //日归档
+        initDate.forEach(it->{
+            System.out.println(it);
+            try {
+                daysGuiDang(it);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
