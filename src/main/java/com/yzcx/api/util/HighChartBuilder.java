@@ -1,5 +1,6 @@
 package com.yzcx.api.util;
 
+import com.ldg.api.sms.LdgMD5Util;
 import com.yzcx.api.vo.highchat.XAxis;
 import com.yzcx.api.vo.highchat.YAxis;
 import com.yzcx.api.vo.highchat.bar.HighchartsConfig_bar;
@@ -30,6 +31,7 @@ public class HighChartBuilder {
             series.add(series_bar);
         });
         return barChart;
+
     }
 
     public final static HighchartsConfig_bar builderHighchartsConfig_bar(List<String> categories, String yTitle, Map<String,List<Number>> nameAndData) {
