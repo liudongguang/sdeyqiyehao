@@ -443,4 +443,17 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         List<YZCXSearchParam> existsDays=yzcxHandleImportdateMapper.getExistDaysFromGuiDangDays(searchParam);
         return existsDays;
     }
+
+    @Override
+    public void handlerZhuYuanXinxiRiGuiDang(YZCXSearchParam param) {
+        String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("zyxx");//获取预约信息
+        Map<String, String> requestparam = new HashMap();
+        String date00 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart());
+        String date23 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd());
+        requestparam.put("starte", date00);
+        requestparam.put("end", date23);
+        HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
+        final String zhuyuanStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        System.out.println(zhuyuanStr);
+    }
 }

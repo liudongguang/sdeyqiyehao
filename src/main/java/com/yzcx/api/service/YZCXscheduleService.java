@@ -43,4 +43,10 @@ public interface YZCXscheduleService {
      * @return
      */
     List<YZCXSearchParam> getExistDaysFromGuiDangDays(YZCXSearchParam searchParam);
+
+    /**
+     * 处理住院信息
+     * @param param
+     */
+    void handlerZhuYuanXinxiRiGuiDang(YZCXSearchParam param);
 }
