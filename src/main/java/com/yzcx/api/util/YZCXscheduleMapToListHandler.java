@@ -11,6 +11,24 @@ import java.util.List;
 import java.util.Map;
 
 public class YZCXscheduleMapToListHandler {
+
+
+    public static List<YzcxHandleInfo> handlerCommonData(Map<String,? extends Number> nameAndNumber,Date handlerDate,int handlerType){
+        List<YzcxHandleInfo> rsList=new ArrayList<>();
+        nameAndNumber.forEach((name,number)->{
+            rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(name,handlerType,handlerDate,number.doubleValue()));
+        });
+        return rsList;
+    }
+
+
+    /**
+     * 科室费用
+     * @param ksAndSumJine
+     * @param hejiDate
+     * @param handlerType
+     * @return
+     */
     public static List<YzcxHandleInfo> handlerKsFeiyong(Map<String,Double> ksAndSumJine,Date hejiDate,int handlerType){
         List<YzcxHandleInfo> rsList=new ArrayList<>();
         ksAndSumJine.forEach((ks,sumJine)->{

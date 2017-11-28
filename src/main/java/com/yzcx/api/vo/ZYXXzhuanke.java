@@ -30,4 +30,13 @@ public class ZYXXzhuanke {
     public void setZhuankeshijian(Date zhuankeshijian) {
         this.zhuankeshijian = zhuankeshijian;
     }
+
+    @Override
+    public String toString() {
+        return "ZYXXzhuanke{" +
+                "zhuangchukeshi='" + zhuangchukeshi + '\'' +
+                ", zhuangrukeshi='" + zhuangrukeshi + '\'' +
+                ", zhuankeshijian=" + zhuankeshijian +
+                '}';
+    }
 }

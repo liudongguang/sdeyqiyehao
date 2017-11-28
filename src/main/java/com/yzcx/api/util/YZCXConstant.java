@@ -6,6 +6,7 @@ package com.yzcx.api.util;
 public interface YZCXConstant {
     int importType_menzhen=1; //导入类型，门诊
     int importType_feiyong=2;//导入类型，费用
+    int importType_zhuyuan=3; //导入类型，住院信息
     String[] months={"01月","02月","03月","04月","05月","06月","07月","08月","09月","10月","11月","12月"};
 
     String jizhen = "急诊";
@@ -42,6 +43,19 @@ public interface YZCXConstant {
     int feiyong_menzhen_yaofei = 16;//门诊药费
     int feiyong_menzhen_qitafei = 17;//门诊其他费
     int feiyong_menzhen_yiliaofei = 18;//门诊医疗费
+    /////////////////////////住院信息
+    int zhuyuan_brqk = 19;//病人情况
+    int zhuyuan_cyfs = 20;//出院情况
+    int zhuyuan_chuyuanRenshu = 21;//出院总人数
+    String zhuyuan_chuyuanRenshuStr="出院总数";
+    int zhuyuan_ruyuanrenshu = 22;//入院总人数
+    String zhuyuan_ruyuanrenshuStr="入院总数";
+    int zhuyuan_keshiruyuan = 23;//科室入院情况
+    int zhuyuan_zhuanchuKS = 24;//科室转出
+    int zhuyuan_zhuanruKS = 25;//科室转入
+    int zhuyuan_keshishizhan = 26;//科室实占
+    int zhuyuan_keshikaifang = 27;//科室开放
+
 
     String obj = "obj";
 }

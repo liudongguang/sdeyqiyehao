@@ -48,5 +48,5 @@ public interface YZCXscheduleService {
      * 处理住院信息
      * @param param
      */
-    void handlerZhuYuanXinxiRiGuiDang(YZCXSearchParam param);
+    void handlerZhuYuanXinxiRiGuiDang(YZCXSearchParam param) throws ParseException;
 }

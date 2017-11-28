@@ -4,6 +4,8 @@ public class ZYXXchuangwei {
     private String rq;//日期
     private Integer shizhanshu;//实占床位数
     private Integer kaifangshu;//开放床位数
+    private String ks;//科室
+    private Integer kslb;// 1.科室 2.病区
 
     public String getRq() {
         return rq;
@@ -29,4 +31,19 @@ public class ZYXXchuangwei {
         this.kaifangshu = kaifangshu;
     }
 
+    public String getKs() {
+        return ks;
+    }
+
+    public void setKs(String ks) {
+        this.ks = ks;
+    }
+
+    public Integer getKslb() {
+        return kslb;
+    }
+
+    public void setKslb(Integer kslb) {
+        this.kslb = kslb;
+    }
 }

@@ -13,6 +13,8 @@ public class ZYXXzhuyuanbr {
     private Date cyrq;//出院日期
     private String cyfs;//出院方式
 
+
+
     public String getBrxb() {
         return brxb;
     }
@@ -83,5 +85,20 @@ public class ZYXXzhuyuanbr {
 
     public void setCyfs(String cyfs) {
         this.cyfs = cyfs;
+    }
+
+    @Override
+    public String toString() {
+        return "ZYXXzhuyuanbr{" +
+                "brxb='" + brxb + '\'' +
+                ", csny=" + csny +
+                ", hkdz='" + hkdz + '\'' +
+                ", brqk='" + brqk + '\'' +
+                ", brks='" + brks + '\'' +
+                ", brbq='" + brbq + '\'' +
+                ", ryrq=" + ryrq +
+                ", cyrq=" + cyrq +
+                ", cyfs='" + cyfs + '\'' +
+                '}';
     }
 }

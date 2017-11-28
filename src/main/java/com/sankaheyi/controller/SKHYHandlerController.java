@@ -32,7 +32,7 @@ public class SKHYHandlerController {
         StringBuilder jiami=new StringBuilder();
         jiami.append(LdgDateUtil.getYyyy_mm_ddDateStr(new Date())).append(jobnum).append("sdey");
         String sign=LdgMD5Util.MD5(jiami.toString(),32).toUpperCase();
-        return "redirect:http://17960jc846.iask.in//SDEY/ReceiveInfo.htm?sign="+sign+"&jobnum="+jobnum;
+        return "redirect:http://192.192.192.253:808//SDEY/ReceiveInfo.htm?sign="+sign+"&jobnum="+jobnum;
     }
 
     public static void main(String[] args) throws Exception {

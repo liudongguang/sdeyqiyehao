@@ -11,15 +11,13 @@ import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXProperties;
 import com.yzcx.api.util.YZCXscheduleMapToListHandler;
 import com.yzcx.api.vo.*;
-import com.yzcx.api.vo.parsejson.Json_FeiYong;
-import com.yzcx.api.vo.parsejson.Json_Jbzd;
-import com.yzcx.api.vo.parsejson.Json_Menzhen;
-import com.yzcx.api.vo.parsejson.Json_Yuyue;
+import com.yzcx.api.vo.parsejson.*;
 import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
 import com.yzcx.impl.service.handler.YzcxHandleInfoFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -444,16 +442,72 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         return existsDays;
     }
 
-    @Override
-    public void handlerZhuYuanXinxiRiGuiDang(YZCXSearchParam param) {
+
+    private List<YzcxHandleInfo> handleYZCXZYXXInfo(YZCXSearchParam param){
+        List<YzcxHandleInfo> rsList=new ArrayList<>();
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("zyxx");//获取预约信息
         Map<String, String> requestparam = new HashMap();
-        String date00 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart());
+        final Date start = param.getStart();
+        String date00 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(start);
         String date23 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd());
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String zhuyuanStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
-        System.out.println(zhuyuanStr);
+        Json_ZhuYuanxx zhuYuanxx=JsonUtil.getObjectByJSON(zhuyuanStr,Json_ZhuYuanxx.class);
+        ZYXXModle data = zhuYuanxx.getData();
+        /////////////
+        final List<ZYXXzhuyuanbr> bingren = data.getBingren();//病人
+        final List<ZYXXchuangwei> chuangwei = data.getChuangwei();//床位
+        final List<ZYXXzhuanke> zhuangke = data.getZhuangke();//转科
+        //1.病人情况
+        Map<String, Long> brqkMap = bingren.stream().filter(item -> StringUtils.isNotBlank(item.getBrqk())).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getBrqk, Collectors.counting()));
+        //2.出院情况
+        Map<String, Long> cyfsMap = bingren.stream().filter(item -> StringUtils.isNotBlank(item.getCyfs())).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getCyfs, Collectors.counting()));
+        //3.出院总数
+        final Long chuyuanRenshu = bingren.stream().filter(item -> item.getCyrq() != null).collect(Collectors.counting());
+        //4.入院总数
+        final Long ruyuanrenshu=bingren.size()-chuyuanRenshu;
+        //5.科室入院情况
+        final Map<String, Long> keshiruyuanMap = bingren.stream().filter(item -> item.getCyrq() == null).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getBrks, Collectors.counting()));
+        //6.转出
+        final Map<String, Long> zhuanchuKS = zhuangke.stream().collect(Collectors.groupingBy(ZYXXzhuanke::getZhuangchukeshi, Collectors.counting()));
+        //7.转入
+        final Map<String, Long> zhuanruKS = zhuangke.stream().collect(Collectors.groupingBy(ZYXXzhuanke::getZhuangrukeshi, Collectors.counting()));
+        //8.科室床位-实占
+        final Map<String, Integer> keshichuangwei_shizhan = chuangwei.stream().filter(item -> 1 == item.getKslb()).collect(Collectors.groupingBy(ZYXXchuangwei::getKs, Collectors.summingInt(ZYXXchuangwei::getShizhanshu)));
+        //9.科室床位-开放
+        final Map<String, Integer> keshichuangwei_kaifang = chuangwei.stream().filter(item -> 1 == item.getKslb()).collect(Collectors.groupingBy(ZYXXchuangwei::getKs, Collectors.summingInt(ZYXXchuangwei::getKaifangshu)));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(brqkMap, start, YZCXConstant.zhuyuan_brqk));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(cyfsMap, start, YZCXConstant.zhuyuan_cyfs));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_chuyuanRenshuStr, YZCXConstant.zhuyuan_chuyuanRenshu, start, chuyuanRenshu.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_ruyuanrenshuStr, YZCXConstant.zhuyuan_ruyuanrenshu, start, ruyuanrenshu.doubleValue()));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(keshiruyuanMap, start, YZCXConstant.zhuyuan_keshiruyuan));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(zhuanchuKS, start, YZCXConstant.zhuyuan_zhuanchuKS));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(zhuanruKS, start, YZCXConstant.zhuyuan_zhuanruKS));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(keshichuangwei_shizhan, start, YZCXConstant.zhuyuan_keshishizhan));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(keshichuangwei_kaifang, start, YZCXConstant.zhuyuan_keshikaifang));
+        //////////////
+        return rsList;
+    }
+
+    @Override
+    public void handlerZhuYuanXinxiRiGuiDang(YZCXSearchParam param) throws ParseException {
+        //获取时间段里 每天的时间区间
+        List<YZCXSearchParam> yzcxSearchParamByBetween = LdgDateUtil.getYZCXSearchParamByBetween(param.getStart(), param.getEnd());
+        yzcxSearchParamByBetween.forEach(item -> {
+            item.setHandletype(Arrays.asList(YZCXConstant.importType_zhuyuan));
+            int zhuyuanImportcount = yzcxHandleImportdateMapper.selectImportState(item);
+            if (zhuyuanImportcount == 0) {
+                System.out.println(item+"住院处理.....");
+                final List<YzcxHandleInfo> savelists = handleYZCXZYXXInfo(item);
+                yzcxHandleInfoMapper.batchInsert(savelists);
+            } else {
+                System.out.println(item+"住院信息已处理！");
+            }
+        });
+        ///保存处理的日期
+        final List<YzcxHandleImportdate> dateByBetween = LdgDateUtil.getDateByBetween(param, YZCXConstant.importType_zhuyuan);
+        yzcxHandleImportdateMapper.batchInsert(dateByBetween);
     }
 }
