@@ -122,7 +122,7 @@ public class YZCXscheduleMapToListHandler {
      * @param type
      * @return
      */
-    public static List<YzcxHandleInfo> handlerMap3(Map<String, Map<String, Long>> data, int type) {
+    public static List<YzcxHandleInfo> handlerMapForHH(Map<String, Map<String, Long>> data, int type) {
         List<YzcxHandleInfo> rtList = new ArrayList<>();
         data.forEach((k, v) -> {
             String date = k;

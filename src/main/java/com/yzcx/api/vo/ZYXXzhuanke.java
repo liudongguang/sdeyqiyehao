@@ -7,6 +7,16 @@ public class ZYXXzhuanke {
     private String zhuangrukeshi;
     private Date zhuankeshijian;
 
+    private String zhuankeshijianStr;
+
+    public String getZhuankeshijianStr() {
+        return zhuankeshijianStr;
+    }
+
+    public void setZhuankeshijianStr(String zhuankeshijianStr) {
+        this.zhuankeshijianStr = zhuankeshijianStr;
+    }
+
     public String getZhuangchukeshi() {
         return zhuangchukeshi;
     }

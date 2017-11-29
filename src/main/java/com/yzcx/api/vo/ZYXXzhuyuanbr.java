@@ -13,7 +13,15 @@ public class ZYXXzhuyuanbr {
     private Date cyrq;//出院日期
     private String cyfs;//出院方式
 
+    private String ryrqStr;
 
+    public String getRyrqStr() {
+        return ryrqStr;
+    }
+
+    public void setRyrqStr(String ryrqStr) {
+        this.ryrqStr = ryrqStr;
+    }
 
     public String getBrxb() {
         return brxb;
