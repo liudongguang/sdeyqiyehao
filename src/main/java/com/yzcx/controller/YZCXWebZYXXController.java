@@ -8,10 +8,12 @@ import com.yzcx.api.vo.yzcxdisplay.ZyxxIndex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/webyzcxZyxx")
@@ -27,6 +29,13 @@ public class YZCXWebZYXXController {
         return "/yzcx/zhuyuan/index.jsp";
     }
 
+    @RequestMapping(value = "/indexChart")
+    @ResponseBody
+    public Map<String,Object> indexChart(HttpServletRequest request) throws IOException, ParseException {
+        YZCXSearchParam param= YZCXControllerUtil.getBeforeDayByNum(0);
+        Map<String,Object> rs= yzcxZhuYuanSearchService.getIndexChart(param);
+        return rs;
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.yzcx.impl.service;
 
+import com.github.abel533.echarts.Option;
 import com.yzcx.api.po.YzcxHandleInfoDay;
 import com.yzcx.api.service.YZCXZhuYuanSearchService;
 import com.yzcx.api.util.YZCXConstant;
@@ -70,5 +71,12 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setZhuanchu(zhuanruks.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         }
         return index;
+    }
+
+    @Override
+    public Map<String, Object> getIndexChart(YZCXSearchParam param) {
+        Option option=new Option();
+
+        return null;
     }
 }
