@@ -55,7 +55,9 @@ public interface YZCXConstant {
     int zhuyuan_zhuanruKS = 25;//科室转入
     int zhuyuan_keshishizhan = 26;//科室实占
     int zhuyuan_keshikaifang = 27;//科室开放
-
+    String zhuyuan_brqk_bingwei="病危";
+    String zhuyuan_brqk_bingzhong="病重";
+    String zhuyuan_cyfs_siwang="死亡";
 
     String obj = "obj";
 }

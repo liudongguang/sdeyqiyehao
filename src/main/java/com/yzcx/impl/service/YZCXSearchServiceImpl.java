@@ -64,7 +64,6 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         }
         param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
         List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectByDateAndType(param);
-        ;
         if (yuyuelist.size() > 0) {
             Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
             rs.setYuyueshu(yuyuesum);
