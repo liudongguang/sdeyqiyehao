@@ -105,9 +105,30 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         }
         Map<String,List<Number>> nameAndData=new HashMap<>();
         nameAndData.put("入院人数",zhexianNum);
-        GsonOption echartOption = EchartsBuilder.buildEchartOption_line(" ","入院人次波动图",category,nameAndData,true);
+        //////////////////////////////////科室入院排名
+        final Map<String, Double> ksAndRyNum = keshiruyuanList.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+        List<YzcxHandleInfoDay> ksAndSumRenshuList=new ArrayList<>();
+        ksAndRyNum.forEach((ksname,sumRenshu)->{
+            YzcxHandleInfoDay newObj=new YzcxHandleInfoDay();
+            newObj.setName(ksname);
+            newObj.setCount(sumRenshu);
+            ksAndSumRenshuList.add(newObj);
+        });
+        List<YzcxHandleInfoDay> qianshiKsRuYuan = ksAndSumRenshuList.stream().sorted(Comparator.comparing(YzcxHandleInfoDay::getCount).reversed()).limit(10).collect(Collectors.toList());
+        List<String> category_ruyuan=new ArrayList<>();
+        List<Number> ruyuanData=new ArrayList<>();
+        qianshiKsRuYuan.forEach(item->{
+            category_ruyuan.add(item.getName());
+            ruyuanData.add(item.getCount());
+        });
+        Map<String,List<Number>> nameAndData_ksryqs=new HashMap<>();
+        nameAndData_ksryqs.put("入院人数",ruyuanData);
+        ////////////////////
+        GsonOption echartOption = EchartsBuilder.buildEchartOption_line(" ","入院人次波动图",category,nameAndData);
+        GsonOption echartOption_ruyuanqianshi = EchartsBuilder.buildEchartOption_bar(" "," ",category_ruyuan,nameAndData_ksryqs,false);
         Map<String, Object> rs = new HashMap<>();
         rs.put("echartOption", echartOption.toString());
+        rs.put("echartOption_ruyuanqianshi", echartOption_ruyuanqianshi.toString());
         return rs;
     }
 }

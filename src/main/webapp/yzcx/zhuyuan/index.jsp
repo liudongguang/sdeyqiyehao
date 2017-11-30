@@ -96,7 +96,7 @@
             </li>
             <li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
                 <div class="tit_sty">
-                    <span class="tit_sty_span1">当月出院人次同期分析</span>
+                    <span class="tit_sty_span1">科室入院人数排名（前十名）</span>
                 </div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="container1" style="width: 100%; height: 300px;margin: 0 auto"></div>

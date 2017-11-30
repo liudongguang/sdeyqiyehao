@@ -1,5 +1,6 @@
 package com.yzcx.api.util;
 
+import com.github.abel533.echarts.Grid;
 import com.github.abel533.echarts.axis.Axis;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.axis.ValueAxis;
@@ -21,16 +22,16 @@ import java.util.List;
 import java.util.Map;
 
 public class EchartsBuilder {
+     final static  String[] color={"#7cb5ec"};
     /**
      *
      * @param title
      * @param subtext
      * @param category
      * @param nameAndData
-     * @param hengshu  true  竖着显示   false横着显示
      * @return
      */
-    public static GsonOption buildEchartOption_line(String title,String subtext,List<String> category,Map<String,List<Number>> nameAndData,boolean hengshu){
+    public static GsonOption buildEchartOption_line(String title,String subtext,List<String> category,Map<String,List<Number>> nameAndData){
         GsonOption option=new GsonOption();
         option.title().text(title).subtext(subtext);
         option.tooltip().trigger(Trigger.axis);
@@ -38,7 +39,7 @@ public class EchartsBuilder {
         List<String> legend=new ArrayList<>();
         List<Series> series=new ArrayList<>();
         ItemStyle itemStyle=new ItemStyle();
-        itemStyle.normal().setColor("#2378f7");
+        itemStyle.normal().setColor(color[0]);
         nameAndData.forEach((barname,barDataList)->{
             legend.add(barname);
             Line line = new Line(barname);
@@ -73,7 +74,7 @@ public class EchartsBuilder {
         List<String> legend=new ArrayList<>();
         List<Series> series=new ArrayList<>();
         ItemStyle itemStyle=new ItemStyle();
-        itemStyle.normal().setColor("#2378f7");
+        itemStyle.normal().setColor(color[0]);
         nameAndData.forEach((barname,barDataList)->{
             legend.add(barname);
             Bar bar = new Bar(barname);
@@ -88,7 +89,10 @@ public class EchartsBuilder {
             option.yAxis(new ValueAxis());
         }else{
             option.xAxis(new ValueAxis());
-            option.yAxis(new CategoryAxis().data(category.toArray()));
+            option.yAxis(new CategoryAxis().data(category.toArray()).inverse(true));//inverse反转
+            Grid grid=new Grid();
+            grid.setLeft(80);
+            option.grid(grid);
         }
         return option;
     }
