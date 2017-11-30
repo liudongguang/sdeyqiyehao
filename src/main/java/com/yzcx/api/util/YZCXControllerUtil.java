@@ -31,7 +31,7 @@ public class YZCXControllerUtil {
         LocalDate localDate = LocalDate.now();
         localDate = localDate.minus(numofDay, ChronoUnit.DAYS);//前一天
         param.setStart(LdgDateUtil.parseLocalDateToDate(localDate));
-        param.setEnd(LdgDateUtil.parseLocalDateToDate(localDate));
+        param.setEnd(LdgDateUtil.get235959Time(LdgDateUtil.parseLocalDateToDate(localDate)));
         return param;
     }
 

@@ -1,10 +1,15 @@
 package com.yzcx.impl.service;
 
 import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.json.GsonOption;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import com.yzcx.api.po.YzcxHandleInfoDay;
 import com.yzcx.api.service.YZCXZhuYuanSearchService;
+import com.yzcx.api.util.EchartsBuilder;
+import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.vo.YZCXSearchParam;
+import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoDayExt;
 import com.yzcx.api.vo.yzcxdisplay.ZyxxIndex;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
@@ -12,9 +17,7 @@ import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,8 +78,36 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
 
     @Override
     public Map<String, Object> getIndexChart(YZCXSearchParam param) {
-        Option option=new Option();
-
-        return null;
+        List<Integer> zyxxType = Arrays.asList(YZCXConstant.zhuyuan_keshiruyuan);
+        param.setHandletype(zyxxType);
+        final List<YzcxHandleInfoDay> keshiruyuanList = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+        Map<String, Double> ruyuanMap = keshiruyuanList.stream().map(item -> {
+            YzcxHandleInfoDayExt yzcxHandleInfoDayExt = new YzcxHandleInfoDayExt();
+            yzcxHandleInfoDayExt.setHandledateStr(LdgDateUtil.getHourNum(item.getHandledate()).toString());
+            yzcxHandleInfoDayExt.setCount(item.getCount());
+            return yzcxHandleInfoDayExt;
+        }).collect(Collectors.groupingBy(YzcxHandleInfoDayExt::getHandledateStr, Collectors.summingDouble(YzcxHandleInfoDayExt::getCount)));
+        final List<String> hoursList = YZCXConstant.hoursList;
+        Integer maxHourNum = LdgDateUtil.getHourNum(keshiruyuanList.get(keshiruyuanList.size() - 1).getHandledate());
+        List<String> category=new ArrayList<>();
+        List<Number> zhexianNum=new ArrayList<>();
+        for(int i=0;i<hoursList.size();i++){
+            if(i>maxHourNum){
+                break;
+            }
+            String hourNum=hoursList.get(i);
+            Double sumNum = ruyuanMap.get(hourNum);
+            if(sumNum==null){
+                sumNum=0d;
+            }
+            category.add(hourNum);
+            zhexianNum.add(sumNum);
+        }
+        Map<String,List<Number>> nameAndData=new HashMap<>();
+        nameAndData.put("入院人数",zhexianNum);
+        GsonOption echartOption = EchartsBuilder.buildEchartOption_bar(" ","入院人次波动图",category,nameAndData,true);
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("echartOption", echartOption.toString());
+        return rs;
     }
 }

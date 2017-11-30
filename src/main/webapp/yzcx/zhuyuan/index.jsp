@@ -17,7 +17,6 @@
     <link rel="stylesheet" type="text/css" media="all" href="assets/yzcx/css/trunk.css"/>
     <link rel="stylesheet" type="text/css" href="assets/yzcx/css/style.css">
     <script type="text/javascript" src="assets/yzcx/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="assets/js/echarts.js"></script>
 </head>
 <body>
 <input type="hidden" value="3" id="navNum"/>
@@ -117,7 +116,8 @@
 
 <!--<script src="http://libs.useso.com/js/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>-->
 <script type="text/javascript" language="javascript" src="assets/yzcx/js/trunk.js"></script>
-<script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/echarts.js"></script>
+<script type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
 <script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
 <script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
