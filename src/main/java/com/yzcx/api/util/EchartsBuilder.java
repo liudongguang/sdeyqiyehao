@@ -1,5 +1,6 @@
 package com.yzcx.api.util;
 
+import com.github.abel533.echarts.axis.Axis;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.axis.ValueAxis;
 import com.github.abel533.echarts.code.Magic;
@@ -10,6 +11,7 @@ import com.github.abel533.echarts.data.PointData;
 import com.github.abel533.echarts.feature.MagicType;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.series.Line;
 import com.github.abel533.echarts.series.Series;
 import com.github.abel533.echarts.style.ItemStyle;
 
@@ -19,6 +21,41 @@ import java.util.List;
 import java.util.Map;
 
 public class EchartsBuilder {
+    /**
+     *
+     * @param title
+     * @param subtext
+     * @param category
+     * @param nameAndData
+     * @param hengshu  true  竖着显示   false横着显示
+     * @return
+     */
+    public static GsonOption buildEchartOption_line(String title,String subtext,List<String> category,Map<String,List<Number>> nameAndData,boolean hengshu){
+        GsonOption option=new GsonOption();
+        option.title().text(title).subtext(subtext);
+        option.tooltip().trigger(Trigger.axis);
+        //option.toolbox().show(true).feature(Tool.mark, Tool.dataView, new MagicType(Magic.line, Magic.bar).show(true), Tool.restore, Tool.saveAsImage);
+        List<String> legend=new ArrayList<>();
+        List<Series> series=new ArrayList<>();
+        ItemStyle itemStyle=new ItemStyle();
+        itemStyle.normal().setColor("#2378f7");
+        nameAndData.forEach((barname,barDataList)->{
+            legend.add(barname);
+            Line line = new Line(barname);
+            line.data(barDataList.toArray());
+            line.itemStyle(itemStyle);
+            series.add(line);
+        });
+        option.legend(legend);
+        option.series(series);
+        option.yAxis(new ValueAxis());
+        //////////////////////////////////////////////
+        List<Axis> axes = option.xAxis();
+        Axis xAxis=new CategoryAxis();
+        axes.add(xAxis);
+        xAxis.data(category.toArray());
+        return option;
+    }
     /**
      *
      * @param title

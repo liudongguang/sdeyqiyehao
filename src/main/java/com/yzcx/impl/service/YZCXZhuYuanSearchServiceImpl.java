@@ -105,7 +105,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         }
         Map<String,List<Number>> nameAndData=new HashMap<>();
         nameAndData.put("入院人数",zhexianNum);
-        GsonOption echartOption = EchartsBuilder.buildEchartOption_bar(" ","入院人次波动图",category,nameAndData,true);
+        GsonOption echartOption = EchartsBuilder.buildEchartOption_line(" ","入院人次波动图",category,nameAndData,true);
         Map<String, Object> rs = new HashMap<>();
         rs.put("echartOption", echartOption.toString());
         return rs;
