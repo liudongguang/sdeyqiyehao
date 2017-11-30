@@ -23,6 +23,7 @@ import java.util.Map;
 
 public class EchartsBuilder {
      final static  String[] color={"#7cb5ec"};
+     final static String baise="#ffffff";
     /**
      *
      * @param title
@@ -35,6 +36,7 @@ public class EchartsBuilder {
         GsonOption option=new GsonOption();
         option.title().text(title).subtext(subtext);
         option.tooltip().trigger(Trigger.axis);
+        option.backgroundColor(baise);
         //option.toolbox().show(true).feature(Tool.mark, Tool.dataView, new MagicType(Magic.line, Magic.bar).show(true), Tool.restore, Tool.saveAsImage);
         List<String> legend=new ArrayList<>();
         List<Series> series=new ArrayList<>();
@@ -70,6 +72,7 @@ public class EchartsBuilder {
         GsonOption option=new GsonOption();
         option.title().text(title).subtext(subtext);
         option.tooltip().trigger(Trigger.axis);
+        option.backgroundColor(baise);
         //option.toolbox().show(true).feature(Tool.mark, Tool.dataView, new MagicType(Magic.line, Magic.bar).show(true), Tool.restore, Tool.saveAsImage);
         List<String> legend=new ArrayList<>();
         List<Series> series=new ArrayList<>();
