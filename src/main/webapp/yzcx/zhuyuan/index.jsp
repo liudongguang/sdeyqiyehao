@@ -26,7 +26,7 @@
         <ul id="navToggle" class="burger slide">    <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
             <li></li><li></li><li></li>
         </ul>
-        <h1>全院收入情况表</h1>
+        <h1>全院住院情况表</h1>
     </header>
     <%@ include file="../yzcxNav.jsp"%>
     <div class="content slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
