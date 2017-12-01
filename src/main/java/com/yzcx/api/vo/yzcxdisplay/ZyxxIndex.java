@@ -1,5 +1,7 @@
 package com.yzcx.api.vo.yzcxdisplay;
 
+import com.yzcx.api.vo.YZCXSearchParam;
+
 public class ZyxxIndex {
     private Double ruyuan;
     private Double chuyuan;
@@ -7,6 +9,46 @@ public class ZyxxIndex {
     private Double zhuanru;
     private Double zhuanchu;
     private Double siwang;
+    ///
+    private Double shizhan;
+    private Double kaifang;
+    private Double cwshiyonglv;//床位使用率
+
+    //////
+    private YZCXSearchParam param;
+
+
+    public YZCXSearchParam getParam() {
+        return param;
+    }
+
+    public void setParam(YZCXSearchParam param) {
+        this.param = param;
+    }
+
+    public Double getShizhan() {
+        return shizhan;
+    }
+
+    public void setShizhan(Double shizhan) {
+        this.shizhan = shizhan;
+    }
+
+    public Double getKaifang() {
+        return kaifang;
+    }
+
+    public void setKaifang(Double kaifang) {
+        this.kaifang = kaifang;
+    }
+
+    public Double getCwshiyonglv() {
+        return cwshiyonglv;
+    }
+
+    public void setCwshiyonglv(Double cwshiyonglv) {
+        this.cwshiyonglv = cwshiyonglv;
+    }
 
     public Double getRuyuan() {
         return ruyuan;

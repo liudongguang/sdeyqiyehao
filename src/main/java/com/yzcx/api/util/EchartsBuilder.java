@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class EchartsBuilder {
-     final static  String[] color={"#7cb5ec"};
+     final static  String[] color={"#7cb5ec","#000000"};
      final static String baise="#ffffff";
     /**
      *
@@ -42,11 +42,20 @@ public class EchartsBuilder {
         List<Series> series=new ArrayList<>();
         ItemStyle itemStyle=new ItemStyle();
         itemStyle.normal().setColor(color[0]);
+        ItemStyle itemStyle2=new ItemStyle();
+        itemStyle2.normal().setColor(color[1]);
+        int[] i={0};
         nameAndData.forEach((barname,barDataList)->{
             legend.add(barname);
             Line line = new Line(barname);
             line.data(barDataList.toArray());
-            line.itemStyle(itemStyle);
+
+            if(i[0]==1){
+                line.itemStyle(itemStyle2);
+            }else {
+                line.itemStyle(itemStyle);
+            }
+            i[0]++;
             series.add(line);
         });
         option.legend(legend);
@@ -78,11 +87,19 @@ public class EchartsBuilder {
         List<Series> series=new ArrayList<>();
         ItemStyle itemStyle=new ItemStyle();
         itemStyle.normal().setColor(color[0]);
+        ItemStyle itemStyle2=new ItemStyle();
+        itemStyle2.normal().setColor(color[1]);
+        int[] i={0};
         nameAndData.forEach((barname,barDataList)->{
             legend.add(barname);
             Bar bar = new Bar(barname);
             bar.data(barDataList.toArray());
-            bar.itemStyle(itemStyle);
+            if(i[0]==1){
+                bar.itemStyle(itemStyle2);
+            }else {
+                bar.itemStyle(itemStyle);
+            }
+            i[0]++;
             series.add(bar);
         });
         option.legend(legend);

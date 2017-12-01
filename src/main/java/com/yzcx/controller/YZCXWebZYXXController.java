@@ -38,4 +38,14 @@ public class YZCXWebZYXXController {
     }
 
 
+    @RequestMapping(value = "/zhuyuan_yue_page")
+    public String zhuyuan_yue_page(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForThisMonth(param);
+        ZyxxIndex zyxxIndex=yzcxZhuYuanSearchService.getIndexZhuYuanForYue(yzcxSearchParam);
+        request.setAttribute(YZCXConstant.obj, zyxxIndex);
+        return "/yzcx/zhuyuan/zy_month.jsp";
+    }
+
+
+
 }

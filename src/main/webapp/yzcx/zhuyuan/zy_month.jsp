@@ -17,6 +17,9 @@
     <link rel="stylesheet" type="text/css" media="all" href="assets/yzcx/css/trunk.css"/>
     <link rel="stylesheet" type="text/css" href="assets/yzcx/css/style.css">
     <script type="text/javascript" src="assets/yzcx/js/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/yzcx/css/jquery.monthpicker.css">
+    <!--<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>-->
+    <script src="assets/yzcx/js/jquery.monthpicker.js"></script>
 </head>
 <body>
 <input type="hidden" value="3" id="navNum"/>
@@ -31,10 +34,15 @@
     <%@ include file="../yzcxNav.jsp"%>
     <div class="content slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
         <ul class="responsive">
-            <li class="header-section"
-                style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
-                <div class="tit_sty">
-                    <span class="tit_sty_span2"><a href="webyzcxZyxx/zhuyuan_yue_page">查看月住院&nbsp;></a></span>
+            <li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 1px!important;">
+                <div class="tit_sty" style="border:none!important;">
+                    <!--<span style="font-size: 16px;color: #2f4554">当日门诊分析</span>
+                    <span class="tit_sty_span2"><a href="webyzcx/menzhen_year">查看年门诊量&nbsp;&gt;</a></span>
+                    -->
+                    <span class="tit_sty_span2"><a href="webyzcxZyxx/index">&lt;查看日住院信息&nbsp;</a></span>
+
+                    <img style="width: 35px;vertical-align: middle;" src="assets/yzcx/image/data.png" alt=""/>
+                    <input type="text" class="input" id="monthly" placeholder="选择月份" value="<fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM"></fmt:formatDate>">
                 </div>
             </li>
             <li class="body-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
@@ -93,6 +101,32 @@
                                 <fmt:formatNumber type="number" value="${obj.siwang}" pattern="0"/></c:if>
                                 <c:if test="${obj.siwang==null}">
                                     0</c:if></p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div>
+                        <div class="tit_sty_div_all_tab1">
+                            <div class="tit_sty_div_all_tab1_div1">
+                                <p class="tit_sty_div_all_tab1_div1_p">开放床位</p>
+                                <p>
+                                    <c:if test="${obj.shizhan!=null}">
+                                    <fmt:formatNumber type="number" value=" ${obj.kaifang}" pattern="0"/></p>
+                                </c:if>
+                            </div>
+                        </div>
+                        <div class="tit_sty_div_all_tab1">
+                            <div class="tit_sty_div_all_tab1_div1">
+                                <p class="tit_sty_div_all_tab1_div1_p">使用床位</p>
+                                <p> <c:if test="${obj.kaifang!=null}">
+                                    <fmt:formatNumber type="number" value="${obj.shizhan}" pattern="0" /></c:if></p>
+                            </div>
+                        </div>
+                        <div class="tit_sty_div_all_tab1">
+                            <div class="tit_sty_div_all_tab1_div1">
+                                <p class="tit_sty_div_all_tab1_div1_p">床位使用率</p>
+                                <p> <c:if test="${obj.cwshiyonglv!=null}">
+                                    <fmt:formatNumber type="percent" value="${obj.cwshiyonglv}" maxFractionDigits="2" /></c:if></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,6 +188,6 @@
 <script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
 <script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
-<script type="text/javascript" language="javascript" src="assets/yzcx/zhuyuan/index.js"></script>
+<script type="text/javascript" language="javascript" src="assets/yzcx/zhuyuan/zhuyuan_yue.js"></script>
 </body>
 </html>
