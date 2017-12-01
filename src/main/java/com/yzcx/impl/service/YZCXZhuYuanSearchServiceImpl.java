@@ -249,7 +249,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
     }
 
     @Override
-    public Map<String, Object> zhuyuan_yue_chart(YZCXSearchParam yzcxSearchParam) {
+    public Map<String, Object> zhuyuan_yue_chart(YZCXSearchParam yzcxSearchParam) throws ParseException {
         List<Integer> zyxxType = Arrays.asList(YZCXConstant.zhuyuan_keshiruyuan);
         yzcxSearchParam.setHandletype(zyxxType);
         List<YzcxHandleInfo> ksruyuanList = yzcxHandleInfoMapper.selectByDateAndType(yzcxSearchParam);
@@ -283,12 +283,29 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         });
         Map<String, List<Number>> nameAndData_ksryqs = new HashMap<>();
         nameAndData_ksryqs.put("科室入院人数", ruyuanData);
-        ///////
+        ////////////////////////////////////////////////////////////////////同期分析
+        final Double jinnianSum = keshiruyuanList.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
+        final YZCXSearchParam qunianParam = YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);
+        qunianParam.setHandletype(zyxxType);
+        final List<YzcxHandleInfoMonth> qunianList = yzcxCommonService.getMonthDataByParam(qunianParam);
+        final Double qunianSum = qunianList.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
+        List<String> category_ruyuanks_tongqi = new ArrayList<>();
+        category_ruyuanks_tongqi.add(LdgDateUtil.get_zhongwen_yyyyMM(qunianParam.getStart()));
+        category_ruyuanks_tongqi.add(LdgDateUtil.get_zhongwen_yyyyMM(yzcxSearchParam.getStart()));
+        List<Number> ruyuanData_tongqi_qunian = new ArrayList<>();
+        ruyuanData_tongqi_qunian.add(qunianSum);
+        ruyuanData_tongqi_qunian.add(jinnianSum);
+        Map<String, List<Number>> nameAndData_ksryqs_tongqi = new HashMap<>();
+        nameAndData_ksryqs_tongqi.put("入院人数", ruyuanData_tongqi_qunian);
+
+        ///////////////////
         GsonOption echartOption_ruyuan = EchartsBuilder.buildEchartOption_bar(" ", "日入院人次", category_ruyuan, nameAndData_ruyuan, false);
         GsonOption echartOption_ruyuanks = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuanks, nameAndData_ksryqs, false);
+        GsonOption echartOption_ruyuanks_tongqi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuanks_tongqi, nameAndData_ksryqs_tongqi, true);
         Map<String, Object> rs = new HashMap<>();
         rs.put("echartOption", echartOption_ruyuan.toString());
         rs.put("echartOption_ruyuanks", echartOption_ruyuanks.toString());
+        rs.put("echartOption_ruyuanks_tongqi", echartOption_ruyuanks_tongqi.toString());
         return rs;
     }
 }

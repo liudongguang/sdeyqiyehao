@@ -33,5 +33,5 @@ public interface YZCXZhuYuanSearchService {
      * @param yzcxSearchParam
      * @return
      */
-    Map<String,Object> zhuyuan_yue_chart(YZCXSearchParam yzcxSearchParam);
+    Map<String,Object> zhuyuan_yue_chart(YZCXSearchParam yzcxSearchParam) throws ParseException;
 }
