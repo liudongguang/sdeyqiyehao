@@ -46,6 +46,12 @@ public class YZCXWebZYXXController {
         return "/yzcx/zhuyuan/zy_month.jsp";
     }
 
-
+    @RequestMapping(value = "/zhuyuan_yue_chart")
+    @ResponseBody
+    public Map<String,Object> zhuyuan_yue_chart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForThisMonth(param);
+        Map<String,Object> rs= yzcxZhuYuanSearchService.zhuyuan_yue_chart(yzcxSearchParam);
+        return rs;
+    }
 
 }

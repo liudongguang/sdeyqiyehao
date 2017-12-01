@@ -12,11 +12,13 @@ import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXControllerUtil;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoDayExt;
+import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoExt;
 import com.yzcx.api.vo.yzcxdisplay.ZyxxIndex;
 import com.yzcx.api.vo.yzcxdisplay.ZyxxKeshiChuanwei;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
+import com.yzcx.impl.service.handler.YzcxHandleInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -246,5 +248,47 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         return index;
     }
 
-
+    @Override
+    public Map<String, Object> zhuyuan_yue_chart(YZCXSearchParam yzcxSearchParam) {
+        List<Integer> zyxxType = Arrays.asList(YZCXConstant.zhuyuan_keshiruyuan);
+        yzcxSearchParam.setHandletype(zyxxType);
+        List<YzcxHandleInfo> ksruyuanList = yzcxHandleInfoMapper.selectByDateAndType(yzcxSearchParam);
+        LinkedHashMap<String, Double> everyDayRuYuan = ksruyuanList.stream().map(item -> {
+            return YzcxHandleInfoFactory.createYzcxHandleInfoExtForEveryDay(item.getHandledate(), item.getCount(), item.getName());
+        }).collect(Collectors.groupingBy(YzcxHandleInfoExt::getHandledateStr, LinkedHashMap::new, Collectors.summingDouble(YzcxHandleInfoExt::getCount)));
+        Map<String, List<Number>> nameAndData_ruyuan = new HashMap<>();
+        List<String> category_ruyuan = new ArrayList<>();
+        List<Number> ksshizhan = new ArrayList<>();
+        everyDayRuYuan.forEach((dateStr,SumNumber)->{
+            ksshizhan.add(SumNumber);
+            category_ruyuan.add(dateStr);
+        });
+        nameAndData_ruyuan.put("入院情况", ksshizhan);
+        ////////////////////////////////////////////////
+        List<YzcxHandleInfoMonth> keshiruyuanList = yzcxCommonService.getMonthDataByParam(yzcxSearchParam);
+        final Map<String, Double> ksAndRyNum = keshiruyuanList.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+        List<YzcxHandleInfoDay> ksAndSumRenshuList = new ArrayList<>();
+        ksAndRyNum.forEach((ksname, sumRenshu) -> {
+            YzcxHandleInfoDay newObj = new YzcxHandleInfoDay();
+            newObj.setName(ksname);
+            newObj.setCount(sumRenshu);
+            ksAndSumRenshuList.add(newObj);
+        });
+        List<YzcxHandleInfoDay> qianshiKsRuYuan = ksAndSumRenshuList.stream().sorted(Comparator.comparing(YzcxHandleInfoDay::getCount).reversed()).limit(10).collect(Collectors.toList());
+        List<String> category_ruyuanks = new ArrayList<>();
+        List<Number> ruyuanData = new ArrayList<>();
+        qianshiKsRuYuan.forEach(item -> {
+            category_ruyuanks.add(item.getName());
+            ruyuanData.add(item.getCount());
+        });
+        Map<String, List<Number>> nameAndData_ksryqs = new HashMap<>();
+        nameAndData_ksryqs.put("科室入院人数", ruyuanData);
+        ///////
+        GsonOption echartOption_ruyuan = EchartsBuilder.buildEchartOption_bar(" ", "日入院人次", category_ruyuan, nameAndData_ruyuan, false);
+        GsonOption echartOption_ruyuanks = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuanks, nameAndData_ksryqs, false);
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("echartOption", echartOption_ruyuan.toString());
+        rs.put("echartOption_ruyuanks", echartOption_ruyuanks.toString());
+        return rs;
+    }
 }

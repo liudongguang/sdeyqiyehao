@@ -20,6 +20,9 @@
     <link rel="stylesheet" type="text/css" href="assets/yzcx/css/jquery.monthpicker.css">
     <!--<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>-->
     <script src="assets/yzcx/js/jquery.monthpicker.js"></script>
+    <style type="text/css">
+        .input{width: 78px;padding:4px;border:1px solid #2f4554;border-radius: 5px}
+    </style>
 </head>
 <body>
 <input type="hidden" value="3" id="navNum"/>
@@ -133,44 +136,20 @@
             </li>
             <li class="header-section" style="background-color: #ecf0f1!important;">
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-                <div id="container" style="width: 100%; height:300px;margin: 0 auto;"></div>
+                <div id="container" style="width: 100%; height:600px;margin: 0 auto;"></div>
             </li>
             <li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
                 <div class="tit_sty">
-                    <span class="tit_sty_span1">科室入院人数排名（前十名）</span>
+                    <span class="tit_sty_span1">月科室入院人数排名（前十名）</span>
                 </div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="container1" style="width: 100%; height: 300px;margin: 0 auto"></div>
 
             </li>
             <li class="footer-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
-                <div>
-                    <div class="tit_sty_div_all_tab1">
-                        <div class="tit_sty_div_all_tab1_div1">
-                            <p class="tit_sty_div_all_tab1_div1_p">开发床位</p>
-                            <p>
-                                <c:if test="${obj.shizhan!=null}">
-                                <fmt:formatNumber type="number" value=" ${obj.shizhan}" pattern="0"/></p>
-                            </c:if>
-                        </div>
-                    </div>
-                    <div class="tit_sty_div_all_tab1">
-                        <div class="tit_sty_div_all_tab1_div1">
-                            <p class="tit_sty_div_all_tab1_div1_p">使用床位</p>
-                            <p> <c:if test="${obj.kaifang!=null}">
-                                <fmt:formatNumber type="number" value="${obj.kaifang}" pattern="0" /></c:if></p>
-                        </div>
-                    </div>
-                    <div class="tit_sty_div_all_tab1">
-                        <div class="tit_sty_div_all_tab1_div1">
-                            <p class="tit_sty_div_all_tab1_div1_p">床位使用率</p>
-                            <p> <c:if test="${obj.cwshiyonglv!=null}">
-                                <fmt:formatNumber type="percent" value="${obj.cwshiyonglv}" maxFractionDigits="2" /></c:if></p>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="tit_sty">
-                    <span class="tit_sty_span1">床位使用率排名（前十名）</span>
+                    <span class="tit_sty_span1">同期分析（入院人数）</span>
                 </div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="container2" style="min-width: 100%; height: 300px;margin: 48px auto;"></div>

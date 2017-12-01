@@ -20,6 +20,10 @@ $(document).ready(function() {
             }
         }
     })
-
-
+    var myChart = echarts.init(document.getElementById('container'));
+    var myChart1 = echarts.init(document.getElementById('container1'));
+    ajaxRequest("webyzcxZyxx/zhuyuan_yue_chart", {start:$('#monthly').val()+"-01"}, function (data) {
+        myChart.setOption(JSON.parse(data.echartOption));
+        myChart1.setOption(JSON.parse(data.echartOption_ruyuanks));
+    });
 })

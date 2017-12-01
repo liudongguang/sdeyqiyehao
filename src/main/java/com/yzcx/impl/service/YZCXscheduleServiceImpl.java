@@ -532,9 +532,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         //3.出院总数
         final Long chuyuanRenshu = bingren.stream().filter(item -> item.getCyrq() != null).collect(Collectors.counting());
         //4.入院总数
-        final Long ruyuanrenshu=bingren.size()-chuyuanRenshu;
+        final Integer ruyuanrenshu=bingren.size();
         //5.科室入院情况
-        final Map<String, Long> keshiruyuanMap = bingren.stream().filter(item -> item.getCyrq() == null).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getBrks, Collectors.counting()));
+        final Map<String, Long> keshiruyuanMap = bingren.stream().filter(item -> item.getRyrq() != null).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getBrks, Collectors.counting()));
         //6.转出
         final Map<String, Long> zhuanchuKS = zhuangke.stream().collect(Collectors.groupingBy(ZYXXzhuanke::getZhuangchukeshi, Collectors.counting()));
         //7.转入
@@ -562,6 +562,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         List<YZCXSearchParam> yzcxSearchParamByBetween = LdgDateUtil.getYZCXSearchParamByBetween(param.getStart(), param.getEnd());
         yzcxSearchParamByBetween.forEach(item -> {
             item.setHandletype(Arrays.asList(YZCXConstant.importType_zhuyuan));
+
             int zhuyuanImportcount = yzcxHandleImportdateMapper.selectImportState(item);
             if (zhuyuanImportcount == 0) {
                 System.out.println(item+"住院处理.....");

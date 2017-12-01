@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
@@ -63,10 +64,10 @@ public class YZCXHandlerController {
             yzcXscheduleService.saveYZCXMenzhenData(handlerData, param);//保存门诊记录
             System.out.println("保存了门诊记录..");
         }
-        YZCXHandlerData handlerFeiYongData = yzcXscheduleService.handlerFeiyonginfo(param);//获取费用记录
+         yzcXscheduleService.handlerFeiyonginfo(param);//获取费用记录
         System.out.println("费用处理完毕！");
         yzcXscheduleService.handlerZhuYuanXinxiRiGuiDang(param);
-        System.out.println("daysGuiDang执行完成！");
+        System.out.println(param+"daysGuiDang执行完成！");
         return msg;
     }
 
@@ -80,6 +81,11 @@ public class YZCXHandlerController {
     @ResponseBody
     public void excuteRiguidang() throws IOException, ParseException {
         System.out.println("------excuteRiguidang------");
+//        LocalDateTime localDate=LocalDateTime.of(2017,1,1,0,0,0);
+//        YZCXSearchParam param=new YZCXSearchParam();
+//        param.setStart(LdgDateUtil.getDayZeroTime(localDate));
+//        param.setEnd(LdgDateUtil.getDayLastTime(localDate));
+//        daysGuiDang(param);
         daysGuiDang(YZCXControllerUtil.getBeforeOneDay());
         //daysGuiDang(YZCXControllerUtil.getBeforeOneMonth());
     }
@@ -94,7 +100,6 @@ public class YZCXHandlerController {
     public void initYZCXSystem() throws IOException, ParseException {
         List<YZCXSearchParam> initDateList=  LdgDateUtil.getQianyinianStartUntilBeforeMonth();
         //List<YZCXSearchParam> initDateList=  LdgDateUtil.getMonthJiangeByNum(1);
-        System.out.println("初始化系统："+initDateList);
         //日归档
         initDateList.forEach(it->{
             System.out.println(it);
@@ -110,7 +115,7 @@ public class YZCXHandlerController {
         initDateList.forEach(it->{
             System.out.println(it);
             try {
-                System.out.println(monthGuidang(it));
+              monthGuidang(it);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
@@ -127,7 +132,7 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/initYZCXMonthSystem")
     @ResponseBody
     public void initYZCXMonthSystem() throws Exception {
-        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(0);
+        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(1);
         YZCXSearchParam searchParam=new YZCXSearchParam();
         searchParam.setStart(initDateList.get(0).getStart());
         searchParam.setEnd(initDateList.get(initDateList.size()-1).getEnd());
@@ -168,6 +173,7 @@ public class YZCXHandlerController {
         param.setStart(LdgDateUtil.get000000Time(param.getStart()));
         param.setEnd(LdgDateUtil.get235959Time(param.getEnd()));
         ResultMsg2 msg = yzcXscheduleService.montho_mzinfo(param);
+        System.out.println(msg);
         return msg;
     }
 

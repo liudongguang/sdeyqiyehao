@@ -27,4 +27,11 @@ public interface YZCXZhuYuanSearchService {
      * @return
      */
     ZyxxIndex getIndexZhuYuanForYue(YZCXSearchParam param) throws ParseException;
+
+    /**
+     * 住院月图表
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> zhuyuan_yue_chart(YZCXSearchParam yzcxSearchParam);
 }
