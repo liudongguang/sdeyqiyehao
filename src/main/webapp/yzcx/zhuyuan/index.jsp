@@ -116,7 +116,7 @@
                             <p class="tit_sty_div_all_tab1_div1_p">开放床位</p>
                             <p>
                                 <c:if test="${obj.shizhan!=null}">
-                                <fmt:formatNumber type="number" value=" ${obj.shizhan}" pattern="0"/></p>
+                                <fmt:formatNumber type="number" value=" ${obj.kaifang}" pattern="0"/></p>
                             </c:if>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                         <div class="tit_sty_div_all_tab1_div1">
                             <p class="tit_sty_div_all_tab1_div1_p">使用床位</p>
                             <p> <c:if test="${obj.kaifang!=null}">
-                                <fmt:formatNumber type="number" value="${obj.kaifang}" pattern="0" /></c:if></p>
+                                <fmt:formatNumber type="number" value="${obj.shizhan}" pattern="0" /></c:if></p>
                         </div>
                     </div>
                     <div class="tit_sty_div_all_tab1">
