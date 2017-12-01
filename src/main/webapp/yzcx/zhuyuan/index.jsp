@@ -113,7 +113,7 @@
                 <div>
                     <div class="tit_sty_div_all_tab1">
                         <div class="tit_sty_div_all_tab1_div1">
-                            <p class="tit_sty_div_all_tab1_div1_p">开发床位</p>
+                            <p class="tit_sty_div_all_tab1_div1_p">开放床位</p>
                             <p>
                                 <c:if test="${obj.shizhan!=null}">
                                 <fmt:formatNumber type="number" value=" ${obj.shizhan}" pattern="0"/></p>
