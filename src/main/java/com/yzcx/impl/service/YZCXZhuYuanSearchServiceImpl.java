@@ -78,7 +78,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setZhuanchu(zhuanchuks.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         }
         if (zhuanruks != null) {
-            index.setZhuanchu(zhuanruks.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+            index.setZhuanru(zhuanruks.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         }
         /////////////////////////////////////////////////////////////////获取前一天的床位信息
         YZCXSearchParam beforeDayparam= YZCXControllerUtil.getBeforeDayByNum(1);
@@ -230,7 +230,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setZhuanchu(zhuanchuks.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         }
         if (zhuanruks != null) {
-            index.setZhuanchu(zhuanruks.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+            index.setZhuanru(zhuanruks.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         }
         /////////////////////////////////////////////////////////////////床位
         param.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_keshishizhan,YZCXConstant.zhuyuan_keshikaifang));
