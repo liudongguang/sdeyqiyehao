@@ -91,7 +91,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         Double kaifang = keshiChuangweiMap.get(YZCXConstant.zhuyuan_keshikaifang);
         index.setShizhan(shizhan);
         index.setKaifang(kaifang);
-        if(shizhan!=0&&kaifang!=0){
+        if(shizhan!=null&&shizhan!=0&&kaifang!=null&&kaifang!=0){
             index.setCwshiyonglv(shizhan/kaifang);
         }
         return index;

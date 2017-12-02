@@ -562,7 +562,6 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         List<YZCXSearchParam> yzcxSearchParamByBetween = LdgDateUtil.getYZCXSearchParamByBetween(param.getStart(), param.getEnd());
         yzcxSearchParamByBetween.forEach(item -> {
             item.setHandletype(Arrays.asList(YZCXConstant.importType_zhuyuan));
-
             int zhuyuanImportcount = yzcxHandleImportdateMapper.selectImportState(item);
             if (zhuyuanImportcount == 0) {
                 System.out.println(item+"住院处理.....");
