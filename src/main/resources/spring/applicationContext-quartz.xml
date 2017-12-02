@@ -54,8 +54,8 @@
     <bean id="yzcxRiguidangTrigger"
           class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="yzcxControllerJob"></property>
-        <!-- 每天凌晨1点： -->
-        <property name="cronExpression" value="0 0 1 * * ?"></property>
+        <!-- 每天凌晨5点： -->
+        <property name="cronExpression" value="0 0 5 * * ?"></property>
         <!-- 延时几毫秒后执行
         <property name="startDelay" value="1000"></property>
          -->
