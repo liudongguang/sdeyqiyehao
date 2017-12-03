@@ -54,4 +54,19 @@ public class YZCXWebZYXXController {
         return rs;
     }
 
+
+    @RequestMapping(value = "/zhuyuan_year")
+    public String zhuyuan_year(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+
+        return "/yzcx/zhuyuan/zy_year.jsp";
+    }
+    @RequestMapping(value = "/zhuyuan_year_chart")
+    @ResponseBody
+    public Map<String,Object> zhuyuan_year_chart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForYear(param);
+        Map<String,Object> rs= yzcxZhuYuanSearchService.zhuyuan_year(yzcxSearchParam);
+        return rs;
+    }
+
+
 }

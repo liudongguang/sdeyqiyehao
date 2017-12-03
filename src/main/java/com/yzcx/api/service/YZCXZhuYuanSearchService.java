@@ -34,4 +34,11 @@ public interface YZCXZhuYuanSearchService {
      * @return
      */
     Map<String,Object> zhuyuan_yue_chart(YZCXSearchParam yzcxSearchParam) throws ParseException;
+
+    /**
+     * 住院年数据
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> zhuyuan_year(YZCXSearchParam yzcxSearchParam) throws ParseException;
 }

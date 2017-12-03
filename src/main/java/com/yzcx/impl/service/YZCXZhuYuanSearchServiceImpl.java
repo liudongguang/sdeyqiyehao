@@ -11,10 +11,7 @@ import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXControllerUtil;
 import com.yzcx.api.vo.YZCXSearchParam;
-import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoDayExt;
-import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoExt;
-import com.yzcx.api.vo.yzcxdisplay.ZyxxIndex;
-import com.yzcx.api.vo.yzcxdisplay.ZyxxKeshiChuanwei;
+import com.yzcx.api.vo.yzcxdisplay.*;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
@@ -60,7 +57,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setRuyuan(ruyuanrs.get(0).getCount());
         }
         if (brqk != null) {
-            Map<String, Double> brqkMap = brqk.stream().collect(Collectors.toMap(YzcxHandleInfoDay::getName, YzcxHandleInfoDay::getCount));
+            Map<String, Double> brqkMap = brqk.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName,Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
             Double bws = brqkMap.get(YZCXConstant.zhuyuan_brqk_bingwei);//病危
             Double bzs = brqkMap.get(YZCXConstant.zhuyuan_brqk_bingzhong);//病重数
             if (bws == null) {
@@ -72,7 +69,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setWeizhong(bws + bzs);
         }
         if (cyfs != null) {
-            Map<String, Double> cyfsMap = cyfs.stream().collect(Collectors.toMap(YzcxHandleInfoDay::getName, YzcxHandleInfoDay::getCount));
+            Map<String, Double> cyfsMap = cyfs.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName,Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
             Double sws = cyfsMap.get(YZCXConstant.zhuyuan_cyfs_siwang);
             index.setSiwang(sws);
         }
@@ -212,7 +209,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setRuyuan(ruyuanrs.get(0).getCount());
         }
         if (brqk != null) {
-            Map<String, Double> brqkMap = brqk.stream().collect(Collectors.toMap(YzcxHandleInfoMonth::getName, YzcxHandleInfoMonth::getCount));
+            Map<String, Double> brqkMap = brqk.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName,Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
             Double bws = brqkMap.get(YZCXConstant.zhuyuan_brqk_bingwei);//病危
             Double bzs = brqkMap.get(YZCXConstant.zhuyuan_brqk_bingzhong);//病重数
             if (bws == null) {
@@ -224,7 +221,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setWeizhong(bws + bzs);
         }
         if (cyfs != null) {
-            Map<String, Double> cyfsMap = cyfs.stream().collect(Collectors.toMap(YzcxHandleInfoMonth::getName, YzcxHandleInfoMonth::getCount));
+            Map<String, Double> cyfsMap = cyfs.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName,Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
             Double sws = cyfsMap.get(YZCXConstant.zhuyuan_cyfs_siwang);
             index.setSiwang(sws);
         }
@@ -306,6 +303,53 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         rs.put("echartOption", echartOption_ruyuan.toString());
         rs.put("echartOption_ruyuanks", echartOption_ruyuanks.toString());
         rs.put("echartOption_ruyuanks_tongqi", echartOption_ruyuanks_tongqi.toString());
+        return rs;
+    }
+
+    @Override
+    public Map<String, Object> zhuyuan_year(YZCXSearchParam yzcxSearchParam) throws ParseException {
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_chuyuanRenshu));
+        List<YzcxHandleInfoMonth> zhuyuanYearList = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
+        Map<String, Double> zhuyuanYearMap = zhuyuanYearList.stream().map(item -> {
+            YzcxHandleInfoMonthExt yzcxHandleInfoMonthExt = new YzcxHandleInfoMonthExt();
+            yzcxHandleInfoMonthExt.setSumNum(item.getCount());
+            yzcxHandleInfoMonthExt.setMonthStr(LdgDateUtil.getMonthHanzi(item.getHandledate()));
+            return yzcxHandleInfoMonthExt;
+        }).collect(Collectors.toMap(YzcxHandleInfoMonthExt::getMonthStr, YzcxHandleInfoMonthExt::getSumNum));
+        List<String> category_ruyuan = new ArrayList<>();
+        List<Number> ksshizhan = new ArrayList<>();
+        Arrays.asList(YZCXConstant.months).forEach(month -> {
+            Double menzhenSum = zhuyuanYearMap.get(month);
+            category_ruyuan.add(month);
+            ksshizhan.add(menzhenSum);
+        });
+
+        Map<String, List<Number>> nameAndData_ruyuan = new HashMap<>();
+        nameAndData_ruyuan.put("入院人数", ksshizhan);
+        GsonOption echartOption_ruyuan = EchartsBuilder.buildEchartOption_bar(" ", "月入院人次", category_ruyuan, nameAndData_ruyuan, false);
+        ///////////////////////////////////////////////////////////////////////////////////////
+        List<String> category_ruyuan_tongqi = new ArrayList<>();
+        String currentDateStr = LdgDateUtil.getYearHanzi(yzcxSearchParam.getStart());
+        List<YzcxHandleInfoMonth> currentlist = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
+        yzcxSearchParam=YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);//获取前一年同月日期
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_chuyuanRenshu));
+        String qunianDateStr = LdgDateUtil.getYearHanzi(yzcxSearchParam.getStart());
+        List<YzcxHandleInfoMonth> qunianlist = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
+        if (qunianlist.size() == 0) {
+            return null;
+        }
+        category_ruyuan_tongqi.add(currentDateStr);
+        category_ruyuan_tongqi.add(qunianDateStr);
+        List<Number> ruyuanData_tongqi_qunian = new ArrayList<>();
+        ruyuanData_tongqi_qunian.add(currentlist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+        ruyuanData_tongqi_qunian.add(qunianlist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+        Map<String, List<Number>> nameAndData_ryqs_tongqi = new HashMap<>();
+        nameAndData_ryqs_tongqi.put("入院人数", ruyuanData_tongqi_qunian);
+        GsonOption echartOption_ruyuan_tongqi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuan_tongqi, nameAndData_ryqs_tongqi, true);
+        //////////////////////
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("echartOption", echartOption_ruyuan.toString());
+        rs.put("echartOption_ruyuan_tongqi", echartOption_ruyuan_tongqi.toString());
         return rs;
     }
 }
