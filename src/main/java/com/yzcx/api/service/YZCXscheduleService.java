@@ -49,4 +49,10 @@ public interface YZCXscheduleService {
      * @param param
      */
     void handlerZhuYuanXinxiRiGuiDang(YZCXSearchParam param) throws ParseException;
+
+    /**
+     * 删除日处理信息
+     * @param param
+     */
+    void deleteMenzhenDayHandler(YZCXSearchParam param);
 }

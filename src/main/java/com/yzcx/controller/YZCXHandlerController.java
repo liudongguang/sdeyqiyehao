@@ -67,12 +67,16 @@ public class YZCXHandlerController {
          yzcXscheduleService.handlerFeiyonginfo(param);//获取费用记录
         System.out.println("费用处理完毕！");
         yzcXscheduleService.handlerZhuYuanXinxiRiGuiDang(param);
+
+        /////////////////////删除前一天的日归档信息
+        yzcXscheduleService.deleteMenzhenDayHandler(param);
+        ////////////////////
         System.out.println(param+"daysGuiDang执行完成！");
         return msg;
     }
 
     /**
-     * 日归档，自动执行于凌晨1点  只归档前一天的内容
+     * 日归档，自动执行于凌晨1点  只归档前一天的日处理
      *
      * @throws IOException
      * @throws ParseException

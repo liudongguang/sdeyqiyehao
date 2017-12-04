@@ -551,4 +551,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         final List<YzcxHandleImportdate> dateByBetween = LdgDateUtil.getDateByBetween(param, YZCXConstant.importType_zhuyuan);
         yzcxHandleImportdateMapper.batchInsert(dateByBetween);
     }
+
+    @Override
+    public void deleteMenzhenDayHandler(YZCXSearchParam param) {
+        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+    }
 }
