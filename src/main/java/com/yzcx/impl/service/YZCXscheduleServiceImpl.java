@@ -267,6 +267,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
 
     /**
      * 处理费用
+     *
      * @param param
      * @return
      * @throws ParseException
@@ -280,12 +281,12 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxSearchParamByBetween.forEach(item -> {
             item.setHandletype(Arrays.asList(YZCXConstant.importType_feiyong));
             int feiyongImportcount = yzcxHandleImportdateMapper.selectImportState(item);
-            if(feiyongImportcount==0){
-                System.out.println("费用处理："+item);
+            if (feiyongImportcount == 0) {
+                System.out.println("费用处理：" + item);
                 handlerFeiYongRiGuiDang(yzcxHandlerData, item);
                 saveYZCXFeiyongData(yzcxHandlerData, item);//保存费用记录
-            }else {
-                System.out.println(item.getStart()+"已处理......");
+            } else {
+                System.out.println(item.getStart() + "已处理......");
             }
         });
         return yzcxHandlerData;
@@ -437,51 +438,25 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         //入院情况设置
         List<Integer> zyxxRuYuanType = Arrays.asList(YZCXConstant.zhuyuan_keshiruyuan);
         param.setHandletype(zyxxRuYuanType);
-        int zyxxcount = yzcxHandleInfoDayMapper.getDayTypeCount(param);//查询是否有住院信息数据
-        ZYXXModle fullDaydata =null;
-        ZYXXModle increasedata =null;
-        if(zyxxcount!=0){
-            requestparam.put("starte", beforeOneHourceStr);
-            requestparam.put("end", nowDateTime_Str);
-            YZCXSearchParam param2 = new YZCXSearchParam();
-            param2.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(beforeOneHourceStr));
-            param2.setEnd(nowDateTime);
-            //删除前一个小时到现在的 门诊情况
-            param2.setHandletype(zyxxRuYuanType);
-            int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param2);//删除上一个小时到当前时间的记录，下面重新插入
-            increasedata=YzcxHttpRequest.getZYXX(requestparam);
-        }else{
-            requestparam.put("starte", date00);
-            requestparam.put("end", date23);
-            fullDaydata= YzcxHttpRequest.getZYXX(requestparam);
-        }
-        List<ZYXXzhuyuanbr> bingren =null;
-        if(fullDaydata==null){
-            bingren=increasedata.getBingren();
-        }else{
-            bingren=fullDaydata.getBingren();
-        }
+        requestparam.put("starte", date00);
+        requestparam.put("end", date23);
+        yzcxHandleInfoDayMapper.deleteByTimeForType(param);//删除科室入院信息
+        ZYXXModle fullDaydata = YzcxHttpRequest.getZYXX(requestparam);
+        List<ZYXXzhuyuanbr> bingren = fullDaydata.getBingren();
         final Map<String, Map<String, Long>> dateTime_ryks = bingren.stream().filter(item -> item.getCyrq() == null).map(item -> {
             item.setRyrqStr(LdgDateUtil.getyyyy_mm_dd_hhString(item.getRyrq()));
             return item;
         }).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getRyrqStr, Collectors.groupingBy(ZYXXzhuyuanbr::getBrks, Collectors.counting())));
         List<YzcxHandleInfo> yzcxHandleInfos = YZCXscheduleMapToListHandler.handlerMapForHH(dateTime_ryks, YZCXConstant.zhuyuan_keshiruyuan);
         yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);//保存入院信息
-        /**
-         * 如果没有全日数据
-         */
-        if(fullDaydata==null){
-            requestparam.put("starte", date00);
-            requestparam.put("end", date23);
-            fullDaydata= YzcxHttpRequest.getZYXX(requestparam);
-        }
         List<Integer> zyxxType = Arrays.asList(YZCXConstant.zhuyuan_brqk, YZCXConstant.zhuyuan_cyfs,
                 YZCXConstant.zhuyuan_chuyuanRenshu, YZCXConstant.zhuyuan_ruyuanrenshu,
-                 YZCXConstant.zhuyuan_zhuanchuKS, YZCXConstant.zhuyuan_zhuanruKS);
+                YZCXConstant.zhuyuan_zhuanchuKS, YZCXConstant.zhuyuan_zhuanruKS,YZCXConstant.zhuyuan_zaiyuan);
         param.setHandletype(zyxxType);
         yzcxHandleInfoDayMapper.deleteByTimeForType(param);//删除除了入院信息的其他信息
         List<ZYXXzhuyuanbr> fullDaybingren = fullDaydata.getBingren();
         List<ZYXXzhuanke> fullDayzhuangke = fullDaydata.getZhuangke();
+        final Integer zaiyuanNum = fullDaydata.getZaiyuanNum();
         //1.病人情况
         Map<String, Long> brqkMap = fullDaybingren.stream().filter(item -> StringUtils.isNotBlank(item.getBrqk())).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getBrqk, Collectors.counting()));
         //2.出院情况
@@ -489,12 +464,12 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         //3.出院总数
         final Long chuyuanRenshu = fullDaybingren.stream().filter(item -> item.getCyrq() != null).collect(Collectors.counting());
         //4.入院总数
-        final Long ruyuanrenshu=fullDaybingren.size()-chuyuanRenshu;
+        final Integer ruyuanrenshu = fullDaybingren.size();
         //5.转出
         final Map<String, Long> zhuanchuKS = fullDayzhuangke.stream().collect(Collectors.groupingBy(ZYXXzhuanke::getZhuangchukeshi, Collectors.counting()));
         //6.转入
         final Map<String, Long> zhuanruKS = fullDayzhuangke.stream().collect(Collectors.groupingBy(ZYXXzhuanke::getZhuangrukeshi, Collectors.counting()));
-        List<YzcxHandleInfo> rsList=new ArrayList<>();
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
         final Date start = param.getStart();
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(brqkMap, start, YZCXConstant.zhuyuan_brqk));
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(cyfsMap, start, YZCXConstant.zhuyuan_cyfs));
@@ -502,18 +477,19 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_ruyuanrenshuStr, YZCXConstant.zhuyuan_ruyuanrenshu, start, ruyuanrenshu.doubleValue()));
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(zhuanchuKS, start, YZCXConstant.zhuyuan_zhuanchuKS));
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(zhuanruKS, start, YZCXConstant.zhuyuan_zhuanruKS));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_zaiyuanStr, YZCXConstant.zhuyuan_zaiyuan, start, zaiyuanNum.doubleValue()));
         yzcxHandleInfoDayMapper.batchInsert(rsList);//保存入院信息
     }
 
     @Override
     public List<YZCXSearchParam> getExistDaysFromGuiDangDays(YZCXSearchParam searchParam) {
-        List<YZCXSearchParam> existsDays=yzcxHandleImportdateMapper.getExistDaysFromGuiDangDays(searchParam);
+        List<YZCXSearchParam> existsDays = yzcxHandleImportdateMapper.getExistDaysFromGuiDangDays(searchParam);
         return existsDays;
     }
 
 
-    private List<YzcxHandleInfo> handleYZCXZYXXInfo(YZCXSearchParam param){
-        List<YzcxHandleInfo> rsList=new ArrayList<>();
+    private List<YzcxHandleInfo> handleYZCXZYXXInfo(YZCXSearchParam param) {
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
         Map<String, String> requestparam = new HashMap();
         final Date start = param.getStart();
         String date00 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(start);
@@ -532,7 +508,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         //3.出院总数
         final Long chuyuanRenshu = bingren.stream().filter(item -> item.getCyrq() != null).collect(Collectors.counting());
         //4.入院总数
-        final Integer ruyuanrenshu=bingren.size();
+        final Integer ruyuanrenshu = bingren.size();
         //5.科室入院情况
         final Map<String, Long> keshiruyuanMap = bingren.stream().filter(item -> item.getRyrq() != null).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getBrks, Collectors.counting()));
         //6.转出
@@ -564,11 +540,11 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             item.setHandletype(Arrays.asList(YZCXConstant.importType_zhuyuan));
             int zhuyuanImportcount = yzcxHandleImportdateMapper.selectImportState(item);
             if (zhuyuanImportcount == 0) {
-                System.out.println(item+"住院处理.....");
+                System.out.println(item + "住院处理.....");
                 final List<YzcxHandleInfo> savelists = handleYZCXZYXXInfo(item);
                 yzcxHandleInfoMapper.batchInsert(savelists);
             } else {
-                System.out.println(item+"住院信息已处理！");
+                System.out.println(item + "住院信息已处理！");
             }
         });
         ///保存处理的日期

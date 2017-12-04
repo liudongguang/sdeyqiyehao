@@ -34,6 +34,8 @@
             <li class="header-section"
                 style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
                 <div class="tit_sty">
+                     <span class="tit_sty_span1">在院人数：<fmt:formatNumber type="number" value="${obj.zaiyuanNum}" pattern="0"
+                                                                        maxFractionDigits="0"/> </span>
                     <span class="tit_sty_span2"><a href="webyzcxZyxx/zhuyuan_yue_page">查看月住院&nbsp;></a></span>
                 </div>
             </li>

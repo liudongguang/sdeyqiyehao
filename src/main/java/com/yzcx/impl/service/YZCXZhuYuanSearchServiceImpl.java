@@ -38,7 +38,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
     public ZyxxIndex getIndexZhuYuanForDay(YZCXSearchParam param) throws ParseException {
         List<Integer> zyxxType = Arrays.asList(YZCXConstant.zhuyuan_brqk, YZCXConstant.zhuyuan_cyfs,
                 YZCXConstant.zhuyuan_chuyuanRenshu, YZCXConstant.zhuyuan_ruyuanrenshu,
-                YZCXConstant.zhuyuan_zhuanchuKS, YZCXConstant.zhuyuan_zhuanruKS);
+                YZCXConstant.zhuyuan_zhuanchuKS, YZCXConstant.zhuyuan_zhuanruKS,YZCXConstant.zhuyuan_zaiyuan);
         param.setHandletype(zyxxType);
         final List<YzcxHandleInfoDay> yzcxHandleInfoDays = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         final Map<Integer, List<YzcxHandleInfoDay>> zhuyuanMap = yzcxHandleInfoDays.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype));
@@ -48,6 +48,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         List<YzcxHandleInfoDay> ruyuanrs = zhuyuanMap.get(YZCXConstant.zhuyuan_ruyuanrenshu);
         List<YzcxHandleInfoDay> zhuanchuks = zhuyuanMap.get(YZCXConstant.zhuyuan_zhuanchuKS);
         List<YzcxHandleInfoDay> zhuanruks = zhuyuanMap.get(YZCXConstant.zhuyuan_zhuanruKS);
+        List<YzcxHandleInfoDay> zaiyuan = zhuyuanMap.get(YZCXConstant.zhuyuan_zaiyuan);
         ZyxxIndex index = new ZyxxIndex();
         index.setParam(param);
         if (chuyuanrs != null) {
@@ -90,6 +91,11 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         index.setKaifang(kaifang);
         if(shizhan!=null&&shizhan!=0&&kaifang!=null&&kaifang!=0){
             index.setCwshiyonglv(shizhan/kaifang);
+        }
+        //////////////////////////////在院
+        if(zaiyuan!=null){
+            YzcxHandleInfoDay yzcxHandleInfoDay = zaiyuan.get(0);
+            index.setZaiyuanNum(yzcxHandleInfoDay.getCount());
         }
         return index;
     }

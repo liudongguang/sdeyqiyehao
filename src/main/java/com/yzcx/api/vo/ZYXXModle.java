@@ -6,6 +6,16 @@ public class ZYXXModle {
     private List<ZYXXchuangwei> chuangwei;
     private List<ZYXXzhuanke> zhuangke;
     private List<ZYXXzhuyuanbr> bingren;
+    private Integer zaiyuanNum;
+
+
+    public void setZaiyuanNum(Integer zaiyuanNum) {
+        this.zaiyuanNum = zaiyuanNum;
+    }
+
+    public Integer getZaiyuanNum() {
+        return zaiyuanNum;
+    }
 
     public List<ZYXXchuangwei> getChuangwei() {
         return chuangwei;
@@ -37,6 +47,7 @@ public class ZYXXModle {
                 "chuangwei=" + chuangwei +
                 ", zhuangke=" + zhuangke +
                 ", bingren=" + bingren +
+                ", zaiyuanNum=" + zaiyuanNum +
                 '}';
     }
 }

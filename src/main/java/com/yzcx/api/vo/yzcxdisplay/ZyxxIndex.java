@@ -13,10 +13,20 @@ public class ZyxxIndex {
     private Double shizhan;
     private Double kaifang;
     private Double cwshiyonglv;//床位使用率
+    //
+    private Double zaiyuanNum;
 
     //////
     private YZCXSearchParam param;
 
+
+    public Double getZaiyuanNum() {
+        return zaiyuanNum;
+    }
+
+    public void setZaiyuanNum(Double zaiyuanNum) {
+        this.zaiyuanNum = zaiyuanNum;
+    }
 
     public YZCXSearchParam getParam() {
         return param;

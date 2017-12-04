@@ -61,6 +61,7 @@ public interface YZCXConstant {
     String zhuyuan_brqk_bingwei="病危";
     String zhuyuan_brqk_bingzhong="病重";
     String zhuyuan_cyfs_siwang="死亡";
-
+    int zhuyuan_zaiyuan = 28;//在院人数
+    String zhuyuan_zaiyuanStr="在院人数";
     String obj = "obj";
 }
