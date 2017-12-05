@@ -331,26 +331,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         return msg;
     }
 
-    /**
-     * 门诊5分钟一更新
-     *
-     * @throws ParseException
-     */
-    @Override
-    public void menzhenDayHandler() throws ParseException {
-        LocalDateTime nowTime = LocalDateTime.now();
-        YZCXSearchParam param = new YZCXSearchParam();
-        param.setStart(LdgDateUtil.getDayZeroTime(nowTime));
-        param.setEnd(LdgDateUtil.getDayLastTime(nowTime));
-        String nowDateTime_Str = nowTime.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_mm_ss);  //当前时间字符串形式
-        Date nowDateTime = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(nowDateTime_Str);//当前时间日期格式
-        String date00 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart());
-        String date23 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd());
-        String zhengshiTime = nowTime.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);//整点时间
-        Date zhengshiTime_Date = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(zhengshiTime);
-        LocalDateTime beforeOneHource = nowTime.minus(1, ChronoUnit.HOURS);
-        String beforeOneHourceStr = beforeOneHource.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
-        ////
+    private void menzhenDayHandler_menzhen(YZCXSearchParam param,String date00,String date23,String beforeOneHourceStr,String nowDateTime_Str,Date nowDateTime,Date zhengshiTime_Date,String zhengshiTime) throws ParseException {
         //1.获取当前日期的记录  门诊情况
         param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
         int count = yzcxHandleInfoDayMapper.getDayTypeCount(param);
@@ -417,7 +398,10 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             List<YzcxHandleInfo> yuyueyks = YZCXscheduleMapToListHandler.handlerMapForHH(yuyuegroupByKS, YZCXConstant.yuyue_ks);
             yzcxHandleInfoDayMapper.batchInsert(yuyueyks);
         }
-        ////////////////////////////////////////////////////疾病////////////////////////////////////////////////////////////////
+    }
+
+    private void menzhenDayHandler_jibing(YZCXSearchParam param,String date00,String date23){
+        Map<String, String> requestparam = new HashMap();
         String jibingurl = YZCXProperties.getRequestPropertiesVal("jbzd");//获取预约信息
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
@@ -434,10 +418,13 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param);
             yzcxHandleInfoDayMapper.batchInsert(jbzdList);
         }
-        ////////////////////////////////////////////////////住院信息////////////////////////////////////////////////////////////////////
+    }
+
+    private void menzhenDayHandler_zhuyuan(YZCXSearchParam param,String date00,String date23){
         //入院情况设置
         List<Integer> zyxxRuYuanType = Arrays.asList(YZCXConstant.zhuyuan_keshiruyuan);
         param.setHandletype(zyxxRuYuanType);
+        Map<String, String> requestparam = new HashMap();
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         yzcxHandleInfoDayMapper.deleteByTimeForType(param);//删除科室入院信息
@@ -479,6 +466,43 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(zhuanruKS, start, YZCXConstant.zhuyuan_zhuanruKS));
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_zaiyuanStr, YZCXConstant.zhuyuan_zaiyuan, start, zaiyuanNum.doubleValue()));
         yzcxHandleInfoDayMapper.batchInsert(rsList);//保存入院信息
+    }
+    private void menzhenDayHandler_yiji(YZCXSearchParam param,String date00,String date23){
+        Map<String, String> requestparam = new HashMap();
+        requestparam.put("starte", date00);
+        requestparam.put("end", date23);
+        YIJIModle yijiModle = YzcxHttpRequest.getYIJI(requestparam);
+
+
+    }
+
+    /**
+     * 门诊5分钟一更新
+     *
+     * @throws ParseException
+     */
+    @Override
+    public void menzhenDayHandler() throws ParseException {
+        LocalDateTime nowTime = LocalDateTime.now();
+        YZCXSearchParam param = new YZCXSearchParam();
+        param.setStart(LdgDateUtil.getDayZeroTime(nowTime));
+        param.setEnd(LdgDateUtil.getDayLastTime(nowTime));
+        String nowDateTime_Str = nowTime.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_mm_ss);  //当前时间字符串形式
+        Date nowDateTime = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(nowDateTime_Str);//当前时间日期格式
+        String date00 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart());
+        String date23 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd());
+        String zhengshiTime = nowTime.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);//整点时间
+        Date zhengshiTime_Date = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(zhengshiTime);
+        LocalDateTime beforeOneHource = nowTime.minus(1, ChronoUnit.HOURS);
+        String beforeOneHourceStr = beforeOneHource.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
+        /////////////////////////////////////////////////////门诊/////////////////////////////////////////////////////////////////
+        //menzhenDayHandler_menzhen(param,date00,date23,beforeOneHourceStr,nowDateTime_Str,nowDateTime,zhengshiTime_Date,zhengshiTime);
+        ////////////////////////////////////////////////////疾病////////////////////////////////////////////////////////////////
+        //menzhenDayHandler_jibing(param,date00,date23);
+        ////////////////////////////////////////////////////住院信息////////////////////////////////////////////////////////////////////
+        //menzhenDayHandler_zhuyuan(param,date00,date23);
+        ////////////////////////////////////////////////////医技信息////////////////////////////////////////////////////////////////////
+        menzhenDayHandler_yiji(param,date00,date23);
     }
 
     @Override

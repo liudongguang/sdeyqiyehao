@@ -64,10 +64,10 @@ public class YZCXHandlerController {
             yzcXscheduleService.saveYZCXMenzhenData(handlerData, param);//保存门诊记录
             System.out.println("保存了门诊记录..");
         }
-         yzcXscheduleService.handlerFeiyonginfo(param);//获取费用记录
+        yzcXscheduleService.handlerFeiyonginfo(param);//获取费用记录
         System.out.println("费用处理完毕！");
         yzcXscheduleService.handlerZhuYuanXinxiRiGuiDang(param);
-
+        System.out.println("住院处理完毕！");
         /////////////////////删除前一天的日归档信息
         yzcXscheduleService.deleteMenzhenDayHandler(param);
         ////////////////////

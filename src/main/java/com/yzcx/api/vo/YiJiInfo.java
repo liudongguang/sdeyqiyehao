@@ -108,4 +108,21 @@ public class YiJiInfo {
     public void setHjje(BigDecimal hjje) {
         this.hjje = hjje;
     }
+
+    @Override
+    public String toString() {
+        return "YiJiInfo{" +
+                "brbh='" + brbh + '\'' +
+                ", brxm='" + brxm + '\'' +
+                ", kdks='" + kdks + '\'' +
+                ", ysdm='" + ysdm + '\'' +
+                ", zxks='" + zxks + '\'' +
+                ", kdrq=" + kdrq +
+                ", zxrq=" + zxrq +
+                ", fyxh='" + fyxh + '\'' +
+                ", fymc='" + fymc + '\'' +
+                ", fygb='" + fygb + '\'' +
+                ", hjje=" + hjje +
+                '}';
+    }
 }

@@ -89,4 +89,19 @@ public class YJHLInfo {
     public void setYzmc(String yzmc) {
         this.yzmc = yzmc;
     }
+
+    @Override
+    public String toString() {
+        return "YJHLInfo{" +
+                "rq=" + rq +
+                ", zyhm='" + zyhm + '\'' +
+                ", brxm='" + brxm + '\'' +
+                ", brxb='" + brxb + '\'' +
+                ", brks='" + brks + '\'' +
+                ", brbq='" + brbq + '\'' +
+                ", kssj=" + kssj +
+                ", tzsj=" + tzsj +
+                ", yzmc='" + yzmc + '\'' +
+                '}';
+    }
 }
