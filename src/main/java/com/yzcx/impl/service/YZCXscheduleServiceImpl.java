@@ -344,7 +344,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             param2.setStart(LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(beforeOneHourceStr));
             param2.setEnd(nowDateTime);
             //删除前一个小时到现在的 门诊情况
-            param2.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
+            param2.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz,YZCXConstant.menzhen_xingbieAge_nan,YZCXConstant.menzhen_xingbieAge_nv));
             int delNum = yzcxHandleInfoDayMapper.deleteByTimeForType(param2);//删除上一个小时到当前时间的记录，下面重新插入
         } else {
             requestparam.put("starte", date00);
