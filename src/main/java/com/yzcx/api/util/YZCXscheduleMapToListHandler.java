@@ -149,10 +149,10 @@ public class YZCXscheduleMapToListHandler {
         return rtList;
     }
 
-    private static void handlerMapForHH_bingren_add(List<YzcxHandleInfo> rtList, String ageDuan, String date, Long sum) {
+    private static void handlerMapForHH_bingren_add(List<YzcxHandleInfo> rtList, String ageDuan, String date, Long sum,int handletype) {
         YzcxHandleInfo yzcxHandleInfo = null;
         try {
-            yzcxHandleInfo = YzcxHandleInfoFactory.createYzcxHandleInfo(ageDuan, YZCXConstant.menzhen_xingbieAge_nan, LdgDateUtil.getyyyy_mm_dd_hhDate(date), sum.doubleValue());
+            yzcxHandleInfo = YzcxHandleInfoFactory.createYzcxHandleInfo(ageDuan, handletype, LdgDateUtil.getyyyy_mm_dd_hhDate(date), sum.doubleValue());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -167,11 +167,11 @@ public class YZCXscheduleMapToListHandler {
             sexMap.forEach((sex, ageMap) -> {
                 if (YZCXConstant.sex_nan.equals(sex)) {
                     ageMap.forEach((ageDuan, sum) -> {
-                        handlerMapForHH_bingren_add(rtList, ageDuan, date, sum);
+                        handlerMapForHH_bingren_add(rtList, ageDuan, date, sum,YZCXConstant.menzhen_xingbieAge_nan);
                     });
                 } else if (YZCXConstant.sex_nv.equals(sex)) {
                     ageMap.forEach((ageDuan, sum) -> {
-                        handlerMapForHH_bingren_add(rtList, ageDuan, date, sum);
+                        handlerMapForHH_bingren_add(rtList, ageDuan, date, sum,YZCXConstant.menzhen_xingbieAge_nv);
                     });
                 }
             });

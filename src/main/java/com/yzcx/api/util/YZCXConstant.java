@@ -17,6 +17,7 @@ public interface YZCXConstant {
     String age_18_40="18-40岁";
     String age_41_65="41-65岁";
     String age_65after="65岁以后";
+    List<String> ageStrList=Arrays.asList(age_0_6,age_7_17,age_18_40,age_41_65,age_65after);
     String jizhen = "急诊";
     String putong = "普通门诊";
     int menzhen = 1;
