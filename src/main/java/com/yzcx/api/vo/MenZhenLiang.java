@@ -20,8 +20,46 @@ public class MenZhenLiang {
     @Column(name = "YSMC")
     private String ysmc;
     @Column(name = "SFJZ")
-    private Integer sfjz;
+    private Integer sfjz;//0  普通  1 急诊
     private String sfjzStr;
+
+    private Date csny;//出生年月
+    private String brxb;//病人性别
+
+    private int ageNum;
+    private String ageString;
+
+    public int getAgeNum() {
+        return ageNum;
+    }
+
+    public void setAgeNum(int ageNum) {
+        this.ageNum = ageNum;
+    }
+
+    public String getAgeString() {
+        return ageString;
+    }
+
+    public void setAgeString(String ageString) {
+        this.ageString = ageString;
+    }
+
+    public Date getCsny() {
+        return csny;
+    }
+
+    public void setCsny(Date csny) {
+        this.csny = csny;
+    }
+
+    public String getBrxb() {
+        return brxb;
+    }
+
+    public void setBrxb(String brxb) {
+        this.brxb = brxb;
+    }
 
     public String getSfjzStr() {
         return sfjzStr;

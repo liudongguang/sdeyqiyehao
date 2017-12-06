@@ -12,6 +12,11 @@ public interface YZCXConstant {
     int importType_zhuyuan=3; //导入类型，住院信息
     String[] months={"01月","02月","03月","04月","05月","06月","07月","08月","09月","10月","11月","12月"};
     List<String> hoursList= Arrays.asList("0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23");
+    String age_0_6="0-6岁";
+    String age_7_17="7-17岁";
+    String age_18_40="18-40岁";
+    String age_41_65="41-65岁";
+    String age_65after="65岁以后";
     String jizhen = "急诊";
     String putong = "普通门诊";
     int menzhen = 1;
@@ -64,4 +69,9 @@ public interface YZCXConstant {
     int zhuyuan_zaiyuan = 28;//在院人数
     String zhuyuan_zaiyuanStr="在院人数";
     String obj = "obj";
+    int menzhen_xingbieAge_nan = 29;//性别年龄分类--男
+    int menzhen_xingbieAge_nv = 30;//性别年龄分类--女
+    String sex_nan="男";
+    String sex_nv="女";
+
 }

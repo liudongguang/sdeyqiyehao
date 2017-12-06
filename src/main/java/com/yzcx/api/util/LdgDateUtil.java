@@ -312,4 +312,11 @@ public class LdgDateUtil {
         }
         return false;
     }
+
+    public static long getAgeByDate(Date birthday) {
+        LocalDate now=LocalDate.now();
+        LocalDate localDateBirthday=parseDateToLocalDate(birthday);
+        long yearsDiff = ChronoUnit.YEARS.between(localDateBirthday, now);
+        return yearsDiff;
+    }
 }

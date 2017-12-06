@@ -13,10 +13,10 @@ import java.util.Map;
 public class YZCXscheduleMapToListHandler {
 
 
-    public static List<YzcxHandleInfo> handlerCommonData(Map<String,? extends Number> nameAndNumber,Date handlerDate,int handlerType){
-        List<YzcxHandleInfo> rsList=new ArrayList<>();
-        nameAndNumber.forEach((name,number)->{
-            rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(name,handlerType,handlerDate,number.doubleValue()));
+    public static List<YzcxHandleInfo> handlerCommonData(Map<String, ? extends Number> nameAndNumber, Date handlerDate, int handlerType) {
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
+        nameAndNumber.forEach((name, number) -> {
+            rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(name, handlerType, handlerDate, number.doubleValue()));
         });
         return rsList;
     }
@@ -24,30 +24,32 @@ public class YZCXscheduleMapToListHandler {
 
     /**
      * 科室费用
+     *
      * @param ksAndSumJine
      * @param hejiDate
      * @param handlerType
      * @return
      */
-    public static List<YzcxHandleInfo> handlerKsFeiyong(Map<String,Double> ksAndSumJine,Date hejiDate,int handlerType){
-        List<YzcxHandleInfo> rsList=new ArrayList<>();
-        ksAndSumJine.forEach((ks,sumJine)->{
-            rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(ks,handlerType,hejiDate,sumJine));
+    public static List<YzcxHandleInfo> handlerKsFeiyong(Map<String, Double> ksAndSumJine, Date hejiDate, int handlerType) {
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
+        ksAndSumJine.forEach((ks, sumJine) -> {
+            rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(ks, handlerType, hejiDate, sumJine));
         });
         return rsList;
     }
 
     /**
      * 科室有关的门诊，急诊
+     *
      * @param map
      * @return
      */
-    public static List<YzcxHandleInfo> handlerKsMenzhen_jizhenMenzhen(Map<String, Map<String, Map<Integer, Long>>> map){
+    public static List<YzcxHandleInfo> handlerKsMenzhen_jizhenMenzhen(Map<String, Map<String, Map<Integer, Long>>> map) {
         List<YzcxHandleInfo> ksmenzhenmenjizhen = new ArrayList<>();
-        map.forEach((date,v)->{
-            v.forEach((ksname,menjizhenCount)->{
+        map.forEach((date, v) -> {
+            v.forEach((ksname, menjizhenCount) -> {
                 //   0 普通  1 急诊
-                menjizhenCount.forEach((zhenduanType,count)->{
+                menjizhenCount.forEach((zhenduanType, count) -> {
                     YzcxHandleInfo yzcxHandleInfo = new YzcxHandleInfo();
                     yzcxHandleInfo.setCount(Double.valueOf(count.toString()));
                     try {
@@ -55,16 +57,18 @@ public class YZCXscheduleMapToListHandler {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    yzcxHandleInfo.setHandletype(zhenduanType==0?YZCXConstant.jbzd_ks_menzhen:YZCXConstant.jbzd_ks_jizhen);
+                    yzcxHandleInfo.setHandletype(zhenduanType == 0 ? YZCXConstant.jbzd_ks_menzhen : YZCXConstant.jbzd_ks_jizhen);
                     yzcxHandleInfo.setName(ksname);
                     ksmenzhenmenjizhen.add(yzcxHandleInfo);
                 });
             });
         });
-        return  ksmenzhenmenjizhen;
+        return ksmenzhenmenjizhen;
     }
+
     /**
      * yyyymmdd日期
+     *
      * @param data
      * @param type
      * @param typeStr
@@ -115,6 +119,7 @@ public class YZCXscheduleMapToListHandler {
         });
         return rtList;
     }
+
     /**
      * 处理日期格式为yyyy-mm-dd hh
      *
@@ -144,8 +149,37 @@ public class YZCXscheduleMapToListHandler {
         return rtList;
     }
 
+    private static void handlerMapForHH_bingren_add(List<YzcxHandleInfo> rtList, String ageDuan, String date, Long sum) {
+        YzcxHandleInfo yzcxHandleInfo = null;
+        try {
+            yzcxHandleInfo = YzcxHandleInfoFactory.createYzcxHandleInfo(ageDuan, YZCXConstant.menzhen_xingbieAge_nan, LdgDateUtil.getyyyy_mm_dd_hhDate(date), sum.doubleValue());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (null != yzcxHandleInfo) {
+            rtList.add(yzcxHandleInfo);
+        }
+    }
 
-    public  static List<YzcxHandleInfo_FeiYong> getKSFeiyong(Map<String, Map<Integer, Double>> ksTypeNum) {
+    public static List<YzcxHandleInfo> handlerMapForHH_bingren(Map<String, Map<String, Map<String, Long>>> xingbieMap) {
+        List<YzcxHandleInfo> rtList = new ArrayList<>();
+        xingbieMap.forEach((date, sexMap) -> {
+            sexMap.forEach((sex, ageMap) -> {
+                if (YZCXConstant.sex_nan.equals(sex)) {
+                    ageMap.forEach((ageDuan, sum) -> {
+                        handlerMapForHH_bingren_add(rtList, ageDuan, date, sum);
+                    });
+                } else if (YZCXConstant.sex_nv.equals(sex)) {
+                    ageMap.forEach((ageDuan, sum) -> {
+                        handlerMapForHH_bingren_add(rtList, ageDuan, date, sum);
+                    });
+                }
+            });
+        });
+        return rtList;
+    }
+
+    public static List<YzcxHandleInfo_FeiYong> getKSFeiyong(Map<String, Map<Integer, Double>> ksTypeNum) {
         List<YzcxHandleInfo_FeiYong> ksFeiYongInfoList = new ArrayList<>();
         ksTypeNum.forEach((ksName, map) -> {
             YzcxHandleInfo_FeiYong yzcxHandleInfo_feiYong = new YzcxHandleInfo_FeiYong();
@@ -176,4 +210,6 @@ public class YZCXscheduleMapToListHandler {
         });
         return ksFeiYongInfoList;
     }
+
+
 }

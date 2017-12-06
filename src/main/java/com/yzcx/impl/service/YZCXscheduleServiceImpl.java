@@ -368,6 +368,32 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             List<YzcxHandleInfo> yzcxHandleInfos = YZCXscheduleMapToListHandler.handlerMapForHH(collect, YZCXConstant.menzhen_sfjz);
             yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);
         }
+        /////////////////////////////////////////////////////////////////////////////////年龄，性别分组
+        Map<String, Map<String, Map<String, Long>>> xingbieMap = menzhenRs.getData().stream().map(item -> {
+            Date ghrq = item.getGhrq();
+            String ghrqStr = LdgDateUtil.getyyyy_mm_dd_hhString(ghrq);
+            item.setGhrqStr(ghrqStr);
+            ////
+            Date birthday = item.getCsny();
+            long age = LdgDateUtil.getAgeByDate(birthday);
+            if (age >= 0 && age <= 6) {
+                item.setAgeString(YZCXConstant.age_0_6);
+            } else if (age > 6 && age <= 17) {
+                item.setAgeString(YZCXConstant.age_7_17);
+            } else if (age > 17 && age <= 40) {
+                item.setAgeString(YZCXConstant.age_18_40);
+            } else if (age > 40 && age <= 65) {
+                item.setAgeString(YZCXConstant.age_41_65);
+            } else if (age > 65) {
+                item.setAgeString(YZCXConstant.age_65after);
+            }
+            ///
+            return item;
+        }).collect(Collectors.groupingBy(MenZhenLiang::getGhrqStr, Collectors.groupingBy(MenZhenLiang::getBrxb, Collectors.groupingBy(MenZhenLiang::getAgeString, Collectors.counting()))));
+        if (xingbieMap.size() > 0) {
+            List<YzcxHandleInfo> yzcxHandleInfos = YZCXscheduleMapToListHandler.handlerMapForHH_bingren(xingbieMap);
+            yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);
+        }
         /////////////////////////////////////////////预约，如果没有数据获取全部的预约信息，如果存在则取当前时间到本日结束的时间，删除当前时间到日结束时间的数据
         //1.获取当前日期的记录  门诊情况
         param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
@@ -472,6 +498,9 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         YIJIModle yijiModle = YzcxHttpRequest.getYIJI(requestparam);
+        final List<YiJiInfo> mzyiji = yijiModle.getMzyiji();
+        final List<YiJiInfo> zyyiji = yijiModle.getZyyiji();
+        final List<YJHLInfo> yjhl = yijiModle.getYjhl();
 
 
     }
@@ -496,13 +525,13 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         LocalDateTime beforeOneHource = nowTime.minus(1, ChronoUnit.HOURS);
         String beforeOneHourceStr = beforeOneHource.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
         /////////////////////////////////////////////////////门诊/////////////////////////////////////////////////////////////////
-        //menzhenDayHandler_menzhen(param,date00,date23,beforeOneHourceStr,nowDateTime_Str,nowDateTime,zhengshiTime_Date,zhengshiTime);
+        menzhenDayHandler_menzhen(param,date00,date23,beforeOneHourceStr,nowDateTime_Str,nowDateTime,zhengshiTime_Date,zhengshiTime);
         ////////////////////////////////////////////////////疾病////////////////////////////////////////////////////////////////
         //menzhenDayHandler_jibing(param,date00,date23);
         ////////////////////////////////////////////////////住院信息////////////////////////////////////////////////////////////////////
         //menzhenDayHandler_zhuyuan(param,date00,date23);
         ////////////////////////////////////////////////////医技信息////////////////////////////////////////////////////////////////////
-        menzhenDayHandler_yiji(param,date00,date23);
+        //menzhenDayHandler_yiji(param,date00,date23);
     }
 
     @Override
