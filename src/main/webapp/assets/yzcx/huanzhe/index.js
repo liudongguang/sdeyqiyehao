@@ -12,6 +12,16 @@ $(document).ready(function () {
                 trigger: 'axis',
                 axisPointer : {            // 坐标轴指示器，坐标轴触发有效
                     type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                },
+                formatter: function (obj,b,c) {
+                    var axisValue=obj[0].axisValue;
+                    var ss=axisValue+"<br/>";
+                    for(var item in obj) {
+                        var it=obj[item];
+                        var value=it.value;
+                        ss+=it.marker+" "+it.seriesName+":"+Math.abs(value)+"<br/>";
+                    }
+                   return ss;
                 }
             },
             legend: {
