@@ -19,14 +19,14 @@
     <script type="text/javascript" src="assets/yzcx/js/jquery-1.11.0.min.js"></script>
 </head>
 <body>
-<input type="hidden" value="3" id="navNum"/>
+<input type="hidden" value="5" id="navNum"/>
 <div class="container">
 
     <header class="slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
         <ul id="navToggle" class="burger slide">    <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
             <li></li><li></li><li></li>
         </ul>
-        <h1>全院住院情况表</h1>
+        <h1>全院患者情况表</h1>
     </header>
     <%@ include file="../yzcxNav.jsp"%>
     <div class="content slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
@@ -34,6 +34,10 @@
             <li class="header-section" style="background-color: #ecf0f1!important;">
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="container" style="width: 100%; height:300px;margin: 0 auto;"></div>
+            </li>
+            <li class="body-section" style="background-color: #ecf0f1!important;">
+                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                <div id="container1" style="width: 100%; height:800px;margin: 0 auto;"></div>
             </li>
         </ul>
     </div>
