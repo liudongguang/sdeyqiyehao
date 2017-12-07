@@ -34,7 +34,6 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("shoushuxx");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
-        System.out.println(shoushuStr);
         Json_ShouShu shoushu= JsonUtil.getObjectByJSON(shoushuStr,Json_ShouShu.class);
         SSXXModle data = shoushu.getData();
         return data;
