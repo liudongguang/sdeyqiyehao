@@ -2,6 +2,8 @@ $(document).ready(function () {
     var miniRefresh = new MiniRefresh({
         container: '#minirefresh',
         down: {
+            isLock:true,
+            isAuto:false,
             callback: function() {
                 // 下拉事件
                 console.log("下拉事件")
@@ -12,7 +14,7 @@ $(document).ready(function () {
             }
         },
         up: {
-
+            isAuto:false,
             callback: function() {
                 // 上拉事件
                 console.log("上拉事件")
