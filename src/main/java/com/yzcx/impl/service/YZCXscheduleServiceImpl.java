@@ -504,6 +504,30 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
 
 
     }
+    private void menzhenDayHandler_shoushuxx(YZCXSearchParam param,String date00,String date23){
+        Map<String, String> requestparam = new HashMap();
+        requestparam.put("starte", date00);
+        requestparam.put("end", date23);
+        SSXXModle shoushuxx = YzcxHttpRequest.getShoushuxx(requestparam);
+        final List<SSXX_anpai> ssap = shoushuxx.getSsap();
+        final List<SSXX_info> ss = shoushuxx.getSs();
+        //手术分级统计
+        final Map<String, Map<String, Long>> ssfenji = ssap.stream().map(item -> {
+            item.setSsrqStr(LdgDateUtil.getyyyy_mm_dd_hhString(item.getSsrq()));
+            return item;
+        }).collect(Collectors.groupingBy(SSXX_anpai::getSsrqStr, Collectors.groupingBy(SSXX_anpai::getSsfj, Collectors.counting())));
+        //
+        final Date start = param.getStart();
+        Integer anpaiShu = ssap.size();
+        Integer ssShu = ss.size();
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.shoushu_anpaiStr, YZCXConstant.shoushu_anpai, start, anpaiShu.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.shoushu_infoStr, YZCXConstant.shoushu_info, start, ssShu.doubleValue()));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerMapForHH(ssfenji, YZCXConstant.shoushu_fenji));
+        param.setHandletype(Arrays.asList(YZCXConstant.shoushu_anpai,YZCXConstant.shoushu_info,YZCXConstant.shoushu_fenji));
+        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存手术
+    }
 
     /**
      * 门诊5分钟一更新
@@ -532,6 +556,8 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         menzhenDayHandler_zhuyuan(param,date00,date23);
         ////////////////////////////////////////////////////医技信息////////////////////////////////////////////////////////////////////
         menzhenDayHandler_yiji(param,date00,date23);
+        ////////////////////////////////////////////////////手术信息////////////////////////////////////////////////////////
+        menzhenDayHandler_shoushuxx(param,date00,date23);
     }
 
     @Override

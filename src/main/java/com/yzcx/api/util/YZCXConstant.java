@@ -74,5 +74,9 @@ public interface YZCXConstant {
     int menzhen_xingbieAge_nv = 30;//性别年龄分类--女
     String sex_nan="男";
     String sex_nv="女";
-
+    int shoushu_fenji = 31;//手术分级
+    int shoushu_anpai = 32;//手术安排数
+    String shoushu_anpaiStr="手术安排数";
+    int shoushu_info = 33;//手术实际数
+    String shoushu_infoStr="手术实际数";
 }
