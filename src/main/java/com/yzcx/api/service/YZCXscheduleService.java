@@ -54,5 +54,5 @@ public interface YZCXscheduleService {
      * 删除日处理信息
      * @param param
      */
-    void deleteMenzhenDayHandler(YZCXSearchParam param);
+    int deleteMenzhenDayHandler(YZCXSearchParam param);
 }

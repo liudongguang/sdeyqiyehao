@@ -606,7 +606,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
     }
 
     @Override
-    public void deleteMenzhenDayHandler(YZCXSearchParam param) {
-        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+    public int deleteMenzhenDayHandler(YZCXSearchParam param) {
+        return yzcxHandleInfoDayMapper.deleteByTimeForType(param);
     }
 }

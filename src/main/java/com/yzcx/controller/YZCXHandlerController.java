@@ -69,7 +69,8 @@ public class YZCXHandlerController {
         yzcXscheduleService.handlerZhuYuanXinxiRiGuiDang(param);
         System.out.println("住院处理完毕！");
         /////////////////////删除前一天的日归档信息
-        yzcXscheduleService.deleteMenzhenDayHandler(param);
+        param.setHandletype(null);
+        int i = yzcXscheduleService.deleteMenzhenDayHandler(param);
         ////////////////////
         System.out.println(param+"daysGuiDang执行完成！");
         return msg;
