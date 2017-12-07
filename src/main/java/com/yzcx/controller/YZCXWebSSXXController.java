@@ -38,4 +38,11 @@ public class YZCXWebSSXXController {
         Map<String,Object> rs= yzcxShoushuSearchService.getIndexChart(param);
         return rs;
     }
+
+    @RequestMapping(value = "/shoushuList")
+    @ResponseBody
+    public Map<String,Object> shoushuList(HttpServletRequest request) throws IOException, ParseException {
+
+        return null;
+    }
 }
