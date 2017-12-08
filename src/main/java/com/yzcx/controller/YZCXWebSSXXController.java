@@ -1,12 +1,15 @@
 package com.yzcx.controller;
 
+import com.yzcx.api.bo.PageParam;
 import com.yzcx.api.service.YZCXShoushuSearchService;
 import com.yzcx.api.service.YZCXZhuYuanSearchService;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXControllerUtil;
+import com.yzcx.api.vo.SSXXDisplayModle;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.yzcxdisplay.SsxxIndex;
 import com.yzcx.api.vo.yzcxdisplay.ZyxxIndex;
+import com.yzcx.impl.service.handler.YzcxHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +44,9 @@ public class YZCXWebSSXXController {
 
     @RequestMapping(value = "/shoushuList")
     @ResponseBody
-    public Map<String,Object> shoushuList(HttpServletRequest request) throws IOException, ParseException {
-
-        return null;
+    public SSXXDisplayModle shoushuList(HttpServletRequest request,PageParam pageParam) throws IOException, ParseException {
+        YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
+        final SSXXDisplayModle shoushuxx_one = YzcxHttpRequest.getShoushuxx_One(param, pageParam);
+        return shoushuxx_one;
     }
 }

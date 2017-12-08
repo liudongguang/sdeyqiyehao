@@ -2,14 +2,17 @@ package com.yzcx.impl.service.handler;
 
 import com.ldg.api.util.JsonUtil;
 import com.weixin.util.HttpClientUtil;
+import com.yzcx.api.bo.PageParam;
+import com.yzcx.api.util.LdgDateUtil;
+import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXProperties;
-import com.yzcx.api.vo.SSXXModle;
-import com.yzcx.api.vo.YIJIModle;
-import com.yzcx.api.vo.ZYXXModle;
+import com.yzcx.api.vo.*;
 import com.yzcx.api.vo.parsejson.Json_ShouShu;
+import com.yzcx.api.vo.parsejson.Json_ShouShuPage;
 import com.yzcx.api.vo.parsejson.Json_YiJi;
 import com.yzcx.api.vo.parsejson.Json_ZhuYuanxx;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class YzcxHttpRequest {
@@ -36,6 +39,18 @@ public class YzcxHttpRequest {
         final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
         Json_ShouShu shoushu= JsonUtil.getObjectByJSON(shoushuStr,Json_ShouShu.class);
         SSXXModle data = shoushu.getData();
+        return data;
+    }
+    public static SSXXDisplayModle getShoushuxx_One(YZCXSearchParam param,PageParam pageParam) {
+        Map<String, String> requestparam=new HashMap<>();
+        requestparam.put(YZCXConstant.remoteParam_starte, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
+        requestparam.put(YZCXConstant.remoteParam_end, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
+        requestparam.put(YZCXConstant.remoteParam_pageNum, pageParam.getPageNum().toString());
+        requestparam.put(YZCXConstant.remoteParam_pageSize, pageParam.getPageSize().toString());
+        String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("getShouShuXX_One");//
+        HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
+        final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        SSXXDisplayModle data= JsonUtil.getObjectByJSON(shoushuStr,SSXXDisplayModle.class);
         return data;
     }
 

@@ -7,6 +7,10 @@ import java.util.List;
  * Created by LiuDongguang on 2017/11/7.
  */
 public interface YZCXConstant {
+    String remoteParam_starte="starte";
+    String remoteParam_end="end";
+    String remoteParam_pageNum="pageNum";
+    String remoteParam_pageSize="pageSize";
     int importType_menzhen=1; //导入类型，门诊
     int importType_feiyong=2;//导入类型，费用
     int importType_zhuyuan=3; //导入类型，住院信息
