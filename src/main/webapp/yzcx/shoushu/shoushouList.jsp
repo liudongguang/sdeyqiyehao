@@ -24,7 +24,7 @@
     <div class="minirefresh-scroll">
         <div class="container-fluid">
             <div class="row">
-                <table class="table table-hover text-center">
+                <table class="table table-hover table-striped text-center">
                     <thead>
                     <tr>
                         <th scope="col" style="width:15%">科室</th>
