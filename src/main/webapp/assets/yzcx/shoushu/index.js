@@ -28,7 +28,7 @@ $(document).ready(function () {
                     label: {
                         normal: {
                             show: true,
-                            formatter:'{b}: {d}'
+                            formatter:'{b}: {c}'
                         },
                         emphasis: {
                             show: true

@@ -7,10 +7,7 @@ import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXProperties;
 import com.yzcx.api.vo.*;
-import com.yzcx.api.vo.parsejson.Json_ShouShu;
-import com.yzcx.api.vo.parsejson.Json_ShouShuPage;
-import com.yzcx.api.vo.parsejson.Json_YiJi;
-import com.yzcx.api.vo.parsejson.Json_ZhuYuanxx;
+import com.yzcx.api.vo.parsejson.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,4 +51,12 @@ public class YzcxHttpRequest {
         return data;
     }
 
+    public static HzxxModle getHuiZhenxx(Map<String, String> requestparam) {
+        String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("huizhenxx");//
+        HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
+        final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        Json_HuiZhen shoushu= JsonUtil.getObjectByJSON(shoushuStr,Json_HuiZhen.class);
+        HzxxModle data = shoushu.getData();
+        return data;
+    }
 }

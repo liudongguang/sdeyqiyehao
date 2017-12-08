@@ -10,7 +10,7 @@
         <li><a href="yzcx/huanzhe/index.jsp">患者信息</a></li>
         <li><a href="webyzcxSsxx/index">手术安排</a></li>
         <li><a href="list8.html">护理单元</a></li>
-        <li><a href="list9.html">会诊信息</a></li>
+        <li><a href="webyzcxHuizhen/index">会诊信息</a></li>
     </ul>
 </nav>
 <script type="text/javascript" language="javascript" src="assets/yzcx/navControll.js"></script>

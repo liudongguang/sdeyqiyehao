@@ -528,6 +528,22 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         yzcxHandleInfoDayMapper.deleteByTimeForType(param);
         yzcxHandleInfoDayMapper.batchInsert(rsList);//保存手术
     }
+    private void menzhenDayHandler_huizhen(YZCXSearchParam param,String date00,String date23) {
+        Map<String, String> requestparam = new HashMap();
+        requestparam.put("starte", date00);
+        requestparam.put("end", date23);
+        HzxxModle huiZhenxx = YzcxHttpRequest.getHuiZhenxx(requestparam);
+        Map<String, Long> jieshouKSAndSum = huiZhenxx.getJieshou().stream().collect(Collectors.groupingBy(HzxxInfo::getKs, Collectors.counting()));
+        Map<String, Long> shenqingKSAndSum = huiZhenxx.getShenqing().stream().collect(Collectors.groupingBy(HzxxInfo::getKs, Collectors.counting()));
+        final Date start = param.getStart();
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(jieshouKSAndSum, start, YZCXConstant.huizhen_jieshou));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(shenqingKSAndSum, start, YZCXConstant.huizhen_shenqing));
+        param.setHandletype(Arrays.asList(YZCXConstant.shoushu_anpai,YZCXConstant.huizhen_jieshou,YZCXConstant.huizhen_shenqing));
+        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存会诊
+    }
+
 
     /**
      * 门诊5分钟一更新
@@ -548,16 +564,18 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         Date zhengshiTime_Date = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssDate(zhengshiTime);
         LocalDateTime beforeOneHource = nowTime.minus(1, ChronoUnit.HOURS);
         String beforeOneHourceStr = beforeOneHource.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
-        /////////////////////////////////////////////////////门诊/////////////////////////////////////////////////////////////////
-        menzhenDayHandler_menzhen(param,date00,date23,beforeOneHourceStr,nowDateTime_Str,nowDateTime,zhengshiTime_Date,zhengshiTime);
-        ////////////////////////////////////////////////////疾病////////////////////////////////////////////////////////////////
-        menzhenDayHandler_jibing(param,date00,date23);
-        //////////////////////////////////////////////////住院信息////////////////////////////////////////////////////////////////////
-        menzhenDayHandler_zhuyuan(param,date00,date23);
-        ////////////////////////////////////////////////////医技信息////////////////////////////////////////////////////////////////////
-        menzhenDayHandler_yiji(param,date00,date23);
-        ////////////////////////////////////////////////////手术信息////////////////////////////////////////////////////////
-        menzhenDayHandler_shoushuxx(param,date00,date23);
+        /////////////////////////////////////////////////////1.门诊/////////////////////////////////////////////////////////////////
+       // menzhenDayHandler_menzhen(param,date00,date23,beforeOneHourceStr,nowDateTime_Str,nowDateTime,zhengshiTime_Date,zhengshiTime);
+        ////////////////////////////////////////////////////2.疾病////////////////////////////////////////////////////////////////
+       // menzhenDayHandler_jibing(param,date00,date23);
+        //////////////////////////////////////////////////3.住院信息////////////////////////////////////////////////////////////////////
+       // menzhenDayHandler_zhuyuan(param,date00,date23);
+        ////////////////////////////////////////////////////4.医技信息////////////////////////////////////////////////////////////////////
+       // menzhenDayHandler_yiji(param,date00,date23);
+        ////////////////////////////////////////////////////5.手术信息////////////////////////////////////////////////////////
+       // menzhenDayHandler_shoushuxx(param,date00,date23);
+        /////////////////////////////////////////////////6.会诊信息////////////////////////////////////////////
+        menzhenDayHandler_huizhen(param,date00,date23);
     }
 
     @Override

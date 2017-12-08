@@ -83,4 +83,6 @@ public interface YZCXConstant {
     String shoushu_anpaiStr="手术安排数";
     int shoushu_info = 33;//手术实际数
     String shoushu_infoStr="手术实际数";
+    int huizhen_shenqing = 34;//会诊申请
+    int huizhen_jieshou = 35;//会诊接受
 }
