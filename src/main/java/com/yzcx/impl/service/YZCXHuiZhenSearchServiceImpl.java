@@ -25,10 +25,12 @@ public class YZCXHuiZhenSearchServiceImpl implements YZCXHuiZhenSearchService {
         final List<YzcxHandleInfoDay> shenqingList = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         HzxxIndex ssxxIndex=new HzxxIndex();
         if(jieshouList!=null&&jieshouList.size()!=0){
-            ssxxIndex.setJieshou(jieshouList.get(0).getCount().intValue());
+            Double jsnum = jieshouList.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
+            ssxxIndex.setJieshou(jsnum.intValue());
         }
         if(shenqingList!=null&&shenqingList.size()!=0){
-            ssxxIndex.setShenqing(shenqingList.get(0).getCount().intValue());
+            Double sqnum = shenqingList.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
+            ssxxIndex.setShenqing(sqnum.intValue());
         }
         return ssxxIndex;
     }

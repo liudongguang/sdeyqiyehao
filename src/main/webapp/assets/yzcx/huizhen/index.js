@@ -27,7 +27,7 @@ $(document).ready(function () {
             legend: {
                 data: ['会诊申请','会诊接受'],
                 left: 'center',
-                top:280
+                top:450
             },
             grid: {
                 left: '3%',
@@ -50,11 +50,6 @@ $(document).ready(function () {
                     type : 'category',
                     axisTick : {show: false},
                     data : legendData
-                },
-                {
-                    type : 'category',
-                    axisTick : {show: false},
-                    data : legendData
                 }
             ],
             series : [
@@ -64,7 +59,8 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: true
+                            show: true,
+                            position:'left'
                         }
                     },
                     data:shenqing
@@ -78,7 +74,8 @@ $(document).ready(function () {
                             show: true,
                             formatter:function(data){
                                 return Math.abs(data.data);
-                            }
+                            },
+                            position:'right'
                         }
                     },
                     data:jieshou
