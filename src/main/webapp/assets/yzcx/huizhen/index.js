@@ -60,7 +60,10 @@ $(document).ready(function () {
                     label: {
                         normal: {
                             show: true,
-                            position:'left'
+                            position:'left',
+                            formatter:function(data){
+                                return Math.abs(data.data);
+                            }
                         }
                     },
                     data:shenqing

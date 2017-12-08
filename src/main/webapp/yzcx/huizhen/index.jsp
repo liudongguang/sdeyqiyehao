@@ -55,7 +55,7 @@
             </li>
             <li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
                 <div class="tit_sty">
-                    <span class="tit_sty_span1">手术分级</span>
+                    <span class="tit_sty_span1">科室会诊情况</span>
                     <!--<span style="font-size: 12px;float: right">详情&nbsp;></span>-->
                 </div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
