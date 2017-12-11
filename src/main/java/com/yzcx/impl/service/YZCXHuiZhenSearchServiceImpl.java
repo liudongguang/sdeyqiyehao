@@ -53,16 +53,16 @@ public class YZCXHuiZhenSearchServiceImpl implements YZCXHuiZhenSearchService {
         List<YzcxHandleInfoDay> list_jieshou = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         param.setHandletype(Arrays.asList(YZCXConstant.huizhen_shenqing));
         List<YzcxHandleInfoDay> list_shenqing = yzcxHandleInfoDayMapper.selectByDateAndType(param);
-        final Map<String, Double> jieshoulist = list_jieshou.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
-        final Map<String, Double> shenqinglist = list_shenqing.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+        final Map<String, Double> jieshouMap = list_jieshou.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+        final Map<String, Double> shenqingMap = list_shenqing.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         List<String>  legendData= new ArrayList<>();
         List<Integer> shenqingNum = new ArrayList<>();
         List<Integer> jieshousNum = new ArrayList<>();
-        jieshoulist.forEach((ksname,jssum) -> {
+        shenqingMap.forEach((ksname,sqsum) -> {
             legendData.add(ksname);
-            Double shenqingsum = shenqinglist.get(ksname);
-            jieshousNum.add(jssum != null ? jssum.intValue() : 0);
-            shenqingNum.add(shenqingsum != null ? shenqingsum.intValue() : 0);
+            Double jieshousum = jieshouMap.get(ksname);
+            jieshousNum.add(jieshousum != null ? jieshousum.intValue() : 0);
+            shenqingNum.add(sqsum != null ? sqsum.intValue() : 0);
         });
         Map<String, Object> rs = new HashMap<>();
         rs.put("legendData", legendData);
