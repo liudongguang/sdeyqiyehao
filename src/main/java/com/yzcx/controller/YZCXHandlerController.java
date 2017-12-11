@@ -61,9 +61,9 @@ public class YZCXHandlerController {
         System.out.println("保存了门诊记录..");
         yzcXscheduleService.handlerFeiyonginfo(param);//获取费用记录
         System.out.println("费用处理完毕！");
-        yzcXscheduleService.handlerZhuYuanXinxiRiGuiDang(param);
+        yzcXscheduleService.handlerZhuYuanXinxiRiGuiDang(param);//住院处理
         System.out.println("住院处理完毕！");
-        yzcXscheduleService.handlerHuizhenRiGuiDang(param);
+        yzcXscheduleService.handlerHuizhenRiGuiDang(param);//会诊处理
         System.out.println("会诊处理完毕！");
         /////////////////////删除前一天的日归档信息
         param.setHandletype(null);
@@ -134,8 +134,8 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/initYZCXMonthSystem")
     @ResponseBody
     public void initYZCXMonthSystem() throws Exception {
-        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(0);
-        YZCXSearchParam searchParam=new YZCXSearchParam();
+        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(12);
+        /*YZCXSearchParam searchParam=new YZCXSearchParam();
         searchParam.setStart(initDateList.get(0).getStart());
         searchParam.setEnd(initDateList.get(initDateList.size()-1).getEnd());
         List<YZCXSearchParam> existDays=yzcXscheduleService.getExistDaysFromGuiDangDays(searchParam);
@@ -147,9 +147,9 @@ public class YZCXHandlerController {
                 return false;
             }
             return true;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList());*/
         //日归档
-        initDate.forEach(it->{
+        initDateList.forEach(it->{
             System.out.println(it);
             try {
                 daysGuiDang(it);

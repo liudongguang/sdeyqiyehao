@@ -15,7 +15,7 @@ public interface YZCXscheduleService {
 
      * @param param
      */
-    void saveYZCXMenzhenData(YZCXSearchParam param);
+    void saveYZCXMenzhenData(YZCXSearchParam param) throws ParseException;
     ResultMsg2 montho_mzinfo(YZCXSearchParam param);
 
 

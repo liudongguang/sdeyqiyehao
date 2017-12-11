@@ -13,6 +13,14 @@ public class YzcxHandleImportdate {
     @Column(name = "importType")
     private Integer importtype;
 
+    public YzcxHandleImportdate() {
+    }
+
+    public YzcxHandleImportdate(Date importdate, Integer importtype) {
+        this.importdate = importdate;
+        this.importtype = importtype;
+    }
+
     /**
      * @return uid
      */

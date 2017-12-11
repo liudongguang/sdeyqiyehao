@@ -49,9 +49,9 @@ public class YZCXWebHuiZhenController {
 
     @RequestMapping(value = "/monthChart")
     @ResponseBody
-    public Map<String, Object> monthChart(HttpServletRequest request) throws IOException, ParseException {
-        YZCXSearchParam param = YZCXControllerUtil.getBeforeDayByNum(0);
-        Map<String, Object> rs = yzcxHuiZhenSearchService.getMonthChart(param);
+    public Map<String, Object> monthChart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForThisMonth(param);
+        Map<String, Object> rs = yzcxHuiZhenSearchService.getMonthChart(yzcxSearchParam);
         return rs;
     }
 

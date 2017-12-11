@@ -18,4 +18,6 @@ public interface YzcxHandleImportdateMapper extends Mapper<YzcxHandleImportdate>
      * @return
      */
     List<YZCXSearchParam> getExistDaysFromGuiDangDays(YZCXSearchParam searchParam);
+    //
+    int insertOneInfo(YzcxHandleImportdate yzcxHandleImportdate);
 }

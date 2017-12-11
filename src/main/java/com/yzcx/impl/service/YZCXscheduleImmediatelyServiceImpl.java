@@ -232,8 +232,6 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         rsList.addAll(YZCXscheduleMapToListHandler.handlerMapForHH(ssfenji, YZCXConstant.shoushu_fenji));
         param.setHandletype(Arrays.asList(YZCXConstant.shoushu_anpai, YZCXConstant.shoushu_info, YZCXConstant.shoushu_fenji));
         yzcxHandleInfoDayMapper.deleteByTimeForType(param);
-        System.out.println(rsList.size());
-        System.out.println(rsList);
         yzcxHandleInfoDayMapper.batchInsert(rsList);//保存手术
     }
 
