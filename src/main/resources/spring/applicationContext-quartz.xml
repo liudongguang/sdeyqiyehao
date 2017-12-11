@@ -29,7 +29,7 @@
     <bean id="yzcxDataJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="yzcxController"></property>
-        <property name="targetMethod" value="menzhenDayHandler"></property>
+        <property name="targetMethod" value="immediatelyHandler"></property>
         <property name="concurrent" value="false"></property>
         <!-- concurrent : false表示等上一个任务执行完后再开启新的任务 -->
     </bean>

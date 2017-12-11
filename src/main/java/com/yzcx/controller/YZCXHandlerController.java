@@ -5,7 +5,6 @@ import com.yzcx.api.service.YZCXscheduleImmediatelyService;
 import com.yzcx.api.service.YZCXscheduleService;
 import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXControllerUtil;
-import com.yzcx.api.vo.YZCXHandlerData;
 import com.yzcx.api.vo.YZCXSearchParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,15 +29,13 @@ public class YZCXHandlerController {
     private YZCXscheduleImmediatelyService yzcXscheduleImmediatelyService;
     /**
      * 日处理---5分钟一更新
-     *
-     * @param param
      * @return
      * @throws IOException
      * @throws ParseException
      */
-    @RequestMapping(value = "/menzhenDayHandler")
+    @RequestMapping(value = "/immediatelyHandler")
     @ResponseBody
-    public ResultMsg2 menzhenDayHandler(YZCXSearchParam param) throws IOException, ParseException {
+    public ResultMsg2 immediatelyHandler() throws IOException, ParseException {
         System.out.println("------日即时处理-------");
         ResultMsg2 msg = new ResultMsg2();
         yzcXscheduleImmediatelyService.ImmediatelyHandler();
@@ -60,11 +57,8 @@ public class YZCXHandlerController {
         ResultMsg2 msg = new ResultMsg2();
         param.setStart(LdgDateUtil.get000000Time(param.getStart()));
         param.setEnd(LdgDateUtil.get235959Time(param.getEnd()));
-        YZCXHandlerData handlerData = yzcXscheduleService.getmzinfo(param);//获取门诊记录
-        if(handlerData!=null){
-            yzcXscheduleService.saveYZCXMenzhenData(handlerData, param);//保存门诊记录
-            System.out.println("保存了门诊记录..");
-        }
+        yzcXscheduleService.saveYZCXMenzhenData(param);//保存门诊记录
+        System.out.println("保存了门诊记录..");
         yzcXscheduleService.handlerFeiyonginfo(param);//获取费用记录
         System.out.println("费用处理完毕！");
         yzcXscheduleService.handlerZhuYuanXinxiRiGuiDang(param);

@@ -1,11 +1,8 @@
 package com.yzcx.api.service;
 
 import com.ldg.api.vo.ResultMsg2;
-import com.yzcx.api.vo.YZCXHandlerData;
 import com.yzcx.api.vo.YZCXSearchParam;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -13,26 +10,24 @@ import java.util.List;
  * Created by LiuDongguang on 2017/11/3.
  */
 public interface YZCXscheduleService {
-    YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException, ParseException;
-    void saveYZCXMenzhenData(YZCXHandlerData handlerData, YZCXSearchParam param);
+    /**
+     * 保存门诊记录
+
+     * @param param
+     */
+    void saveYZCXMenzhenData(YZCXSearchParam param);
     ResultMsg2 montho_mzinfo(YZCXSearchParam param);
 
 
 
     /**
-     * 获取费用信息
+     * 处理费用信息
      * @param param
      * @return
      * @throws ParseException
      */
-    YZCXHandlerData handlerFeiyonginfo(YZCXSearchParam param) throws ParseException;
+    void handlerFeiyonginfo(YZCXSearchParam param) throws ParseException;
 
-    /**
-     * 保存费用信息
-     * @param handlerFeiYongData
-     * @param param
-     */
-    void saveYZCXFeiyongData(YZCXHandlerData handlerFeiYongData, YZCXSearchParam param);
 
     /**
      * 获取时间段内日归档的日期
