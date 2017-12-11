@@ -25,10 +25,10 @@
          -->
     </bean>
 
-    <bean id="YZCXscheduleService" class="com.yzcx.impl.service.YZCXscheduleServiceImpl" scope="prototype"></bean>
+    <bean id="yzcxController" class="com.yzcx.controller.YZCXHandlerController" scope="prototype"></bean>
     <bean id="yzcxDataJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="YZCXscheduleService"></property>
+        <property name="targetObject" ref="yzcxController"></property>
         <property name="targetMethod" value="menzhenDayHandler"></property>
         <property name="concurrent" value="false"></property>
         <!-- concurrent : false表示等上一个任务执行完后再开启新的任务 -->
@@ -43,7 +43,7 @@
          -->
     </bean>
     <!--日归档 start-->
-    <bean id="yzcxController" class="com.yzcx.controller.YZCXHandlerController" scope="prototype"></bean>
+
     <bean id="yzcxControllerJob"
           class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="yzcxController"></property>

@@ -14,13 +14,10 @@ import java.util.List;
  */
 public interface YZCXscheduleService {
     YZCXHandlerData getmzinfo(YZCXSearchParam param) throws IOException, ParseException;
-
     void saveYZCXMenzhenData(YZCXHandlerData handlerData, YZCXSearchParam param);
-
-
     ResultMsg2 montho_mzinfo(YZCXSearchParam param);
 
-    void menzhenDayHandler() throws ParseException;
+
 
     /**
      * 获取费用信息
@@ -50,9 +47,11 @@ public interface YZCXscheduleService {
      */
     void handlerZhuYuanXinxiRiGuiDang(YZCXSearchParam param) throws ParseException;
 
+
+
     /**
-     * 删除日处理信息
+     * 日归档会诊
      * @param param
      */
-    int deleteMenzhenDayHandler(YZCXSearchParam param);
+    void handlerHuizhenRiGuiDang(YZCXSearchParam param) throws ParseException;
 }

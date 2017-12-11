@@ -1,11 +1,17 @@
 package com.yzcx.impl.service;
 
+import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.po.YzcxHandleInfoDay;
+import com.yzcx.api.service.YZCXCommonService;
 import com.yzcx.api.service.YZCXHuiZhenSearchService;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.yzcxdisplay.HzxxIndex;
+import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoExt;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
+import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
+import com.yzcx.impl.mapper.YzcxHandleInfoMonthMapper;
+import com.yzcx.impl.service.handler.YzcxHandleInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +23,12 @@ import java.util.stream.Collectors;
 public class YZCXHuiZhenSearchServiceImpl implements YZCXHuiZhenSearchService {
     @Autowired
     private YzcxHandleInfoDayMapper yzcxHandleInfoDayMapper;
+    @Autowired
+    private YzcxHandleInfoMapper yzcxHandleInfoMapper;
+    @Autowired
+    private YzcxHandleInfoMonthMapper yzcxHandleInfoMonthMapper;
+    @Autowired
+    private YZCXCommonService yzcxCommonService;
     @Override
     public HzxxIndex getIndexHuiZhenForDay(YZCXSearchParam param) throws ParseException {
         param.setHandletype(Arrays.asList(YZCXConstant.huizhen_jieshou));
@@ -56,6 +68,38 @@ public class YZCXHuiZhenSearchServiceImpl implements YZCXHuiZhenSearchService {
         rs.put("legendData", legendData);
         rs.put("shenqing", shenqingNum);
         rs.put("jieshou", jieshousNum);
+        return rs;
+    }
+
+    @Override
+    public Map<String, Object> getMonthChart(YZCXSearchParam param) {
+        param.setHandletype(Arrays.asList(YZCXConstant.huizhen_shenqing));
+        List<YzcxHandleInfo> huizhenList_shenqing = yzcxHandleInfoMapper.selectByDateAndType(param);
+        LinkedHashMap<String, Double> everyDayRuYuan_shenqing = huizhenList_shenqing.stream().map(item -> {
+            return YzcxHandleInfoFactory.createYzcxHandleInfoExtForEveryDay(item.getHandledate(), item.getCount(), item.getName());
+        }).collect(Collectors.groupingBy(YzcxHandleInfoExt::getHandledateStr, LinkedHashMap::new, Collectors.summingDouble(YzcxHandleInfoExt::getCount)));
+        /////////
+        param.setHandletype(Arrays.asList(YZCXConstant.huizhen_jieshou));
+        List<YzcxHandleInfo> huizhenList_jieshou = yzcxHandleInfoMapper.selectByDateAndType(param);
+        LinkedHashMap<String, Double> everyDayRuYuan_jieshou = huizhenList_jieshou.stream().map(item -> {
+            return YzcxHandleInfoFactory.createYzcxHandleInfoExtForEveryDay(item.getHandledate(), item.getCount(), item.getName());
+        }).collect(Collectors.groupingBy(YzcxHandleInfoExt::getHandledateStr, LinkedHashMap::new, Collectors.summingDouble(YzcxHandleInfoExt::getCount)));
+
+
+        List<String> legendData = new ArrayList<>();
+        List<Number> shenqing = new ArrayList<>();
+        List<Number> jieshou = new ArrayList<>();
+        everyDayRuYuan_shenqing.forEach((dateStr,SumNumber)->{
+            legendData.add(dateStr);
+            shenqing.add(SumNumber);
+             Double jieshouNum = everyDayRuYuan_jieshou.get(dateStr);
+            jieshouNum=jieshouNum==null?0:jieshouNum;
+            jieshou.add(jieshouNum);
+        });
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("legendData", legendData);
+        rs.put("shenqing", shenqing);
+        rs.put("jieshou", jieshou);
         return rs;
     }
 }

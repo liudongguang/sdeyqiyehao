@@ -13,7 +13,7 @@ $(document).ready(function () {
                     month = "0" + month;
                 }
                 var date = d2.getFullYear() + "-" + month + "-01";
-                var url = "webyzcxZyxx/zhuyuan_yue_page?start=" + date;
+                var url = "webyzcxHuizhen/monthChartPage?start=" + date;
                 location.href = url;
             } else {
                 alert("不能大于本月！");
@@ -21,26 +21,33 @@ $(document).ready(function () {
         }
     })
     var myChart = echarts.init(document.getElementById('container'));
-    ajaxRequest("webyzcxZyxx/zhuyuan_yue_chart", {start: $('#monthly').val() + "-01"}, function (data) {
+    ajaxRequest("webyzcxHuizhen/monthChart", {start: $('#monthly').val() + "-01"}, function (data) {
+        var legendData=data.legendData;
+        var shenqing=data.shenqing;
+        var jieshou=data.jieshou;
         var option = {
             "backgroundColor": "#ffffff",
             "title": {"text": " ", "subtext": "日入院人次"},
             "tooltip": {"trigger": "axis"},
-            "legend": {"data": [["入院情况"]]},
+            "legend": {"data": ["入院情况"]},
             "grid": {"left": 80},
             "xAxis": [{"type": "value"}],
             "yAxis": [{
                 "type": "category",
                 "inverse": true,
-                "data": ["2017-12-01", "2017-12-02", "2017-12-03", "2017-12-04", "2017-12-05", "2017-12-06"]
+                "data": legendData
             }],
             "series": [{
-                "name": "入院情况",
+                "name": "会诊申请",
                 "type": "bar",
                 "itemStyle": {"normal": {"color": "#7cb5ec"}},
-                "data": [167.0, 103.0, 131.0, 293.0, 233.0, 209.0]
+                "data": shenqing
+            },{
+                "name": "会诊接受",
+                "type": "bar",
+                "data": jieshou
             }]
         }
-        myChart.setOption(JSON.parse(data.echartOption));
+        myChart.setOption(option);
     });
 });

@@ -1,20 +1,20 @@
 package com.yzcx.controller;
 
 import com.ldg.api.vo.ResultMsg2;
+import com.yzcx.api.service.YZCXscheduleImmediatelyService;
 import com.yzcx.api.service.YZCXscheduleService;
 import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXControllerUtil;
 import com.yzcx.api.vo.YZCXHandlerData;
 import com.yzcx.api.vo.YZCXSearchParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
@@ -24,9 +24,10 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping(value = "/yzcxdata")
 public class YZCXHandlerController {
-    @Resource(name = "YZCXscheduleService")
+    @Autowired
     private YZCXscheduleService yzcXscheduleService;
-
+   @Autowired
+    private YZCXscheduleImmediatelyService yzcXscheduleImmediatelyService;
     /**
      * 日处理---5分钟一更新
      *
@@ -38,9 +39,9 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/menzhenDayHandler")
     @ResponseBody
     public ResultMsg2 menzhenDayHandler(YZCXSearchParam param) throws IOException, ParseException {
-        System.out.println("------日处理-------");
+        System.out.println("------日即时处理-------");
         ResultMsg2 msg = new ResultMsg2();
-        yzcXscheduleService.menzhenDayHandler();
+        yzcXscheduleImmediatelyService.ImmediatelyHandler();
         return msg;
     }
 
@@ -68,9 +69,11 @@ public class YZCXHandlerController {
         System.out.println("费用处理完毕！");
         yzcXscheduleService.handlerZhuYuanXinxiRiGuiDang(param);
         System.out.println("住院处理完毕！");
+        yzcXscheduleService.handlerHuizhenRiGuiDang(param);
+        System.out.println("会诊处理完毕！");
         /////////////////////删除前一天的日归档信息
         param.setHandletype(null);
-        int i = yzcXscheduleService.deleteMenzhenDayHandler(param);
+        int i = yzcXscheduleImmediatelyService.deleteMenzhenDayHandler(param);
         ////////////////////
         System.out.println(param+"daysGuiDang执行完成！");
         return msg;
@@ -137,7 +140,7 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/initYZCXMonthSystem")
     @ResponseBody
     public void initYZCXMonthSystem() throws Exception {
-        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(1);
+        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(0);
         YZCXSearchParam searchParam=new YZCXSearchParam();
         searchParam.setStart(initDateList.get(0).getStart());
         searchParam.setEnd(initDateList.get(initDateList.size()-1).getEnd());

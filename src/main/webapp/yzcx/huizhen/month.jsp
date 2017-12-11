@@ -47,7 +47,7 @@
                     <span class="tit_sty_span2"><a href="webyzcxHuizhen/index">&lt;查看日会诊信息|&nbsp;</a></span>
 
                     <img style="width: 35px;vertical-align: middle;" src="assets/yzcx/image/data.png" alt=""/>
-                    <input type="text" class="input" id="monthly" placeholder="选择月份" value="<fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM"></fmt:formatDate>">
+                    <input type="text" class="input" id="monthly" placeholder="选择月份" value="<fmt:formatDate value="${obj.start}" pattern="yyyy-MM"></fmt:formatDate>">
                 </div>
             </li>
             <li class="header-section" style="background-color: #ecf0f1!important;">
@@ -55,9 +55,7 @@
                 <div id="container" style="width: 100%; height:600px;margin: 0 auto;"></div>
             </li>
             <li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;">
-                <div class="tit_sty">
-                    <span class="tit_sty_span1">月科室会诊</span>
-                </div>
+
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="container1" style="width: 100%; height: 800px;margin: 0 auto"></div>
             </li>

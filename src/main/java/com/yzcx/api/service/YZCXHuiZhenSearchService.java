@@ -14,4 +14,5 @@ public interface YZCXHuiZhenSearchService {
     Map<String,Object> getIndexChart(YZCXSearchParam param) throws ParseException;
 
 
+    Map<String,Object> getMonthChart(YZCXSearchParam param);
 }

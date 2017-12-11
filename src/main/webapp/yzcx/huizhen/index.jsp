@@ -34,9 +34,9 @@
             <li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
                 <div class="tit_sty">
                     <span class="tit_sty_span1">当日会诊</span>
-                    <!--
-                    <span class="tit_sty_span2"><a href="yzcx/shoushu/shoushouList.jsp">&nbsp;>列表</a></span>
-                    -->
+
+                    <span class="tit_sty_span2"><a href="webyzcxHuizhen/monthChartPage">&nbsp;>月会诊</a></span>
+
                 </div>
                 <div class="tit_sty_div_all">
                     <div class="tit_sty_div_all_tab2">

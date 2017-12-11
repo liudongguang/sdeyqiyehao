@@ -25,7 +25,7 @@ public class YZCXWebHuiZhenController {
 
     @RequestMapping(value = "/index")
     public String index(HttpServletRequest request) throws IOException, ParseException {
-        YZCXSearchParam param= YZCXControllerUtil.getBeforeDayByNum(0);
+        YZCXSearchParam param = YZCXControllerUtil.getBeforeDayByNum(0);
         HzxxIndex indexHuiZhenForDay = yzcxHuiZhenSearchService.getIndexHuiZhenForDay(param);
         request.setAttribute(YZCXConstant.obj, indexHuiZhenForDay);
         return "/yzcx/huizhen/index.jsp";
@@ -33,13 +33,27 @@ public class YZCXWebHuiZhenController {
 
     @RequestMapping(value = "/indexChart")
     @ResponseBody
-    public Map<String,Object> indexChart(HttpServletRequest request) throws IOException, ParseException {
-        YZCXSearchParam param= YZCXControllerUtil.getBeforeDayByNum(0);
-        Map<String,Object> rs= yzcxHuiZhenSearchService.getIndexChart(param);
+    public Map<String, Object> indexChart(HttpServletRequest request) throws IOException, ParseException {
+        YZCXSearchParam param = YZCXControllerUtil.getBeforeDayByNum(0);
+        Map<String, Object> rs = yzcxHuiZhenSearchService.getIndexChart(param);
         return rs;
     }
 
+    @RequestMapping(value = "/monthChartPage")
+    public String monthChartPage(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForThisMonth(param);
+        request.setAttribute(YZCXConstant.obj, yzcxSearchParam);
+        return "/yzcx/huizhen/month.jsp";
+    }
 
+
+    @RequestMapping(value = "/monthChart")
+    @ResponseBody
+    public Map<String, Object> monthChart(HttpServletRequest request) throws IOException, ParseException {
+        YZCXSearchParam param = YZCXControllerUtil.getBeforeDayByNum(0);
+        Map<String, Object> rs = yzcxHuiZhenSearchService.getMonthChart(param);
+        return rs;
+    }
 
 
 }
