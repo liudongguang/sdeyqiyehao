@@ -62,6 +62,8 @@ public class YZCXHandlerController {
         System.out.println("住院处理完毕！");
         yzcXscheduleService.handlerHuizhenRiGuiDang(param);//会诊处理
         System.out.println("会诊处理完毕！");
+        yzcXscheduleService.handlerYijiRiGuiDang(param);//医技处理
+        System.out.println("医技处理完毕！");
         /////////////////////删除前一天的日归档信息
         param.setHandletype(null);
         int i = yzcXscheduleImmediatelyService.deleteMenzhenDayHandler(param);

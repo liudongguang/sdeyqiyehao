@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -373,6 +374,56 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             }
         });
     }
+    /**
+     * 会诊信息
+     * @param param
+     * @return
+     */
+    private List<YzcxHandleInfo> handleYZCXYIJIXXInfo(YZCXSearchParam param){
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
+        Map<String, String> requestparam = new HashMap();
+        final Date start = param.getStart();
+        String date00 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(start);
+        String date23 = LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd());
+        requestparam.put("starte", date00);
+        requestparam.put("end", date23);
+        final YIJIModle yiji = YzcxHttpRequest.getYIJI(requestparam);
+        List<YiJiInfo> mzyiji=yiji.getMzyiji();
+        List<YiJiInfo> zyyiji=yiji.getMzyiji();
+        Integer menzhenCount = yiji.getMzyiji().size();
+        Integer zhuyuanCount = yiji.getZyyiji().size();
+        /////
+        final BigDecimal menzhenHeji = mzyiji.stream().map(YiJiInfo::getHjje)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        final BigDecimal zhuyuanHeji = zyyiji.stream().map(YiJiInfo::getHjje)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        ////
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_menzhenStr, YZCXConstant.yiji_menzhen, start, menzhenCount.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_zhuyuanStr, YZCXConstant.yiji_zhuyuan, start, zhuyuanCount.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_menzhen_hejiStr, YZCXConstant.yiji_menzhen_heji, start, menzhenHeji.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_zhuyuan_hejiStr, YZCXConstant.yiji_zhuyuan_heji, start, zhuyuanHeji.doubleValue()));
+        return rsList;
+    }
+    @Override
+    public void handlerYijiRiGuiDang(YZCXSearchParam param) throws ParseException {
+        //获取时间段里 每天的时间区间
+        List<YZCXSearchParam> yzcxSearchParamByBetween = LdgDateUtil.getYZCXSearchParamByBetween(param.getStart(), param.getEnd());
+        yzcxSearchParamByBetween.forEach(item -> {
+            item.setHandletype(Arrays.asList(YZCXConstant.importType_yiji));
+            int zhuyuanImportcount = yzcxHandleImportdateMapper.selectImportState(item);
+            if (zhuyuanImportcount == 0) {
+                final List<YzcxHandleInfo> savelists = handleYZCXYIJIXXInfo(item);
+                System.out.println(item + "医技处理....."+savelists.size());
+                yzcxHandleInfoMapper.batchInsert(savelists);
+                //保存处理日期
+                yzcxHandleImportdateMapper.insertOneInfo(new YzcxHandleImportdate(item.getStart(),YZCXConstant.importType_yiji));
+            } else {
+                System.out.println(item + "医技信息已处理！");
+                return;
+            }
+        });
+    }
+
     ////////////
     @Override
     public ResultMsg2 montho_mzinfo(YZCXSearchParam param) {

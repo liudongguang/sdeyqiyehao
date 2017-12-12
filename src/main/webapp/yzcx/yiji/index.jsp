@@ -32,6 +32,10 @@
     <div class="content slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
         <ul class="responsive">
             <li class="header-section" style="background-color: #ecf0f1!important;">
+                <div class="tit_sty">
+                    <span class="tit_sty_span1">当日医技</span>
+                    <span class="tit_sty_span2"><a href="webyzcxyijixx/monthChartPage">&nbsp;>月医技</a></span>
+                </div>
                 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
                 <div id="container" style="width: 100%; height:300px;margin: 0 auto;"></div>
             </li>

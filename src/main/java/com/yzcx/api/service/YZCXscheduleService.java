@@ -49,4 +49,10 @@ public interface YZCXscheduleService {
      * @param param
      */
     void handlerHuizhenRiGuiDang(YZCXSearchParam param) throws ParseException;
+
+    /**
+     * 日归档医技
+     * @param param
+     */
+    void handlerYijiRiGuiDang(YZCXSearchParam param) throws ParseException;
 }
