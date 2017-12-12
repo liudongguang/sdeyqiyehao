@@ -22,6 +22,11 @@ public class YzcxHttpRequest {
         return data;
     }
 
+    /**
+     * 获取医技信息
+     * @param requestparam
+     * @return
+     */
     public static YIJIModle getYIJI(Map<String, String> requestparam) {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("yijixx");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
@@ -30,6 +35,21 @@ public class YzcxHttpRequest {
         YIJIModle data = zhuYuanxx.getData();
         return data;
     }
+
+    /**
+     * 获取一级护理
+     * @param requestparam
+     * @return
+     */
+    public static YIJIHuLiModle getYIJIHuLi(Map<String, String> requestparam) {
+        String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("yijihuli");//
+        HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
+        final String zhuyuanStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        Json_Yijihuli zhuYuanxx= JsonUtil.getObjectByJSON(zhuyuanStr,Json_Yijihuli.class);
+        YIJIHuLiModle data = zhuYuanxx.getData();
+        return data;
+    }
+
     public static SSXXModle getShoushuxx(Map<String, String> requestparam) {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("shoushuxx");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();

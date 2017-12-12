@@ -86,4 +86,14 @@ public interface YZCXConstant {
     String shoushu_infoStr="手术实际数";
     int huizhen_shenqing = 34;//会诊申请
     int huizhen_jieshou = 35;//会诊接受
+
+    int yiji_menzhen=36;
+    String yiji_menzhenStr="医技门诊总数";
+    int yiji_zhuyuan=37;
+    String yiji_zhuyuanStr="医技住院总数";
+    int yiji_type=38; //医技类型
+    int yiji_menzhen_heji=39;
+    String yiji_menzhen_hejiStr="医技门诊合计";
+    int yiji_zhuyuan_heji=40;
+    String yiji_zhuyuan_hejiStr="医技住院合计";
 }

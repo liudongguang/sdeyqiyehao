@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -205,9 +206,28 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         YIJIModle yijiModle = YzcxHttpRequest.getYIJI(requestparam);
         final List<YiJiInfo> mzyiji = yijiModle.getMzyiji();
         final List<YiJiInfo> zyyiji = yijiModle.getZyyiji();
-        final List<YJHLInfo> yjhl = yijiModle.getYjhl();
-
-
+        Integer menzhenCount = mzyiji.size();
+        Integer zhuyuanCount = zyyiji.size();
+        List<YiJiInfo> zongList = new ArrayList<>();
+        zongList.addAll(mzyiji);
+        zongList.addAll(zyyiji);
+        /////
+        final BigDecimal menzhenHeji = mzyiji.stream().map(YiJiInfo::getHjje)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        final BigDecimal zhuyuanHeji = zyyiji.stream().map(YiJiInfo::getHjje)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        /////
+        final Map<String, Long> yijiFYType = zongList.stream().collect(Collectors.groupingBy(YiJiInfo::getFygb, Collectors.counting()));
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
+        final Date start = param.getStart();
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_menzhenStr, YZCXConstant.yiji_menzhen, start, menzhenCount.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_zhuyuanStr, YZCXConstant.yiji_zhuyuan, start, zhuyuanCount.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_menzhen_hejiStr, YZCXConstant.yiji_menzhen_heji, start, menzhenHeji.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_zhuyuan_hejiStr, YZCXConstant.yiji_zhuyuan_heji, start, zhuyuanHeji.doubleValue()));
+        rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(yijiFYType, start, YZCXConstant.yiji_type));
+        param.setHandletype(Arrays.asList(YZCXConstant.yiji_menzhen, YZCXConstant.yiji_zhuyuan, YZCXConstant.yiji_type));
+        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存医技信息
     }
 
     private void menzhenDayHandler_shoushuxx(YZCXSearchParam param, String date00, String date23) {
