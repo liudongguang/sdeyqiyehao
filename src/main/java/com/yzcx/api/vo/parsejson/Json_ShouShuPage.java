@@ -1,6 +1,6 @@
 package com.yzcx.api.vo.parsejson;
 
-import com.yzcx.api.vo.SSXXDisplayModle;
+import com.yzcx.api.vo.pageinfo.SSXXDisplayModle;
 
 /**
  * Created by LiuDongguang on 2017/11/6.

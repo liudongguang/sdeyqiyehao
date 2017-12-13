@@ -7,6 +7,8 @@ import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXProperties;
 import com.yzcx.api.vo.*;
+import com.yzcx.api.vo.pageinfo.SSXXDisplayModle;
+import com.yzcx.api.vo.pageinfo.YJHLXXDisplayModle;
 import com.yzcx.api.vo.parsejson.*;
 
 import java.util.HashMap;
@@ -58,7 +60,7 @@ public class YzcxHttpRequest {
         SSXXModle data = shoushu.getData();
         return data;
     }
-    public static SSXXDisplayModle getShoushuxx_One(YZCXSearchParam param,PageParam pageParam) {
+    public static SSXXDisplayModle getShoushuxx_One(YZCXSearchParam param, PageParam pageParam) {
         Map<String, String> requestparam=new HashMap<>();
         requestparam.put(YZCXConstant.remoteParam_starte, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
         requestparam.put(YZCXConstant.remoteParam_end, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
@@ -77,6 +79,19 @@ public class YzcxHttpRequest {
         final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
         Json_HuiZhen shoushu= JsonUtil.getObjectByJSON(shoushuStr,Json_HuiZhen.class);
         HzxxModle data = shoushu.getData();
+        return data;
+    }
+
+    public static YJHLXXDisplayModle getYJHLPageInfo(YZCXSearchParam param, PageParam pageParam) {
+        Map<String, String> requestparam=new HashMap<>();
+        requestparam.put(YZCXConstant.remoteParam_starte, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
+        requestparam.put(YZCXConstant.remoteParam_end, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
+        requestparam.put(YZCXConstant.remoteParam_pageNum, pageParam.getPageNum().toString());
+        requestparam.put(YZCXConstant.remoteParam_pageSize, pageParam.getPageSize().toString());
+        String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("getYJHLPageInfo");//
+        HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
+        final String yijihuliStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        YJHLXXDisplayModle data= JsonUtil.getObjectByJSON(yijihuliStr,YJHLXXDisplayModle.class);
         return data;
     }
 }

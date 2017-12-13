@@ -1,10 +1,11 @@
-package com.yzcx.api.vo;
+package com.yzcx.api.vo.pageinfo;
+
+import com.yzcx.api.vo.YJHLInfo;
 
 import java.util.List;
 
-public class SSXXDisplayModle {
-
-    private List<SSXX_anpai> list;
+public class YJHLXXDisplayModle {
+    private List<YJHLInfo> list;
     private Integer pageNum;
     private Integer pages;
 
@@ -24,17 +25,17 @@ public class SSXXDisplayModle {
         this.pages = pages;
     }
 
-    public List<SSXX_anpai> getList() {
+    public List<YJHLInfo> getList() {
         return list;
     }
 
-    public void setList(List<SSXX_anpai> list) {
+    public void setList(List<YJHLInfo> list) {
         this.list = list;
     }
 
     @Override
     public String toString() {
-        return "SSXXDisplayModle{" +
+        return "YJHLXXDisplayModle{" +
                 "list=" + list +
                 ", pageNum=" + pageNum +
                 ", pages=" + pages +

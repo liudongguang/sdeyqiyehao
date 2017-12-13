@@ -2,13 +2,11 @@ package com.yzcx.controller;
 
 import com.yzcx.api.bo.PageParam;
 import com.yzcx.api.service.YZCXShoushuSearchService;
-import com.yzcx.api.service.YZCXZhuYuanSearchService;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXControllerUtil;
-import com.yzcx.api.vo.SSXXDisplayModle;
+import com.yzcx.api.vo.pageinfo.SSXXDisplayModle;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.yzcxdisplay.SsxxIndex;
-import com.yzcx.api.vo.yzcxdisplay.ZyxxIndex;
 import com.yzcx.impl.service.handler.YzcxHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

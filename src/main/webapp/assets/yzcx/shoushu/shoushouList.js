@@ -57,7 +57,7 @@ $(document).ready(function () {
                                 shadeClose: true,
                                 shade: 0.8,
                                 area: ['80%', '70%'],
-                                content: 'yzcx/shoushu/shoushou_disOne.jsp?brks='+$this.attr("brks")+"&brxm="+$this.attr("brxm")+"&ssmc="+$this.attr("ssmc")+"&ssys="+$this.attr("ssys")+"&ssrq="+$this.attr("ssrq")+"&ssfj="+$this.attr("ssfj")+"&brnl="+$this.attr("brnl")+"&brxb="+$this.attr("brxb") //iframe的url
+                                content: 'yzcx/shoushu/disOne.jsp?brks='+$this.attr("brks")+"&brxm="+$this.attr("brxm")+"&ssmc="+$this.attr("ssmc")+"&ssys="+$this.attr("ssys")+"&ssrq="+$this.attr("ssrq")+"&ssfj="+$this.attr("ssfj")+"&brnl="+$this.attr("brnl")+"&brxb="+$this.attr("brxb") //iframe的url
                             });
                         });
                         $ssinfoID.append(appendStr);
