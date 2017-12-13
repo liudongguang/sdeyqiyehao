@@ -389,7 +389,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
         requestparam.put("end", date23);
         final YIJIModle yiji = YzcxHttpRequest.getYIJI(requestparam);
         List<YiJiInfo> mzyiji=yiji.getMzyiji();
-        List<YiJiInfo> zyyiji=yiji.getMzyiji();
+        List<YiJiInfo> zyyiji=yiji.getZyyiji();
         Integer menzhenCount = yiji.getMzyiji().size();
         Integer zhuyuanCount = yiji.getZyyiji().size();
         /////
@@ -413,7 +413,7 @@ public class YZCXscheduleServiceImpl implements YZCXscheduleService {
             int zhuyuanImportcount = yzcxHandleImportdateMapper.selectImportState(item);
             if (zhuyuanImportcount == 0) {
                 final List<YzcxHandleInfo> savelists = handleYZCXYIJIXXInfo(item);
-                System.out.println(item + "医技处理....."+savelists.size());
+                System.out.println(item + "医技处理.....");
                 yzcxHandleInfoMapper.batchInsert(savelists);
                 //保存处理日期
                 yzcxHandleImportdateMapper.insertOneInfo(new YzcxHandleImportdate(item.getStart(),YZCXConstant.importType_yiji));

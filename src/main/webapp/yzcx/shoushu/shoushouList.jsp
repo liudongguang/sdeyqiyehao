@@ -15,11 +15,11 @@
     <link rel="stylesheet" href="assets/bootstrap4.0.0-beta/css/bootstrap.css"/>
     <link rel="stylesheet" href="assets/minirefresh/minirefresh.css"/>
     <link rel="stylesheet" href="assets/yzcx/shoushu/common.css"/>
+    <script language="javascript" type="text/javascript" src="js/jquery3.1.0.min.js"></script>
 </head>
 <body style="font-size: 11px">
 <input type="hidden" value="6" id="navNum"/>
 <input type="hidden" value="" id="pageNumID"/>
-
 <div id="minirefresh" class="minirefresh-wrap">
     <div class="minirefresh-scroll">
         <div class="container-fluid">
@@ -41,7 +41,7 @@
         </div>
     </div>
 </div>
-<script language="javascript" type="text/javascript" src="js/jquery3.1.0.min.js"></script>
+
 <script language="javascript" type="text/javascript" src="assets/minirefresh/minirefresh.js"></script>
 <script language="javascript" type="text/javascript" src="assets/bootstrap4.0.0-beta/popper.js"></script>
 <script language="javascript" type="text/javascript" src="assets/bootstrap4.0.0-beta/js/bootstrap.js"></script>

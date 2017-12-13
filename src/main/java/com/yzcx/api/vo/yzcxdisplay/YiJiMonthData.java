@@ -10,10 +10,21 @@ public class YiJiMonthData {
     private Double zhuyuanHeji;
     private Double menzhenPingjun;
     private Double zhuyuanPingjun;
+    private Double zongHejiPingjun;
+
 
     public void pingjun(){
         menzhenPingjun=menzhenHeji/menzhenRenci;
         zhuyuanPingjun=zhuyuanHeji/zhuyuanRenci;
+        zongHejiPingjun=(menzhenHeji+zhuyuanHeji)/(menzhenRenci+zhuyuanRenci);
+    }
+
+    public Double getZongHejiPingjun() {
+        return zongHejiPingjun;
+    }
+
+    public void setZongHejiPingjun(Double zongHejiPingjun) {
+        this.zongHejiPingjun = zongHejiPingjun;
     }
 
     public YZCXSearchParam getParam() {
@@ -82,6 +93,7 @@ public class YiJiMonthData {
                 ", zhuyuanHeji=" + zhuyuanHeji +
                 ", menzhenPingjun=" + menzhenPingjun +
                 ", zhuyuanPingjun=" + zhuyuanPingjun +
+                ", zongHejiPingjun=" + zongHejiPingjun +
                 '}';
     }
 }

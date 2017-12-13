@@ -2,8 +2,8 @@
 <Configuration>
 	<Appenders>
 		<!-- 配置日志输出文件名字 追加读写 -->
-		<RollingFile name="infoFile" fileName="/var/cxf_ws01"
-			filePattern="/var/95020log/med/info.%d{yyyy-MM-dd}.log" append="true">
+		<RollingFile name="infoFile" fileName="/var/sdeyqiyehao.log"
+			filePattern="/var/sdeyqiyehao/info.%d{yyyy-MM-dd}.log" append="true">
 			<!-- 输出格式 -->
 			<PatternLayout
 				pattern="[%l] [%t] [%-4r] [%d{yyyy-MM-dd HH:mm:ss,SSS}] [%p] \: %m%n" />

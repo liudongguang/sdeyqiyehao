@@ -77,7 +77,7 @@ public class YZCXYiJiSearchServiceImpl implements YZCXYiJiSearchService {
         yiJiMonthData.setMenzhenHeji(list_menzhen_heji.get(0).getCount());
         yiJiMonthData.setZhuyuanHeji(list_zhuyuan_heji.get(0).getCount());
         yiJiMonthData.setMenzhenRenci(list_menzhen.get(0).getCount().intValue());
-        yiJiMonthData.setZhuyuanRenci(list_menzhen.get(0).getCount().intValue());
+        yiJiMonthData.setZhuyuanRenci(list_zhuyuan.get(0).getCount().intValue());
         yiJiMonthData.pingjun();
         return yiJiMonthData;
     }
