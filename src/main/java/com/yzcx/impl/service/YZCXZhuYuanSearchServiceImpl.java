@@ -52,10 +52,10 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         ZyxxIndex index = new ZyxxIndex();
         index.setParam(param);
         if (chuyuanrs != null) {
-            index.setChuyuan(chuyuanrs.get(0).getCount());
+            index.setChuyuan(chuyuanrs.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         }
         if (ruyuanrs != null) {
-            index.setRuyuan(ruyuanrs.get(0).getCount());
+            index.setRuyuan(ruyuanrs.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         }
         if (brqk != null) {
             Map<String, Double> brqkMap = brqk.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName,Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
@@ -209,10 +209,10 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         ZyxxIndex index = new ZyxxIndex();
         index.setParam(param);
         if (chuyuanrs != null) {
-            index.setChuyuan(chuyuanrs.get(0).getCount());
+            index.setChuyuan(chuyuanrs.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         }
         if (ruyuanrs != null) {
-            index.setRuyuan(ruyuanrs.get(0).getCount());
+            index.setRuyuan(ruyuanrs.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         }
         if (brqk != null) {
             Map<String, Double> brqkMap = brqk.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName,Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));

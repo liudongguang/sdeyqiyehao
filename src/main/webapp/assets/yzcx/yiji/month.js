@@ -51,6 +51,7 @@ $(document).ready(function () {
             },
             yAxis: {
                 type: 'category',
+                inverse: true,
                 data: legendData
             },
             series: [
