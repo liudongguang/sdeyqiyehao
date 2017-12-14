@@ -11,6 +11,7 @@ public interface YZCXConstant {
     String remoteParam_end="end";
     String remoteParam_pageNum="pageNum";
     String remoteParam_pageSize="pageSize";
+    String remoteParam_ksName="ksname";
     int importType_menzhen=1; //导入类型，门诊
     int importType_feiyong=2;//导入类型，费用
     int importType_zhuyuan=3; //导入类型，住院信息
@@ -97,4 +98,5 @@ public interface YZCXConstant {
     String yiji_menzhen_hejiStr="医技门诊合计";
     int yiji_zhuyuan_heji=40;
     String yiji_zhuyuan_hejiStr="医技住院合计";
+
 }

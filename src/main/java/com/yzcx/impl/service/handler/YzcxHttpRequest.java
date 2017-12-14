@@ -82,12 +82,13 @@ public class YzcxHttpRequest {
         return data;
     }
 
-    public static YJHLXXDisplayModle getYJHLPageInfo(YZCXSearchParam param, PageParam pageParam) {
+    public static YJHLXXDisplayModle getYJHLPageInfo(YZCXSearchParam param, PageParam pageParam,String ksName) {
         Map<String, String> requestparam=new HashMap<>();
         requestparam.put(YZCXConstant.remoteParam_starte, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
         requestparam.put(YZCXConstant.remoteParam_end, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
         requestparam.put(YZCXConstant.remoteParam_pageNum, pageParam.getPageNum().toString());
         requestparam.put(YZCXConstant.remoteParam_pageSize, pageParam.getPageSize().toString());
+        requestparam.put(YZCXConstant.remoteParam_ksName, ksName);
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("getYJHLPageInfo");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String yijihuliStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);

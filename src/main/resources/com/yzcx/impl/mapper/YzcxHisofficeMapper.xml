@@ -23,10 +23,10 @@
     select ksname from yzcx_hisoffice
     <where>
       <if test="searchType==2">
-        kspinyin like #{searVal,jdbcType=VARCHAR}||'%'
+        kspinyin like CONCAT(#{searVal,jdbcType=VARCHAR}, '%')
       </if>
       <if test="searchType==3">
-        ksname like #{searVal,jdbcType=VARCHAR}||'%'
+        ksname like  CONCAT(#{searVal,jdbcType=VARCHAR}, '%')
       </if>
     </where>
     order by kspinyin

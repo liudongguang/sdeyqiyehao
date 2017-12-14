@@ -27,7 +27,7 @@ public class PingyinHandler {
                 try {
                     String tempArr[] = PinyinHelper.toHanyuPinyinStringArray(
                             nameChar[i], defaultFormat);
-                    if (null != tempArr) {
+                    if (null != tempArr&&tempArr.length>=1) {
                         String tempStr = tempArr[0];
                         if (tempStr != null) {
                             pinyinName += tempStr.charAt(0);
@@ -72,6 +72,6 @@ public class PingyinHandler {
     }
 
     public static void main(String[] args) {
-        System.out.println(converterToFirstSpell("欢迎来到最棒的Java中文社区"));
+        System.out.println(converterToFirstSpell("至善七病区（普外）"));
     }
 }

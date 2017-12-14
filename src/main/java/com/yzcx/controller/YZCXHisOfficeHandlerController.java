@@ -8,7 +8,7 @@ import com.yzcx.api.po.YzcxHisoffice;
 import com.yzcx.api.service.YZCXHisOfficeService;
 import com.yzcx.api.util.PingyinHandler;
 import com.yzcx.api.util.YZCXProperties;
-import com.yzcx.api.vo.ZYXXchuangwei;
+import com.yzcx.api.vo.YiJiInfo;
 import com.yzcx.api.vo.parsejson.Json_HisOffice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,11 +33,12 @@ public class YZCXHisOfficeHandlerController {
         HttpClientUtil htc = HttpClientUtil.getInstance();
         final String hisOfficeStr = htc.sendHttpPost(zhuyuanurl);
         Json_HisOffice hisOffice = JsonUtil.getObjectByJSON(hisOfficeStr, Json_HisOffice.class);
-        final List<ZYXXchuangwei> data = hisOffice.getData();
+        final List<YiJiInfo> data = hisOffice.getData();
         List<YzcxHisoffice> saveKsList = data.stream().map(item -> {
             YzcxHisoffice yzcxHisoffice = new YzcxHisoffice();
-            String ksName = item.getKs();
+            String ksName = item.getKdks();
             yzcxHisoffice.setKsname(ksName);
+            System.out.println(ksName);
             yzcxHisoffice.setKspinyin(PingyinHandler.converterToFirstSpell(ksName));
             return yzcxHisoffice;
         }).collect(Collectors.toList());

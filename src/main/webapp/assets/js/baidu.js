@@ -4,12 +4,11 @@ jQuery(document).ready(function () {
     var jq_addDataUL = $("#addULID");
     $("[fangbaidu_searurl]").each(function () {
         var jq_Input = $(this);//输入框
-        var jq_Input_ID = jq_Input.attr("id");//输入框id
         var searchURL=jq_Input.attr("fangbaidu_searurl");//查询url
         jq_Input.keyup(
             function () {
                 var getVal = $(this).val();
-                if (getVal && getVal.length >= 2) {
+                if (getVal && getVal.length >= 1) {
                     var type=getSearchType(getVal);
                     if(type==2){
                         getVal=getVal.toUpperCase();
@@ -24,6 +23,9 @@ jQuery(document).ready(function () {
                     });
                 } else {
                     jq_disDIV.hide();
+                    if(typeof(clickHandler)!='undefined'){
+                        clickHandler("");
+                    }
                 }
             });
     });
@@ -40,6 +42,9 @@ jQuery(document).ready(function () {
             var val = jq_this.text();
             jq_Input.val(val);
             jq_disDIV.hide();
+            if(typeof(clickHandler)!='undefined'){
+                clickHandler(val);
+            }
         })
         jq_addDataUL.append(jq_li);
     }

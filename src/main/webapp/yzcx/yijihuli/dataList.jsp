@@ -21,6 +21,7 @@
 <body style="font-size: 12px">
 <input type="hidden" value="8" id="navNum"/>
 <input type="hidden" value="" id="pageNumID"/>
+<input type="hidden" value="" id="ksNameID"/>
 <input type="text" value=""   class="form-control" placeholder="查询科室"   fangbaidu_searurl="hisoffice/searchKS"/>
 <div id="disRSDIVID" class="bdsug" style="height: auto; display: none;">
     <ul id="addULID">

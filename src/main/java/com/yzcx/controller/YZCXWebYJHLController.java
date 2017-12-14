@@ -19,9 +19,9 @@ import java.text.ParseException;
 public class YZCXWebYJHLController {
     @RequestMapping(value = "/pageinfo")
     @ResponseBody
-    public YJHLXXDisplayModle shoushuList(HttpServletRequest request,PageParam pageParam) throws IOException, ParseException {
+    public YJHLXXDisplayModle shoushuList(HttpServletRequest request,PageParam pageParam,String ksName) throws IOException, ParseException {
         YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
-        final YJHLXXDisplayModle yjhlPageInfo = YzcxHttpRequest.getYJHLPageInfo(param, pageParam);
+        final YJHLXXDisplayModle yjhlPageInfo = YzcxHttpRequest.getYJHLPageInfo(param, pageParam,ksName);
         return yjhlPageInfo;
     }
 }
