@@ -5,7 +5,9 @@ import com.yzcx.api.vo.YZCXSearchParam;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -23,8 +25,10 @@ import java.util.stream.Collectors;
  */
 public class LdgDateUtil {
     private final static String yyyy_mm_dd_hh_mm_ss = "yyyy-MM-dd HH:mm:ss";
+    private final static String yyyy_mm_dd_hh_mm = "yyyy-MM-dd HH:mm";
     private final static String yyyy_mm_dd_hh = "yyyy-MM-dd HH";
     private final static String yyyy_mm_dd = "yyyy-MM-dd";
+    public static final SimpleDateFormat yyyy_MM_dd_HH_mmFormat = new SimpleDateFormat(yyyy_mm_dd_hh_mm);
     private final static ZoneId zoneId = ZoneId.systemDefault();
     private final static String yyyy_mm_dd_00_00_00 = "yyyy-MM-dd 00:00:00";
     private final static String yyyy_mm_dd_23_59_59 = "yyyy-MM-dd 23:59:59";
@@ -64,6 +68,9 @@ public class LdgDateUtil {
 
     public static Date getYyyy_mm_ddDate(String dateStr) throws ParseException {
         return DateUtils.parseDate(dateStr, yyyy_mm_dd);
+    }
+    public static Date getyyyy_mm_dd_hh_mmDate(String dateStr) throws ParseException {
+        return DateUtils.parseDate(dateStr, yyyy_mm_dd_hh_mm);
     }
     public static String getYyyy_mm_ddDateStr(Date date) throws ParseException {
         return DateFormatUtils.format(date, yyyy_mm_dd);
