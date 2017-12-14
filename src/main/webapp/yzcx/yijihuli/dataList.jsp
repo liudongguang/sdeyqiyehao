@@ -15,11 +15,17 @@
     <link rel="stylesheet" href="assets/bootstrap4.0.0-beta/css/bootstrap.css"/>
     <link rel="stylesheet" href="assets/minirefresh/minirefresh.css"/>
     <link rel="stylesheet" href="assets/yzcx/shoushu/common.css"/>
+    <link rel="stylesheet" href="assets/css/baidu.css"/>
     <script language="javascript" type="text/javascript" src="js/jquery3.1.0.min.js"></script>
 </head>
 <body style="font-size: 12px">
 <input type="hidden" value="8" id="navNum"/>
 <input type="hidden" value="" id="pageNumID"/>
+<input type="text" value=""   class="form-control" placeholder="查询科室"   fangbaidu_searurl="hisoffice/searchKS"/>
+<div id="disRSDIVID" class="bdsug" style="height: auto; display: none;">
+    <ul id="addULID">
+    </ul>
+</div>
 <div id="minirefresh" class="minirefresh-wrap">
     <div class="minirefresh-scroll">
         <div class="container-fluid">
@@ -51,5 +57,6 @@
 <script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
 <script type="text/javascript" language="javascript" src="assets/yzcx/yijihuli/dataList.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/baidu.js"></script>
 </body>
 </html>

@@ -1,0 +1,26 @@
+.bdsug{
+    position: absolute;
+    background-color: #FFFFFF;
+    z-index: 300;
+}
+.bdsug li {
+    color: #000;
+    cursor: default;
+    font: 14px/22px arial;
+    padding: 0 8px;
+    position: relative;
+    width: 522px;
+}
+.bdsug-overflow{
+    overflow: hidden;
+}
+.bdsug li:hover{
+    background:#C0C0C0;
+}
+
+p, form, ol, ul, li, dl, dt, dd, h3 {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+

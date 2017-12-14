@@ -9,4 +9,26 @@
     <result column="kspinyin" jdbcType="VARCHAR" property="kspinyin" />
     <result column="ksname" jdbcType="VARCHAR" property="ksname" />
   </resultMap>
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into yzcx_hisoffice (kspinyin, ksname)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.kspinyin,jdbcType=VARCHAR},#{item.ksname,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <delete id="deleteAll">
+      DELETE from yzcx_hisoffice
+  </delete>
+  <select id="searchKS" parameterType="com.yzcx.api.bo.FbaiduParam" resultMap="BaseResultMap">
+    select ksname from yzcx_hisoffice
+    <where>
+      <if test="searchType==2">
+        kspinyin like #{searVal,jdbcType=VARCHAR}||'%'
+      </if>
+      <if test="searchType==3">
+        ksname like #{searVal,jdbcType=VARCHAR}||'%'
+      </if>
+    </where>
+    order by kspinyin
+  </select>
 </mapper>
