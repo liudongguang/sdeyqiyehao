@@ -26,6 +26,7 @@ jQuery(document).ready(function () {
                     if(typeof(clickHandler)!='undefined'){
                         clickHandler("");
                     }
+                    miniRefresh.endDownLoading(false);
                 }
             });
     });

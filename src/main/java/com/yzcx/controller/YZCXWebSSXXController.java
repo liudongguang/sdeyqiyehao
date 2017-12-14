@@ -42,9 +42,9 @@ public class YZCXWebSSXXController {
 
     @RequestMapping(value = "/shoushuList")
     @ResponseBody
-    public SSXXDisplayModle shoushuList(HttpServletRequest request,PageParam pageParam) throws IOException, ParseException {
+    public SSXXDisplayModle shoushuList(HttpServletRequest request,PageParam pageParam,String ksName) throws IOException, ParseException {
         YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
-        final SSXXDisplayModle shoushuxx_one = YzcxHttpRequest.getShoushuxx_One(param, pageParam);
+        final SSXXDisplayModle shoushuxx_one = YzcxHttpRequest.getShoushuxx_One(param, pageParam,ksName);
         return shoushuxx_one;
     }
 }

@@ -21,7 +21,6 @@
 <body>
 <input type="hidden" value="6" id="navNum"/>
 <div class="container">
-
     <header class="slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
         <ul id="navToggle" class="burger slide">    <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
             <li></li><li></li><li></li>

@@ -60,12 +60,13 @@ public class YzcxHttpRequest {
         SSXXModle data = shoushu.getData();
         return data;
     }
-    public static SSXXDisplayModle getShoushuxx_One(YZCXSearchParam param, PageParam pageParam) {
+    public static SSXXDisplayModle getShoushuxx_One(YZCXSearchParam param, PageParam pageParam,String ksName) {
         Map<String, String> requestparam=new HashMap<>();
         requestparam.put(YZCXConstant.remoteParam_starte, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getStart()));
         requestparam.put(YZCXConstant.remoteParam_end, LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(param.getEnd()));
         requestparam.put(YZCXConstant.remoteParam_pageNum, pageParam.getPageNum().toString());
         requestparam.put(YZCXConstant.remoteParam_pageSize, pageParam.getPageSize().toString());
+        requestparam.put(YZCXConstant.remoteParam_ksName, ksName);
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("getShouShuXX_One");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);

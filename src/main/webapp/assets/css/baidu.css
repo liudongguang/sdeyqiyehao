@@ -23,4 +23,7 @@ p, form, ol, ul, li, dl, dt, dd, h3 {
     margin: 0;
     padding: 0;
 }
+.padding5{
+    padding: 5px;
+}
 
