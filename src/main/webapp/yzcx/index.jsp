@@ -1,241 +1,427 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<!doctype html>
-<html lang="zh">
+<!DOCTYPE html>
+<html>
 <head>
 	<base href="${pageContext.request.contextPath }/" />
-	<meta charset="UTF-8">
-	<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="HandheldFriendly" content="True">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta charset="utf-8">
 	<title>院长查询系统</title>
-	<link rel="stylesheet" type="text/css" media="all" href="assets/yzcx/css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="assets/yzcx/css/default.css">
-	<link rel="stylesheet" type="text/css" media="all" href="assets/yzcx/css/trunk.css" />
-	<link rel="stylesheet" type="text/css" href="assets/yzcx/css/style.css">
-	<script type="text/javascript" src="assets/yzcx/js/jquery-1.11.0.min.js"></script>
-	<script src="assets/yzcx/js/highcharts.js"></script>
-	<script src="assets/yzcx/js/data.js"></script>
-	<script src="assets/yzcx/js/exporting.js"></script>
-	<!-- Additional files for the Highslide popup effect -->
-	<script src="assets/yzcx/js/highslide-full.min.js"></script>
-	<script src="assets/yzcx/js/highslide.config.js" charset="utf-8"></script>
-	<link rel="stylesheet" type="text/css" href="assets/yzcx/css/highcharts.css"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<!--引入 mui文件-->
+	<link rel="stylesheet" href="assets/yzcx/mui/css/mui.min.css">
+	<link rel="stylesheet" href="assets/yzcx/mui/css/iconfont.css">
+	<!--引入 自定义文件-->
+	<link rel="stylesheet" href="assets/yzcx/css/general.css">
+	<link rel="stylesheet" href="assets/yzcx/css/page.css">
+
+	<style>
+
+	</style>
 </head>
+
 <body>
-<input type="hidden" value="0" id="navNum"/>
-<div class="container">
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+	<div class="mui-inner-wrap">
+		<!--------------侧滑菜单部分-------------->
+		<%@ include file="yzcxNav.jsp"%>
+		<!------------页面主标题 ------------>
+		<header class="mui-bar mui-bar-nav">
+			<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+			<h1 class="mui-title">全院概览</h1>
+		</header>
+		<!------------页面内容容器------------>
+		<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+			<div class="mui-content-padded">
+				<!--卡片（门急诊）-->
+				<div class="mui-card">
+					<div class="mui-card-header">门诊急诊（今日） <span class="grayText">共426人</span></div>
+					<div class="mui-card-content">
 
-	<header class="slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
-		<ul id="navToggle" class="burger slide">    <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
-			<li></li><li></li><li></li>
-		</ul>
-		<h1>全院概览</h1>
-	</header>
+						<!--总数模块区-->
+						<div class="mui-row totalBox">
+							<ul class="mui-col-sm-6 mui-col-xs-6">
+								<li class="total-colorA" style="width: 92%; margin-left: 6%;">
+									<p>出诊医生总数</p>
+									<font>156位</font>
+								</li>
+							</ul>
+							<ul class="mui-col-sm-6 mui-col-xs-6">
+								<li class="total-colorB" style="width: 92%; margin-right: 6%;">
+									<p>医生平均门急诊量</p>
+									<font>500人次</font>
+								</li>
+							</ul>
+							<ul class="mui-col-sm-6 mui-col-xs-6">
+								<li class="total-colorC" style="width: 92%; margin-left: 6%;">
+									<p>处方数量</p>
+									<font>200个</font>
+								</li>
+							</ul>
 
-	<%@ include file="yzcxNav.jsp"%>
-	<div class="content slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
-		<ul class="responsive">
-			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 65px!important;">
-				<div class="tit_sty">
-					<span class="tit_sty_span1">当日门诊分析</span>
-					<!--
-					<span class="tit_sty_span2"><a href="indexnext.html">查看月门诊量&nbsp;></a></span>
-					-->
-				</div>
-				<div class="tit_sty_div_all">
-					<div class="tit_sty_div_all_tab1">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">总人次</p>
-							<p><fmt:formatNumber type="number" value="${obj.putong+obj.jizhen}" pattern="0" maxFractionDigits="0"/> </p>
+							<ul class="mui-col-sm-6 mui-col-xs-6">
+								<li class="total-colorD" style="width: 92%; margin-right: 6%;">
+									<p>医生平均处方数量</p>
+									<font>300个</font>
+								</li>
+							</ul>
 						</div>
-					</div>
-					<div class="tit_sty_div_all_tab1">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">门诊</p>
-							<p><fmt:formatNumber type="number" value="${obj.putong}" pattern="0" maxFractionDigits="0"/></p>
+						<!--图表容器 门诊急诊-->
+						<div id="pie-outPatient" style="width:100%;height:240px; margin-top: 20px;"> </div>
+						<div class="mui-row" style="border-top:1px solid #ebebeb">
+							<div class="mui-col-sm-12 mui-col-xs-12 bedUse-profile">处方总额：300元</div>
 						</div>
-					</div>
-					<div class="tit_sty_div_all_tab1">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">急诊</p>
-							<p><fmt:formatNumber type="number" value="${obj.jizhen}" pattern="0" maxFractionDigits="0"/></p>
-						</div>
+						<!--图表容器 处方金额-->
+						<div id="bar-recipel" style="width: 100%;height:260px;"> </div>
 					</div>
 				</div>
-			</li>
-			<li class="header-section" style="background-color: #ecf0f1!important;">
-				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-				<div id="container" style="width: 100%; height: 300px;margin: 0 auto"></div>
+				<!--卡片（在院人数）-->
+				<div class="mui-card">
+					<div class="mui-card-header">在院人数（今日）<span class="grayText">共3845人</span></div>
+					<div class="mui-card-content">
+						<!--总数模块区-->
+						<div class="mui-row totalBox">
+							<ul class="mui-col-sm-4 mui-col-xs-4">
+								<li class="total-colorA" style="width: 92%; margin-left: 6%;">
+									<p>入院</p>
+									<font>156066002</font>
+								</li>
+							</ul>
+							<ul class="mui-col-sm-4 mui-col-xs-4">
+								<li class="total-colorB">
+									<p>出院</p>
+									<font>500</font>
+								</li>
+							</ul>
+							<ul class="mui-col-sm-4 mui-col-xs-4">
+								<li class="total-colorC" style="width: 92%; margin-right: 6%;">
+									<p>病重</p>
+									<font>200</font>
+								</li>
+							</ul>
+							<ul class="mui-col-sm-4 mui-col-xs-4">
+								<li class="total-colorD" style="width: 92%; margin-left: 6%;">
+									<p>转入、转出</p>
+									<font>8</font>
+								</li>
+							</ul>
+							<ul class="mui-col-sm-4 mui-col-xs-4">
+								<li class="total-colorE">
+									<p>死亡</p>
+									<font>20</font>
+								</li>
+							</ul>
 
-			</li>
-			<li class="body-section" style="padding-top: 0!important;background-color: #ecf0f1!important;margin-bottom: -65px!important;">
-				<div class="tit_sty">
-					<span class="tit_sty_span1">住院工作量日报</span>
-					<!--
-					<a href="indexnext_2f.html"><span class="tit_sty_span2">详情&nbsp;></span></a>
-					-->
-				</div>
-				<div class="tit_sty_div_all" style="padding-bottom: 30px!important;">
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">入院</p>
-							<p>1000</p>
 						</div>
-					</div>
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">出院</p>
-							<p>500</p>
+						<div class="mui-row" style="border-top:1px solid #ebebeb">
+							<div class="mui-col-sm-12 mui-col-xs-12 bedUse-profile">床位使用率：103%</div>
 						</div>
-					</div>
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">空床</p>
-							<p>500</p>
-						</div>
-					</div>
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">病危</p>
-							<p>500</p>
-						</div>
-					</div>
-					<div class="tit_sty_div_all_tab3">
-						<div class="tit_sty_div_all_tab1_div1">
-							<p class="tit_sty_div_all_tab1_div1_p">病重</p>
-							<p>500</p>
-						</div>
+						<!--图表容器 床位使用-->
+						<div id="bar-inHospital" style="width: 100%;height:220px;"> </div>
 					</div>
 				</div>
-				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-				<div id="container1" style="min-width: 100%; height: 700px;margin: 30px auto;"></div>
-				<script type="text/javascript">
-                    $(function () {
-                        $('#container1').highcharts({
-                            chart: {
-                                type: 'bar'
-                            },
-                            title: {
-                                text: ' '
-                            },
-                            xAxis: {
-                                categories: ['产科', '创伤骨科', '儿内科', '耳鼻咽喉头颈外科', '妇科', '感染/肝病科', '肛肠外科', '关节外科','呼吸内科', '急诊科', '脊柱外科', '甲状腺外科', '健康管理科', '介入科', '介入医技', '口腔科','临床医技科室', '麻醉二科', '泌尿外科', '男科', '皮肤科','普外二科', '普外一科', '乳腺外科', '神经内科', '神经外科', '肾移植科', '肾脏内科', '手足外科','消化内科','心血管内科', '心血管内科特检','心血管外科', '胸外科', '血液净化', '眼科', '整形烧伤医技', '肿瘤防治中心', '重症医学科', '周围血管病科'],
-                                title: {
-                                    text: null
-                                }
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: '单位：人',
-                                    align: 'high'
-                                },
-                                labels: {
-                                    overflow: 'justify'
-                                }
-                            },
-                            tooltip: {
-                                valueSuffix: ' 人	'
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: {
-                                        enabled: true
-                                    }
-                                }
-                            },
-                            series: [{
-                                name: '入院',
-                                data: [27, 4, 3, 4, 10, 1, 1, 2, 1, 1, 8, 5, 2, 1, 1, 1, 1, 5, 3, 1, 1, 3, 5, 6, 1, 1, 3, 1, 3, 3, 9, 15, 12, 3, 3, 3, 1, 3, 1, 1]
-                            }],
-                            credits: {
-                                enabled:false
-                            },
-                            exporting: {
-                                enabled:false
-                            }
-                        });
-                    });
+				<!--卡片（收入分析）-->
+				<div class="mui-card">
+					<div class="mui-card-header">收入（昨日）</div>
+					<div class="mui-card-content">
+						<!--总数模块区-->
+						<div class="totalBox">
+							<span>昨日总收入</span>
+							<b>￥208411.00</b>
+						</div>
+						<!--图表容器-->
+						<div id="pie-income" style="width:100%;height:260px; margin: 20px 0px;"> </div>
+					</div>
+				</div>
 
-				</script>
-			</li>
-			<li class="header-section" style="background-color: white!important;margin-bottom: -43px!important;padding-bottom: 1px!important;padding-top: 1px!important;">
-				<div class="tit_sty" style="border:none!important;">
-					<span class="tit_sty_span1"><img style="vertical-align: middle;width: 30px;height: 30px" src="assets/yzcx/image/money.png" alt=""/>11月总收入</span>
-					<span class="tit_sty_span2">123800075.00</span>
-				</div>
-			</li>
-			<li class="header-section" style="background-color: #ecf0f1!important;">
-				<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-				<div id="container3" style="min-width: 100%; height: 300px;margin: 0 auto"></div>
-				<script type="text/javascript">
-                    $(function () {
-                        $('#container3').highcharts({
-                            chart: {
-                                type: 'bar'
-                            },
-                            title: {
-                                text: ' '
-                            },
-                            subtitle: {
-                                text: ' '
-                            },
-                            xAxis: {
-                                categories: ['其他', '药品', '医疗'],
-                                title: {
-                                    text: null
-                                }
-                            },
-                            yAxis: {
-                                min: 0,
-                                title: {
-                                    text: '单位：元',
-                                    align: 'high'
-                                },
-                                labels: {
-                                    overflow: 'justify'
-                                }
-                            },
-                            tooltip: {
-                                valueSuffix: '元'
-                            },
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: {
-                                        enabled: true
-                                    }
-                                }
-                            },
-                            series: [{
-                                name: '收入',
-                                data: [207, 500, 635]
-                            }],
-                            credits: {
-                                enabled:false
-                            },
-                            exporting: {
-                                enabled:false
-                            }
-                        });
-                    });
-				</script>
-			</li>
-		</ul>
+			</div>
+		</div>
+		<!--侧滑栏出现后，主页面遮罩层-->
+		<div class="mui-off-canvas-backdrop"></div>
 	</div>
-
 </div>
+<!--引入 mui文件-->
+<script src="assets/yzcx/mui/js/mui.min.js"></script>
+<!--引入 ECharts文件 -->
+<script src="assets/yzcx/echarts/echarts.common.min.js"></script>
+<script src="assets/yzcx/echarts/walden.js"></script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart_pie_outPatient = echarts.init(document.getElementById('pie-outPatient'), 'walden');
+    var myChart_bar_recipel = echarts.init(document.getElementById('bar-recipel'), 'walden');
+    var myChart_bar_inHospital = echarts.init(document.getElementById('bar-inHospital'), 'walden');
+    var myChart_pie_income = echarts.init(document.getElementById('pie-income'), 'walden');
+    // 配置项和数据（门诊、急诊）
+    var option_pie_outPatient = {
 
-<!--<script src="http://libs.useso.com/js/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>-->
-<script>window.jQuery || document.write('<script src="assets/yzcx/js/jquery-1.11.0.min.js"><\/script>')</script>
-<script type="text/javascript" language="javascript" src="assets/yzcx/js/trunk.js"></script>
-<script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
-<script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
-<script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
-<script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
-<script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
-<script type="text/javascript" language="javascript" src="assets/yzcx/index.js"></script>
+        title: {
+            text: ' ',
+            subtext: '  单位：元'
+        },
+        legend: {
+            x: 'center',
+            y: 'top',
+            data: ['门诊', '急诊']
+
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+
+        visualMap: {
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+                colorLightness: [0, 1]
+            }
+        },
+        series: [{
+            name: '全院总收入',
+            type: 'pie',
+            radius: '70%',
+            center: ['50%', '55%'],
+            data: [{
+                value: 33885,
+                name: '门诊'
+            },
+                {
+                    value: 31880,
+                    name: '急诊'
+                }
+            ].sort(function(a, b) {
+                return a.value - b.value;
+            }),
+            roseType: 'radius',
+
+            labelLine: {
+                normal: {
+                    smooth: 0.1,
+                    length: 8,
+                    length2: 10
+                }
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 40,
+                    shadowColor: 'rgba(0, 0, 0, 0.1)'
+                }
+            },
+
+            animationType: 'scale',
+            animationEasing: 'elasticOut',
+            animationDelay: function(idx) {
+                return Math.random() * 200;
+            }
+        }]
+    };
+
+    // 配置项和数据（处方）
+    var option_bar_recipel = {
+        title: {
+            text: ' ',
+            subtext: '  单位：元',
+            x: 'left',
+            align: 'left'
+        },
+        legend: {
+            data: ['处方金额']
+        },
+        tooltip: {
+            trigger: 'axis',
+            formatter: '{b0}:{c0}M',
+            axisPointer: {
+                type: 'line'
+            }
+        },
+        grid: {
+            left: '5%',
+            right: '5%',
+            bottom: '13%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            axisLabel: {
+                show: true,
+                interval: 0, //横轴信息全部显示
+                rotate: 30 //30度角倾斜显示
+            },
+            boundaryGap: [0, 0.1]
+        },
+        yAxis: {
+            type: 'category',
+            data: ['最大处方金额', '平均处方金额','最小处方金额']
+        },
+        series: [{
+            name: '处方金额',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideRight'
+                }
+            },
+
+            data: [{
+                value: 2850,
+                name: '最大处方金额'
+            },
+                {
+                    value: 1000,
+                    name: '平均处方金额'
+                },
+                {
+                    value: 100,
+                    name: '最小处方金额'
+                }],
+
+        }]
+    };
+
+    // 配置项和数据（在院人数）
+    var option_bar_inHospital = {
+        title: {
+            text: ' ',
+            subtext: '  单位：个',
+            x: 'left',
+            align: 'left'
+        },
+        legend: {
+            data: ['床位']
+        },
+        tooltip: {
+            trigger: 'axis',
+            formatter: '{b0}:{c0}M',
+            axisPointer: {
+                type: 'line'
+            }
+        },
+        grid: {
+            left: '5%',
+            right: '5%',
+            bottom: '13%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            axisLabel: {
+                show: true,
+                interval: 0, //横轴信息全部显示
+                rotate: 30 //30度角倾斜显示
+            },
+            boundaryGap: [0, 0.1]
+        },
+        yAxis: {
+            type: 'category',
+            data: ['开放床位', '使用床位']
+        },
+        series: [{
+            name: '床位',
+            type: 'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideRight'
+                }
+            },
+
+            data: [{
+                value: 2850,
+                name: '开放床位'
+            },
+                {
+                    value: 1000,
+                    name: '使用床位'
+                }],
+
+        }]
+    };
+
+    // 配置项和数据（收入）
+    var option_pie_income = {
+
+        title: {
+            text: ' ',
+            subtext: '  单位：元'
+        },
+        legend: {
+            x: 'center',
+            y: 'top',
+            data: ['药品', '医疗', '其他']
+
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+
+        visualMap: {
+            show: false,
+            min: 80,
+            max: 600,
+            inRange: {
+                colorLightness: [0, 1]
+            }
+        },
+        series: [{
+            name: '全院昨日收入',
+            type: 'pie',
+            radius: '70%',
+            center: ['50%', '55%'],
+            data: [{
+                value: 33500,
+                name: '药品'
+            },
+                {
+                    value: 31000,
+                    name: '医疗'
+                },
+                {
+                    value: 27400,
+                    name: '其他'
+                }
+            ].sort(function(a, b) {
+                return a.value - b.value;
+            }),
+            roseType: 'radius',
+
+            labelLine: {
+                normal: {
+                    smooth: 0.1,
+                    length: 8,
+                    length2: 10
+                }
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 40,
+                    shadowColor: 'rgba(0, 0, 0, 0.1)'
+                }
+            },
+
+            animationType: 'scale',
+            animationEasing: 'elasticOut',
+            animationDelay: function(idx) {
+                return Math.random() * 200;
+            }
+        }]
+    };
+
+    // 将图表显示出来
+    myChart_pie_outPatient.setOption(option_pie_outPatient);
+    myChart_bar_recipel.setOption(option_bar_recipel);
+    myChart_bar_inHospital.setOption(option_bar_inHospital);
+    myChart_pie_income.setOption(option_pie_income);
+
+    //主界面和侧滑菜单界面均支持区域滚动；
+    mui('#offCanvasSideScroll').scroll();
+    mui('#offCanvasContentScroll').scroll();
+</script>
 </body>
 </html>

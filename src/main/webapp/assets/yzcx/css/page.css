@@ -1,0 +1,33 @@
+/*---------------首页(全院概览)---------------*/
+
+.bedUse-profile {
+	font-size: 18px;
+	color: #383838;
+	line-height: 38px;
+	text-align: center;
+	padding-top:10px;
+	padding-bottom: 5px;
+}
+
+/*---------------全院总收入---------------*/
+
+.totalIcome-profile-box {
+	width: 94%;
+	margin: 12px 2% 10px 2%;
+	background: #fff;
+	color: #9e9e9e;
+}
+
+.totalIcome-profile-box tr td {
+	line-height: 100%;
+	padding: 3px 10px;
+}
+
+.totalIcome-profile-box .extrude {
+	color: #28b7a3;
+	font-size: 17px;
+}
+
+.totalIcome-profile-box .money {
+	font-size: 26px;
+}
