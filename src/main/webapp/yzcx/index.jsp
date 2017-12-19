@@ -16,10 +16,6 @@
 	<!--引入 自定义文件-->
 	<link rel="stylesheet" href="assets/yzcx/css/general.css">
 	<link rel="stylesheet" href="assets/yzcx/css/page.css">
-
-	<style>
-
-	</style>
 </head>
 
 <body>
