@@ -82,7 +82,7 @@
                     </div>
                     <div class="mui-card">
                         <div class="mui-card-header">当日疾病占比排名（前十名）</div>
-                        <div id="ri-jibingbar" class="chart-box" style="width: 100%;height:450px;"></div>
+                        <div id="ri-jibingbar" class="chart-box" style="width: 100%;height:550px;"></div>
                     </div>
                 </div>
             </div>

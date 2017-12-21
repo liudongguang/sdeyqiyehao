@@ -150,7 +150,7 @@ $(document).ready(function () {
                     }
                 },
                 data: yuyueksData,
-                barWidth:15,
+                barWidth: 15,
                 markLine: {
                     lineStyle: {
                         normal: {
@@ -179,7 +179,7 @@ $(document).ready(function () {
 
             }]
         };
-       // console.log(JSON.stringify(option_bar_yuyue))
+        // console.log(JSON.stringify(option_bar_yuyue))
         ri_yuyuebar.setOption(option_bar_yuyue);
         ////////////////////////////////////////
         var jbList = data.jibing.jbList;
@@ -214,12 +214,14 @@ $(document).ready(function () {
             },
             yAxis: {
                 type: 'category',
-                data: jbList,axisLabel:{
-                    formatter:function(value,index){
-                        if(value.length>6){
-                            value=value.substring(0,6);
-                            value+="\n"+value.substring(6,value.length);
-                            console.log(value);
+                data: jbList,
+                axisLabel: {
+                    formatter: function (value, index) {
+
+                        if (value.length > 6) {
+                            var valuetemp = value.substring(0, 6);
+                            valuetemp = valuetemp + "\n" + value.substring(6, value.length);
+                            value = valuetemp;
                         }
                         return value;
                     }
@@ -236,7 +238,7 @@ $(document).ready(function () {
                     }
                 },
                 data: jbdata,
-                barWidth:15,
+                barWidth: 15,
                 markLine: {
                     lineStyle: {
                         normal: {
@@ -265,6 +267,7 @@ $(document).ready(function () {
 
             }]
         }
+        //console.log(JSON.stringify(option_bar_jibing))
         ri_jibingbar.setOption(option_bar_jibing);
     });
 })
