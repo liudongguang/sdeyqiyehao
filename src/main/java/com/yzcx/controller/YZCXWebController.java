@@ -1,5 +1,6 @@
 package com.yzcx.controller;
 
+import com.github.abel533.echarts.data.LineData;
 import com.yzcx.api.service.YZCXSearchService;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.util.YZCXControllerUtil;
@@ -69,7 +70,7 @@ public class YZCXWebController {
     public String menzhen(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
         QyglVo qygl = yzcxSearchService.getQygl_ri();
         request.setAttribute(YZCXConstant.obj, qygl);
-        return "/yzcx/menzhen.jsp";
+        return "/yzcx/menzhen/menzhen.jsp";
     }
 
     /**
@@ -83,12 +84,12 @@ public class YZCXWebController {
     @ResponseBody
     public Map<String,Object> menzhen(HttpServletRequest request) throws IOException, ParseException {
         Map<String,Object> rs=new HashMap<>();
-        HighchartsConfig_arr mzChart = yzcxSearchService.getQygl_riChart(1);
-        HighchartsConfig yuyueChart=yzcxSearchService.getYuyue_riChart();
-        HighchartsConfig jibingChart=yzcxSearchService.getJiBing_riChart();
+        Map<String,Object> mzChart = yzcxSearchService.getQygl_riChartData();
+        Map<String,Object> yuyueChart=yzcxSearchService.getYuyue_riChartData();
+        Map<String,Object> jibingChart=yzcxSearchService.getJiBing_riChartData();
         rs.put("menzhen",mzChart);
         rs.put("yuyue",yuyueChart);
-        rs.put("jibingChart",jibingChart);
+        rs.put("jibing",jibingChart);
         return rs;
     }
 
@@ -105,7 +106,7 @@ public class YZCXWebController {
         YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForMonth(param);
         QyglVo qygl = yzcxSearchService.getQygl_month(cparam);
         request.setAttribute(YZCXConstant.obj, qygl);
-        return "/yzcx/menzhen_yue.jsp";
+        return "/yzcx/menzhen/menzhen_yue.jsp";
     }
 
     /**
@@ -139,7 +140,7 @@ public class YZCXWebController {
         YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForMonth(param);
         Menzhen_Month_Yuyue menzhen_month_yuyue = yzcxSearchService.getMenzhen_Month_Yuyue_month(cparam);
         request.setAttribute(YZCXConstant.obj, menzhen_month_yuyue);
-        return "/yzcx/menzhen_yuyue_yue.jsp";
+        return "/yzcx/menzhen/menzhen_yuyue_yue.jsp";
     }
 
     /**
@@ -175,7 +176,7 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen_year")
     public String menzhen_year(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        return "/yzcx/menzhen_year.jsp";
+        return "/yzcx/menzhen/menzhen_year.jsp";
     }
 
     /**

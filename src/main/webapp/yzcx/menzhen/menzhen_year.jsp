@@ -38,7 +38,7 @@
         <h1>门诊信息</h1>
     </header>
 
-    <%@ include file="yzcxNav.jsp"%>
+    <%@ include file="../yzcxNav.jsp"%>
 
     <div class="content slide">     <!--	Add "slideRight" class to items that move right when viewing Nav Drawer  -->
         <ul class="responsive">

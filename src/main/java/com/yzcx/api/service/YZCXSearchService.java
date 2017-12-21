@@ -1,5 +1,6 @@
 package com.yzcx.api.service;
 
+import com.github.abel533.echarts.data.LineData;
 import com.yzcx.api.vo.YZCXSearchParam;
 import com.yzcx.api.vo.highchat.HighchartsConfig;
 import com.yzcx.api.vo.highchat.HighchartsConfig_arr;
@@ -10,6 +11,7 @@ import com.yzcx.api.vo.yzcxdisplay.Menzhen_Month_Yuyue;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
 
 import java.text.ParseException;
+import java.util.Map;
 
 /**
  * Created by LiuDongguang on 2017/11/3.
@@ -125,4 +127,22 @@ public interface YZCXSearchService {
      * @return
      */
     HighchartsConfig_bar getEveryDayOneMonthChart(YZCXSearchParam yzcxSearchParam);
+
+    /**
+     * 获取日门诊分析折线图数据
+     * @return
+     */
+    Map<String,Object> getQygl_riChartData() throws ParseException;
+
+    /**
+     * 获取日预约bar图数据
+     * @return
+     */
+    Map<String,Object> getYuyue_riChartData() throws ParseException;
+
+    /**
+     * 获取日疾病bar图数据
+     * @return
+     */
+    Map<String,Object> getJiBing_riChartData() throws ParseException;
 }

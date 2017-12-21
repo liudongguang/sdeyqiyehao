@@ -1,5 +1,6 @@
 package com.yzcx.impl.service;
 
+import com.github.abel533.echarts.data.LineData;
 import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.po.YzcxHandleInfoDay;
 import com.yzcx.api.po.YzcxHandleInfoMonth;
@@ -34,6 +35,8 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.yzcx.api.util.YZCXConstant.hoursList;
 
 /**
  * Created by LiuDongguang on 2017/11/9.
@@ -106,6 +109,41 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         jizhens.setData(getDisData(jizhen));
         hcfg.getSeries().add(jizhens);
         return hcfg;
+    }
+
+    @Override
+    public Map<String,Object> getQygl_riChartData() throws ParseException {
+        YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
+        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
+        List<YzcxHandleInfoDay> menzhenlist = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+        Map<String, List<YzcxHandleInfoDay>> collect = menzhenlist.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName));
+        List<YzcxHandleInfoDay> putong = collect.get(YZCXConstant.putong);
+        List<YzcxHandleInfoDay> jizhen = collect.get(YZCXConstant.jizhen);
+        Map<String,Object> rs=new HashMap<>();
+        if(putong!=null&&putong.size()>0){
+            Map<Integer, Integer> ptmap = new HashMap<>();
+            putong.forEach(item -> {
+                ptmap.put(LdgDateUtil.getHourNum(item.getHandledate()), item.getCount().intValue());
+            });
+            Map<Integer, Integer> jzmap = new HashMap<>();
+            jizhen.forEach(item -> {
+                jzmap.put(LdgDateUtil.getHourNum(item.getHandledate()), item.getCount().intValue());
+            });
+            List<String> hours = hoursList.stream().limit(putong.size()).collect(Collectors.toList());
+            List<Integer> ptdata=new ArrayList<>();
+            List<Integer> jzdata=new ArrayList<>();
+            hours.forEach(hour->{
+                Integer hournum=Integer.valueOf(hour);
+                Integer ptnum = ptmap.get(hournum)==null?0: ptmap.get(hournum);
+                Integer jznum =jzmap.get(hournum)==null?0:jzmap.get(hournum);
+                ptdata.add(ptnum);
+                jzdata.add(jznum);
+            });
+            rs.put("xAxis",hours);
+            rs.put("ptdata",ptdata);
+            rs.put("jzdata",jzdata);
+        }
+        return rs;
     }
 
     private List<Series_Data> getDisData(List<YzcxHandleInfoDay> handleData) {
@@ -185,6 +223,36 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     }
 
     @Override
+    public Map<String, Object> getYuyue_riChartData() throws ParseException {
+        YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
+        param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+        if (list != null && list.size() > 0) {
+            Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+            List<YzcxHandleInfoDay> tempList = new ArrayList<>();
+            collect.forEach((k, v) -> {
+                YzcxHandleInfoDay yzd = new YzcxHandleInfoDay();
+                yzd.setCount(v);
+                yzd.setName(k);
+                tempList.add(yzd);
+            });
+            Collections.sort(tempList, Comparator.comparingDouble(YzcxHandleInfoDay::getCount).reversed());
+            List<Integer> yydata=new ArrayList<>();
+            List<String> ksList=new ArrayList<>();
+            tempList.stream().limit(10).sorted(Comparator.comparingDouble(YzcxHandleInfoDay::getCount)).forEach(item->{
+                yydata.add(item.getCount().intValue());
+                ksList.add(item.getName());
+            });
+            Map<String,Object> rs=new HashMap<>();
+            rs.put("ksList",ksList);
+            rs.put("yydata",yydata);
+            return  rs;
+        }
+
+        return null;
+    }
+
+    @Override
     public HighchartsConfig getJiBing_riChart() throws ParseException {
         YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForDay();
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.jbzd_jb));//
@@ -225,7 +293,35 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         }
         return null;
     }
-
+    @Override
+    public Map<String, Object> getJiBing_riChartData() throws ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForDay();
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.jbzd_jb));//
+        List<YzcxHandleInfoDay> jzlist = yzcxHandleInfoDayMapper.selectByDateAndType(yzcxSearchParam);
+        if(jzlist!=null&&jzlist.size()!=0){
+            Map<String, Double> jbzdmap = jzlist.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+            jzlist.clear();
+            jbzdmap.forEach((jbname, count) -> {
+                YzcxHandleInfoDay yzcxHandleInfoDay = new YzcxHandleInfoDay();
+                yzcxHandleInfoDay.setName(jbname);
+                yzcxHandleInfoDay.setCount(count);
+                jzlist.add(yzcxHandleInfoDay);
+            });
+            Collections.sort(jzlist, Comparator.comparingDouble(YzcxHandleInfoDay::getCount));
+            List<Integer> jbdata=new ArrayList<>();
+            List<String> jbList=new ArrayList<>();
+            int skipNum=jzlist.size()-10<=0?0:jzlist.size();
+            jzlist.stream().skip(skipNum).forEach(item->{
+                jbList.add(item.getName());
+                jbdata.add(item.getCount().intValue());
+            });
+            Map<String,Object> rs=new HashMap<>();
+            rs.put("jbList",jbList);
+            rs.put("jbdata",jbdata);
+            return rs;
+        }
+        return null;
+    }
     @Override
     public QyglVo getQygl_month(YZCXSearchParam cparam) throws ParseException {
         cparam.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));//获取普通，急诊
@@ -380,6 +476,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         }
         return null;
     }
+
+
 
     @Override
     public HighchartsConfig_bar getEveryDayOneMonthChart(YZCXSearchParam yzcxSearchParam) {
