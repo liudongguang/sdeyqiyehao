@@ -37,6 +37,7 @@ public class LdgDateUtil {
     private final static String  zhongwen_MM="MM月";
     private final static String  zhongwen_yyyy="yyyy年";
     private final static String HH = "HH";
+    private final static String zhongwen_dd = "dd号";
     public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_HH_00_00 = DateTimeFormatter.ofPattern(yyyy_mm_dd_HH_00_00);
     public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_HH_mm_ss = DateTimeFormatter.ofPattern(yyyy_mm_dd_hh_mm_ss);
     public final static DateTimeFormatter newDateFormat_yyyy_mm_dd_00_00_00 = DateTimeFormatter.ofPattern(yyyy_mm_dd_00_00_00);
@@ -202,6 +203,10 @@ public class LdgDateUtil {
     public static Integer getHourNum(Date handledate) {
         String hh = DateFormatUtils.format(handledate, HH);
         return Integer.valueOf(hh);
+    }
+    public static String getDayZhongwen(Date handledate) {
+        String day = DateFormatUtils.format(handledate, zhongwen_dd);
+        return day;
     }
 
     /**

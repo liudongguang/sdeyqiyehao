@@ -103,7 +103,7 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen_yue")
     public String menzhen_yue(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForMonth(param);
+        YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForThisMonth(param);
         QyglVo qygl = yzcxSearchService.getQygl_month(cparam);
         request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/menzhen/menzhen_yue.jsp";
@@ -120,15 +120,15 @@ public class YZCXWebController {
     @RequestMapping(value = "/menzhen_yueChart")
     @ResponseBody
     public Map<String,Object> menzhen_yueChart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForMonth(param);
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForThisMonth(param);
         Map<String,Object> rs=new HashMap<>();
-        HighchartsConfig menzhenChart=yzcxSearchService.getQygl_yueChart(yzcxSearchParam);
+        Map<String,Object> menzhenChart=yzcxSearchService.getQygl_yueChartData(yzcxSearchParam);
         rs.put("menzhenChart",menzhenChart);
-        HighchartsConfig tongqimenzhenChart =yzcxSearchService.getQygl_yueChart_tongqimenzhen(yzcxSearchParam);
+        Map<String,Object> tongqimenzhenChart =yzcxSearchService.getQygl_yueChart_tongqimenzhenData(yzcxSearchParam);
         rs.put("tongqimenzhenChart",tongqimenzhenChart);
-        HighchartsConfig jibingmenzhenChart=yzcxSearchService.getQygl_yueChart_jibing(yzcxSearchParam);
+        Map<String,Object> jibingmenzhenChart=yzcxSearchService.getQygl_yueChart_jibingData(yzcxSearchParam);
         rs.put("jibingChart",jibingmenzhenChart);
-        HighchartsConfig_bar everyDayOneMonthChart=yzcxSearchService.getEveryDayOneMonthChart(yzcxSearchParam);
+        Map<String,Object> everyDayOneMonthChart=yzcxSearchService.getEveryDayOneMonthChartData(yzcxSearchParam);
         rs.put("everyDayOneMonthChart",everyDayOneMonthChart);
         return rs;
     }

@@ -30,6 +30,7 @@ public class YZCXCommonServiceImpl implements YZCXCommonService {
                 yzcxHandleInfoMonth.setName(item.getName());
                 yzcxHandleInfoMonth.setCount(item.getCount());
                 yzcxHandleInfoMonth.setHandletype(item.getHandletype());
+                yzcxHandleInfoMonth.setHandledate(item.getHandledate());
                 return yzcxHandleInfoMonth;
             }).collect(Collectors.toList());
         }else{

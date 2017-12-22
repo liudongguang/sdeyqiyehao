@@ -145,4 +145,32 @@ public interface YZCXSearchService {
      * @return
      */
     Map<String,Object> getJiBing_riChartData() throws ParseException;
+
+    /**
+     *月门诊人次
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getQygl_yueChartData(YZCXSearchParam yzcxSearchParam);
+
+    /**
+     * 月门诊同期
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getQygl_yueChart_tongqimenzhenData(YZCXSearchParam yzcxSearchParam);
+
+    /**
+     * 月疾病 前十名
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getQygl_yueChart_jibingData(YZCXSearchParam yzcxSearchParam);
+
+    /**
+     * 月每天的情况
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getEveryDayOneMonthChartData(YZCXSearchParam yzcxSearchParam);
 }

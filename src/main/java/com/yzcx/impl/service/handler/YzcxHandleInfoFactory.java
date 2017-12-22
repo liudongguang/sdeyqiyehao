@@ -20,8 +20,8 @@ public class YzcxHandleInfoFactory {
     public final static YzcxHandleInfoExt createYzcxHandleInfoExtForEveryDay(Date date,Double count,String name) {
         YzcxHandleInfoExt yzcxHandleInfoDayExt = new YzcxHandleInfoExt();
         try {
-            yzcxHandleInfoDayExt.setHandledateStr(LdgDateUtil.getYyyy_mm_ddDateStr(date));
-        } catch (ParseException e) {
+            yzcxHandleInfoDayExt.setHandledateStr(LdgDateUtil.getDayZhongwen(date));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         yzcxHandleInfoDayExt.setCount(count);

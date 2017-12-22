@@ -1,8 +1,8 @@
 $(document).ready(function () {
+    initTapHandler();
     var ri_menzhenLine = echarts.init(document.getElementById('ri-menzhenLine'), 'walden');
     var ri_yuyuebar = echarts.init(document.getElementById('ri-yuyuebar'), 'wonderland');
     var ri_jibingbar = echarts.init(document.getElementById('ri-jibingbar'), 'wonderland');
-
     ajaxRequest("webyzcx/menzhenChart", null, function (data) {
         var xAxisData = data.menzhen.xAxis;
         var ptdata = data.menzhen.ptdata;
@@ -118,12 +118,10 @@ $(document).ready(function () {
                     type: 'line'
                 }
             },
-            legend: {
-                data: ['预约']
-            },
+
             grid: {
                 left: '2%',
-                right: '3%',
+                right: '8%',
                 bottom: '0%',
                 containLabel: true
             },
@@ -195,12 +193,9 @@ $(document).ready(function () {
                     type: 'line'
                 }
             },
-            legend: {
-                data: ['预约']
-            },
             grid: {
                 left: '2%',
-                right: '3%',
+                right: '5%',
                 bottom: '0%',
                 containLabel: true
             },
@@ -217,7 +212,6 @@ $(document).ready(function () {
                 data: jbList,
                 axisLabel: {
                     formatter: function (value, index) {
-
                         if (value.length > 6) {
                             var valuetemp = value.substring(0, 6);
                             valuetemp = valuetemp + "\n" + value.substring(6, value.length);
@@ -228,7 +222,7 @@ $(document).ready(function () {
                 }
             },
             series: [{
-                name: '预约',
+                name: '疾病占比',
                 type: 'bar',
                 stack: '总量',
                 label: {
@@ -270,5 +264,7 @@ $(document).ready(function () {
         //console.log(JSON.stringify(option_bar_jibing))
         ri_jibingbar.setOption(option_bar_jibing);
     });
-})
-
+});
+//主界面和侧滑菜单界面均支持区域滚动；
+mui('#offCanvasSideScroll').scroll();
+mui('#offCanvasContentScroll').scroll();

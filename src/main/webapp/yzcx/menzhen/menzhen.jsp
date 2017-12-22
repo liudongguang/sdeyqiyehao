@@ -33,7 +33,11 @@
             <div class="mui-content-padded">
                 <!--卡片（）-->
                 <div class="mui-card">
-                    <div class="mui-card-header">当日门诊分析</div>
+                    <div class="mui-card-header">当日门诊分析
+                        <span url="webyzcx/menzhen_yue">
+                            月门诊
+                        </span>
+                    </div>
                     <div class="mui-card-content">
                         <!--总数模块区-->
                         <div class="mui-row totalBox">
@@ -66,7 +70,8 @@
                         <div id="ri-menzhenLine" class="chart-box" style="width: 100%;height:310px;"></div>
                     </div>
                     <div class="mui-card">
-                        <div class="mui-card-header">门诊预约分析</div>
+                        <div class="mui-card-header">门诊预约分析<span url="webyzcx/menzhen_yuyue_yue">月预约</span>
+                        </div>
                         <div class="mui-card-content">
                             <!--总数模块区-->
                             <div class="totalBox">
@@ -91,7 +96,7 @@
         <div class="mui-off-canvas-backdrop"></div>
     </div>
 </div>
-<script language="javascript" type="text/javascript" src="assets/yzcx/js/jquery-1.8.0.min.js"></script>
+<script language="javascript" type="text/javascript" src="assets/yzcx/mui/js/mui.min.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
 <script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
@@ -101,11 +106,5 @@
 <script language="javascript" type="text/javascript" src="assets/yzcx/echarts/wonderland.js"></script>
 <script language="javascript" type="text/javascript" src="assets/yzcx/echarts/walden.js"></script>
 <script language="javascript" type="text/javascript" src="assets/yzcx/menzhen/menzhen.js"></script>
-<script language="javascript" type="text/javascript" src="assets/yzcx/mui/js/mui.min.js"></script>
-<script language="javascript" type="text/javascript">
-    //主界面和侧滑菜单界面均支持区域滚动；
-    mui('#offCanvasSideScroll').scroll();
-    mui('#offCanvasContentScroll').scroll();
-</script>
 </body>
 </html>
