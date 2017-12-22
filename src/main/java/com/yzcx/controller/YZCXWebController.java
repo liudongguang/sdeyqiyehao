@@ -176,6 +176,8 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen_year")
     public String menzhen_year(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForYear(param);
+        request.setAttribute(YZCXConstant.obj, yzcxSearchParam);
         return "/yzcx/menzhen/menzhen_year.jsp";
     }
 

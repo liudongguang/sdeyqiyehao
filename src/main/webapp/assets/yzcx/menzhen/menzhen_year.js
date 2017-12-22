@@ -25,6 +25,7 @@ $(document).ready(function () {
                     userResult.innerText = items[0].text;
                     //返回 false 可以阻止选择框的关闭
                     //return false;
+                    location.href = "webyzcx/menzhen_year?start=" + items[0].text+"-01-01";
                 });
             }, false);
 
@@ -34,7 +35,8 @@ $(document).ready(function () {
     //主界面和侧滑菜单界面均支持区域滚动；
     mui('#offCanvasSideScroll').scroll();
     mui('#offCanvasContentScroll').scroll();
-    ajaxRequest("webyzcx/menzhen_year_chart", null, function (data) {
+
+    ajaxRequest("webyzcx/menzhen_year_chart", {start: $('#result').text() + "-01-01"}, function (data) {
         var yearaxis = data.menzhe_year.axis;
         var yearjzdata = data.menzhe_year.jzdata;
         var yearptdata = data.menzhe_year.ptdata;

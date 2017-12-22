@@ -38,7 +38,7 @@
         <ul class="selectDate-box" style="margin-top: 44px;">
             <li data-options='{"type":"month","beginYear":2010,"endYear":2020}' id='showUserPicker'>
                 <span class="mui-icon iconfont icon-shijianxuanze"></span>
-                <span id='result'><fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM"></fmt:formatDate></span></li>
+                <span id='result'><fmt:formatDate value="${obj.start}" pattern="yyyy"></fmt:formatDate></span></li>
             <li>
             <li>
                 <span url="webyzcx/menzhen">日门诊量</span> | <span url="webyzcx/menzhen_yue">月门诊量</span>
