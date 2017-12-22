@@ -158,7 +158,7 @@ public interface YZCXSearchService {
      * @param yzcxSearchParam
      * @return
      */
-    Map<String,Object> getQygl_yueChart_tongqimenzhenData(YZCXSearchParam yzcxSearchParam);
+    Map<String,Object> getQygl_yueChart_tongqimenzhenData(YZCXSearchParam yzcxSearchParam) throws ParseException;
 
     /**
      * 月疾病 前十名
@@ -173,4 +173,18 @@ public interface YZCXSearchService {
      * @return
      */
     Map<String,Object> getEveryDayOneMonthChartData(YZCXSearchParam yzcxSearchParam);
+
+    /**
+     * 获取年图表
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getMenzhen_year_chartData(YZCXSearchParam yzcxSearchParam);
+
+    /**
+     * 年同期
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getMenzhenTongqi_year_chartData(YZCXSearchParam yzcxSearchParam) throws ParseException;
 }

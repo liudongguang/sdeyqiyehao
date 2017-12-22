@@ -1,8 +1,9 @@
 $(document).ready(function () {
+    initTapHandler();
     var yue_menzhenbar = echarts.init(document.getElementById('yue-menzhenbar'), 'wonderland');
     var yue_ksmenzhenbar = echarts.init(document.getElementById('yue-ksmenzhenbar'), 'wonderland');
-    var yue_jbzhanbibar= echarts.init(document.getElementById('yue-jbzhanbibar'), 'wonderland');
-    var yue_tongqi= echarts.init(document.getElementById('yue-tongqi'), 'wonderland');
+    var yue_jbzhanbibar = echarts.init(document.getElementById('yue-jbzhanbibar'), 'wonderland');
+    var yue_tongqi = echarts.init(document.getElementById('yue-tongqi'), 'wonderland');
     //日期选择
     (function ($) {
         $.init();
@@ -41,8 +42,8 @@ $(document).ready(function () {
                      * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
                      */
                     picker.dispose();
-                    var date=rs.text+"-01";
-                    location.href="webyzcx/menzhen_yue?start="+date;
+                    var date = rs.text + "-01";
+                    location.href = "webyzcx/menzhen_yue?start=" + date;
                 });
             }, false);
         });
@@ -51,10 +52,10 @@ $(document).ready(function () {
     mui('#offCanvasSideScroll').scroll();
     mui('#offCanvasContentScroll').scroll();
 
-    ajaxRequest("webyzcx/menzhen_yueChart", {start:$('#result').text()+"-01"}, function (data) {
-         var everyday_axis=data.everyDayOneMonthChart.axis;
-        var everyday_jzdata=data.everyDayOneMonthChart.jzdata;
-        var everyday_ptdata=data.everyDayOneMonthChart.ptdata;
+    ajaxRequest("webyzcx/menzhen_yueChart", {start: $('#result').text() + "-01"}, function (data) {
+        var everyday_axis = data.everyDayOneMonthChart.axis;
+        var everyday_jzdata = data.everyDayOneMonthChart.jzdata;
+        var everyday_ptdata = data.everyDayOneMonthChart.ptdata;
 
         var option_everyday = {
             tooltip: {
@@ -206,9 +207,9 @@ $(document).ready(function () {
         };
         yue_menzhenbar.setOption(option_everyday);
         ///////////////////////////////////////月科室门诊人次（前十名）
-        var yueks_axis=data.menzhenChart.axis;
-        var yueks_jzdata=data.menzhenChart.jzdata;
-        var yueks_ptdata=data.menzhenChart.ptdata;
+        var yueks_axis = data.menzhenChart.axis;
+        var yueks_jzdata = data.menzhenChart.jzdata;
+        var yueks_ptdata = data.menzhenChart.ptdata;
 
         var option_yueks = {
             tooltip: {
@@ -278,12 +279,175 @@ $(document).ready(function () {
                             show: true,
                             position: 'insideRight'
                         }
-                    } ,
+                    },
 
                     data: yueks_jzdata
                 }
             ]
         };
         yue_ksmenzhenbar.setOption(option_yueks);
+        ////////////////////////////////////////////////////疾病
+        var jibing_axis = data.jibingChart.axis;
+        var jibing_data = data.jibingChart.numdata;
+        var option_jibing = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '8%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                name: '单位：人',
+                nameLocation: 'center',
+                nameTextStyle: {
+                    padding: [20, 0, 0, 0]
+                },
+                axisLabel: {
+                    show: true,
+                    formatter: '{value}',
+                    interval: 0, //横轴信息全部显示
+                    rotate: 30 //-30度角倾斜显示
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: jibing_axis,
+                axisLabel: {
+                    formatter: function (value, index) {
+                        if (value.length > 6) {
+                            var valuetemp = value.substring(0, 6);
+                            valuetemp = valuetemp + "\n" + value.substring(6, value.length);
+                            value = valuetemp;
+                        }
+                        return value;
+                    }
+                }
+            },
+            series: [
+                {
+                    name: '疾病',
+                    type: 'bar',
+                    stack: '总量',
+                    barWidth: 15,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: jibing_data
+                }
+            ]
+        };
+        yue_jbzhanbibar.setOption(option_jibing);
+        //////////////////////////////////////////////同期
+        var tongqi_axis = data.tongqimenzhenChart.axis;
+        var tongqi_menzhenData = data.tongqimenzhenChart.menzhenData;
+        var tongqi_jizhenData = data.tongqimenzhenChart.jizhenData;
+        var tongqi_option = {
+            title: {
+                text: ' ',
+                subtext: ' '
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['门诊量', '急诊量']
+            },
+            grid: {
+                left: '4%',
+                right: '5%',
+                bottom: '3%',
+                containLabel: true
+            },
+            calculable: true,
+            xAxis: [{
+                type: 'category',
+                data: tongqi_axis
+            }],
+            yAxis: [{
+                type: 'value',
+                name: '单位：人',
+                axisLabel: {
+                    show: true,
+                    formatter: function (value, index) {
+                        if (value > 10000) {
+                            value = value / 1000 + 'K';
+                        }
+                        return value;
+                    }
+                },
+            }],
+            series: [{
+                name: '门诊量',
+                type: 'bar',
+                data: tongqi_menzhenData,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: function(v){
+                            if(v.value>10000){
+                                v.value=v.value/1000+"K"
+                            }
+                            return v.value
+                        }
+                    },
+                },
+
+                markLine: {
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'middle'
+                        }
+                    },
+                    data: [{
+                        type: 'average',
+                        name: '平均值'
+                    }]
+                },
+            },
+                {
+                    name: '急诊量',
+                    type: 'bar',
+                    data: tongqi_jizhenData,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: function(v){
+                                if(v.value>10000){
+                                    v.value=v.value/1000+"K"
+                                }
+                                console.log(v)
+                                return v.value
+                            }
+                        },
+                    },
+                    markLine: {
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'middle'
+                            }
+                        },
+                        data: [{
+                            type: 'average',
+                            name: '平均值'
+                        }]
+                    },
+                }
+            ]
+        };
+        yue_tongqi.setOption(tongqi_option);
     });
 });

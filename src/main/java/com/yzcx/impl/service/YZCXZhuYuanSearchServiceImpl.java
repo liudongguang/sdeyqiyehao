@@ -324,7 +324,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         }).collect(Collectors.toMap(YzcxHandleInfoMonthExt::getMonthStr, YzcxHandleInfoMonthExt::getSumNum));
         List<String> category_ruyuan = new ArrayList<>();
         List<Number> ksshizhan = new ArrayList<>();
-        Arrays.asList(YZCXConstant.months).forEach(month -> {
+        YZCXConstant.months.forEach(month -> {
             Double menzhenSum = zhuyuanYearMap.get(month);
             category_ruyuan.add(month);
             ksshizhan.add(menzhenSum);

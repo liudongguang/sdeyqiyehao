@@ -192,9 +192,9 @@ public class YZCXWebController {
     public Map<String,Object> menzhen_year_chart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
         Map<String,Object> rs=new HashMap<>();
         YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForYear(param);
-        HighchartsConfig_column menzhe_year =yzcxSearchService.getMenzhen_year_chart(yzcxSearchParam);
+        Map<String,Object> menzhe_year =yzcxSearchService.getMenzhen_year_chartData(yzcxSearchParam);
         rs.put("menzhe_year",menzhe_year);
-        HighchartsConfig_column menzheTongqi_year =yzcxSearchService.getMenzhenTongqi_year_chart(yzcxSearchParam);
+        Map<String,Object> menzheTongqi_year =yzcxSearchService.getMenzhenTongqi_year_chartData(yzcxSearchParam);
         rs.put("menzheTongqi_year",menzheTongqi_year);
         return rs;
     }

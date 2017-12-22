@@ -40,7 +40,7 @@
                 <span class="mui-icon iconfont icon-shijianxuanze"></span>
                 <span id="result"><fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM"></fmt:formatDate></span></li>
             <li>
-                <span>日门诊量</span> | <span>年门诊量</span>
+                <span url="webyzcx/menzhen">日门诊量</span> | <span url="webyzcx/menzhen_year">年门诊量</span>
             </li>
         </ul>
         <!------------页面内容容器------------>
@@ -99,7 +99,7 @@
                 <div class="mui-card">
                     <div class="mui-card-header">同期分析</div>
                     <div class="mui-card-content">
-                        <div id="yue-tongqi" class="chart-box" style="width: 100%;height:550px;"></div>
+                        <div id="yue-tongqi" class="chart-box" style="width: 100%;height:350px;"></div>
                     </div>
                 </div>
             </div>

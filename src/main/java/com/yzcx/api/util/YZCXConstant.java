@@ -17,7 +17,7 @@ public interface YZCXConstant {
     int importType_zhuyuan=3; //导入类型，住院信息
     int importType_huizhen=4; //导入类型，会诊信息
     int importType_yiji=5; //导入类型，医技信息
-    String[] months={"01月","02月","03月","04月","05月","06月","07月","08月","09月","10月","11月","12月"};
+    List<String> months=Arrays.asList("01月","02月","03月","04月","05月","06月","07月","08月","09月","10月","11月","12月");
     List<String> hoursList= Arrays.asList("0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23");
     String age_0_6="0-6岁";
     String age_7_17="7-17岁";
