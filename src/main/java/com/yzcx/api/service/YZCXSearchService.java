@@ -187,4 +187,25 @@ public interface YZCXSearchService {
      * @return
      */
     Map<String,Object> getMenzhenTongqi_year_chartData(YZCXSearchParam yzcxSearchParam) throws ParseException;
+
+    /**
+     * 月预约 占比
+     * @param menzhen_month_yuyue
+     * @return
+     */
+    Map<String,Object> getMenzhenYuyueZhanbi_yueChartData(Menzhen_Month_Yuyue menzhen_month_yuyue);
+
+    /**
+     * 月预约 科室
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getMenzhenYuyue_yueChartData(YZCXSearchParam yzcxSearchParam);
+
+    /**
+     * 月预约 同期
+     * @param yzcxSearchParam
+     * @return
+     */
+    Map<String,Object> getTongqiyuyueChartData(YZCXSearchParam yzcxSearchParam) throws ParseException;
 }

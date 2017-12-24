@@ -56,21 +56,21 @@
 							<ul class="mui-col-sm-4 mui-col-xs-4">
 								<li class="total-colorA" style="width: 92%; margin-left: 6%;">
 									<p>总人次</p>
-									<font><c:if test="${obj.zongmenzhen!=null}">
+									<font id="zongmenzhenID"><c:if test="${obj.zongmenzhen!=null}">
 										<fmt:formatNumber type="number" value="${obj.zongmenzhen}" pattern="0" maxFractionDigits="0"/></c:if></font>
 								</li>
 							</ul>
 							<ul class="mui-col-sm-4 mui-col-xs-4">
 								<li class="total-colorB">
 									<p>门诊预约</p>
-									<font><c:if test="${obj.yuyue!=null}">
+									<font id="yuyueID"><c:if test="${obj.yuyue!=null}">
 										<fmt:formatNumber type="number" value="${obj.yuyue}" pattern="0" maxFractionDigits="0"/></c:if></font>
 								</li>
 							</ul>
 							<ul class="mui-col-sm-4 mui-col-xs-4">
 								<li class="total-colorC" style="width: 92%; margin-right: 6%;">
 									<p>门诊挂号</p>
-									<font><c:if test="${obj.menzhenGuaHao!=null}">
+									<font id="menzhenGuaHaoID"><c:if test="${obj.menzhenGuaHao!=null}">
 										<fmt:formatNumber type="number" value="${obj.menzhenGuaHao}" pattern="0" maxFractionDigits="0"/></c:if></font>
 								</li>
 							</ul>
@@ -79,21 +79,15 @@
 				</div>
 				<!--卡片容器-->
 				<div class="mui-card">
-					<div class="mui-card-header">月门诊人次</div>
+					<div class="mui-card-header">月门诊占比例图</div>
 					<div class="mui-card-content">
-						<div id="yue-menzhenbar" class="chart-box" style="width: 100%;height:1000px;"></div>
+						<div id="yue-yuyuepie" class="chart-box" style="width: 100%;height:300px;"></div>
 					</div>
 				</div>
 				<div class="mui-card">
-					<div class="mui-card-header">月科室门诊人次（前十名）</div>
+					<div class="mui-card-header">月门诊预约排名（前十名）</div>
 					<div class="mui-card-content">
-						<div id="yue-ksmenzhenbar" class="chart-box" style="width: 100%;height:550px;"></div>
-					</div>
-				</div>
-				<div class="mui-card">
-					<div class="mui-card-header">月疾病占比排名（前十名）</div>
-					<div class="mui-card-content">
-						<div id="yue-jbzhanbibar" class="chart-box" style="width: 100%;height:550px;"></div>
+						<div id="yue-ksyuyuebar" class="chart-box" style="width: 100%;height:550px;"></div>
 					</div>
 				</div>
 				<div class="mui-card">

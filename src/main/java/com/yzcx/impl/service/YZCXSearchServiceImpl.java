@@ -1,6 +1,7 @@
 package com.yzcx.impl.service;
 
 import com.github.abel533.echarts.data.LineData;
+import com.github.abel533.echarts.data.PieData;
 import com.yzcx.api.bo.MenzhenPtJz;
 import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.po.YzcxHandleInfoDay;
@@ -556,7 +557,15 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     public Map<String, Object> getQygl_yueChart_jibingData(YZCXSearchParam yzcxSearchParam) {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.jbzd_jb));//
         List<YzcxHandleInfoMonth> jzlist = yzcxCommonService.getMonthDataByParam(yzcxSearchParam);
+        Map<String, Double> group = jzlist.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         if (jzlist != null && jzlist.size() > 0) {
+            jzlist.clear();
+            group.forEach((name,count)->{
+                YzcxHandleInfoMonth ny=new YzcxHandleInfoMonth();
+                ny.setName(name);
+                ny.setCount(count);
+                jzlist.add(ny);
+            });
             List<String> axis = new ArrayList<>();
             List<Integer> numdata = new ArrayList<>();
             jzlist.stream().sorted(Comparator.comparingDouble(YzcxHandleInfoMonth::getCount).reversed()).limit(10).sorted(Comparator.comparingDouble(YzcxHandleInfoMonth::getCount)).forEach(item -> {
@@ -644,13 +653,13 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     public Menzhen_Month_Yuyue getMenzhen_Month_Yuyue_month(YZCXSearchParam param) throws ParseException {
         Menzhen_Month_Yuyue rs = new Menzhen_Month_Yuyue();
         param.setHandletype(Arrays.asList(YZCXConstant.menzhen));//获取门诊
-        List<YzcxHandleInfoMonth> list = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        List<YzcxHandleInfoMonth> list = yzcxCommonService.getMonthDataByParam(param);
         if (list.size() > 0) {
             Double menzhensum = list.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
             rs.setZongmenzhen(menzhensum);
         }
         param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
-        List<YzcxHandleInfoMonth> yuyuelist = yzcxHandleInfoMonthMapper.selectByDateAndType(param);
+        List<YzcxHandleInfoMonth> yuyuelist =  yzcxCommonService.getMonthDataByParam(param);
         if (yuyuelist.size() > 0) {
             Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
             rs.setYuyue(yuyuesum);
@@ -679,7 +688,15 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         series1.getData().add(data2);
         return hcfg;
     }
-
+    @Override
+    public Map<String, Object> getMenzhenYuyueZhanbi_yueChartData(Menzhen_Month_Yuyue menzhen_month_yuyue) {
+        Map<String,Object> rs=new HashMap<>();
+        List<PieData> pieData=new ArrayList<>();
+        pieData.add(new PieData("门诊挂号",menzhen_month_yuyue.getMenzhenGuaHao()));
+        pieData.add(new PieData("门诊预约",menzhen_month_yuyue.getYuyue()));
+        rs.put("piedata",pieData);
+        return rs;
+    }
     @Override
     public HighchartsConfig getMenzhenYuyue_yueChart(YZCXSearchParam yzcxSearchParam) {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
@@ -723,7 +740,32 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         }
         return null;
     }
-
+    @Override
+    public Map<String, Object> getMenzhenYuyue_yueChartData(YZCXSearchParam yzcxSearchParam) {
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
+        List<YzcxHandleInfoMonth> list = yzcxCommonService.getMonthDataByParam(yzcxSearchParam);
+        if (list != null && list.size() > 0) {
+            Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+            list.clear();
+            collect.forEach((k, v) -> {
+                YzcxHandleInfoMonth yzd = new YzcxHandleInfoMonth();
+                yzd.setCount(v);
+                yzd.setName(k);
+                list.add(yzd);
+            });
+            List<String> axis = new ArrayList<>();
+            List<Integer> numdata = new ArrayList<>();
+            list.stream().sorted(Comparator.comparingDouble(YzcxHandleInfoMonth::getCount).reversed()).limit(10).sorted(Comparator.comparingDouble(YzcxHandleInfoMonth::getCount)).forEach(item -> {
+                axis.add(item.getName());
+                numdata.add(item.getCount().intValue());
+            });
+            Map<String, Object> rs = new HashMap<>();
+            rs.put("axis", axis);
+            rs.put("numdata", numdata);
+            return rs;
+        }
+        return null;
+    }
     @Override
     public HighchartsConfig getTongqiyuyueChart(YZCXSearchParam yzcxSearchParam) throws ParseException {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));//获取普通，急诊
@@ -766,7 +808,36 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         series.add(series1);
         return hcfg;
     }
-
+    @Override
+    public Map<String, Object> getTongqiyuyueChartData(YZCXSearchParam yzcxSearchParam) throws ParseException {
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));//获取普通，急诊
+        List<YzcxHandleInfoMonth> currentlist = yzcxCommonService.getMonthDataByParam(yzcxSearchParam);
+        if (currentlist.size() == 0) {
+            return null;
+        }
+        String currentDateStr = LdgDateUtil.get_zhongwen_yyyyMM(yzcxSearchParam.getStart());
+        yzcxSearchParam = YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);//获取前一年同月日期
+        String qunianDateStr = LdgDateUtil.get_zhongwen_yyyyMM(yzcxSearchParam.getStart());
+        yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));//获取普通，急诊
+        List<YzcxHandleInfoMonth> qunianlist = yzcxCommonService.getMonthDataByParam(yzcxSearchParam);
+        if (qunianlist.size() == 0) {
+            return null;
+        }
+        ///
+        final Double qunianSum = qunianlist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
+        final Double jinnianSum = currentlist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
+        ///
+        List<Integer> yytqnum = new ArrayList<>();
+        List<String> axis = new ArrayList<>();
+        axis.add(qunianDateStr);
+        axis.add(currentDateStr);
+        yytqnum.add(qunianSum.intValue());
+        yytqnum.add(jinnianSum.intValue());
+        Map<String, Object> rs = new HashMap<>();
+        rs.put("axis", axis);
+        rs.put("yytqnum", yytqnum);
+        return rs;
+    }
     @Override
     public HighchartsConfig_column getMenzhen_year_chart(YZCXSearchParam param) {
         param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));//获取普通，急诊
@@ -930,6 +1001,10 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         rs.put("jizhenData", jizhenData);
         return rs;
     }
+
+
+
+
 
 
 }

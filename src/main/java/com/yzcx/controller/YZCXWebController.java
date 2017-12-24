@@ -137,7 +137,7 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen_yuyue_yue")
     public String menzhen_yuyue_yue(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForMonth(param);
+        YZCXSearchParam cparam = YZCXControllerUtil.getSearchParamForThisMonth(param);
         Menzhen_Month_Yuyue menzhen_month_yuyue = yzcxSearchService.getMenzhen_Month_Yuyue_month(cparam);
         request.setAttribute(YZCXConstant.obj, menzhen_month_yuyue);
         return "/yzcx/menzhen/menzhen_yuyue_yue.jsp";
@@ -157,11 +157,11 @@ public class YZCXWebController {
     public Map<String,Object> menzhen_yuyue_yueChart(HttpServletRequest request,YZCXSearchParam param,Menzhen_Month_Yuyue menzhen_month_yuyue) throws IOException, ParseException {
         YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForMonth(param);
         Map<String,Object> rs=new HashMap<>();
-        HighchartsConfig_pie yuyueMenzhenZhanbiMonthChart=yzcxSearchService.getMenzhenYuyueZhanbi_yueChart(menzhen_month_yuyue);
+        Map<String,Object> yuyueMenzhenZhanbiMonthChart=yzcxSearchService.getMenzhenYuyueZhanbi_yueChartData(menzhen_month_yuyue);
         rs.put("yuyueMenzhenZhanbiMonthChart",yuyueMenzhenZhanbiMonthChart);
-        HighchartsConfig menzhenYYChart=yzcxSearchService.getMenzhenYuyue_yueChart(yzcxSearchParam);
+        Map<String,Object> menzhenYYChart=yzcxSearchService.getMenzhenYuyue_yueChartData(yzcxSearchParam);
         rs.put("menzhenYYChart",menzhenYYChart);
-        HighchartsConfig tongqiyuyueChart =yzcxSearchService.getTongqiyuyueChart(yzcxSearchParam);
+        Map<String,Object> tongqiyuyueChart =yzcxSearchService.getTongqiyuyueChartData(yzcxSearchParam);
         rs.put("tongqiyuyueChart",tongqiyuyueChart);
         return rs;
     }

@@ -1,9 +1,10 @@
 $(document).ready(function () {
     initTapHandler();
-    var yue_menzhenbar = echarts.init(document.getElementById('yue-menzhenbar'), 'wonderland');
-    var yue_ksmenzhenbar = echarts.init(document.getElementById('yue-ksmenzhenbar'), 'wonderland');
-    var yue_jbzhanbibar = echarts.init(document.getElementById('yue-jbzhanbibar'), 'wonderland');
+    var yue_yuyuepie = echarts.init(document.getElementById('yue-yuyuepie'), 'wonderland');
+    var yue_ksyuyuebar = echarts.init(document.getElementById('yue-ksyuyuebar'), 'wonderland');
     var yue_tongqi = echarts.init(document.getElementById('yue-tongqi'), 'wonderland');
+
+
     //日期选择
     (function ($) {
         $.init();
@@ -43,7 +44,7 @@ $(document).ready(function () {
                      */
                     picker.dispose();
                     var date = rs.text + "-01";
-                    location.href = "webyzcx/menzhen_yue?start=" + date;
+                    location.href = "webyzcx/menzhen_yuyue_yue?start=" + date;
                 });
             }, false);
         });
@@ -51,4 +52,179 @@ $(document).ready(function () {
     //主界面和侧滑菜单界面均支持区域滚动；
     mui('#offCanvasSideScroll').scroll();
     mui('#offCanvasContentScroll').scroll();
+
+    ajaxRequest("webyzcx/menzhen_yuyue_yueChart", {
+        start: $('#result').text() + "-01",
+        zongmenzhen: $.trim($("#zongmenzhenID").text()),
+        yuyue: $.trim($("#yuyueID").text()),
+        menzhenGuaHao: $.trim($("#menzhenGuaHaoID").text())
+    }, function (data) {
+        var piedata = data.yuyueMenzhenZhanbiMonthChart.piedata;
+        var option_pie = {
+            title: {
+                text: ' ',
+                subtext: ' ',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                data: ['门诊挂号', '门诊预约']
+            },
+            series: [{
+                name: '月门诊占比例图',
+                type: 'pie',
+                radius: '72%',
+                center: ['50%', '60%'],
+                data: piedata,
+                label: {
+                    normal: {
+                        formatter: '{b} {d}%  ',
+
+                    }
+                },
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+        yue_yuyuepie.setOption(option_pie);
+        //////////////////////
+        var mzyyksname = data.menzhenYYChart.axis;
+        var mzksnum = data.menzhenYYChart.numdata;
+        var option_bar_ksyy = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '8%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                name: '单位：人',
+                nameLocation: 'center',
+                nameTextStyle: {
+                    padding: [30, 0, 0, 0]
+                },
+                axisLabel: {
+                    show: true,
+                    formatter: '{value}',
+                    interval: 0, //横轴信息全部显示
+                    rotate: 30 //-30度角倾斜显示
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: mzyyksname,
+                axisLabel: {
+                    formatter: function (value, index) {
+                        if (value.length > 6) {
+                            var valuetemp = value.substring(0, 6);
+                            valuetemp = valuetemp + "\n" + value.substring(6, value.length);
+                            value = valuetemp;
+                        }
+                        return value;
+                    }
+                }
+            },
+            series: [
+                {
+                    name: '科室预约',
+                    type: 'bar',
+                    barWidth: 15,
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+
+                    data: mzksnum
+                }
+            ]
+        };
+        yue_ksyuyuebar.setOption(option_bar_ksyy);
+        /////////////////////////////////
+        var tqaxis = data.tongqiyuyueChart.axis;
+        var tqdatanum = data.tongqiyuyueChart.yytqnum;
+        var tongqi_option = {
+            title: {
+                text: ' ',
+                subtext: ' '
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+
+            grid: {
+                left: '4%',
+                right: '5%',
+                bottom: '3%',
+                containLabel: true
+            },
+            calculable: true,
+            xAxis: [{
+                type: 'category',
+                data: tqaxis
+            }],
+            yAxis: [{
+                type: 'value',
+                name: '单位：人',
+                axisLabel: {
+                    show: true,
+                    formatter: function (value, index) {
+                        if (value > 10000) {
+                            value = value / 1000 + 'K';
+                        }
+                        return value;
+                    }
+                },
+            }],
+            series: [{
+                name: '预约量',
+                type: 'bar',
+                data: tqdatanum,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        formatter: function (v) {
+                            if (v.value > 10000) {
+                                v.value = v.value / 1000 + "K"
+                            }
+                            return v.value
+                        }
+                    },
+                },
+
+                markLine: {
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'middle'
+                        }
+                    },
+                    data: [{
+                        type: 'average',
+                        name: '平均值'
+                    }]
+                },
+            }
+            ]
+        };
+        yue_tongqi.setOption(tongqi_option);
+    });
+
 });
