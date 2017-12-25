@@ -50,7 +50,7 @@
                                 <td>
                                     <input type="hidden" value="${obj.qianribaifenbi}" id="qianribfbID"/>
                                     &nbsp;<span id="dyhlvID"></span>%<span id="dyhlvimgID" class="mui-icon mui-icon-arrowthinup"></span></td>
-                                <td align="right">查看月费用<span class="mui-icon mui-icon-arrowright"
+                                <td align="right"><span url="webyzcxFeiYong/feiyong_yue_page">查看月费用</span><span class="mui-icon mui-icon-arrowright"
                                                              style="font-size:15px;"></span></td>
                             </tr>
                             <!--下箭头

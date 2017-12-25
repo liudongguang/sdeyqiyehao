@@ -1,314 +1,166 @@
 $(document).ready(function () {
-
     initTapHandler();
-    var qianribfbVal = $("#qianribfbID").val();
-    if (qianribfbVal > 0) {
-        $("#dyhlvimgID").removeClass().addClass("mui-icon mui-icon-arrowthinup");
-    } else {
-        $("#dyhlvimgID").removeClass().addClass("mui-icon mui-icon-arrowthindown");
-    }
-    $("#dyhlvID").text(Math.abs((qianribfbVal * 100)).toFixed(2));
-
-
-    ajaxRequest("webyzcxFeiYong/indexChart", null, function (data) {
-        var zhuyuan = data.zhuyuan;
-        var menzhen = data.menzhen;
-        var kszhuyuan = data.kszhuyuan;
-        var ksmenzhen = data.ksmenzhen;
-        var zhuyuanPie_mzzybi = data.zhuyuanPie_mzzybi;
-        var zhuyuanPie_ylypqt = data.zhuyuanPie_ylypqt;
-        var dataNum = data.dataNum;
-        if (dataNum) {
-            $("#menzhenID").text(dataNum.menzhenzong.toFixed(2));
-            $("#zhuyuanID").text(dataNum.zhuyuanzong.toFixed(2));
-            $("#menzhenID2").text(dataNum.menzhenzong.toFixed(2));
-            $("#zhuyuanID2").text(dataNum.zhuyuanzong.toFixed(2));
-            $("#zongfeiID").text((dataNum.zhuyuanzong + dataNum.menzhenzong).toFixed(2));
-            /////
-            $("#yiliaoID").text(dataNum.yiliao.toFixed(2));
-            $("#yaopinID").text(dataNum.yaopin.toFixed(2));
-            $("#qitaID").text(dataNum.qita.toFixed(2));
-        }
-
-
-        //////////////////////////////////////////////////
-        // 基于准备好的dom，初始化echarts实例
-        var myChart_bar_inHospiTI = echarts.init(document.getElementById('bar-inHospiTI'), 'walden');
-        var myChart_bar_outPatientTI = echarts.init(document.getElementById('bar-outPatientTI'), 'walden');
-        var myChart_pie_hospiTI = echarts.init(document.getElementById('pie-hospiTI'), 'walden');
-        var myChart_pie_incomeAssort = echarts.init(document.getElementById('pie-incomeAssort'), 'walden');
-        var myChart_bar_departIncomeRank = echarts.init(document.getElementById('bar-departIncomeRank'), 'wonderland');
-        var myChart_bar_outPatientIncomeRank = echarts.init(document.getElementById('bar-outPatientIncomeRank'), 'wonderland');
-
-        // 配置项和数据（住院总收入）
-        var option_bar_inHospiTI = {
+    var yue_rishouru = echarts.init(document.getElementById('yue-rishouru'), 'wonderland');
+    var yue_zykssr = echarts.init(document.getElementById('yue-zykssr'), 'wonderland');
+    var yue_mzkssr = echarts.init(document.getElementById('yue-mzkssr'), 'wonderland');
+    //日期选择
+    (function ($) {
+        $.init();
+        var result = $('#result')[0];
+        var btns = $('.btn');
+        btns.each(function (i, btn) {
+            btn.addEventListener('tap', function () {
+                var optionsJson = this.getAttribute('data-options') || '{}';
+                var options = JSON.parse(optionsJson);
+                var id = this.getAttribute('id');
+                /*
+                 * 首次显示时实例化组件
+                 * 示例为了简洁，将 options 放在了按钮的 dom 上
+                 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+                 */
+                var picker = new $.DtPicker(options);
+                picker.show(function (rs) {
+                    /*
+                     * rs.value 拼合后的 value
+                     * rs.text 拼合后的 text
+                     * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+                     * rs.m 月，用法同年
+                     * rs.d 日，用法同年
+                     * rs.h 时，用法同年
+                     * rs.i 分（minutes 的第二个字母），用法同年
+                     */
+                    result.innerText = rs.text;
+                    /*
+                     * 返回 false 可以阻止选择框的关闭
+                     * return false;
+                     */
+                    /*
+                     * 释放组件资源，释放后将将不能再操作组件
+                     * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+                     * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+                     * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+                     */
+                    picker.dispose();
+                    var date = rs.text + "-01";
+                    location.href = "webyzcxFeiYong/feiyong_yue_page?start=" + date;
+                });
+            }, false);
+        });
+    })(mui);
+    //主界面和侧滑菜单界面均支持区域滚动；
+    mui('#offCanvasSideScroll').scroll();
+    mui('#offCanvasContentScroll').scroll();
+    ajaxRequest("webyzcxFeiYong/feiyong_yue_chart", {start: $('#result').text() + "-01"}, function (data) {
+        var meitianChart=data.meitianChart;
+        var kszhuyuan=data.kszhuyuan;
+        var ksmenzhen=data.ksmenzhen;
+        var option_everyday = {
             title: {
                 text: ' ',
-                subtext: '  单位：万元'
-            },
-            legend: {
-                data: ['住院收入']
+                subtext: ' 单位：万元',
+                x: 'left'
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: function (v) {
-                    var val=v[0].value / 10000;
-                    return val.toFixed(2)+'万';
-                },
-                axisPointer: {
-                    type: 'line'
+                axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                    type: 'line' // 默认为直线，可选为：'line' | 'shadow'
                 }
             },
-            legend: {
-                data: ['住院收入']
-            },
             grid: {
-                left: '4%',
+                left: '3%',
                 right: '8%',
                 bottom: '3%',
                 containLabel: true
             },
             xAxis: {
                 type: 'value',
+                name: '单位：人',
+                nameLocation: 'center',
+                nameTextStyle: {
+                    padding: [30, 0, 0, 0]
+                },
                 axisLabel: {
                     show: true,
-                    formatter: function (value) {
-                        var val=value / 10000;
-                        return val.toFixed(0)+'万';
-                    },
-                    interval: 0, //横轴信息全部显示
-                    rotate: 30 //30度角倾斜显示
-                },
-                boundaryGap: [0, 0.1]
-            },
-            yAxis: {
-                type: 'category',
-                data: ['住院医疗费', '住院药费', '住院其他费']
-            },
-            series: [{
-                name: '住院收入',
-                type: 'bar',
-                stack: '总量',
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'right',
-                        formatter: function (v) {
-                            var val=v.value / 10000;
-                            return val.toFixed(2)+'万';
-                        }
-                    }
-                },
-                data: zhuyuan,
-
-                markLine: {
-                    label: {
-                        normal: {
-                            formatter: function (v) {
-                                var val=v.value / 10000;
-                                return val.toFixed(2)+'万';
-                            }
-                        }
-                    },
-                    lineStyle: {
-                        normal: {
-                            color: {
-                                type: 'linear',
-                                x: 0,
-                                y: 0,
-                                x2: 0,
-                                y2: 1,
-                                colorStops: [{
-                                    offset: 0,
-                                    color: '#626f91' // 0% 处的颜色
-                                }, {
-                                    offset: 1,
-                                    color: '#5e6a89' // 100% 处的颜色
-                                }],
-                                globalCoord: false // 缺省为 false
-                            },
-                        }
-                    },
-                    data: [{
-                        type: 'average',
-                        name: '平均值'
-                    }]
-                }
-
-            }]
-        };
-
-        // 配置项和数据（门诊总收入）
-        var option_bar_outPatientTI = {
-            title: {
-                text: ' ',
-                subtext: '  单位：万元'
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: function (v) {
-                    var val=v[0].value / 10000;
-                    return val.toFixed(2)+'万';
-                },
-                axisPointer: {
-                    type: 'line'
-                }
-            },
-            legend: {
-                data: ['门诊收入']
-            },
-            grid: {
-                left: '4%',
-                right: '10%',
-                bottom: '5%',
-                containLabel: true
-            },
-            xAxis: {
-                type: 'value',
-                axisLabel: {
-                    show: true,
-                    interval: 0, //横轴信息全部显示
-                    rotate: 30, //-30度角倾斜显示
                     formatter: function (value) {
                         var val=value / 10000;
                         return val+'万';
-                    }
-                },
-                boundaryGap: [0, 0.1]
+                    },
+                    interval: 0,
+                    rotate: 30,
+                }
             },
             yAxis: {
                 type: 'category',
-                data: ['门诊医疗费', '门诊药费', '门诊其他费']
+                data: meitianChart.categoriesDays
             },
-            series: [{
-                name: '门诊收入',
-                type: 'bar',
-                stack: '总量',
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'right',
-                        formatter: function (v) {
-                            var val=v.value / 10000;
-                            return val.toFixed(2)+'万';
-                        }
-                    }
-                },
-                data: menzhen,
-                markLine: {
+            series: [
+                {
+                    name: '日收入',
+                    type: 'bar',
+                    stack: '总量',
+                    barWidth: 15,
                     label: {
                         normal: {
+                            show: true,
+                            position: 'insideRight',
                             formatter: function (v) {
                                 var val=v.value / 10000;
                                 return val.toFixed(2)+'万';
                             }
                         }
                     },
-                    lineStyle: {
-                        normal: {
-                            color: {
-                                type: 'linear',
-                                x: 0,
-                                y: 0,
-                                x2: 0,
-                                y2: 1,
-                                colorStops: [{
-                                    offset: 0,
-                                    color: '#626f91' // 0% 处的颜色
-                                }, {
-                                    offset: 1,
-                                    color: '#5e6a89' // 100% 处的颜色
-                                }],
-                                globalCoord: false // 缺省为 false
-                            },
-                        }
+                    markLine: {
+                        data: [{
+                            type: 'average',
+                            label:wanyuanLabelFormatter,
+                            name: '平均值',
+                            lineStyle: {
+                                normal: {
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                    shadowBlur: 20,
+                                    shadowOffsetX: 1,
+                                    shadowOffsetY: 2
+                                }
+                            }
+                        }]
                     },
-                    data: [{
-                        type: 'average',
-                        name: '平均值'
-                    }]
-                }
+                    markPoint: {
+                        data: [{
+                            type: 'max',
+                            label:wanyuanLabelFormatter,
+                            name: '最大值',
+                            itemStyle: {
+                                normal: {
+                                    shadowColor: 'rgba(0, 0, 0, 0.3)',
+                                    shadowBlur: 40,
+                                    shadowOffsetX: 2,
+                                    shadowOffsetY: 5
+                                }
+                            }
+                        },
+                            {
+                                type: 'min',
+                                label:wanyuanLabelFormatter,
+                                name: '最小值',
+                                itemStyle: {
+                                    normal: {
+                                        shadowColor: 'rgba(0, 0, 0, 0.3)',
+                                        shadowBlur: 40,
+                                        shadowOffsetX: 2,
+                                        shadowOffsetY: 5
+                                    }
+                                }
+                            }
 
-            }]
+                        ]
+                    },
+
+                    data: meitianChart.series_barData
+                }
+            ]
         };
-
-        // 配置项和数据（全院总收入）
-        var option_pie_hospiTI = {
-            title: {
-                text: ' ',
-                subtext: '  单位：元'
-            },
-            legend: {
-                x: 'center',
-                y: 'top',
-                data: ['门诊', '住院']
-
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: function(v){
-                    var seriesName=v.seriesName;
-                    var value=v.value;
-                    var name=v.name;
-                    var percent=v.percent;
-                    var dis=seriesName+"<br/>"+name+" "+value.toFixed(2)+"("+percent+"%)"
-                    return dis;
-                }
-            },
-            series: [{
-                name: '全院总收入',
-                selectedMode: 'single',
-                type: 'pie',
-                center: ['50%', '55%'],
-                data: zhuyuanPie_mzzybi,
-                label: {
-                    normal: {
-                        formatter: '{b}\n {d}%',
-                    }
-                }
-            }]
-        };
-        // 配置项和数据（全院收入类别占比）
-        var option_pie_incomeAssort = {
-
-            title: {
-                text: ' ',
-                subtext: '  单位：元'
-            },
-            legend: {
-                x: 'center',
-                y: 'top',
-                data: ['药品', '医疗', '其他']
-
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: function(v){
-                    var seriesName=v.seriesName;
-                    var value=v.value;
-                    var name=v.name;
-                    var percent=v.percent;
-                    var dis=seriesName+"<br/>"+name+" "+value.toFixed(2)+"("+percent+"%)"
-                    return dis;
-                }
-            },
-            series: [{
-                name: '全院收入类别占比',
-                selectedMode: 'single',
-                type: 'pie',
-                radius: '70%',
-                center: ['50%', '55%'],
-                data: zhuyuanPie_ylypqt,
-                label: {
-                    normal: {
-                        formatter: '{b}\n {d}%',
-
-                    }
-                }
-            }]
-        };
-
-
+        yue_rishouru.setOption(option_everyday);
+        /////
         // 配置项和数据（住院科室收入排名（前十名））
         var zy_keshi=kszhuyuan.zy_keshi;
         var zy_yiliao=kszhuyuan.zy_yiliao;
@@ -740,16 +592,8 @@ $(document).ready(function () {
 
             ]
         };
-        // 将图表显示出来
-        myChart_bar_inHospiTI.setOption(option_bar_inHospiTI);
-        myChart_bar_outPatientTI.setOption(option_bar_outPatientTI);
-        myChart_pie_hospiTI.setOption(option_pie_hospiTI);
-        myChart_pie_incomeAssort.setOption(option_pie_incomeAssort);
-        myChart_bar_departIncomeRank.setOption(option_bar_departIncomeRank);
-        myChart_bar_outPatientIncomeRank.setOption(option_bar_outPatientIncomeRank);
+        yue_zykssr.setOption(option_bar_departIncomeRank);
+        yue_mzkssr.setOption(option_bar_outPatientIncomeRank);
     });
 
-    //主界面和侧滑菜单界面均支持区域滚动；
-    mui('#offCanvasSideScroll').scroll();
-    mui('#offCanvasContentScroll').scroll();
 })

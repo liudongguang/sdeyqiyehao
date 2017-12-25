@@ -19,15 +19,16 @@
                     </a>
                 </li>
                 <li class="mui-table-view-cell">
-                    <a class="mui-navigate-right" href="javascript:;" url="webyzcxZyxx/index">
-                        <span class="mui-icon iconfont icon-zhuyuanguanli" ></span> 住院信息
-                    </a>
-                </li>
-                <li class="mui-table-view-cell">
                     <a class="mui-navigate-right" href="javascript:;" url="webyzcxFeiYong/index">
                         <span class="mui-icon iconfont icon-shouru" ></span> 医院收入
                     </a>
                 </li>
+                <li class="mui-table-view-cell">
+                    <a class="mui-navigate-right" href="javascript:;" url="webyzcxZyxx/index">
+                        <span class="mui-icon iconfont icon-zhuyuanguanli" ></span> 住院信息
+                    </a>
+                </li>
+
                 <li class="mui-table-view-cell">
                     <a class="mui-navigate-right" href="javascript:;" url="yzcx/yiji/index.jsp">
                         <span class="mui-icon iconfont icon-yiyuan" ></span> 医技信息

@@ -65,7 +65,7 @@ public class YZCXWebFeiYongController {
     @RequestMapping(value = "/feiyong_yue_chart")
     @ResponseBody
     public Map<String,Object> feiyong_yue_chart(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForMonth(param);
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForThisMonth(param);
         Map<String,Object> rs= yzcxFeiYongSearchService.getfeiyong_yue(yzcxSearchParam);
         return rs;
     }

@@ -232,3 +232,13 @@ function initTapHandler() {
        mui.openWindow({ url:href, id:'detail' });
    });
 }
+
+
+var wanyuanLabelFormatter={
+    normal: {
+        formatter: function (v) {
+            var val=v.value / 10000;
+            return val.toFixed(2)+'万';
+        }
+    }
+};
