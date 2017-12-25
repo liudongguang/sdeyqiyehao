@@ -133,7 +133,7 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/initYZCXMonthSystem")
     @ResponseBody
     public void initYZCXMonthSystem() throws Exception {
-        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(12);
+        List<YZCXSearchParam> initDateList=  LdgDateUtil.getStartAndEndTimeByTiQianYueNum(1);
         /*YZCXSearchParam searchParam=new YZCXSearchParam();
         searchParam.setStart(initDateList.get(0).getStart());
         searchParam.setEnd(initDateList.get(initDateList.size()-1).getEnd());

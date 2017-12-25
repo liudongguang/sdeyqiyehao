@@ -81,7 +81,7 @@ $(document).ready(function () {
                 data: piedata,
                 label: {
                     normal: {
-                        formatter: '{b} {d}%  ',
+                        formatter: '{b} {d}%',
 
                     }
                 },
