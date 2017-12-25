@@ -129,8 +129,8 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
                 category.add(hourNum);
                 zhexianNum.add(sumNum);
             }
-            Map<String, List<Number>> nameAndData = new HashMap<>();
-            nameAndData.put("入院人数", zhexianNum);
+//            Map<String, List<Number>> nameAndData = new HashMap<>();
+//            nameAndData.put("入院人数", zhexianNum);
             //////////////////////////////////科室入院排名
             final Map<String, Double> ksAndRyNum = keshiruyuanList.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
             List<YzcxHandleInfoDay> ksAndSumRenshuList = new ArrayList<>();
@@ -147,8 +147,8 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
                 category_ruyuan.add(item.getName());
                 ruyuanData.add(item.getCount());
             });
-            Map<String, List<Number>> nameAndData_ksryqs = new HashMap<>();
-            nameAndData_ksryqs.put("入院人数", ruyuanData);
+//            Map<String, List<Number>> nameAndData_ksryqs = new HashMap<>();
+//            nameAndData_ksryqs.put("入院人数", ruyuanData);
             /////////////////////////////////////////////////////////////////////////床位信息
             YZCXSearchParam beforeDayparam= YZCXControllerUtil.getBeforeDayByNum(1);
             beforeDayparam.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_keshishizhan,YZCXConstant.zhuyuan_keshikaifang));
@@ -178,16 +178,28 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
                 kskaifang.add(item.getKaifang());
             });
 
-            Map<String, List<Number>> nameAndData_chuangweisyl = new HashMap<>();
-            nameAndData_chuangweisyl.put("实占床位", ksshizhan);
-            nameAndData_chuangweisyl.put("开放床位", kskaifang);
+//            Map<String, List<Number>> nameAndData_chuangweisyl = new HashMap<>();
+//            nameAndData_chuangweisyl.put("实占床位", ksshizhan);
+//            nameAndData_chuangweisyl.put("开放床位", kskaifang);
             ////////////////////
-            GsonOption echartOption = EchartsBuilder.buildEchartOption_line(" ", "入院人次波动图", category, nameAndData);
-            GsonOption echartOption_ruyuanqianshi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuan, nameAndData_ksryqs, false);
-            GsonOption echartOption_chuangweishu = EchartsBuilder.buildEchartOption_bar(" ", " ", category_chuangwei, nameAndData_chuangweisyl, false);
-            rs.put("echartOption", echartOption.toString());
-            rs.put("echartOption_ruyuanqianshi", echartOption_ruyuanqianshi.toString());
-            rs.put("echartOption_chuangweishu", echartOption_chuangweishu.toString());
+            //GsonOption echartOption = EchartsBuilder.buildEchartOption_line(" ", "入院人次波动图", category, nameAndData);
+           // GsonOption echartOption_ruyuanqianshi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuan, nameAndData_ksryqs, false);
+            //GsonOption echartOption_chuangweishu = EchartsBuilder.buildEchartOption_bar(" ", " ", category_chuangwei, nameAndData_chuangweisyl, false);
+            Map<String,Object> rybodong=new HashMap<>();
+            rybodong.put("category",category);
+            rybodong.put("zhexianNum",zhexianNum);
+            rs.put("rybd", rybodong);
+            /////////////////////////////////////////
+            Map<String,Object> ksry=new HashMap<>();
+            ksry.put("category",category_ruyuan);
+            ksry.put("ruyuanData",ruyuanData);
+            rs.put("ksry", ksry);
+            /////////////////////////////////////////
+            Map<String,Object> chuangwei=new HashMap<>();
+            chuangwei.put("category",category_chuangwei);
+            chuangwei.put("ksshizhan",ksshizhan);
+            chuangwei.put("kskaifang",kskaifang);
+            rs.put("chuangwei", chuangwei);
         }
         return rs;
     }
