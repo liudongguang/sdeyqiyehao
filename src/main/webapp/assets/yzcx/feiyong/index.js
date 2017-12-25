@@ -39,6 +39,14 @@ $(document).ready(function () {
         var myChart_pie_incomeAssort = echarts.init(document.getElementById('pie-incomeAssort'), 'walden');
         var myChart_bar_departIncomeRank = echarts.init(document.getElementById('bar-departIncomeRank'), 'wonderland');
         var myChart_bar_outPatientIncomeRank = echarts.init(document.getElementById('bar-outPatientIncomeRank'), 'wonderland');
+        var wanyuanLabelFormatter={
+            normal: {
+                formatter: function (v) {
+                    var val=v.value / 10000;
+                    return val.toFixed(2)+'万';
+                }
+            }
+        };
         // 配置项和数据（住院总收入）
         var option_bar_inHospiTI = {
             title: {
@@ -307,16 +315,26 @@ $(document).ready(function () {
             }]
         };
 
+
         // 配置项和数据（住院科室收入排名（前十名））
+        var zy_keshi=kszhuyuan.zy_keshi;
+        var zy_yiliao=kszhuyuan.zy_yiliao;
+        var zy_yaofei=kszhuyuan.zy_yaofei;
+        var zy_qita=kszhuyuan.zy_qita;
         var option_bar_departIncomeRank = {
             title: {
                 text: ' ',
-                subtext: ' 单位：元',
+                subtext: ' 单位：万元',
                 x: 'left'
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: '{a0}:{c0}k<br/>{a1}:{c1}k<br/>{a2}:{c2}k',
+                formatter: function (v) {
+                    var val=v[0].value / 10000;
+                    var val1=v[1].value / 10000;
+                    var val2=v[2].value / 10000;
+                    return v[0].name+" <br/> "+v[0].seriesName+":"+val.toFixed(2)+'万'+"<br/>"+" "+v[1].seriesName+":"+val1.toFixed(2)+'万'+"<br/>"+" "+v[2].seriesName+":"+val2.toFixed(2)+'万';
+                },
                 axisPointer: { // 坐标轴指示器，坐标轴触发有效
                     type: 'line' // 默认为直线，可选为：'line' | 'shadow'
                 }
@@ -335,14 +353,17 @@ $(document).ready(function () {
                 boundaryGap: [0, 0.01],
                 axisLabel: {
                     show: true,
-                    formatter: '{value}k',
+                    formatter: function (value) {
+                        var val=value / 10000;
+                        return val+'万';
+                    },
                     interval: 0,
                     rotate: 30,
                 }
             },
             yAxis: {
                 type: 'category',
-                data: ['血液内科', '呼吸内科', '创伤骨科', '产科', '脊柱外科', '关节外科', '干部保健/\n老年医学科', '心血管外科', '心血管内科', '康复科'],
+                data: zy_keshi,
                 axisTick: {
                     interval: 0
                 }
@@ -354,13 +375,18 @@ $(document).ready(function () {
                 stack: '总量',
                 label: {
                     normal: {
-                        show: false,
-                        position: 'insideRight'
+                        show: true,
+                        position: 'insideRight',
+                        formatter: function (v) {
+                            var val=v.value / 10000;
+                            return val.toFixed(2)+'万';
+                        }
                     }
                 },
                 markPoint: {
                     data: [{
                         type: 'max',
+                        label:wanyuanLabelFormatter,
                         name: '最大值',
                         itemStyle: {
                             normal: {
@@ -373,6 +399,7 @@ $(document).ready(function () {
                     },
                         {
                             type: 'min',
+                            label:wanyuanLabelFormatter,
                             name: '最小值',
                             itemStyle: {
                                 normal: {
@@ -386,12 +413,13 @@ $(document).ready(function () {
                     ]
                 },
                 markLine: {
+                    label:wanyuanLabelFormatter,
                     data: [{
                         type: 'average',
                         name: '平均值'
                     }]
                 },
-                data: [320, 302, 301, 390, 330, 320, 320, 302, 301, 334]
+                data: zy_yaofei
             },
                 {
                     name: '住院医疗费',
@@ -399,13 +427,18 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: false,
-                            position: 'insideRight'
+                            show: true,
+                            position: 'insideRight',
+                            formatter: function (v) {
+                                var val=v.value / 10000;
+                                return val.toFixed(2)+'万';
+                            }
                         }
                     },
                     markPoint: {
                         data: [{
                             type: 'max',
+                            label:wanyuanLabelFormatter,
                             name: '最大值',
                             itemStyle: {
                                 normal: {
@@ -418,6 +451,7 @@ $(document).ready(function () {
                         },
                             {
                                 type: 'min',
+                                label:wanyuanLabelFormatter,
                                 name: '最小值',
                                 itemStyle: {
                                     normal: {
@@ -431,12 +465,13 @@ $(document).ready(function () {
                         ]
                     },
                     markLine: {
+                        label:wanyuanLabelFormatter,
                         data: [{
                             type: 'average',
                             name: '平均值'
                         }]
                     },
-                    data: [120, 132, 101, 90, 230, 210, 120, 132, 101, 101]
+                    data: zy_yiliao
                 },
                 {
                     name: '住院其他费',
@@ -444,13 +479,21 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: false,
-                            position: 'insideRight'
+                            show: true,
+                            position: 'right',
+                            formatter: function (v) {
+                                if(v.value==0){
+                                    return "";
+                                }
+                                var val=v.value / 10000;
+                                return val.toFixed(2)+'万';
+                            }
                         }
                     },
                     markPoint: {
                         data: [{
                             type: 'max',
+                            label:wanyuanLabelFormatter,
                             name: '最大值',
                             itemStyle: {
                                 normal: {
@@ -463,6 +506,7 @@ $(document).ready(function () {
                         },
                             {
                                 type: 'min',
+                                label:wanyuanLabelFormatter,
                                 name: '最小值',
                                 itemStyle: {
                                     normal: {
@@ -476,40 +520,47 @@ $(document).ready(function () {
                         ]
                     },
                     markLine: {
+                        label:wanyuanLabelFormatter,
                         data: [{
                             type: 'average',
                             name: '平均值'
                         }]
                     },
-                    data: [90, 230, 210, 120, 132, 101, 134, 90, 230, 90]
+                    data: zy_qita
                 }
 
             ]
         };
 
         // 配置项和数据（门诊科室收入排名（前十名））
+        var mz_keshi=ksmenzhen.mz_keshi;
+        var mz_yiliao=ksmenzhen.mz_yiliao;
+        var mz_yaofei=ksmenzhen.mz_yaofei;
+        var mz_qita=ksmenzhen.mz_qita;
         var option_bar_outPatientIncomeRank = {
             title: {
                 text: ' ',
-                subtext: ' 单位：元',
+                subtext: ' 单位：万元',
                 x: 'left'
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: '{a0}:{c0}k<br/>{a1}:{c1}k<br/>{a2}:{c2}k',
+                formatter: function (v) {
+                    var val=v[0].value / 10000;
+                    var val1=v[1].value / 10000;
+                    var val2=v[2].value / 10000;
+                    return v[0].name+" <br/> "+v[0].seriesName+":"+val.toFixed(2)+'万'+"<br/>"+" "+v[1].seriesName+":"+val1.toFixed(2)+'万'+"<br/>"+" "+v[2].seriesName+":"+val2.toFixed(2)+'万';
+                },
                 axisPointer: { // 坐标轴指示器，坐标轴触发有效
                     type: 'line' // 默认为直线，可选为：'line' | 'shadow'
                 }
             },
             legend: {
-                data: ['住院药费', '住院医疗费', '住院其他费'],
-                textStyle: {
-                    fontSize: 12,
-                }
+                data: ['住院药费', '住院医疗费', '住院其他费']
             },
             grid: {
                 left: '3%',
-                right: '8%',
+                right: '5%',
                 bottom: '3%',
                 containLabel: true
             },
@@ -518,15 +569,21 @@ $(document).ready(function () {
                 boundaryGap: [0, 0.01],
                 axisLabel: {
                     show: true,
-                    formatter: '{value}k',
+                    formatter: function (value) {
+                        var val=value / 10000;
+                        return val+'万';
+                    },
                     interval: 0,
                     rotate: 30,
                 }
             },
             yAxis: {
                 type: 'category',
-                data: ['肿瘤防治中心', '心血管内科', '肾移植科', '消化内科', '神经内科', '产科', '急诊科', '健康管理科', '妇科', '儿内科'],
-                name: ' '
+                data: mz_keshi,
+                axisTick: {
+                    interval: 0
+                }
+
             },
             series: [{
                 name: '住院药费',
@@ -534,13 +591,18 @@ $(document).ready(function () {
                 stack: '总量',
                 label: {
                     normal: {
-                        show: false,
-                        position: 'insideRight'
+                        show: true,
+                        position: 'insideRight',
+                        formatter: function (v) {
+                            var val=v.value / 10000;
+                            return val.toFixed(2)+'万';
+                        }
                     }
                 },
                 markPoint: {
                     data: [{
                         type: 'max',
+                        label:wanyuanLabelFormatter,
                         name: '最大值',
                         itemStyle: {
                             normal: {
@@ -553,6 +615,7 @@ $(document).ready(function () {
                     },
                         {
                             type: 'min',
+                            label:wanyuanLabelFormatter,
                             name: '最小值',
                             itemStyle: {
                                 normal: {
@@ -566,12 +629,13 @@ $(document).ready(function () {
                     ]
                 },
                 markLine: {
+                    label:wanyuanLabelFormatter,
                     data: [{
                         type: 'average',
                         name: '平均值'
                     }]
                 },
-                data: [320, 302, 301, 390, 330, 320, 320, 302, 301, 334]
+                data: mz_yaofei
             },
                 {
                     name: '住院医疗费',
@@ -579,14 +643,19 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: false,
-                            position: 'insideRight'
+                            show: true,
+                            position: 'insideRight',
+                            formatter: function (v) {
+                                var val=v.value / 10000;
+                                return val.toFixed(2)+'万';
+                            }
                         }
                     },
                     markPoint: {
                         data: [{
                             type: 'max',
                             name: '最大值',
+                            label:wanyuanLabelFormatter,
                             itemStyle: {
                                 normal: {
                                     shadowColor: 'rgba(0, 0, 0, 0.3)',
@@ -598,6 +667,7 @@ $(document).ready(function () {
                         },
                             {
                                 type: 'min',
+                                label:wanyuanLabelFormatter,
                                 name: '最小值',
                                 itemStyle: {
                                     normal: {
@@ -611,12 +681,13 @@ $(document).ready(function () {
                         ]
                     },
                     markLine: {
+                        label:wanyuanLabelFormatter,
                         data: [{
                             type: 'average',
                             name: '平均值'
                         }]
                     },
-                    data: [120, 132, 101, 90, 230, 210, 120, 132, 101, 101]
+                    data: mz_yiliao
                 },
                 {
                     name: '住院其他费',
@@ -624,13 +695,21 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: false,
-                            position: 'insideRight'
+                            show: true,
+                            position: 'right',
+                            formatter: function (v) {
+                                if(v.value==0){
+                                    return "";
+                                }
+                                var val=v.value / 10000;
+                                return val.toFixed(2)+'万';
+                            }
                         }
                     },
                     markPoint: {
                         data: [{
                             type: 'max',
+                            label:wanyuanLabelFormatter,
                             name: '最大值',
                             itemStyle: {
                                 normal: {
@@ -643,6 +722,7 @@ $(document).ready(function () {
                         },
                             {
                                 type: 'min',
+                                label:wanyuanLabelFormatter,
                                 name: '最小值',
                                 itemStyle: {
                                     normal: {
@@ -652,23 +732,21 @@ $(document).ready(function () {
                                         shadowOffsetY: 5
                                     }
                                 }
-
                             }
-
                         ]
                     },
                     markLine: {
+                        label:wanyuanLabelFormatter,
                         data: [{
                             type: 'average',
                             name: '平均值'
                         }]
                     },
-                    data: [90, 230, 210, 120, 132, 101, 134, 90, 230, 90]
+                    data: mz_qita
                 }
 
             ]
         };
-
         // 将图表显示出来
         myChart_bar_inHospiTI.setOption(option_bar_inHospiTI);
         myChart_bar_outPatientTI.setOption(option_bar_outPatientTI);

@@ -60,34 +60,64 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         List<YzcxHandleInfo> ksfeiyongList = yzcxHandleInfoMapper.selectByDateAndType(param);
         Map<String, Map<Integer, Double>> ksTypeNum = ksfeiyongList.stream().collect(Collectors.groupingBy(YzcxHandleInfo::getName, Collectors.groupingBy(YzcxHandleInfo::getHandletype, Collectors.summingDouble(YzcxHandleInfo::getCount))));
         List<YzcxHandleInfo_FeiYong> ksFeiYongInfoList = YZCXscheduleMapToListHandler.getKSFeiyong(ksTypeNum);
-        Collections.sort(ksFeiYongInfoList, Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getZhuyuanZong).reversed());
-        List<YzcxHandleInfo_FeiYong> zhuyuanqianshi = ksFeiYongInfoList.stream().limit(10).collect(Collectors.toList());
-        Map<String, List<Number>> zhuyuanksfeiyongMap = new HashMap<>();
-        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_yiliao, zhuyuanqianshi.stream().map(item -> {
-            return item.getZhuyuanyiliaofei();
-        }).collect(Collectors.toList()));
-        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_yaofei, zhuyuanqianshi.stream().map(item -> {
-            return item.getZhuyuanyaofei();
-        }).collect(Collectors.toList()));
-        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_qita, zhuyuanqianshi.stream().map(item -> {
-            return item.getZhuyuanqitafei();
-        }).collect(Collectors.toList()));
-        HighchartsConfig_bar kszhuyuanpaimingChart = HighChartBuilder.builderHighchartsConfig_bar(zhuyuanqianshi.stream().map(item -> {
-            return item.getKsname();
-        }).collect(Collectors.toList()), "单位：元", zhuyuanksfeiyongMap, true);
-        Collections.sort(ksFeiYongInfoList, Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getMenzhenZong).reversed());
-        List<YzcxHandleInfo_FeiYong> menzhenqianshi = ksFeiYongInfoList.stream().limit(10).collect(Collectors.toList());
-        Map<String, List<Number>> menzhenksfeiyongMap = new HashMap<>();
-        menzhenksfeiyongMap.put(YZCXConstant.menzhen_yiliao, menzhenqianshi.stream().map(item -> {
-            return item.getMenzhenyiliaofei();
-        }).collect(Collectors.toList()));
-        menzhenksfeiyongMap.put(YZCXConstant.menzhen_yaofei, menzhenqianshi.stream().map(item -> {
-            return item.getMenzhenyaofei();
-        }).collect(Collectors.toList()));
-        menzhenksfeiyongMap.put(YZCXConstant.menzhen_qita, menzhenqianshi.stream().map(item -> {
-            return item.getMenzhenqitafei();
-        }).collect(Collectors.toList()));
-        HighchartsConfig_bar ksmenzhenpaimingChart = HighChartBuilder.builderHighchartsConfig_bar(menzhenqianshi.stream().map(item -> item.getKsname()).collect(Collectors.toList()), "单位：元", menzhenksfeiyongMap, true);
+        List<String> zy_keshi=new ArrayList<>();
+        List<Double> zy_yiliao=new ArrayList<>();
+        List<Double> zy_yaofei=new ArrayList<>();
+        List<Double> zy_qita=new ArrayList<>();
+        ksFeiYongInfoList.stream().sorted(Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getZhuyuanZong).reversed()).limit(10).sorted(Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getZhuyuanZong)).forEach(item->{
+            zy_yiliao.add(item.getZhuyuanyiliaofei());
+            zy_yaofei.add(item.getZhuyuanyaofei());
+            zy_qita.add(item.getZhuyuanqitafei());
+            zy_keshi.add(item.getKsname());
+        });
+        Map<String,Object> zyksdata=new HashMap<>();
+        zyksdata.put("zy_keshi",zy_keshi);
+        zyksdata.put("zy_yiliao",zy_yiliao);
+        zyksdata.put("zy_yaofei",zy_yaofei);
+        zyksdata.put("zy_qita",zy_qita);
+//        Collections.sort(ksFeiYongInfoList, Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getZhuyuanZong).reversed());
+//        List<YzcxHandleInfo_FeiYong> zhuyuanqianshi = ksFeiYongInfoList.stream().limit(10).collect(Collectors.toList());
+//        Map<String, List<Number>> zhuyuanksfeiyongMap = new HashMap<>();
+//        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_yiliao, zhuyuanqianshi.stream().map(item -> {
+//            return item.getZhuyuanyiliaofei();
+//        }).collect(Collectors.toList()));
+//        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_yaofei, zhuyuanqianshi.stream().map(item -> {
+//            return item.getZhuyuanyaofei();
+//        }).collect(Collectors.toList()));
+//        zhuyuanksfeiyongMap.put(YZCXConstant.zhuyuan_qita, zhuyuanqianshi.stream().map(item -> {
+//            return item.getZhuyuanqitafei();
+//        }).collect(Collectors.toList()));
+//        HighchartsConfig_bar kszhuyuanpaimingChart = HighChartBuilder.builderHighchartsConfig_bar(zhuyuanqianshi.stream().map(item -> {
+//            return item.getKsname();
+//        }).collect(Collectors.toList()), "单位：元", zhuyuanksfeiyongMap, true);
+//        Collections.sort(ksFeiYongInfoList, Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getMenzhenZong).reversed());
+//        List<YzcxHandleInfo_FeiYong> menzhenqianshi = ksFeiYongInfoList.stream().limit(10).collect(Collectors.toList());
+//        Map<String, List<Number>> menzhenksfeiyongMap = new HashMap<>();
+//        menzhenksfeiyongMap.put(YZCXConstant.menzhen_yiliao, menzhenqianshi.stream().map(item -> {
+//            return item.getMenzhenyiliaofei();
+//        }).collect(Collectors.toList()));
+//        menzhenksfeiyongMap.put(YZCXConstant.menzhen_yaofei, menzhenqianshi.stream().map(item -> {
+//            return item.getMenzhenyaofei();
+//        }).collect(Collectors.toList()));
+//        menzhenksfeiyongMap.put(YZCXConstant.menzhen_qita, menzhenqianshi.stream().map(item -> {
+//            return item.getMenzhenqitafei();
+//        }).collect(Collectors.toList()));
+//        HighchartsConfig_bar ksmenzhenpaimingChart = HighChartBuilder.builderHighchartsConfig_bar(menzhenqianshi.stream().map(item -> item.getKsname()).collect(Collectors.toList()), "单位：元", menzhenksfeiyongMap, true);
+        List<String> mz_keshi=new ArrayList<>();
+        List<Double> mz_yiliao=new ArrayList<>();
+        List<Double> mz_yaofei=new ArrayList<>();
+        List<Double> mz_qita=new ArrayList<>();
+        ksFeiYongInfoList.stream().sorted(Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getMenzhenZong).reversed()).limit(10).sorted(Comparator.comparingDouble(YzcxHandleInfo_FeiYong::getMenzhenZong)).forEach(item->{
+            mz_yiliao.add(item.getMenzhenyiliaofei());
+            mz_yaofei.add(item.getMenzhenyaofei());
+            mz_qita.add(item.getMenzhenqitafei());
+            mz_keshi.add(item.getKsname());
+        });
+        Map<String,Object> mzksdata=new HashMap<>();
+        mzksdata.put("mz_keshi",mz_keshi);
+        mzksdata.put("mz_yiliao",mz_yiliao);
+        mzksdata.put("mz_yaofei",mz_yaofei);
+        mzksdata.put("mz_qita",mz_qita);
         ////////////////////////////////////////////////
         double zhuyuan = zhuyuanYiLiao + zhuyuanQiTa + zhuyuanYao;
         double menzhen = menzhenYiLiao + menzhenQiTa + menzhenYao;
@@ -126,8 +156,8 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         ///////
         rs.put("zhuyuan", Arrays.asList(zhuyuanYiLiao, zhuyuanYao, zhuyuanQiTa));
         rs.put("menzhen", Arrays.asList(menzhenYiLiao, menzhenYao, menzhenQiTa));
-        rs.put("kszhuyuan", kszhuyuanpaimingChart);
-        rs.put("ksmenzhen", ksmenzhenpaimingChart);
+        rs.put("kszhuyuan", zyksdata);
+        rs.put("ksmenzhen", mzksdata);
         rs.put("zhuyuanPie_mzzybi", menzhenZhuYuanPie);
         rs.put("zhuyuanPie_ylypqt", ylypqtYuanPie);
         rs.put("dataNum", feiYongIndexData);
