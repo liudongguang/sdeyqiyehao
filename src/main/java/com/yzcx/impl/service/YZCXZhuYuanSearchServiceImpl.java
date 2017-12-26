@@ -38,7 +38,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
     public ZyxxIndex getIndexZhuYuanForDay(YZCXSearchParam param) throws ParseException {
         List<Integer> zyxxType = Arrays.asList(YZCXConstant.zhuyuan_brqk, YZCXConstant.zhuyuan_cyfs,
                 YZCXConstant.zhuyuan_chuyuanRenshu, YZCXConstant.zhuyuan_ruyuanrenshu,
-                YZCXConstant.zhuyuan_zhuanchuKS, YZCXConstant.zhuyuan_zhuanruKS,YZCXConstant.zhuyuan_zaiyuan);
+                YZCXConstant.zhuyuan_zhuanchuKS, YZCXConstant.zhuyuan_zhuanruKS, YZCXConstant.zhuyuan_zaiyuan);
         param.setHandletype(zyxxType);
         final List<YzcxHandleInfoDay> yzcxHandleInfoDays = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         final Map<Integer, List<YzcxHandleInfoDay>> zhuyuanMap = yzcxHandleInfoDays.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype));
@@ -58,7 +58,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setRuyuan(ruyuanrs.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         }
         if (brqk != null) {
-            Map<String, Double> brqkMap = brqk.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName,Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+            Map<String, Double> brqkMap = brqk.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
             Double bws = brqkMap.get(YZCXConstant.zhuyuan_brqk_bingwei);//病危
             Double bzs = brqkMap.get(YZCXConstant.zhuyuan_brqk_bingzhong);//病重数
             if (bws == null) {
@@ -70,7 +70,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setWeizhong(bws + bzs);
         }
         if (cyfs != null) {
-            Map<String, Double> cyfsMap = cyfs.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName,Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+            Map<String, Double> cyfsMap = cyfs.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
             Double sws = cyfsMap.get(YZCXConstant.zhuyuan_cyfs_siwang);
             index.setSiwang(sws);
         }
@@ -81,19 +81,19 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setZhuanru(zhuanruks.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         }
         /////////////////////////////////////////////////////////////////获取前一天的床位信息
-        YZCXSearchParam beforeDayparam= YZCXControllerUtil.getBeforeDayByNum(1);
-        beforeDayparam.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_keshishizhan,YZCXConstant.zhuyuan_keshikaifang));
+        YZCXSearchParam beforeDayparam = YZCXControllerUtil.getBeforeDayByNum(1);
+        beforeDayparam.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_keshishizhan, YZCXConstant.zhuyuan_keshikaifang));
         final List<YzcxHandleInfo> chuangweiList = yzcxHandleInfoMapper.selectByDateAndType(beforeDayparam);
         final Map<Integer, Double> keshiChuangweiMap = chuangweiList.stream().collect(Collectors.groupingBy(YzcxHandleInfo::getHandletype, Collectors.summingDouble(YzcxHandleInfo::getCount)));
         Double shizhan = keshiChuangweiMap.get(YZCXConstant.zhuyuan_keshishizhan);
         Double kaifang = keshiChuangweiMap.get(YZCXConstant.zhuyuan_keshikaifang);
         index.setShizhan(shizhan);
         index.setKaifang(kaifang);
-        if(shizhan!=null&&shizhan!=0&&kaifang!=null&&kaifang!=0){
-            index.setCwshiyonglv(shizhan/kaifang);
+        if (shizhan != null && shizhan != 0 && kaifang != null && kaifang != 0) {
+            index.setCwshiyonglv(shizhan / kaifang);
         }
         //////////////////////////////在院
-        if(zaiyuan!=null){
+        if (zaiyuan != null) {
             YzcxHandleInfoDay yzcxHandleInfoDay = zaiyuan.get(0);
             index.setZaiyuanNum(yzcxHandleInfoDay.getCount());
         }
@@ -140,7 +140,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
                 newObj.setCount(sumRenshu);
                 ksAndSumRenshuList.add(newObj);
             });
-            List<YzcxHandleInfoDay> qianshiKsRuYuan = ksAndSumRenshuList.stream().sorted(Comparator.comparing(YzcxHandleInfoDay::getCount).reversed()).limit(10).collect(Collectors.toList());
+            List<YzcxHandleInfoDay> qianshiKsRuYuan = ksAndSumRenshuList.stream().sorted(Comparator.comparing(YzcxHandleInfoDay::getCount).reversed()).limit(10).sorted(Comparator.comparing(YzcxHandleInfoDay::getCount)).collect(Collectors.toList());
             List<String> category_ruyuan = new ArrayList<>();
             List<Number> ruyuanData = new ArrayList<>();
             qianshiKsRuYuan.forEach(item -> {
@@ -150,29 +150,29 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
 //            Map<String, List<Number>> nameAndData_ksryqs = new HashMap<>();
 //            nameAndData_ksryqs.put("入院人数", ruyuanData);
             /////////////////////////////////////////////////////////////////////////床位信息
-            YZCXSearchParam beforeDayparam= YZCXControllerUtil.getBeforeDayByNum(1);
-            beforeDayparam.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_keshishizhan,YZCXConstant.zhuyuan_keshikaifang));
+            YZCXSearchParam beforeDayparam = YZCXControllerUtil.getBeforeDayByNum(1);
+            beforeDayparam.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_keshishizhan, YZCXConstant.zhuyuan_keshikaifang));
             final List<YzcxHandleInfo> chuangweiList = yzcxHandleInfoMapper.selectByDateAndType(beforeDayparam);
             final Map<String, Map<Integer, Double>> keshiType = chuangweiList.stream().collect(Collectors.groupingBy(YzcxHandleInfo::getName, Collectors.groupingBy(YzcxHandleInfo::getHandletype, Collectors.summingDouble(YzcxHandleInfo::getCount))));
-            List<ZyxxKeshiChuanwei> cwList=new ArrayList<>();
-            keshiType.forEach((keshiName,typeAndSum)->{
+            List<ZyxxKeshiChuanwei> cwList = new ArrayList<>();
+            keshiType.forEach((keshiName, typeAndSum) -> {
                 Double shizhan = typeAndSum.get(YZCXConstant.zhuyuan_keshishizhan);
-                Double kaifang=typeAndSum.get(YZCXConstant.zhuyuan_keshikaifang);
-                ZyxxKeshiChuanwei zyxxKeshiChuanwei=new ZyxxKeshiChuanwei();
+                Double kaifang = typeAndSum.get(YZCXConstant.zhuyuan_keshikaifang);
+                ZyxxKeshiChuanwei zyxxKeshiChuanwei = new ZyxxKeshiChuanwei();
                 zyxxKeshiChuanwei.setShizhan(shizhan);
                 zyxxKeshiChuanwei.setKaifang(kaifang);
                 zyxxKeshiChuanwei.setKsname(keshiName);
-                if(shizhan!=null&&shizhan!=0&&kaifang!=null&&kaifang!=0){
-                    zyxxKeshiChuanwei.setCwshiyonglv(shizhan/kaifang);
+                if (shizhan != null && shizhan != 0 && kaifang != null && kaifang != 0) {
+                    zyxxKeshiChuanwei.setCwshiyonglv(shizhan / kaifang);
                 }
                 cwList.add(zyxxKeshiChuanwei);
             });
 
-            List<ZyxxKeshiChuanwei> shiyonglvQianshi = cwList.stream().filter(item -> item.getCwshiyonglv() != null ? true : false).sorted(Comparator.comparing(ZyxxKeshiChuanwei::getCwshiyonglv).reversed()).limit(10).collect(Collectors.toList());
+            List<ZyxxKeshiChuanwei> shiyonglvQianshi = cwList.stream().filter(item -> item.getCwshiyonglv() != null ? true : false).sorted(Comparator.comparing(ZyxxKeshiChuanwei::getCwshiyonglv).reversed()).limit(10).sorted(Comparator.comparing(ZyxxKeshiChuanwei::getCwshiyonglv)).collect(Collectors.toList());
             List<String> category_chuangwei = new ArrayList<>();
             List<Number> ksshizhan = new ArrayList<>();
             List<Number> kskaifang = new ArrayList<>();
-            shiyonglvQianshi.forEach(item->{
+            shiyonglvQianshi.forEach(item -> {
                 category_chuangwei.add(item.getKsname());
                 ksshizhan.add(item.getShizhan());
                 kskaifang.add(item.getKaifang());
@@ -183,22 +183,22 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
 //            nameAndData_chuangweisyl.put("开放床位", kskaifang);
             ////////////////////
             //GsonOption echartOption = EchartsBuilder.buildEchartOption_line(" ", "入院人次波动图", category, nameAndData);
-           // GsonOption echartOption_ruyuanqianshi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuan, nameAndData_ksryqs, false);
+            // GsonOption echartOption_ruyuanqianshi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuan, nameAndData_ksryqs, false);
             //GsonOption echartOption_chuangweishu = EchartsBuilder.buildEchartOption_bar(" ", " ", category_chuangwei, nameAndData_chuangweisyl, false);
-            Map<String,Object> rybodong=new HashMap<>();
-            rybodong.put("category",category);
-            rybodong.put("zhexianNum",zhexianNum);
+            Map<String, Object> rybodong = new HashMap<>();
+            rybodong.put("category", category);
+            rybodong.put("zhexianNum", zhexianNum);
             rs.put("rybd", rybodong);
             /////////////////////////////////////////
-            Map<String,Object> ksry=new HashMap<>();
-            ksry.put("category",category_ruyuan);
-            ksry.put("ruyuanData",ruyuanData);
+            Map<String, Object> ksry = new HashMap<>();
+            ksry.put("category", category_ruyuan);
+            ksry.put("ruyuanData", ruyuanData);
             rs.put("ksry", ksry);
             /////////////////////////////////////////
-            Map<String,Object> chuangwei=new HashMap<>();
-            chuangwei.put("category",category_chuangwei);
-            chuangwei.put("ksshizhan",ksshizhan);
-            chuangwei.put("kskaifang",kskaifang);
+            Map<String, Object> chuangwei = new HashMap<>();
+            chuangwei.put("category", category_chuangwei);
+            chuangwei.put("ksshizhan", ksshizhan);
+            chuangwei.put("kskaifang", kskaifang);
             rs.put("chuangwei", chuangwei);
         }
         return rs;
@@ -227,7 +227,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setRuyuan(ruyuanrs.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         }
         if (brqk != null) {
-            Map<String, Double> brqkMap = brqk.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName,Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+            Map<String, Double> brqkMap = brqk.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
             Double bws = brqkMap.get(YZCXConstant.zhuyuan_brqk_bingwei);//病危
             Double bzs = brqkMap.get(YZCXConstant.zhuyuan_brqk_bingzhong);//病重数
             if (bws == null) {
@@ -239,7 +239,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setWeizhong(bws + bzs);
         }
         if (cyfs != null) {
-            Map<String, Double> cyfsMap = cyfs.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName,Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+            Map<String, Double> cyfsMap = cyfs.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
             Double sws = cyfsMap.get(YZCXConstant.zhuyuan_cyfs_siwang);
             index.setSiwang(sws);
         }
@@ -250,15 +250,15 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             index.setZhuanru(zhuanruks.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         }
         /////////////////////////////////////////////////////////////////床位
-        param.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_keshishizhan,YZCXConstant.zhuyuan_keshikaifang));
-        final List<YzcxHandleInfoMonth> chuangweiList =yzcxCommonService.getMonthDataByParam(param);
+        param.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_keshishizhan, YZCXConstant.zhuyuan_keshikaifang));
+        final List<YzcxHandleInfoMonth> chuangweiList = yzcxCommonService.getMonthDataByParam(param);
         final Map<Integer, Double> keshiChuangweiMap = chuangweiList.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getHandletype, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         Double shizhan = keshiChuangweiMap.get(YZCXConstant.zhuyuan_keshishizhan);
         Double kaifang = keshiChuangweiMap.get(YZCXConstant.zhuyuan_keshikaifang);
         index.setShizhan(shizhan);
         index.setKaifang(kaifang);
-        if(shizhan!=null&&shizhan!=0&&kaifang!=null&&kaifang!=0){
-            index.setCwshiyonglv(shizhan/kaifang);
+        if (shizhan != null && shizhan != 0 && kaifang != null && kaifang != 0) {
+            index.setCwshiyonglv(shizhan / kaifang);
         }
         return index;
     }
@@ -274,7 +274,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         Map<String, List<Number>> nameAndData_ruyuan = new HashMap<>();
         List<String> category_ruyuan = new ArrayList<>();
         List<Number> ksshizhan = new ArrayList<>();
-        everyDayRuYuan.forEach((dateStr,SumNumber)->{
+        everyDayRuYuan.forEach((dateStr, SumNumber) -> {
             ksshizhan.add(SumNumber);
             category_ruyuan.add(dateStr);
         });
@@ -349,7 +349,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         List<String> category_ruyuan_tongqi = new ArrayList<>();
         String currentDateStr = LdgDateUtil.getYearHanzi(yzcxSearchParam.getStart());
         List<YzcxHandleInfoMonth> currentlist = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);
-        yzcxSearchParam=YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);//获取前一年同月日期
+        yzcxSearchParam = YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);//获取前一年同月日期
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.zhuyuan_chuyuanRenshu));
         String qunianDateStr = LdgDateUtil.getYearHanzi(yzcxSearchParam.getStart());
         List<YzcxHandleInfoMonth> qunianlist = yzcxHandleInfoMonthMapper.selectByDateAndType(yzcxSearchParam);

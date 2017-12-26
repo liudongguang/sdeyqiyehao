@@ -117,7 +117,7 @@
                 </div>
                 <div class="mui-card">
                     <div class="mui-card-header">入院人次波动图</div>
-                    <div id="ri-ryrc" class="chart-box" style="width: 100%;height:450px;"></div>
+                    <div id="ri-ryrc" class="chart-box" style="width: 100%;height:300px;"></div>
                 </div>
                 <div class="mui-card">
                     <div class="mui-card-header">床位情况</div>

@@ -11,6 +11,9 @@ $(document).ready(function () {
 
 
     ajaxRequest("webyzcxFeiYong/indexChart", null, function (data) {
+        if(!data.zhuyuan){
+            return false;
+        }
         var zhuyuan = data.zhuyuan;
         var menzhen = data.menzhen;
         var kszhuyuan = data.kszhuyuan;
