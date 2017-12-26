@@ -2,6 +2,8 @@
     position: absolute;
     background-color: #FFFFFF;
     z-index: 300;
+    top: 92px;
+    left: 9px;
 }
 .bdsug li {
     color: #000;
@@ -9,7 +11,7 @@
     font: 14px/22px arial;
     padding: 0 8px;
     position: relative;
-    width: 522px;
+    width: 350px;
 }
 .bdsug-overflow{
     overflow: hidden;

@@ -33,17 +33,18 @@
         <!--搜索-->
         <div class="searchBox">
             <div class="mui-input-row mui-search">
-                <input type="search" class="mui-input-clear search" placeholder="住院号码或病人姓名"
+                <input type="search" class="mui-input-clear search" placeholder="科室名称"
                        fangbaidu_searurl="hisoffice/searchKS">
                 <input type="hidden" value="6" id="navNum"/>
                 <input type="hidden" value="" id="pageNumID"/>
                 <input type="hidden" value="" id="ksNameID"/>
-                <div id="disRSDIVID" class="bdsug" style="height: auto; display: none;">
-                    <ul id="addULID">
-                    </ul>
-                </div>
+            </div>
+            <div id="disRSDIVID" class="bdsug" style="height: auto; display: none;">
+                <ul id="addULID">
+                </ul>
             </div>
         </div>
+
         <!--列表-->
         <!------------页面内容容器------------>
                 <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
@@ -57,23 +58,23 @@
                                        class="center datatable listTable">
                                     <thead>
                                     <tr>
-                                        <td>序号</td>
-                                        <td>住院号码</td>
-                                        <td>病人姓名</td>
+                                        <td>所在科室</td>
+                                        <td>患者姓名</td>
+                                        <td>手术名称</td>
+                                        <td>手术医生</td>
                                         <td>操作</td>
                                     </tr>
                                     </thead>
                                     <tbody id="ssinfoID">
                                     </tbody>
                                 </table>
-
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <!--侧滑栏出现后，主页面遮罩层-->
         <div class="mui-off-canvas-backdrop"></div>
         <script language="javascript" type="text/javascript" src="assets/minirefresh/minirefresh.js"></script>
