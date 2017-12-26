@@ -54,9 +54,8 @@ $(document).ready(function () {
         var jieshou=data.jieshou;
         var option = {
             "backgroundColor": "#ffffff",
-            "title": {"text": " ", "subtext": "日入院人次"},
             "tooltip": {"trigger": "axis"},
-            "legend": {"data": ["入院情况"]},
+            "legend": {"data": ["会诊申请","会诊接受"]},
             "grid": {"left": 80},
             "xAxis": [{"type": "value"}],
             "yAxis": [{
