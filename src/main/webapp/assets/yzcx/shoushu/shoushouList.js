@@ -49,7 +49,7 @@ function handlerData(data, clickState) {
     var pageNum = data.pageNum;
     var pages = data.pages;
     $("#pageNumID").val(parseInt(pageNum) + 1);
-    console.log(pageNum + "    " + pages);
+    //console.log(pageNum + "    " + pages);
     if (pageNum < pages) {
         miniRefresh.endUpLoading(false);
     } else {
