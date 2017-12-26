@@ -28,7 +28,7 @@
         <!------------页面主标题 ------------>
         <header class="mui-bar mui-bar-nav">
             <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
-            <h1 class="mui-title">全院收入情况表</h1>
+            <h1 class="mui-title">全院收入情况</h1>
         </header>
 
         <!------------页面内容容器------------>

@@ -26,7 +26,7 @@
         <!------------页面主标题 ------------>
         <header class="mui-bar mui-bar-nav">
             <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
-            <h1 class="mui-title">门诊信息</h1>
+            <h1 class="mui-title">全院门诊情况</h1>
         </header>
         <!------------页面内容容器------------>
         <div id="offCanvasContentScroll" class="mui-content  mui-scroll-wrapper">

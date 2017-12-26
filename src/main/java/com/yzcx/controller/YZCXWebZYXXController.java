@@ -57,7 +57,8 @@ public class YZCXWebZYXXController {
 
     @RequestMapping(value = "/zhuyuan_year")
     public String zhuyuan_year(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-
+        YZCXSearchParam yzcxSearchParam = YZCXControllerUtil.getSearchParamForYear(param);
+        request.setAttribute(YZCXConstant.obj, yzcxSearchParam);
         return "/yzcx/zhuyuan/zy_year.jsp";
     }
     @RequestMapping(value = "/zhuyuan_year_chart")

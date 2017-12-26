@@ -32,7 +32,7 @@
         <!------------页面主标题 ------------>
         <header class="mui-bar mui-bar-nav">
             <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
-            <h1 class="mui-title">全院住院情况表</h1>
+            <h1 class="mui-title">全院住院情况</h1>
         </header>
         <!--日期选择及时间段入口-->
         <ul class="selectDate-box" style="margin-top: 44px;">

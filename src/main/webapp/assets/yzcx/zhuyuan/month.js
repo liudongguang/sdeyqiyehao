@@ -212,9 +212,6 @@ $(document).ready(function () {
             tooltip: {
                 trigger: 'axis'
             },
-            legend: {
-                data: ['门诊量', '急诊量']
-            },
             grid: {
                 left: '4%',
                 right: '5%',
