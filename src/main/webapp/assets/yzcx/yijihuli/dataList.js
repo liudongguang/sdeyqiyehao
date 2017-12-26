@@ -1,6 +1,10 @@
 var miniRefresh =null;
 var $infoID = $("#infoID");
 $(document).ready(function () {
+    initTapHandler();
+    //主界面和侧滑菜单界面均支持区域滚动；
+    mui('#offCanvasSideScroll').scroll();
+    mui('#offCanvasContentScroll').scroll();
     miniRefresh = new MiniRefresh({
         container: '#minirefresh',
         down: {
