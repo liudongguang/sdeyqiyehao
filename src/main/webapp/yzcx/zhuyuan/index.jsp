@@ -34,16 +34,6 @@
             <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
             <h1 class="mui-title">全院住院情况表</h1>
         </header>
-        <!--日期选择及时间段入口-->
-        <ul class="selectDate-box" style="margin-top: 44px;">
-            <li data-options='{"type":"month","beginYear":2010,"endYear":2020}' class="btn">
-                <span class="mui-icon iconfont icon-shijianxuanze"></span>
-                <span id="result"><fmt:formatDate value="${obj.param.start}" pattern="yyyy-MM"></fmt:formatDate></span>
-            </li>
-            <li>
-                <span url="webyzcxZyxx/zhuyuan_yue_page">查看月住院</span>
-            </li>
-        </ul>
         <!------------页面内容容器------------>
         <div id="offCanvasContentScroll" class="mui-content  mui-scroll-wrapper">
             <div class="mui-content-padded">
@@ -52,7 +42,7 @@
                     <div class="mui-card-header">在院人数<fmt:formatNumber type="number" value="${obj.zaiyuanNum}"
                                                                        pattern="0"
                                                                        maxFractionDigits="0"/>
-                        <span url="webyzcx/menzhen_yue">
+                        <span url="webyzcxZyxx/zhuyuan_yue_page">
                             月住院
                         </span>
                     </div>

@@ -272,13 +272,16 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             return YzcxHandleInfoFactory.createYzcxHandleInfoExtForEveryDay(item.getHandledate(), item.getCount(), item.getName());
         }).collect(Collectors.groupingBy(YzcxHandleInfoExt::getHandledateStr, LinkedHashMap::new, Collectors.summingDouble(YzcxHandleInfoExt::getCount)));
         Map<String, List<Number>> nameAndData_ruyuan = new HashMap<>();
-        List<String> category_ruyuan = new ArrayList<>();
-        List<Number> ksshizhan = new ArrayList<>();
+        List<String> category_rydays = new ArrayList<>();
+        List<Number> ksruyuanrs = new ArrayList<>();
         everyDayRuYuan.forEach((dateStr, SumNumber) -> {
-            ksshizhan.add(SumNumber);
-            category_ruyuan.add(dateStr);
+            ksruyuanrs.add(SumNumber);
+            category_rydays.add(dateStr);
         });
-        nameAndData_ruyuan.put("入院情况", ksshizhan);
+        Map<String,Object> everyDayData=new HashMap<>();
+        everyDayData.put("category_rydays",category_rydays);
+        everyDayData.put("ksruyuanrs",ksruyuanrs);
+        //nameAndData_ruyuan.put("入院情况", ksshizhan);
         ////////////////////////////////////////////////
         List<YzcxHandleInfoMonth> keshiruyuanList = yzcxCommonService.getMonthDataByParam(yzcxSearchParam);
         final Map<String, Double> ksAndRyNum = keshiruyuanList.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
@@ -289,15 +292,18 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
             newObj.setCount(sumRenshu);
             ksAndSumRenshuList.add(newObj);
         });
-        List<YzcxHandleInfoDay> qianshiKsRuYuan = ksAndSumRenshuList.stream().sorted(Comparator.comparing(YzcxHandleInfoDay::getCount).reversed()).limit(10).collect(Collectors.toList());
+        List<YzcxHandleInfoDay> qianshiKsRuYuan = ksAndSumRenshuList.stream().sorted(Comparator.comparing(YzcxHandleInfoDay::getCount).reversed()).limit(10).sorted(Comparator.comparing(YzcxHandleInfoDay::getCount)).collect(Collectors.toList());
         List<String> category_ruyuanks = new ArrayList<>();
         List<Number> ruyuanData = new ArrayList<>();
         qianshiKsRuYuan.forEach(item -> {
             category_ruyuanks.add(item.getName());
             ruyuanData.add(item.getCount());
         });
-        Map<String, List<Number>> nameAndData_ksryqs = new HashMap<>();
-        nameAndData_ksryqs.put("科室入院人数", ruyuanData);
+        Map<String,Object> ksryData=new HashMap<>();
+        ksryData.put("category_ruyuanks",category_ruyuanks);
+        ksryData.put("ruyuanData",ruyuanData);
+//        Map<String, List<Number>> nameAndData_ksryqs = new HashMap<>();
+//        nameAndData_ksryqs.put("科室入院人数", ruyuanData);
         ////////////////////////////////////////////////////////////////////同期分析
         final Double jinnianSum = keshiruyuanList.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
         final YZCXSearchParam qunianParam = YZCXControllerUtil.getSearchParamBeforeOneYear(yzcxSearchParam);
@@ -307,20 +313,22 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         List<String> category_ruyuanks_tongqi = new ArrayList<>();
         category_ruyuanks_tongqi.add(LdgDateUtil.get_zhongwen_yyyyMM(qunianParam.getStart()));
         category_ruyuanks_tongqi.add(LdgDateUtil.get_zhongwen_yyyyMM(yzcxSearchParam.getStart()));
-        List<Number> ruyuanData_tongqi_qunian = new ArrayList<>();
-        ruyuanData_tongqi_qunian.add(qunianSum);
-        ruyuanData_tongqi_qunian.add(jinnianSum);
-        Map<String, List<Number>> nameAndData_ksryqs_tongqi = new HashMap<>();
-        nameAndData_ksryqs_tongqi.put("入院人数", ruyuanData_tongqi_qunian);
-
+        List<Number> ruyuanData_tongqi = new ArrayList<>();
+        ruyuanData_tongqi.add(qunianSum);
+        ruyuanData_tongqi.add(jinnianSum);
+        //Map<String, List<Number>> nameAndData_ksryqs_tongqi = new HashMap<>();
+        //nameAndData_ksryqs_tongqi.put("入院人数", ruyuanData_tongqi_qunian);
+        Map<String,Object> tongqiData=new HashMap<>();
+        tongqiData.put("category_ruyuanks_tongqi",category_ruyuanks_tongqi);
+        tongqiData.put("ruyuanData_tongqi_qunian",ruyuanData_tongqi);
         ///////////////////
-        GsonOption echartOption_ruyuan = EchartsBuilder.buildEchartOption_bar(" ", "日入院人次", category_ruyuan, nameAndData_ruyuan, false);
-        GsonOption echartOption_ruyuanks = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuanks, nameAndData_ksryqs, false);
-        GsonOption echartOption_ruyuanks_tongqi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuanks_tongqi, nameAndData_ksryqs_tongqi, true);
+      //  GsonOption echartOption_ruyuan = EchartsBuilder.buildEchartOption_bar(" ", "日入院人次", category_ruyuan, nameAndData_ruyuan, false);
+       // GsonOption echartOption_ruyuanks = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuanks, nameAndData_ksryqs, false);
+        //GsonOption echartOption_ruyuanks_tongqi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuanks_tongqi, nameAndData_ksryqs_tongqi, true);
         Map<String, Object> rs = new HashMap<>();
-        rs.put("echartOption", echartOption_ruyuan.toString());
-        rs.put("echartOption_ruyuanks", echartOption_ruyuanks.toString());
-        rs.put("echartOption_ruyuanks_tongqi", echartOption_ruyuanks_tongqi.toString());
+        rs.put("everyDayData",everyDayData);
+        rs.put("ksryData", ksryData);
+        rs.put("tongqiData", tongqiData);
         return rs;
     }
 
