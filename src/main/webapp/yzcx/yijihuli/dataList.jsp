@@ -82,7 +82,6 @@
         <script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
         <script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
         <script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
-        <script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
         <script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
         <script language="javascript" type="text/javascript" src="assets/yzcx/echarts/echarts.common.min.js"></script>
         <script language="javascript" type="text/javascript" src="assets/yzcx/echarts/wonderland.js"></script>

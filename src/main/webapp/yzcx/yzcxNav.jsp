@@ -60,5 +60,6 @@
 </aside>
 <!------------页面主标题 ------------>
 <script src="assets/yzcx/js/jquery-1.8.0.min.js"></script>
+<script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
 <script src="assets/yzcx/yzcxNav.js"></script>
 

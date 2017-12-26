@@ -227,12 +227,15 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 };
 function initTapHandler() {
-   $("span[url]").click(function () {
+   $("span[url]").on('tap',function (e) {
        var href=$(this).attr("url");
        layer.load(0, {
            shade: [0.8, '#fff']
        });
        mui.openWindow({ url:href, id:'detail' });
+       e.stopPropagation();
+       e.preventDefault();
+       return false;
    });
 }
 

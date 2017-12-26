@@ -80,14 +80,14 @@ function handlerData(data,clickState){
             tzsj: tzsjDate,
             yzmc: yzmc
         });
-        appendStr.click(function () {
+        appendStr.on("tap",function () {
             var $this = $(this);
             layer.open({
                 type: 2,
                 title: '手术详情',
                 shadeClose: true,
                 shade: 0.8,
-                area: ['80%', '70%'],
+                area: ['80%', '75%'],
                 content: 'yzcx/yijihuli/disOne.jsp?zyhm=' +
                 $this.attr("zyhm") +
                 "&brxm=" + $this.attr("brxm")

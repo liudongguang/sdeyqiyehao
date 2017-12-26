@@ -79,7 +79,7 @@ function handlerData(data, clickState) {
             brnl: brnl,
             brxb: brxb
         });
-        appendStr.click(function () {
+        appendStr.on("tap",function () {
             var $this = $(this);
             layer.open({
                 type: 2,
