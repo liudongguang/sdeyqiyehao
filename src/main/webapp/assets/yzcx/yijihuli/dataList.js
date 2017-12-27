@@ -1,4 +1,4 @@
-var miniRefresh =null;
+var muithis =null;
 var $infoID = $("#infoID");
 $(document).ready(function () {
     initTapHandler();
@@ -19,7 +19,7 @@ $(document).ready(function () {
                         pageNumInputVal = 1;
                     }
                     var ksNameIDVal=$("#ksNameID").val();
-                    var muithis=this;
+                    muithis=this;
                     ajaxRequest("webyzcxyjhlxx/pageinfo", {pageNum: parseInt(pageNumInputVal),"ksName":ksNameIDVal}, function (data) {
                         handlerData(data,false,muithis)
                         if(pageNumInputVal!=1){
@@ -63,7 +63,7 @@ function handlerData(data,clickState,muithis){
             var tzsjDate = new Date(tzsj);
             var tzsjDate = tzsjDate.Format("yyyy-MM-dd hh:mm:ss");
         }
-        var appendStr = $("<tr><td>" + brks + "</td><td>" + brxm + "</td><td>" + kssjDate + "</td><td>" + tzsjDate + "</td><td><span class=\"mui-icon iconfont icon-xiangqing1\"></span></td></tr>");
+        var appendStr = $("<tr><td>" + brks + "</td><td>" + brxm + "</td><td>" + kssjDate + "</td><td>" + tzsjDate + "</td></tr>");
         appendStr.attr({
             zyhm: zyhm,
             brxm: brxm,
@@ -100,6 +100,6 @@ function handlerData(data,clickState,muithis){
 function clickHandler(ksname) {
     $("#ksNameID").val(ksname);
     ajaxRequest("webyzcxyjhlxx/pageinfo", {pageNum:1,"ksName":ksname}, function (data) {
-        handlerData(data,true);
+        handlerData(data,true,muithis);
     });
 }

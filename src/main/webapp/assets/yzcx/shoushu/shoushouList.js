@@ -1,4 +1,5 @@
 var $ssinfoID = $("#ssinfoID");
+var muithis=null;
 $(document).ready(function () {
     initTapHandler();
 //主界面和侧滑菜单界面均支持区域滚动；
@@ -18,7 +19,7 @@ $(document).ready(function () {
                         pageNumInputVal = 1;
                     }
                     var ksNameIDVal=$("#ksNameID").val();
-                    var muithis=this;
+                     muithis=this;
                     ajaxRequest("webyzcxSsxx/shoushuList", {pageNum: parseInt(pageNumInputVal),"ksName":ksNameIDVal}, function (data) {
                         handlerData(data,false,muithis)
                         //
@@ -58,7 +59,7 @@ function handlerData(data, clickState,muithis) {
         var brxb = obj.brxb;//病人性别
         var ssrqDate = new Date(ssrq);
         var ssrqStr = ssrqDate.Format("yyyy-MM-dd hh:mm:ss");
-        var appendStr = $("<tr><td>" + brks + "</td><td>" + brxm + "</td><td>" + ssmc + "</td><td>" + ssys + "</td><td><span class=\"mui-icon iconfont icon-xiangqing1\"></span></td></tr>");
+        var appendStr = $("<tr><td>" + brks + "</td><td>" + brxm + "</td><td>" + ssmc + "</td><td>" + ssys + "</td></tr>");
         appendStr.attr({
             brks: brks,
             brxm: brxm,
@@ -93,6 +94,6 @@ function handlerData(data, clickState,muithis) {
 function clickHandler(ksname) {
     $("#ksNameID").val(ksname);
     ajaxRequest("webyzcxSsxx/shoushuList", {pageNum: 1, "ksName": ksname}, function (data) {
-        handlerData(data, true);
+        handlerData(data, true,muithis);
     });
 }

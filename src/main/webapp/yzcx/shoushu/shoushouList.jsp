@@ -60,7 +60,6 @@
                                             <td>患者姓名</td>
                                             <td>手术名称</td>
                                             <td>手术医生</td>
-                                            <td>操作</td>
                                         </tr>
                                         </thead>
                                         <tbody id="ssinfoID">

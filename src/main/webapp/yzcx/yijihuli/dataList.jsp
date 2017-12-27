@@ -62,7 +62,6 @@
                                     <td>患者姓名</td>
                                     <td>开始时间</td>
                                     <td>停止时间</td>
-                                    <td>操作</td>
                                 </tr>
                                 </thead>
                                 <tbody id="infoID">
