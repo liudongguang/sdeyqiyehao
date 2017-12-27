@@ -12,23 +12,17 @@ public class QyglVo {
     private Double yuyueshu;
     //////
     private YZCXSearchParam param;
-
-
-    public YZCXSearchParam getParam() {
-        return param;
-    }
-
-    public void setParam(YZCXSearchParam param) {
-        this.param = param;
-    }
-
-    public Double getYuyueshu() {
-        return yuyueshu;
-    }
-
-    public void setYuyueshu(Double yuyueshu) {
-        this.yuyueshu = yuyueshu;
-    }
+    ////
+    private ZyxxIndex zhuyuan;
+    //
+    private Long chufangshu;//处方数
+    private Double pjchufang;//平均处方金额
+    private Double maxchufang;//最大处方金额
+    private Double minchufang;//最小处方金额
+    private Double sumchufang;//处方金额总和
+    private Integer ysgs;//医生个数
+    private Integer jzsum;
+    private Integer mzsum;
 
     public Double getPutong() {
         return putong;
@@ -44,5 +38,93 @@ public class QyglVo {
 
     public void setJizhen(Double jizhen) {
         this.jizhen = jizhen;
+    }
+
+    public Double getYuyueshu() {
+        return yuyueshu;
+    }
+
+    public void setYuyueshu(Double yuyueshu) {
+        this.yuyueshu = yuyueshu;
+    }
+
+    public YZCXSearchParam getParam() {
+        return param;
+    }
+
+    public void setParam(YZCXSearchParam param) {
+        this.param = param;
+    }
+
+    public ZyxxIndex getZhuyuan() {
+        return zhuyuan;
+    }
+
+    public void setZhuyuan(ZyxxIndex zhuyuan) {
+        this.zhuyuan = zhuyuan;
+    }
+
+    public Long getChufangshu() {
+        return chufangshu;
+    }
+
+    public void setChufangshu(Long chufangshu) {
+        this.chufangshu = chufangshu;
+    }
+
+    public Double getPjchufang() {
+        return pjchufang;
+    }
+
+    public void setPjchufang(Double pjchufang) {
+        this.pjchufang = pjchufang;
+    }
+
+    public Double getMaxchufang() {
+        return maxchufang;
+    }
+
+    public void setMaxchufang(Double maxchufang) {
+        this.maxchufang = maxchufang;
+    }
+
+    public Double getMinchufang() {
+        return minchufang;
+    }
+
+    public void setMinchufang(Double minchufang) {
+        this.minchufang = minchufang;
+    }
+
+    public Double getSumchufang() {
+        return sumchufang;
+    }
+
+    public void setSumchufang(Double sumchufang) {
+        this.sumchufang = sumchufang;
+    }
+
+    public Integer getYsgs() {
+        return ysgs;
+    }
+
+    public void setYsgs(Integer ysgs) {
+        this.ysgs = ysgs;
+    }
+
+    public Integer getJzsum() {
+        return jzsum;
+    }
+
+    public void setJzsum(Integer jzsum) {
+        this.jzsum = jzsum;
+    }
+
+    public Integer getMzsum() {
+        return mzsum;
+    }
+
+    public void setMzsum(Integer mzsum) {
+        this.mzsum = mzsum;
     }
 }

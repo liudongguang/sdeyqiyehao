@@ -96,4 +96,12 @@ public class YzcxHttpRequest {
         YJHLXXDisplayModle data= JsonUtil.getObjectByJSON(yijihuliStr,YJHLXXDisplayModle.class);
         return data;
     }
+
+    public static ChuFangModle getChuFang(Map<String, String> requestparam) {
+        String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("getchufang");//
+        HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
+        final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        ChuFangModle shoushu= JsonUtil.getObjectByJSON(shoushuStr,ChuFangModle.class);
+        return shoushu;
+    }
 }

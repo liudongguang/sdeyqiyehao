@@ -8,6 +8,7 @@ import com.yzcx.api.po.YzcxHandleInfoDay;
 import com.yzcx.api.po.YzcxHandleInfoMonth;
 import com.yzcx.api.service.YZCXCommonService;
 import com.yzcx.api.service.YZCXSearchService;
+import com.yzcx.api.service.YZCXZhuYuanSearchService;
 import com.yzcx.api.util.HighChartUtils;
 import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
@@ -23,10 +24,7 @@ import com.yzcx.api.vo.highchat.column.Series_column;
 import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
 import com.yzcx.api.vo.highchat.pie.Series_pie;
 import com.yzcx.api.vo.highchat.pie.Series_pie_data;
-import com.yzcx.api.vo.yzcxdisplay.Menzhen_Month_Yuyue;
-import com.yzcx.api.vo.yzcxdisplay.QyglVo;
-import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoExt;
-import com.yzcx.api.vo.yzcxdisplay.YzcxHandleInfoMonthExt;
+import com.yzcx.api.vo.yzcxdisplay.*;
 import com.yzcx.impl.mapper.YzcxHandleImportdateMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoDayMapper;
 import com.yzcx.impl.mapper.YzcxHandleInfoMapper;
@@ -56,26 +54,33 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     private YzcxHandleInfoDayMapper yzcxHandleInfoDayMapper;
     @Autowired
     private YZCXCommonService yzcxCommonService;
+    @Autowired
+    private YZCXZhuYuanSearchService yzcxZhuYuanSearchService;
 
     @Override
     public QyglVo getQygl_ri() throws ParseException {
         QyglVo rs = new QyglVo();
         YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
-        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
-        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
-        Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
-        if (collect.size() > 0) {
-            String double_putong = collect.get(YZCXConstant.putong).toString();
-            String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
-            rs.setPutong(Double.valueOf(double_putong));
-            rs.setJizhen(Double.valueOf(double_jizhen));
-        }
-        param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
-        List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectByDateAndType(param);
-        if (yuyuelist.size() > 0) {
-            Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
-            rs.setYuyueshu(yuyuesum);
-        }
+        //////////////////////////////////////////////住院
+        ZyxxIndex zhuyuan = yzcxZhuYuanSearchService.getIndexZhuYuanForDay(param);
+        System.out.println(zhuyuan);
+        rs.setZhuyuan(zhuyuan);
+        ////////////////////////////////////////////出诊
+        param.setHandletype(Arrays.asList(YZCXConstant.chufang_chufangshu, YZCXConstant.chufang_pjchufang, YZCXConstant.chufang_maxchufang
+                , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
+        final List<YzcxHandleInfoDay> chuzhen = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+        final Map<Integer, Double> zhuyuanMap = chuzhen.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype,Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+        rs.setChufangshu(zhuyuanMap.get(YZCXConstant.chufang_chufangshu).longValue());
+        rs.setPjchufang(zhuyuanMap.get(YZCXConstant.chufang_pjchufang));
+        rs.setMaxchufang(zhuyuanMap.get(YZCXConstant.chufang_maxchufang));
+        rs.setMinchufang(zhuyuanMap.get(YZCXConstant.chufang_minchufang));
+        rs.setSumchufang(zhuyuanMap.get(YZCXConstant.chufang_sumchufang));
+        rs.setYsgs(zhuyuanMap.get(YZCXConstant.chufang_yssum).intValue());
+        rs.setJzsum(zhuyuanMap.get(YZCXConstant.chufang_jizhen).intValue());
+        rs.setMzsum(zhuyuanMap.get(YZCXConstant.chufang_menzhen).intValue());
+        ///////////////////////////////////费用
+
+
         return rs;
     }
 

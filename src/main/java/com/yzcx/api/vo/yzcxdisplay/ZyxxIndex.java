@@ -107,4 +107,21 @@ public class ZyxxIndex {
     public void setSiwang(Double siwang) {
         this.siwang = siwang;
     }
+
+    @Override
+    public String toString() {
+        return "ZyxxIndex{" +
+                "ruyuan=" + ruyuan +
+                ", chuyuan=" + chuyuan +
+                ", weizhong=" + weizhong +
+                ", zhuanru=" + zhuanru +
+                ", zhuanchu=" + zhuanchu +
+                ", siwang=" + siwang +
+                ", shizhan=" + shizhan +
+                ", kaifang=" + kaifang +
+                ", cwshiyonglv=" + cwshiyonglv +
+                ", zaiyuanNum=" + zaiyuanNum +
+                ", param=" + param +
+                '}';
+    }
 }

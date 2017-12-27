@@ -271,6 +271,55 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         yzcxHandleInfoDayMapper.batchInsert(rsList);//保存会诊
     }
 
+    private void menzhenDayHandler_chufang(YZCXSearchParam param, String date00, String date23) {
+        Map<String, String> requestparam = new HashMap();
+        requestparam.put("starte", date00);
+        requestparam.put("end", date23);
+        ChuFangModle chuFang = YzcxHttpRequest.getChuFang(requestparam);
+        DoubleSummaryStatistics summaryStatistics = chuFang.getData().stream().filter(item ->
+                item.getHjje() >= 0
+        ).collect(Collectors.summarizingDouble(FYXXmenzhenchufang::getHjje));//最小，最大，平均金额,总额
+        long chufangshu = summaryStatistics.getCount();//处方数
+        double pjchufang = summaryStatistics.getAverage();//平均处方金额
+        double maxchufang = summaryStatistics.getMax();//最大处方金额
+        double minchufang = summaryStatistics.getMin();//最小处方金额
+        double sumchufang = summaryStatistics.getSum();//处方金额总和
+        String menzhenurl = YZCXProperties.getRequestPropertiesVal("menzhen");//获取门诊信息
+        HttpClientUtil hc = HttpClientUtil.getInstance();
+        final String s = hc.sendHttpPost(menzhenurl, requestparam);
+        Json_Menzhen menzhenRs = JsonUtil.getObjectByJSON(s, Json_Menzhen.class);
+        Set<String> ysName = new HashSet<>();
+        int[] menzhensum = {0};
+        int[] jizhensum = {0};
+        menzhenRs.getData().forEach(item -> {
+            Integer sfjz = item.getSfjz();
+            String ysname = item.getYsmc();
+            //0  普通  1 急诊
+            if (sfjz == 0) {
+                menzhensum[0]++;
+            } else {
+                jizhensum[0]++;
+            }
+            ysName.add(ysname.trim());
+        });
+        int ysgs = ysName.size();//医生个数
+        int jzsum = jizhensum[0];
+        int mzsum = menzhensum[0];
+        List<YzcxHandleInfo> rsList = new ArrayList<>();
+        final Date start = param.getStart();
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_chufangshu, start, Double.valueOf(chufangshu)));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_pjchufang, start, pjchufang));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_maxchufang, start, maxchufang));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_minchufang, start, minchufang));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_sumchufang, start, sumchufang));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_yssum, start, Double.valueOf(ysgs)));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_menzhen, start, Double.valueOf(jzsum)));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_jizhen, start, Double.valueOf(mzsum)));
+        param.setHandletype(Arrays.asList(YZCXConstant.chufang_chufangshu, YZCXConstant.chufang_pjchufang, YZCXConstant.chufang_maxchufang
+                , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
+        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存处方
+    }
 
     /**
      * 门诊5分钟一更新
@@ -303,6 +352,8 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         menzhenDayHandler_shoushuxx(param, date00, date23);
         /////////////////////////////////////////////////6.会诊信息////////////////////////////////////////////
         menzhenDayHandler_huizhen(param, date00, date23);
+        ///////////////////////////////////////////7.处方
+        menzhenDayHandler_chufang(param, date00, date23);
     }
 
 }

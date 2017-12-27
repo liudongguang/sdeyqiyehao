@@ -98,5 +98,13 @@ public interface YZCXConstant {
     String yiji_menzhen_hejiStr="医技门诊合计";
     int yiji_zhuyuan_heji=40;
     String yiji_zhuyuan_hejiStr="医技住院合计";
+    int chufang_chufangshu=41;//门诊处方
+    int chufang_pjchufang=42;//平均处方金额
+    int chufang_maxchufang=43;//最大处方金额
+    int chufang_minchufang=44;//最小处方金额
+    int chufang_sumchufang=45;//处方金额总和
+    int chufang_yssum=46;//出诊医生数
+    int chufang_menzhen=47;//门诊数
+    int chufang_jizhen=48;//急诊数
 
 }
