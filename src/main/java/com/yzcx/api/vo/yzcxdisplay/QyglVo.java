@@ -1,5 +1,6 @@
 package com.yzcx.api.vo.yzcxdisplay;
 
+import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.vo.YZCXSearchParam;
 
 /**
@@ -23,6 +24,45 @@ public class QyglVo {
     private Integer ysgs;//医生个数
     private Integer jzsum;
     private Integer mzsum;
+    ///
+    private FeiYongHuiZong indexFeiYongZong;
+    ////
+    private Double yiLiao;
+    private Double yao;
+    private Double qiTa;
+
+
+    public Double getYiLiao() {
+        return yiLiao;
+    }
+
+    public void setYiLiao(Double yiLiao) {
+        this.yiLiao = yiLiao;
+    }
+
+    public Double getYao() {
+        return yao;
+    }
+
+    public void setYao(Double yao) {
+        this.yao = yao;
+    }
+
+    public Double getQiTa() {
+        return qiTa;
+    }
+
+    public void setQiTa(Double qiTa) {
+        this.qiTa = qiTa;
+    }
+
+    public FeiYongHuiZong getIndexFeiYongZong() {
+        return indexFeiYongZong;
+    }
+
+    public void setIndexFeiYongZong(FeiYongHuiZong indexFeiYongZong) {
+        this.indexFeiYongZong = indexFeiYongZong;
+    }
 
     public Double getPutong() {
         return putong;
@@ -126,5 +166,28 @@ public class QyglVo {
 
     public void setMzsum(Integer mzsum) {
         this.mzsum = mzsum;
+    }
+
+    @Override
+    public String toString() {
+        return "QyglVo{" +
+                "putong=" + putong +
+                ", jizhen=" + jizhen +
+                ", yuyueshu=" + yuyueshu +
+                ", param=" + param +
+                ", zhuyuan=" + zhuyuan +
+                ", chufangshu=" + chufangshu +
+                ", pjchufang=" + pjchufang +
+                ", maxchufang=" + maxchufang +
+                ", minchufang=" + minchufang +
+                ", sumchufang=" + sumchufang +
+                ", ysgs=" + ysgs +
+                ", jzsum=" + jzsum +
+                ", mzsum=" + mzsum +
+                ", indexFeiYongZong=" + indexFeiYongZong +
+                ", yiLiao=" + yiLiao +
+                ", yao=" + yao +
+                ", qiTa=" + qiTa +
+                '}';
     }
 }

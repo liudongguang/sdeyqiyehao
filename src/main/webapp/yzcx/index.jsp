@@ -158,9 +158,13 @@
 						<!--总数模块区-->
 						<div class="totalBox">
 							<span>昨日总收入</span>
-							<b>￥208411.00</b>
+							<b>￥<fmt:formatNumber type="number" value="${obj.indexFeiYongZong.zhuyuanzong+obj.indexFeiYongZong.menzhenzong}" pattern="0"
+												  maxFractionDigits="2"/></b>
 						</div>
 						<!--图表容器-->
+						<input type="hidden" id="yiLiaoID" value="${obj.yiLiao}"/>
+						<input type="hidden" id="yaoID" value="${obj.yao}"/>
+						<input type="hidden" id="qiTaID" value="${obj.qiTa}"/>
 						<div id="pie-income" style="width:100%;height:260px; margin: 20px 0px;"> </div>
 					</div>
 				</div>

@@ -7,6 +7,7 @@ import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.po.YzcxHandleInfoDay;
 import com.yzcx.api.po.YzcxHandleInfoMonth;
 import com.yzcx.api.service.YZCXCommonService;
+import com.yzcx.api.service.YZCXFeiYongSearchService;
 import com.yzcx.api.service.YZCXSearchService;
 import com.yzcx.api.service.YZCXZhuYuanSearchService;
 import com.yzcx.api.util.HighChartUtils;
@@ -56,6 +57,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     private YZCXCommonService yzcxCommonService;
     @Autowired
     private YZCXZhuYuanSearchService yzcxZhuYuanSearchService;
+    @Autowired
+    private YZCXFeiYongSearchService yzcxFeiYongSearchService;
 
     @Override
     public QyglVo getQygl_ri() throws ParseException {
@@ -63,13 +66,12 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
         //////////////////////////////////////////////住院
         ZyxxIndex zhuyuan = yzcxZhuYuanSearchService.getIndexZhuYuanForDay(param);
-        System.out.println(zhuyuan);
         rs.setZhuyuan(zhuyuan);
         ////////////////////////////////////////////出诊
         param.setHandletype(Arrays.asList(YZCXConstant.chufang_chufangshu, YZCXConstant.chufang_pjchufang, YZCXConstant.chufang_maxchufang
                 , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
         final List<YzcxHandleInfoDay> chuzhen = yzcxHandleInfoDayMapper.selectByDateAndType(param);
-        final Map<Integer, Double> zhuyuanMap = chuzhen.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype,Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+        final Map<Integer, Double> zhuyuanMap = chuzhen.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
         rs.setChufangshu(zhuyuanMap.get(YZCXConstant.chufang_chufangshu).longValue());
         rs.setPjchufang(zhuyuanMap.get(YZCXConstant.chufang_pjchufang));
         rs.setMaxchufang(zhuyuanMap.get(YZCXConstant.chufang_maxchufang));
@@ -79,8 +81,22 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         rs.setJzsum(zhuyuanMap.get(YZCXConstant.chufang_jizhen).intValue());
         rs.setMzsum(zhuyuanMap.get(YZCXConstant.chufang_menzhen).intValue());
         ///////////////////////////////////费用
-
-
+        YZCXSearchParam zuotian = YZCXControllerUtil.getBeforeOneDay();
+        FeiYongHuiZong indexFeiYongZong = yzcxFeiYongSearchService.getIndexFeiYongZong(zuotian);
+        rs.setIndexFeiYongZong(indexFeiYongZong);
+        ////
+        zuotian.setHandletype(Arrays.asList(YZCXConstant.feiyong));
+        List<YzcxHandleInfo> feiyongList = yzcxHandleInfoMapper.selectByDateAndType(zuotian);
+        Map<String, Double> zhuyuanMenzhenMap = feiyongList.stream().collect(Collectors.groupingBy(YzcxHandleInfo::getName, Collectors.summingDouble(YzcxHandleInfo::getCount)));
+        Double zhuyuanYiLiao = zhuyuanMenzhenMap.get(YZCXConstant.zhuyuan_yiliao);
+        Double zhuyuanYao = zhuyuanMenzhenMap.get(YZCXConstant.zhuyuan_yaofei);
+        Double zhuyuanQiTa = zhuyuanMenzhenMap.get(YZCXConstant.zhuyuan_qita);
+        Double menzhenYiLiao = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_yiliao);
+        Double menzhenYao = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_yaofei);
+        Double menzhenQiTa = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_qita);
+        rs.setYiLiao(zhuyuanYiLiao!=null?zhuyuanYiLiao:0+(menzhenYiLiao!=null?menzhenYiLiao:0));
+        rs.setYao(zhuyuanYao!=null?zhuyuanYao:0+(menzhenYao!=null?menzhenYao:0));
+        rs.setQiTa(zhuyuanQiTa!=null?zhuyuanQiTa:0+(menzhenQiTa!=null?menzhenQiTa:0));
         return rs;
     }
 
@@ -565,8 +581,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         Map<String, Double> group = jzlist.stream().collect(Collectors.groupingBy(YzcxHandleInfoMonth::getName, Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         if (jzlist != null && jzlist.size() > 0) {
             jzlist.clear();
-            group.forEach((name,count)->{
-                YzcxHandleInfoMonth ny=new YzcxHandleInfoMonth();
+            group.forEach((name, count) -> {
+                YzcxHandleInfoMonth ny = new YzcxHandleInfoMonth();
                 ny.setName(name);
                 ny.setCount(count);
                 jzlist.add(ny);
@@ -664,7 +680,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             rs.setZongmenzhen(menzhensum);
         }
         param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
-        List<YzcxHandleInfoMonth> yuyuelist =  yzcxCommonService.getMonthDataByParam(param);
+        List<YzcxHandleInfoMonth> yuyuelist = yzcxCommonService.getMonthDataByParam(param);
         if (yuyuelist.size() > 0) {
             Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount));
             rs.setYuyue(yuyuesum);
@@ -693,15 +709,17 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         series1.getData().add(data2);
         return hcfg;
     }
+
     @Override
     public Map<String, Object> getMenzhenYuyueZhanbi_yueChartData(Menzhen_Month_Yuyue menzhen_month_yuyue) {
-        Map<String,Object> rs=new HashMap<>();
-        List<PieData> pieData=new ArrayList<>();
-        pieData.add(new PieData("门诊挂号",menzhen_month_yuyue.getMenzhenGuaHao()));
-        pieData.add(new PieData("门诊预约",menzhen_month_yuyue.getYuyue()));
-        rs.put("piedata",pieData);
+        Map<String, Object> rs = new HashMap<>();
+        List<PieData> pieData = new ArrayList<>();
+        pieData.add(new PieData("门诊挂号", menzhen_month_yuyue.getMenzhenGuaHao()));
+        pieData.add(new PieData("门诊预约", menzhen_month_yuyue.getYuyue()));
+        rs.put("piedata", pieData);
         return rs;
     }
+
     @Override
     public HighchartsConfig getMenzhenYuyue_yueChart(YZCXSearchParam yzcxSearchParam) {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
@@ -745,6 +763,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         }
         return null;
     }
+
     @Override
     public Map<String, Object> getMenzhenYuyue_yueChartData(YZCXSearchParam yzcxSearchParam) {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
@@ -771,6 +790,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         }
         return null;
     }
+
     @Override
     public HighchartsConfig getTongqiyuyueChart(YZCXSearchParam yzcxSearchParam) throws ParseException {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));//获取普通，急诊
@@ -813,6 +833,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         series.add(series1);
         return hcfg;
     }
+
     @Override
     public Map<String, Object> getTongqiyuyueChartData(YZCXSearchParam yzcxSearchParam) throws ParseException {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));//获取普通，急诊
@@ -843,6 +864,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         rs.put("yytqnum", yytqnum);
         return rs;
     }
+
     @Override
     public HighchartsConfig_column getMenzhen_year_chart(YZCXSearchParam param) {
         param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));//获取普通，急诊
@@ -919,8 +941,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
             YZCXConstant.months.forEach(month -> {
                 Double menzhenSum = putongmenzhenMap.get(month);
                 Double jizhenSum = jizhenzhenMap.get(month);
-                int menzhenSumI=menzhenSum!=null?menzhenSum.intValue():0;
-                int jizhenSumI=jizhenSum!=null?jizhenSum.intValue():0;
+                int menzhenSumI = menzhenSum != null ? menzhenSum.intValue() : 0;
+                int jizhenSumI = jizhenSum != null ? jizhenSum.intValue() : 0;
                 categories.add(month);
                 menzhenData.add(menzhenSumI);
                 jizhendata.add(jizhenSumI);
@@ -974,6 +996,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         series.add(seriesData_jizhen);
         return hcfg;
     }
+
     @Override
     public Map<String, Object> getMenzhenTongqi_year_chartData(YZCXSearchParam yzcxSearchParam) throws ParseException {
         yzcxSearchParam.setHandletype(Arrays.asList(YZCXConstant.jbzd_ks_menzhen, YZCXConstant.jbzd_ks_jizhen));//获取普通，急诊
@@ -1006,10 +1029,6 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         rs.put("jizhenData", jizhenData);
         return rs;
     }
-
-
-
-
 
 
 }

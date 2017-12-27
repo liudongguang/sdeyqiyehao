@@ -215,36 +215,37 @@ $(document).ready(function() {
             trigger: 'item',
             formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-
-        visualMap: {
-            show: false,
-            min: 80,
-            max: 600,
-            inRange: {
-                colorLightness: [0, 1]
-            }
-        },
         series: [{
             name: '全院昨日收入',
             type: 'pie',
             radius: '70%',
+            selectedMode: 'single',
             center: ['50%', '55%'],
+            label: {
+                normal: {
+                    show: true,
+                    formatter:'{b}\n{d}%'
+                },
+                emphasis: {
+                    show: true
+                }
+            },
             data: [{
-                value: 33500,
+                value: $("#yaoID").val(),
                 name: '药品'
             },
                 {
-                    value: 31000,
+                    value: $("#yiLiaoID").val(),
                     name: '医疗'
                 },
                 {
-                    value: 27400,
+                    value: $("#qiTaID").val(),
                     name: '其他'
                 }
             ].sort(function(a, b) {
                 return a.value - b.value;
             }),
-            roseType: 'radius',
+
 
             labelLine: {
                 normal: {
