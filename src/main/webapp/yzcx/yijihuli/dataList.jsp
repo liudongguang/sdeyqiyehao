@@ -58,10 +58,10 @@
                                    class="center datatable listTable">
                                 <thead>
                                 <tr>
-                                    <td>患者科室</td>
-                                    <td>患者姓名</td>
-                                    <td>开始时间</td>
-                                    <td>停止时间</td>
+                                    <td width="25%">患者科室</td>
+                                    <td width="25%">患者姓名</td>
+                                    <td width="25%">开始时间</td>
+                                    <td width="25%">停止时间</td>
                                 </tr>
                                 </thead>
                                 <tbody id="infoID">

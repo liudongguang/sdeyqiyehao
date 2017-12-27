@@ -56,10 +56,10 @@
                                            class="center datatable listTable">
                                         <thead>
                                         <tr>
-                                            <td>所在科室</td>
-                                            <td>患者姓名</td>
-                                            <td>手术名称</td>
-                                            <td>手术医生</td>
+                                            <td width="25%">所在科室</td>
+                                            <td width="25%">患者姓名</td>
+                                            <td width="25%">手术名称</td>
+                                            <td width="25%">手术医生</td>
                                         </tr>
                                         </thead>
                                         <tbody id="ssinfoID">
