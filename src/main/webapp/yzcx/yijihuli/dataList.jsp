@@ -49,6 +49,7 @@
         <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
              style="padding-top:0px;margin-top:90px;">
             <div class="mui-content-padded">
+
                 <div class="mui-card table-box" style="margin: 0px 0px 10px 0px;">
                     <div class="mui-card-content">
                         <table width="100%" border="0" cellspacing="0" cellpadding="0"
@@ -221,19 +222,19 @@
                 </div>
             </div>
         </div>
+        <!--侧滑栏出现后，主页面遮罩层-->
+        <div class="mui-off-canvas-backdrop"></div>
     </div>
-
-    <!--侧滑栏出现后，主页面遮罩层-->
-    <div class="mui-off-canvas-backdrop"></div>
-    <script language="javascript" type="text/javascript" src="assets/yzcx/mui/js/mui.min.js"></script>
-    <script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
-    <script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
-    <script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
-    <script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
-    <script language="javascript" type="text/javascript" src="assets/yzcx/echarts/echarts.common.min.js"></script>
-    <script language="javascript" type="text/javascript" src="assets/yzcx/echarts/wonderland.js"></script>
-    <script language="javascript" type="text/javascript" src="assets/yzcx/echarts/walden.js"></script>
-    <script language="javascript" type="text/javascript" src="assets/yzcx/yijihuli/dataList.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/js/baidu.js"></script>
+</div>
+<script language="javascript" type="text/javascript" src="assets/yzcx/mui/js/mui.min.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
+<script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
+<script language="javascript" type="text/javascript" src="assets/yzcx/echarts/echarts.common.min.js"></script>
+<script language="javascript" type="text/javascript" src="assets/yzcx/echarts/wonderland.js"></script>
+<script language="javascript" type="text/javascript" src="assets/yzcx/echarts/walden.js"></script>
+<script language="javascript" type="text/javascript" src="assets/yzcx/yijihuli/dataList.js"></script>
+<script type="text/javascript" language="javascript" src="assets/js/baidu.js"></script>
 </body>
 </html>
