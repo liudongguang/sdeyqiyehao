@@ -49,7 +49,7 @@
         <!------------页面内容容器------------>
         <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
              style="padding-top:0px;margin-top:90px;">
-            <div class="mui-scroll" style="padding-top:0px;margin-top:90px;">
+            <div class="mui-scroll margintop90">
             <div class="mui-content-padded">
                 <div class="mui-card table-box" style="margin: 0px 0px 10px 0px;">
                     <div class="mui-card-content">

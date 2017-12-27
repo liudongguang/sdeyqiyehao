@@ -1,47 +1,38 @@
 var $ssinfoID = $("#ssinfoID");
-var miniRefresh = null;
 $(document).ready(function () {
     initTapHandler();
 //主界面和侧滑菜单界面均支持区域滚动；
     mui('#offCanvasSideScroll').scroll();
     mui('#offCanvasContentScroll').scroll();
-    miniRefresh = new MiniRefresh({
-        container: '#minirefresh',
-        down: {
-            isLock: true,
-            isAuto: false,
-            callback: function () {
-                // 下拉事件
-                //console.log("下拉事件")
-                setTimeout(function () {
-                    // 每次下拉刷新后，上拉的状态会被自动重置
-                    miniRefresh.endDownLoading(true);
-                }, 600);
-            }
-        },
-        up: {
-            isAuto: true,
-            callback: function () {
-                // 上拉事件
-                //console.log("上拉事件")
-                // 每次下拉刷新后，上拉的状态会被自动重置
-                var pageNumInputVal = $("#pageNumID").val();
-                if (!pageNumInputVal) {
-                    pageNumInputVal = 1;
-                }
-                var ksNameIDVal = $("#ksNameID").val();
-                ajaxRequest("webyzcxSsxx/shoushuList", {
-                    pageNum: parseInt(pageNumInputVal),
-                    "ksName": ksNameIDVal
-                }, function (data) {
-                    handlerData(data);
-                });
+    mui.init({
+        pullRefresh : {
+            container:"#offCanvasContentScroll",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+            up : {
+                height:50,//可选.默认50.触发上拉加载拖动距离
+                auto:true,//可选,默认false.自动上拉加载一次
+                contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback :function () {
+                    var pageNumInputVal = $("#pageNumID").val();
+                    if (!pageNumInputVal) {
+                        pageNumInputVal = 1;
+                    }
+                    var ksNameIDVal=$("#ksNameID").val();
+                    var muithis=this;
+                    ajaxRequest("webyzcxSsxx/shoushuList", {pageNum: parseInt(pageNumInputVal),"ksName":ksNameIDVal}, function (data) {
+                        handlerData(data,false,muithis)
+                        //
+                        if(pageNumInputVal!=1){
+                            $("div[class='mui-scroll margintop90']").removeClass("margintop90");
+                        }
+                    });
+                } //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
             }
         }
     });
 });
 
-function handlerData(data, clickState) {
+function handlerData(data, clickState,muithis) {
     if (clickState) {
         $ssinfoID.empty();
     }
@@ -49,11 +40,10 @@ function handlerData(data, clickState) {
     var pageNum = data.pageNum;
     var pages = data.pages;
     $("#pageNumID").val(parseInt(pageNum) + 1);
-    //console.log(pageNum + "    " + pages);
     if (pageNum < pages) {
-        miniRefresh.endUpLoading(false);
+        muithis.endPullupToRefresh(false);
     } else {
-        miniRefresh.endUpLoading(true);
+        muithis.endPullupToRefresh(true);
     }
     for (var i in list) {
         var obj = list[i];

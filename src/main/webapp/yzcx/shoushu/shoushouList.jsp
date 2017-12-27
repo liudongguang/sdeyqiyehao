@@ -17,7 +17,6 @@
     <!--引入 自定义文件-->
     <link rel="stylesheet" href="assets/yzcx/css/general.css">
     <link rel="stylesheet" href="assets/yzcx/css/page.css">
-    <link rel="stylesheet" href="assets/minirefresh/minirefresh.css"/>
     <link rel="stylesheet" href="assets/css/baidu.css"/>
 </head>
 <body>
@@ -47,37 +46,33 @@
 
         <!--列表-->
         <!------------页面内容容器------------>
-                <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
-                     style="padding-top:0px;margin-top:90px;">
-                    <div id="minirefresh" class="minirefresh-wrap">
-                        <div class="minirefresh-scroll">
-                    <div class="mui-content-padded">
-                        <div class="mui-card table-box" style="margin: 0px 0px 10px 0px;">
-                            <div class="mui-card-content">
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0"
-                                       class="center datatable listTable">
-                                    <thead>
-                                    <tr>
-                                        <td>所在科室</td>
-                                        <td>患者姓名</td>
-                                        <td>手术名称</td>
-                                        <td>手术医生</td>
-                                        <td>操作</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="ssinfoID">
-                                    </tbody>
-                                </table>
+        <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
+             style="padding-top:0px;margin-top:90px;">
+            <div class="mui-scroll margintop90">
+                        <div class="mui-content-padded">
+                            <div class="mui-card table-box" style="margin: 0px 0px 10px 0px;">
+                                <div class="mui-card-content">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                           class="center datatable listTable">
+                                        <thead>
+                                        <tr>
+                                            <td>所在科室</td>
+                                            <td>患者姓名</td>
+                                            <td>手术名称</td>
+                                            <td>手术医生</td>
+                                            <td>操作</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="ssinfoID">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-
         <!--侧滑栏出现后，主页面遮罩层-->
         <div class="mui-off-canvas-backdrop"></div>
-        <script language="javascript" type="text/javascript" src="assets/minirefresh/minirefresh.js"></script>
         <script language="javascript" type="text/javascript" src="assets/yzcx/mui/js/mui.min.js"></script>
         <script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
         <script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
