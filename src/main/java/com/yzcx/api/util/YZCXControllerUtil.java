@@ -11,6 +11,19 @@ import java.util.Date;
 
 public class YZCXControllerUtil {
     /**
+     * 获取明天
+     * @return
+     * @throws ParseException
+     */
+    public static YZCXSearchParam getNextOneDay() throws ParseException {
+        YZCXSearchParam param = new YZCXSearchParam();
+        LocalDate localDate = LocalDate.now();
+        localDate = localDate.plus(1, ChronoUnit.DAYS);//前一天
+        param.setStart(LdgDateUtil.parseLocalDateToDate(localDate));
+        param.setEnd(LdgDateUtil.get235959Time(LdgDateUtil.parseLocalDateToDate(localDate)));
+        return param;
+    }
+    /**
      * 返回昨天
      *
      * @return

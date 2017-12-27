@@ -6,10 +6,7 @@ import com.yzcx.api.bo.MenzhenPtJz;
 import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.po.YzcxHandleInfoDay;
 import com.yzcx.api.po.YzcxHandleInfoMonth;
-import com.yzcx.api.service.YZCXCommonService;
-import com.yzcx.api.service.YZCXFeiYongSearchService;
-import com.yzcx.api.service.YZCXSearchService;
-import com.yzcx.api.service.YZCXZhuYuanSearchService;
+import com.yzcx.api.service.*;
 import com.yzcx.api.util.HighChartUtils;
 import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXConstant;
@@ -59,6 +56,8 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     private YZCXZhuYuanSearchService yzcxZhuYuanSearchService;
     @Autowired
     private YZCXFeiYongSearchService yzcxFeiYongSearchService;
+    @Autowired
+    private YZCXShoushuSearchService yzcxShoushuSearchService;
 
     @Override
     public QyglVo getQygl_ri() throws ParseException {
@@ -97,6 +96,10 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         rs.setYiLiao(zhuyuanYiLiao!=null?zhuyuanYiLiao:0+(menzhenYiLiao!=null?menzhenYiLiao:0));
         rs.setYao(zhuyuanYao!=null?zhuyuanYao:0+(menzhenYao!=null?menzhenYao:0));
         rs.setQiTa(zhuyuanQiTa!=null?zhuyuanQiTa:0+(menzhenQiTa!=null?menzhenQiTa:0));
+        /////
+        SsxxIndex shoushudata = yzcxShoushuSearchService.getIndexData(param);
+        rs.setShoushudata(shoushudata);
+        rs.setNextshoushudata(yzcxShoushuSearchService.getIndexData(YZCXControllerUtil.getNextOneDay()));
         return rs;
     }
 

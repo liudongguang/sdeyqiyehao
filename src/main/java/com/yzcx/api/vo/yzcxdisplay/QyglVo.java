@@ -30,7 +30,25 @@ public class QyglVo {
     private Double yiLiao;
     private Double yao;
     private Double qiTa;
+    ////
+    private SsxxIndex shoushudata;
+    private SsxxIndex nextshoushudata;
 
+    public SsxxIndex getNextshoushudata() {
+        return nextshoushudata;
+    }
+
+    public void setNextshoushudata(SsxxIndex nextshoushudata) {
+        this.nextshoushudata = nextshoushudata;
+    }
+
+    public SsxxIndex getShoushudata() {
+        return shoushudata;
+    }
+
+    public void setShoushudata(SsxxIndex shoushudata) {
+        this.shoushudata = shoushudata;
+    }
 
     public Double getYiLiao() {
         return yiLiao;
