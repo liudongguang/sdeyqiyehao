@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="assets/css/baidu.css"/>
 </head>
 <body>
+
 <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
     <div class="mui-inner-wrap">
         <!--------------侧滑菜单部分-------------->
@@ -48,176 +49,27 @@
         <!------------页面内容容器------------>
         <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
              style="padding-top:0px;margin-top:90px;">
+            <div class="mui-scroll" style="padding-top:0px;margin-top:90px;">
             <div class="mui-content-padded">
-
                 <div class="mui-card table-box" style="margin: 0px 0px 10px 0px;">
                     <div class="mui-card-content">
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0"
-                               class="center datatable listTable">
-                            <thead>
-                            <tr>
-                                <td>序号</td>
-                                <td>住院号码</td>
-                                <td>病人姓名</td>
-                                <td>操作</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>01</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td id="viewDetail">
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>02</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>03</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>04</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>05</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>06</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>07</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>08</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>09</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>13</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>14</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>15</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>16</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>17</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>18</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>19</td>
-                                <td>2468</td>
-                                <td>李大维</td>
-                                <td>
-                                    <span class="mui-icon iconfont icon-xiangqing1"></span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <!--下拉刷新容器-->
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                                   class="center datatable listTable">
+                                <thead>
+                                <tr>
+                                    <td>患者科室</td>
+                                    <td>患者姓名</td>
+                                    <td>开始时间</td>
+                                    <td>停止时间</td>
+                                    <td>操作</td>
+                                </tr>
+                                </thead>
+                                <tbody id="infoID">
 
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -225,6 +77,7 @@
         <!--侧滑栏出现后，主页面遮罩层-->
         <div class="mui-off-canvas-backdrop"></div>
     </div>
+
 </div>
 <script language="javascript" type="text/javascript" src="assets/yzcx/mui/js/mui.min.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>

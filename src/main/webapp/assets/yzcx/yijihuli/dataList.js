@@ -7,21 +7,29 @@ $(document).ready(function () {
     mui('#offCanvasContentScroll').scroll();
     mui.init({
         pullRefresh : {
-            container:"#refreshContainer",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+            container:"#offCanvasContentScroll",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
             up : {
                 height:50,//可选.默认50.触发上拉加载拖动距离
                 auto:true,//可选,默认false.自动上拉加载一次
                 contentrefresh : "正在加载...",//可选，正在加载状态时，上拉加载控件上显示的标题内容
                 contentnomore:'没有更多数据了',//可选，请求完毕若没有更多数据时显示的提醒内容；
                 callback :function () {
-                    console.log(66666)
+                    var pageNumInputVal = $("#pageNumID").val();
+                    if (!pageNumInputVal) {
+                        pageNumInputVal = 1;
+                    }
+                    var ksNameIDVal=$("#ksNameID").val();
+                    var muithis=this;
+                    ajaxRequest("webyzcxyjhlxx/pageinfo", {pageNum: parseInt(pageNumInputVal),"ksName":ksNameIDVal}, function (data) {
+                        handlerData(data,false,muithis)
+                    });
                 } //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
             }
         }
     });
 
 });
-function handlerData(data,clickState){
+function handlerData(data,clickState,muithis){
     if(clickState){
         $infoID.empty();
     }
@@ -30,9 +38,9 @@ function handlerData(data,clickState){
     var pages = data.pages;
     $("#pageNumID").val(parseInt(pageNum) + 1);
     if (pageNum < pages) {
-        miniRefresh.endUpLoading(false);
+        muithis.endPullupToRefresh(false);
     } else {
-        miniRefresh.endUpLoading(true);
+        muithis.endPullupToRefresh(true);
     }
     for (var i in list) {
         var obj = list[i];
