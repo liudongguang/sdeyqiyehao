@@ -38,7 +38,7 @@ jQuery(document).ready(function () {
     }
     function createLI(data,jq_Input) {
         var jq_li = $("<li  class='bdsug-overflow'" + ">" + data.ksname + "</li>");
-        jq_li.click(function () {
+        jq_li.on("tap",function () {
             var jq_this = $(this);
             var val = jq_this.text();
             jq_Input.val(val);
