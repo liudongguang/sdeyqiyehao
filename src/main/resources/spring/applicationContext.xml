@@ -22,4 +22,5 @@
 	<import resource="classpath:spring/applicationContext-service.xml" />
 	<import resource="classpath:spring/applicationContext-quartz.xml" />
 	<import resource="classpath:spring/applicationContext-shiro.xml" />
+
 </beans>

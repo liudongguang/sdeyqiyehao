@@ -6,6 +6,7 @@ import com.yzcx.api.service.YZCXscheduleService;
 import com.yzcx.api.util.LdgDateUtil;
 import com.yzcx.api.util.YZCXControllerUtil;
 import com.yzcx.api.vo.YZCXSearchParam;
+import com.yzcx.impl.service.handler.YzcxEHcacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +34,11 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/immediatelyHandler")
     @ResponseBody
     public ResultMsg2 immediatelyHandler() throws IOException, ParseException {
-        //System.out.println("------日即时处理-------");
+        System.out.println("------日即时处理-------");
         ResultMsg2 msg = new ResultMsg2();
         yzcXscheduleImmediatelyService.ImmediatelyHandler();
+        YzcxEHcacheUtil instance =YzcxEHcacheUtil.getInstance();
+        instance.clearDayData();
         return msg;
     }
 

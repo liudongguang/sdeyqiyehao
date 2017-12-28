@@ -3,11 +3,13 @@ package com.yzcx.api.vo.yzcxdisplay;
 import com.yzcx.api.util.YZCXConstant;
 import com.yzcx.api.vo.YZCXSearchParam;
 
+import java.io.Serializable;
+
 /**
  * Created by LiuDongguang on 2017/11/9.
  * 全院概览
  */
-public class QyglVo {
+public class QyglVo implements Serializable {
     private Double putong;
     private Double jizhen;
     private Double yuyueshu;

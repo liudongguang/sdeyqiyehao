@@ -11,6 +11,7 @@ public class YZCXProperties {
 	static {
 		ClassPathResource cr = new ClassPathResource("yzcx.properties");
 		try {
+
 			properties.load(cr.getInputStream());
 			server=properties.getProperty("server");
 		} catch (IOException e) {

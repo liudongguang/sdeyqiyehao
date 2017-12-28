@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns="http://www.ehcache.org/v3">
+    <persistence directory="${java.io.tmpdir}/yzcx-ehcache"/>
+    <cache alias="yzcx-dayCache">
+        <key-type serializer="org.ehcache.impl.serialization.CompactJavaSerializer">
+            java.lang.String
+        </key-type>
+        <value-type serializer="org.ehcache.impl.serialization.CompactJavaSerializer">
+            java.lang.Object
+        </value-type>
+    </cache>
+</config>

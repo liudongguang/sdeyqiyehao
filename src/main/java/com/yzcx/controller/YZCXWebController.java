@@ -12,6 +12,7 @@ import com.yzcx.api.vo.highchat.column.HighchartsConfig_column;
 import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
 import com.yzcx.api.vo.yzcxdisplay.Menzhen_Month_Yuyue;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
+import com.yzcx.impl.service.handler.YzcxEHcacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,15 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/index")
     public String index(HttpServletRequest request, YZCXSearchParam param) throws IOException, ParseException {
-        QyglVo qygl = yzcxSearchService.getQygl_ri();
+        YzcxEHcacheUtil instance =YzcxEHcacheUtil.getInstance();
+        QyglVo qygl;
+        Object indexgetQygl_ri = instance.getDayData("indexgetQygl_ri");
+        if(indexgetQygl_ri!=null){
+            qygl= (QyglVo) indexgetQygl_ri;
+        }else{
+            qygl = yzcxSearchService.getQygl_ri();
+            instance.putDayData("indexgetQygl_ri",qygl);
+        }
         request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/index.jsp";
     }
