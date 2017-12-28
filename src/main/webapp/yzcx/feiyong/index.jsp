@@ -142,8 +142,7 @@
 
                 <!--卡片（住院科室收入排名 前十名）-->
                 <div class="mui-card">
-                    <div class="mui-card-header">住院科室收入排名（前十名）<span class="grayText toList">列表 <span
-                            class="mui-icon mui-icon-arrowright" style="font-size: 15px;"></span></span>
+                    <div class="mui-card-header">住院科室收入排名（前十名）
                     </div>
                     <div class="mui-card-content">
                         <!--图表容器-->
@@ -153,8 +152,7 @@
 
                 <!--卡片（门诊科室收入排名 前十名）-->
                 <div class="mui-card">
-                    <div class="mui-card-header">门诊科室收入排名（前十名）<span class="grayText toList">列表 <span
-                            class="mui-icon mui-icon-arrowright" style="font-size: 15px;"></span></span>
+                    <div class="mui-card-header">门诊科室收入排名（前十名）
                     </div>
                     <div class="mui-card-content">
                         <!--图表容器-->

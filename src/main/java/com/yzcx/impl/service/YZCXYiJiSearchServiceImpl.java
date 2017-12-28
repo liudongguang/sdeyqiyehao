@@ -23,6 +23,7 @@ public class YZCXYiJiSearchServiceImpl implements YZCXYiJiSearchService {
     private YzcxHandleInfoMapper yzcxHandleInfoMapper;
     @Autowired
     private YzcxHandleInfoDayMapper yzcxHandleInfoDayMapper;
+
     @Override
     public Map<String, Object> getIndexChart(YZCXSearchParam param) {
         param.setHandletype(Arrays.asList(YZCXConstant.yiji_menzhen));

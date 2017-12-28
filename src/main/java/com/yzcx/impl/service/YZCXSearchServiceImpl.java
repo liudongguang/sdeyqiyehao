@@ -60,6 +60,28 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     private YZCXShoushuSearchService yzcxShoushuSearchService;
 
     @Override
+    public QyglVo getMenzhen() throws ParseException {
+        QyglVo rs = new QyglVo();
+        YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
+        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
+        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+        Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+        if (collect.size() > 0) {
+            String double_putong = collect.get(YZCXConstant.putong).toString();
+            String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
+            rs.setPutong(Double.valueOf(double_putong));
+            rs.setJizhen(Double.valueOf(double_jizhen));
+        }
+        param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
+        List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+        if (yuyuelist.size() > 0) {
+            Double yuyuesum = yuyuelist.stream().collect(Collectors.summingDouble(YzcxHandleInfoDay::getCount));
+            rs.setYuyueshu(yuyuesum);
+        }
+        return rs;
+    }
+
+    @Override
     public QyglVo getQygl_ri() throws ParseException {
         QyglVo rs = new QyglVo();
         YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();

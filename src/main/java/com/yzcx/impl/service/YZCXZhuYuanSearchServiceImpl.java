@@ -90,7 +90,7 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         index.setShizhan(shizhan);
         index.setKaifang(kaifang);
         if (shizhan != null && shizhan != 0 && kaifang != null && kaifang != 0) {
-            index.setCwshiyonglv(shizhan / kaifang);
+            index.setCwshiyonglv(shizhan/kaifang);
         }
         //////////////////////////////在院
         if (zaiyuan != null) {

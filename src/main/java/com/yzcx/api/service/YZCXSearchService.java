@@ -208,4 +208,10 @@ public interface YZCXSearchService {
      * @return
      */
     Map<String,Object> getTongqiyuyueChartData(YZCXSearchParam yzcxSearchParam) throws ParseException;
+
+    /**
+     * 获取日门诊
+     * @return
+     */
+    QyglVo getMenzhen() throws ParseException;
 }

@@ -68,7 +68,7 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/menzhen")
     public String menzhen(HttpServletRequest request,YZCXSearchParam param) throws IOException, ParseException {
-        QyglVo qygl = yzcxSearchService.getQygl_ri();
+        QyglVo qygl = yzcxSearchService.getMenzhen();
         request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/menzhen/menzhen.jsp";
     }
