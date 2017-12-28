@@ -157,8 +157,7 @@
                         </div>
                         <div class="mui-row" style="border-top:1px solid #ebebeb">
                             <div class="mui-col-sm-12 mui-col-xs-12 bedUse-profile">床位使用率：<fmt:formatNumber
-                                    type="number" value="${obj.zhuyuan.cwshiyonglv}"
-                                    pattern="0"
+                                    type="percent" value="${obj.zhuyuan.cwshiyonglv}"
                                     maxFractionDigits="2"/>%
                             </div>
                         </div>
@@ -195,7 +194,7 @@
                             </ul>
                             <ul class="mui-col-sm-4 mui-col-xs-4">
                                 <li class="total-colorC" style="width: 92%; margin-right: 6%;">
-                                    <p>明日手术按排量</p>
+                                    <p>明日手术按排</p>
                                     <font><c:if test="${obj.shoushudata.nextDayanpai!=null}">
                                         <fmt:formatNumber type="number" value="${obj.shoushudata.nextDayanpai}"
                                                           pattern="0"/></c:if>

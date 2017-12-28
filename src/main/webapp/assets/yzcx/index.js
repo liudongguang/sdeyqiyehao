@@ -22,7 +22,7 @@ $(document).ready(function() {
             formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         series: [{
-            name: '全院总收入',
+            name: '全院门急诊',
             type: 'pie',
             radius: '70%',
             selectedMode: 'single',

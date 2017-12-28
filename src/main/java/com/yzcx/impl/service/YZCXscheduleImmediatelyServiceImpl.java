@@ -318,8 +318,8 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_minchufang, start, minchufang));
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_sumchufang, start, sumchufang));
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_yssum, start, Double.valueOf(ysgs)));
-        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_menzhen, start, Double.valueOf(jzsum)));
-        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_jizhen, start, Double.valueOf(mzsum)));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_menzhen, start, Double.valueOf(mzsum)));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_jizhen, start, Double.valueOf(jzsum)));
         param.setHandletype(Arrays.asList(YZCXConstant.chufang_chufangshu, YZCXConstant.chufang_pjchufang, YZCXConstant.chufang_maxchufang
                 , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
         yzcxHandleInfoDayMapper.deleteByTimeForType(param);
