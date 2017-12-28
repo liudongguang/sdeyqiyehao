@@ -118,10 +118,9 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         rs.setYiLiao(zhuyuanYiLiao!=null?zhuyuanYiLiao:0+(menzhenYiLiao!=null?menzhenYiLiao:0));
         rs.setYao(zhuyuanYao!=null?zhuyuanYao:0+(menzhenYao!=null?menzhenYao:0));
         rs.setQiTa(zhuyuanQiTa!=null?zhuyuanQiTa:0+(menzhenQiTa!=null?menzhenQiTa:0));
-        /////
+        /////手术
         SsxxIndex shoushudata = yzcxShoushuSearchService.getIndexData(param);
         rs.setShoushudata(shoushudata);
-        rs.setNextshoushudata(yzcxShoushuSearchService.getIndexData(YZCXControllerUtil.getNextOneDay()));
         return rs;
     }
 

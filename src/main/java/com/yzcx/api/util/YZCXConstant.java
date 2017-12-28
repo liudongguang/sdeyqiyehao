@@ -106,5 +106,6 @@ public interface YZCXConstant {
     int chufang_yssum=46;//出诊医生数
     int chufang_menzhen=47;//门诊数
     int chufang_jizhen=48;//急诊数
+    int shoushu_anpai_nextDay = 49;//明日手术安排数
 
 }

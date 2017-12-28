@@ -4,10 +4,7 @@ import com.ldg.api.util.JsonUtil;
 import com.weixin.util.HttpClientUtil;
 import com.yzcx.api.po.YzcxHandleInfo;
 import com.yzcx.api.service.YZCXscheduleImmediatelyService;
-import com.yzcx.api.util.LdgDateUtil;
-import com.yzcx.api.util.YZCXConstant;
-import com.yzcx.api.util.YZCXProperties;
-import com.yzcx.api.util.YZCXscheduleMapToListHandler;
+import com.yzcx.api.util.*;
 import com.yzcx.api.vo.*;
 import com.yzcx.api.vo.parsejson.Json_Jbzd;
 import com.yzcx.api.vo.parsejson.Json_Menzhen;
@@ -230,11 +227,17 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         yzcxHandleInfoDayMapper.batchInsert(rsList);//保存医技信息
     }
 
-    private void menzhenDayHandler_shoushuxx(YZCXSearchParam param, String date00, String date23) {
+    private void menzhenDayHandler_shoushuxx(YZCXSearchParam param, String date00, String date23) throws ParseException {
         Map<String, String> requestparam = new HashMap();
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         SSXXModle shoushuxx = YzcxHttpRequest.getShoushuxx(requestparam);
+        //////////////////////////////////获取明天的手术安排
+        YZCXSearchParam nextOneDay= YZCXControllerUtil.getNextOneDay();
+        requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(nextOneDay.getStart()));
+        requestparam.put("end",  LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(nextOneDay.getEnd()));
+        SSXXModle nextDayshoushuxx = YzcxHttpRequest.getShoushuxx(requestparam);
+        /////////////////////////////////
         final List<SSXX_anpai> ssap = shoushuxx.getSsap();
         final List<SSXX_info> ss = shoushuxx.getSs();
         //手术分级统计
@@ -246,11 +249,13 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         final Date start = param.getStart();
         Integer anpaiShu = ssap.size();
         Integer ssShu = ss.size();
+        Integer nextDayanpaiShu=nextDayshoushuxx.getSsap().size();
         List<YzcxHandleInfo> rsList = new ArrayList<>();
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.shoushu_anpaiStr, YZCXConstant.shoushu_anpai, start, anpaiShu.doubleValue()));
+        rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.shoushu_anpaiStr, YZCXConstant.shoushu_anpai_nextDay, start, nextDayanpaiShu.doubleValue()));
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.shoushu_infoStr, YZCXConstant.shoushu_info, start, ssShu.doubleValue()));
         rsList.addAll(YZCXscheduleMapToListHandler.handlerMapForHH(ssfenji, YZCXConstant.shoushu_fenji));
-        param.setHandletype(Arrays.asList(YZCXConstant.shoushu_anpai, YZCXConstant.shoushu_info, YZCXConstant.shoushu_fenji));
+        param.setHandletype(Arrays.asList(YZCXConstant.shoushu_anpai, YZCXConstant.shoushu_info, YZCXConstant.shoushu_fenji,YZCXConstant.shoushu_anpai_nextDay));
         yzcxHandleInfoDayMapper.deleteByTimeForType(param);
         yzcxHandleInfoDayMapper.batchInsert(rsList);//保存手术
     }

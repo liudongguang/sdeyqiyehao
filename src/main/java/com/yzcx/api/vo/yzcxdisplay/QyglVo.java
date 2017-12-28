@@ -32,15 +32,6 @@ public class QyglVo {
     private Double qiTa;
     ////
     private SsxxIndex shoushudata;
-    private SsxxIndex nextshoushudata;
-
-    public SsxxIndex getNextshoushudata() {
-        return nextshoushudata;
-    }
-
-    public void setNextshoushudata(SsxxIndex nextshoushudata) {
-        this.nextshoushudata = nextshoushudata;
-    }
 
     public SsxxIndex getShoushudata() {
         return shoushudata;

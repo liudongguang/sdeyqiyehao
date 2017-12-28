@@ -23,12 +23,17 @@ public class YZCXShoushuSearchServiceImpl implements YZCXShoushuSearchService {
         final List<YzcxHandleInfoDay> anpaiList = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         param.setHandletype(Arrays.asList(YZCXConstant.shoushu_info));
         final List<YzcxHandleInfoDay> ssshijiList = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+        param.setHandletype(Arrays.asList(YZCXConstant.shoushu_anpai_nextDay));
+        final List<YzcxHandleInfoDay> nextDayanpaiList = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         SsxxIndex ssxxIndex=new SsxxIndex();
         if(anpaiList!=null&&anpaiList.size()!=0){
             ssxxIndex.setAnpai(anpaiList.get(0).getCount().intValue());
         }
         if(ssshijiList!=null&&ssshijiList.size()!=0){
             ssxxIndex.setShijiss(ssshijiList.get(0).getCount().intValue());
+        }
+        if(nextDayanpaiList!=null&&nextDayanpaiList.size()!=0){
+            ssxxIndex.setNextDayanpai(nextDayanpaiList.get(0).getCount().intValue());
         }
         return ssxxIndex;
     }

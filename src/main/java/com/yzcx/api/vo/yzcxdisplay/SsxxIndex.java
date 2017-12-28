@@ -1,10 +1,17 @@
 package com.yzcx.api.vo.yzcxdisplay;
 
-import com.yzcx.api.vo.YZCXSearchParam;
-
 public class SsxxIndex {
     private Integer anpai;
     private Integer shijiss;
+    private Integer nextDayanpai;
+
+    public Integer getNextDayanpai() {
+        return nextDayanpai;
+    }
+
+    public void setNextDayanpai(Integer nextDayanpai) {
+        this.nextDayanpai = nextDayanpai;
+    }
 
     public Integer getAnpai() {
         return anpai;

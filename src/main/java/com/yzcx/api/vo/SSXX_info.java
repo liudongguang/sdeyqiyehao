@@ -6,6 +6,16 @@ public class SSXX_info {
     private Date ssrq;
     private String sqks;
 
+    private String ssrqStr;
+
+    public String getSsrqStr() {
+        return ssrqStr;
+    }
+
+    public void setSsrqStr(String ssrqStr) {
+        this.ssrqStr = ssrqStr;
+    }
+
     public Date getSsrq() {
         return ssrq;
     }

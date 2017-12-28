@@ -196,10 +196,10 @@
                             <ul class="mui-col-sm-4 mui-col-xs-4">
                                 <li class="total-colorC" style="width: 92%; margin-right: 6%;">
                                     <p>明日手术按排量</p>
-                                    <font><c:if test="${obj.nextshoushudata.anpai!=null}">
-                                        <fmt:formatNumber type="number" value="${obj.nextshoushudata.anpai}"
+                                    <font><c:if test="${obj.shoushudata.nextDayanpai!=null}">
+                                        <fmt:formatNumber type="number" value="${obj.shoushudata.nextDayanpai}"
                                                           pattern="0"/></c:if>
-                                        <c:if test="${obj.nextshoushudata.anpai==null}">
+                                        <c:if test="${obj.shoushudata.nextDayanpai==null}">
                                             0</c:if></font>
                                 </li>
                             </ul>
