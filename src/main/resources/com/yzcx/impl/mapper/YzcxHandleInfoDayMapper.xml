@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yzcx.impl.mapper.YzcxHandleInfoDayMapper">
+    <cache
+            type="PERPETUAL" eviction="LRU"
+            flushInterval="300000"
+            size="512"
+            readOnly="true"
+            blocking="false"
+    />
     <resultMap id="BaseResultMap" type="com.yzcx.api.po.YzcxHandleInfoDay">
         <!--
           WARNING - @mbg.generated
@@ -11,7 +18,7 @@
         <result column="handletype" jdbcType="INTEGER" property="handletype"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
     </resultMap>
-    <insert id="batchInsert" parameterType="java.util.List">
+    <insert id="batchInsert" parameterType="java.util.List" flushCache="true">
         insert into yzcx_handle_info_day (handledate, count,
         handletype,name
         )
@@ -28,7 +35,7 @@
             handledate BETWEEN #{start} AND #{end}
             <if test="handletype!=null and handletype.size>0">
                 AND
-                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                <foreach collection="handletype" item="htype" open="(" separator="or" close=")">
                     handletype = #{htype}
                 </foreach>
             </if>
@@ -41,24 +48,24 @@
             handledate BETWEEN #{start} AND #{end}
             <if test="handletype!=null and handletype.size>0">
                 AND
-                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                <foreach collection="handletype" item="htype" open="(" separator="or" close=")">
                     handletype = #{htype}
                 </foreach>
             </if>
         </where>
     </delete>
-    <select id="selectByDateAndType" resultMap="BaseResultMap" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+    <select id="selectByDateAndType" resultMap="BaseResultMap" parameterType="com.yzcx.api.vo.YZCXSearchParam" useCache="true">
         SELECT
-            handledate,
-            count,
-            handletype,
-            name
+        handledate,
+        count,
+        handletype,
+        name
         FROM yzcx_handle_info_day
         <where>
             handledate BETWEEN #{start} AND #{end}
             <if test="handletype!=null and handletype.size>0">
                 AND
-                <foreach collection="handletype" item="htype" open="(" separator="or"  close=")">
+                <foreach collection="handletype" item="htype" open="(" separator="or" close=")">
                     handletype = #{htype}
                 </foreach>
             </if>

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yzcx.impl.mapper.YzcxHandleInfoMapper">
+    <cache
+            type="PERPETUAL" eviction="LRU"
+            flushInterval="300000"
+            size="512"
+            readOnly="true"
+            blocking="false"
+    />
     <resultMap id="BaseResultMap" type="com.yzcx.api.po.YzcxHandleInfo">
         <!--
           WARNING - @mbg.generated
@@ -12,7 +19,7 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
     </resultMap>
 
-    <insert id="batchInsert" parameterType="java.util.List">
+    <insert id="batchInsert" parameterType="java.util.List" flushCache="true">
         insert into yzcx_handle_info (handledate, count,
         handletype,name
         )
@@ -27,7 +34,7 @@
             resultType="com.yzcx.api.po.YzcxHandleInfo">
         select handledate,count,handletype,name from yzcx_handle_info where handledate BETWEEN #{start} and #{end}
     </select>
-    <select id="selectByDateAndType" resultMap="BaseResultMap" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+    <select id="selectByDateAndType" resultMap="BaseResultMap" parameterType="com.yzcx.api.vo.YZCXSearchParam" useCache="true">
         SELECT
         handledate,
         count,

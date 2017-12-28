@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="mui-card">
-                    <div class="mui-card-header">当日手术</div>
+                    <div class="mui-card-header">当日手术类别分析</div>
                     <div class="mui-card-content">
                         <div id="pie-drss" class="chart-box" style="width:100%;height:290px;"></div>
                     </div>

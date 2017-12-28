@@ -40,15 +40,7 @@ public class YZCXWebController {
      */
     @RequestMapping(value = "/index")
     public String index(HttpServletRequest request, YZCXSearchParam param) throws IOException, ParseException {
-        YzcxEHcacheUtil instance =YzcxEHcacheUtil.getInstance();
-        QyglVo qygl;
-        Object indexgetQygl_ri = instance.getDayData("indexgetQygl_ri");
-        if(indexgetQygl_ri!=null){
-            qygl= (QyglVo) indexgetQygl_ri;
-        }else{
-            qygl = yzcxSearchService.getQygl_ri();
-            instance.putDayData("indexgetQygl_ri",qygl);
-        }
+        QyglVo qygl = yzcxSearchService.getQygl_ri();
         request.setAttribute(YZCXConstant.obj, qygl);
         return "/yzcx/index.jsp";
     }

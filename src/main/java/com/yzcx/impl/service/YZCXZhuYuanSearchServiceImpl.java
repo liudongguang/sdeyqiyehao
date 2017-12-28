@@ -364,11 +364,13 @@ public class YZCXZhuYuanSearchServiceImpl implements YZCXZhuYuanSearchService {
         if (qunianlist.size() == 0) {
             return null;
         }
-        category_ruyuan_tongqi.add(currentDateStr);
         category_ruyuan_tongqi.add(qunianDateStr);
+        category_ruyuan_tongqi.add(currentDateStr);
+
         List<Number> ruyuanData_tongqi = new ArrayList<>();
-        ruyuanData_tongqi.add(currentlist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
         ruyuanData_tongqi.add(qunianlist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+        ruyuanData_tongqi.add(currentlist.stream().collect(Collectors.summingDouble(YzcxHandleInfoMonth::getCount)));
+
 //        Map<String, List<Number>> nameAndData_ryqs_tongqi = new HashMap<>();
 //        nameAndData_ryqs_tongqi.put("入院人数", ruyuanData_tongqi_qunian);
         //GsonOption echartOption_ruyuan_tongqi = EchartsBuilder.buildEchartOption_bar(" ", " ", category_ruyuan_tongqi, nameAndData_ryqs_tongqi, true);

@@ -34,11 +34,9 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/immediatelyHandler")
     @ResponseBody
     public ResultMsg2 immediatelyHandler() throws IOException, ParseException {
-        System.out.println("------日即时处理-------");
+        //System.out.println("------日即时处理-------");
         ResultMsg2 msg = new ResultMsg2();
         yzcXscheduleImmediatelyService.ImmediatelyHandler();
-        YzcxEHcacheUtil instance =YzcxEHcacheUtil.getInstance();
-        instance.clearDayData();
         return msg;
     }
 
