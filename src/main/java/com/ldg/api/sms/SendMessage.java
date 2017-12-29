@@ -82,7 +82,7 @@ public class SendMessage {
 
     @Override
     public String toString() {
-        return "SendMessage{" +
+        return "SendMessageService{" +
                 "userid='" + userid + '\'' +
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +

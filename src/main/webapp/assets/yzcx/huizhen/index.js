@@ -30,8 +30,7 @@ $(document).ready(function () {
             },
             legend: {
                 data: ['会诊申请','会诊接受'],
-                left: 'center',
-                top:450
+                left: 'center'
             },
             grid: {
                 left: '3%',

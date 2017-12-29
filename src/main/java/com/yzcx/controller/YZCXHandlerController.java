@@ -25,6 +25,8 @@ public class YZCXHandlerController {
     private YZCXscheduleService yzcXscheduleService;
    @Autowired
     private YZCXscheduleImmediatelyService yzcXscheduleImmediatelyService;
+
+
     /**
      * 日处理---5分钟一更新
      * @return
@@ -197,5 +199,10 @@ public class YZCXHandlerController {
         param.setStart(LdgDateUtil.parseLocalDateToDate(start));
         param.setEnd(LdgDateUtil.parseLocalDateToDate(end));
         monthGuidang(param);
+    }
+    @RequestMapping(value = "/sendBirthday")
+    @ResponseBody
+    public void sendBirthday() throws IOException, ParseException {
+
     }
 }

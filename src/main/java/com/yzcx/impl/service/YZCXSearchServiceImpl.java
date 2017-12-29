@@ -63,14 +63,21 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
     public QyglVo getMenzhen() throws ParseException {
         QyglVo rs = new QyglVo();
         YZCXSearchParam param = YZCXControllerUtil.getSearchParamForDay();
-        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
-        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
-        Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
-        if (collect.size() > 0) {
-            String double_putong = collect.get(YZCXConstant.putong).toString();
-            String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
-            rs.setPutong(Double.valueOf(double_putong));
-            rs.setJizhen(Double.valueOf(double_jizhen));
+//        param.setHandletype(Arrays.asList(YZCXConstant.menzhen_sfjz));
+//        List<YzcxHandleInfoDay> list = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+//        Map<String, Double> collect = list.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getName, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+//        if (collect.size() > 0) {
+//            String double_putong = collect.get(YZCXConstant.putong).toString();
+//            String double_jizhen = collect.get(YZCXConstant.jizhen).toString();
+//            rs.setPutong(Double.valueOf(double_putong));
+//            rs.setJizhen(Double.valueOf(double_jizhen));
+//        }
+        param.setHandletype(Arrays.asList( YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
+        final List<YzcxHandleInfoDay> chuzhen = yzcxHandleInfoDayMapper.selectByDateAndType(param);
+        final Map<Integer, Double> zhuyuanMap = chuzhen.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
+        if(zhuyuanMap.get(YZCXConstant.chufang_jizhen)!=null) {
+            rs.setJizhen(zhuyuanMap.get(YZCXConstant.chufang_jizhen));
+            rs.setPutong(zhuyuanMap.get(YZCXConstant.chufang_menzhen));
         }
         param.setHandletype(Arrays.asList(YZCXConstant.yuyue_ks));
         List<YzcxHandleInfoDay> yuyuelist = yzcxHandleInfoDayMapper.selectByDateAndType(param);
@@ -93,14 +100,16 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
                 , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
         final List<YzcxHandleInfoDay> chuzhen = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         final Map<Integer, Double> zhuyuanMap = chuzhen.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
-        rs.setChufangshu(zhuyuanMap.get(YZCXConstant.chufang_chufangshu).longValue());
-        rs.setPjchufang(zhuyuanMap.get(YZCXConstant.chufang_pjchufang));
-        rs.setMaxchufang(zhuyuanMap.get(YZCXConstant.chufang_maxchufang));
-        rs.setMinchufang(zhuyuanMap.get(YZCXConstant.chufang_minchufang));
-        rs.setSumchufang(zhuyuanMap.get(YZCXConstant.chufang_sumchufang));
-        rs.setYsgs(zhuyuanMap.get(YZCXConstant.chufang_yssum).intValue());
-        rs.setJzsum(zhuyuanMap.get(YZCXConstant.chufang_jizhen).intValue());
-        rs.setMzsum(zhuyuanMap.get(YZCXConstant.chufang_menzhen).intValue());
+        if(zhuyuanMap.get(YZCXConstant.chufang_chufangshu)!=null) {
+            rs.setChufangshu(zhuyuanMap.get(YZCXConstant.chufang_chufangshu).longValue());
+            rs.setPjchufang(zhuyuanMap.get(YZCXConstant.chufang_pjchufang));
+            rs.setMaxchufang(zhuyuanMap.get(YZCXConstant.chufang_maxchufang));
+            rs.setMinchufang(zhuyuanMap.get(YZCXConstant.chufang_minchufang));
+            rs.setSumchufang(zhuyuanMap.get(YZCXConstant.chufang_sumchufang));
+            rs.setYsgs(zhuyuanMap.get(YZCXConstant.chufang_yssum).intValue());
+            rs.setJzsum(zhuyuanMap.get(YZCXConstant.chufang_jizhen).intValue());
+            rs.setMzsum(zhuyuanMap.get(YZCXConstant.chufang_menzhen).intValue());
+        }
         ///////////////////////////////////费用
         YZCXSearchParam zuotian = YZCXControllerUtil.getBeforeOneDay();
         FeiYongHuiZong indexFeiYongZong = yzcxFeiYongSearchService.getIndexFeiYongZong(zuotian);
