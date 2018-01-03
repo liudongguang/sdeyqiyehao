@@ -19,6 +19,9 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("zyxx");//获取预约信息
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String zhuyuanStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        if(zhuyuanStr==null){
+            return null;
+        }
         Json_ZhuYuanxx zhuYuanxx= JsonUtil.getObjectByJSON(zhuyuanStr,Json_ZhuYuanxx.class);
         ZYXXModle data = zhuYuanxx.getData();
         return data;
@@ -33,6 +36,9 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("yijixx");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String zhuyuanStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        if(zhuyuanStr==null){
+            return null;
+        }
         Json_YiJi zhuYuanxx= JsonUtil.getObjectByJSON(zhuyuanStr,Json_YiJi.class);
         YIJIModle data = zhuYuanxx.getData();
         return data;
@@ -47,6 +53,9 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("yijihuli");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String zhuyuanStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        if(zhuyuanStr==null){
+            return null;
+        }
         Json_Yijihuli zhuYuanxx= JsonUtil.getObjectByJSON(zhuyuanStr,Json_Yijihuli.class);
         YIJIHuLiModle data = zhuYuanxx.getData();
         return data;
@@ -56,6 +65,9 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("shoushuxx");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        if(shoushuStr==null){
+            return null;
+        }
         Json_ShouShu shoushu= JsonUtil.getObjectByJSON(shoushuStr,Json_ShouShu.class);
         SSXXModle data = shoushu.getData();
         return data;
@@ -70,6 +82,9 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("getShouShuXX_One");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        if(shoushuStr==null){
+            return null;
+        }
         SSXXDisplayModle data= JsonUtil.getObjectByJSON(shoushuStr,SSXXDisplayModle.class);
         return data;
     }
@@ -78,6 +93,9 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("huizhenxx");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        if(shoushuStr==null){
+            return null;
+        }
         Json_HuiZhen shoushu= JsonUtil.getObjectByJSON(shoushuStr,Json_HuiZhen.class);
         HzxxModle data = shoushu.getData();
         return data;
@@ -93,6 +111,9 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("getYJHLPageInfo");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String yijihuliStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        if(yijihuliStr==null){
+            return null;
+        }
         YJHLXXDisplayModle data= JsonUtil.getObjectByJSON(yijihuliStr,YJHLXXDisplayModle.class);
         return data;
     }
@@ -101,6 +122,9 @@ public class YzcxHttpRequest {
         String zhuyuanurl = YZCXProperties.getRequestPropertiesVal("getchufang");//
         HttpClientUtil zhuyuanhtc = HttpClientUtil.getInstance();
         final String shoushuStr = zhuyuanhtc.sendHttpPost(zhuyuanurl, requestparam);
+        if(shoushuStr==null){
+            return null;
+        }
         ChuFangModle shoushu= JsonUtil.getObjectByJSON(shoushuStr,ChuFangModle.class);
         return shoushu;
     }

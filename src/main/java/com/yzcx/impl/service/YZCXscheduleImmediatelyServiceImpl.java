@@ -57,6 +57,9 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         HttpClientUtil hc = HttpClientUtil.getInstance();
         final String s = hc.sendHttpPost(menzhenurl, requestparam);
         Json_Menzhen menzhenRs = JsonUtil.getObjectByJSON(s, Json_Menzhen.class);
+        if(menzhenRs==null||menzhenRs.getData()==null){
+            return;
+        }
         Map<String, Map<String, Long>> collect = menzhenRs.getData().stream().map(item -> {
             Date ghrq = item.getGhrq();
             String ghrqStr = LdgDateUtil.getyyyy_mm_dd_hhString(ghrq);
@@ -136,6 +139,9 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         HttpClientUtil jibinghc = HttpClientUtil.getInstance();
         final String jibing = jibinghc.sendHttpPost(jibingurl, requestparam);
         Json_Jbzd jibingRs = JsonUtil.getObjectByJSON(jibing, Json_Jbzd.class);
+        if(jibingRs==null||jibingRs.getData()==null){
+            return;
+        }
         Map<String, Map<String, Long>> jbzdData = jibingRs.getData().stream().map(item -> {
             item.setRqStr(LdgDateUtil.getyyyy_mm_dd_hhString(item.getRq()));
             return item;
@@ -157,6 +163,9 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("end", date23);
         yzcxHandleInfoDayMapper.deleteByTimeForType(param);//删除科室入院信息
         ZYXXModle fullDaydata = YzcxHttpRequest.getZYXX(requestparam);
+        if(fullDaydata==null||fullDaydata.getBingren()==null){
+            return;
+        }
         List<ZYXXzhuyuanbr> bingren = fullDaydata.getBingren();
         final Map<String, Map<String, Long>> dateTime_ryks = bingren.stream().filter(item -> item.getCyrq() == null).map(item -> {
             item.setRyrqStr(LdgDateUtil.getyyyy_mm_dd_hhString(item.getRyrq()));
@@ -201,6 +210,9 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         YIJIModle yijiModle = YzcxHttpRequest.getYIJI(requestparam);
+        if(yijiModle==null){
+            return;
+        }
         final List<YiJiInfo> mzyiji = yijiModle.getMzyiji();
         final List<YiJiInfo> zyyiji = yijiModle.getZyyiji();
         Integer menzhenCount = mzyiji.size();
@@ -232,11 +244,17 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         SSXXModle shoushuxx = YzcxHttpRequest.getShoushuxx(requestparam);
+        if(shoushuxx==null){
+            return;
+        }
         //////////////////////////////////获取明天的手术安排
         YZCXSearchParam nextOneDay= YZCXControllerUtil.getNextOneDay();
         requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(nextOneDay.getStart()));
         requestparam.put("end",  LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(nextOneDay.getEnd()));
         SSXXModle nextDayshoushuxx = YzcxHttpRequest.getShoushuxx(requestparam);
+        if(nextDayshoushuxx==null){
+            return;
+        }
         /////////////////////////////////
         final List<SSXX_anpai> ssap = shoushuxx.getSsap();
         final List<SSXX_info> ss = shoushuxx.getSs();
@@ -265,6 +283,9 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         HzxxModle huiZhenxx = YzcxHttpRequest.getHuiZhenxx(requestparam);
+        if(huiZhenxx==null){
+            return;
+        }
         Map<String, Long> jieshouKSAndSum = huiZhenxx.getJieshou().stream().collect(Collectors.groupingBy(HzxxInfo::getKs, Collectors.counting()));
         Map<String, Long> shenqingKSAndSum = huiZhenxx.getShenqing().stream().collect(Collectors.groupingBy(HzxxInfo::getSqks, Collectors.counting()));
         final Date start = param.getStart();
@@ -281,6 +302,9 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         ChuFangModle chuFang = YzcxHttpRequest.getChuFang(requestparam);
+        if(chuFang==null||chuFang.getData()==null){
+            return;
+        }
         DoubleSummaryStatistics summaryStatistics = chuFang.getData().stream().filter(item ->
                 item.getHjje() >= 0
         ).collect(Collectors.summarizingDouble(FYXXmenzhenchufang::getHjje));//最小，最大，平均金额,总额
