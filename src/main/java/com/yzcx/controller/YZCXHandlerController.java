@@ -1,6 +1,12 @@
 package com.yzcx.controller;
 
+import com.ldg.api.util.JsonUtil;
 import com.ldg.api.vo.ResultMsg2;
+import com.weixin.constant.WeixinConstant;
+import com.weixin.util.*;
+import com.yzcx.api.bo.wxsendmsg.TuWenMsg;
+import com.yzcx.api.bo.wxsendmsg.TuWenMsg_news;
+import com.yzcx.api.bo.wxsendmsg.TuWenMsg_news_articles;
 import com.yzcx.api.service.YZCXscheduleImmediatelyService;
 import com.yzcx.api.service.YZCXscheduleService;
 import com.yzcx.api.util.LdgDateUtil;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -203,8 +210,19 @@ public class YZCXHandlerController {
     @RequestMapping(value = "/sendBirthday")
     @ResponseBody
     public void sendBirthday() throws IOException, ParseException {
-
+        TuWenMsg tuWenMsg=new TuWenMsg();
+        TuWenMsg_news news=new TuWenMsg_news();
+        tuWenMsg.setNews(news);
+        TuWenMsg_news_articles tuWenMsg_news_articles=new TuWenMsg_news_articles();
+        tuWenMsg_news_articles.setTitle("生日祝福");
+        tuWenMsg_news_articles.setDescription("");
+        tuWenMsg_news_articles.setPicurl("http://astelaya.cn/assets/imges/bir.jpg");
+        tuWenMsg_news_articles.setUrl("http://jyxc.sdey.net:9000/sdeyqiyehao/birthday/index.jsp");
+        news.getArticles().add(tuWenMsg_news_articles);
+        /////////////////
+        tuWenMsg.setTouser("ceshi22");
+        //tuWenMsg.setTouser("5598");
+         tuWenMsg.setAgentid(8);
+        WinXinUtils.sendJsonMsgToUser(JsonUtil.parseToJson(tuWenMsg));
     }
-
-
 }

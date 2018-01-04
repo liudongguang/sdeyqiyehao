@@ -22,9 +22,6 @@ $(document).ready(function () {
                     muithis=this;
                     ajaxRequest("webyzcxyjhlxx/pageinfo", {pageNum: parseInt(pageNumInputVal),"ksName":ksNameIDVal}, function (data) {
                         handlerData(data,false,muithis)
-                        if(pageNumInputVal!=1){
-                            $("div[class='mui-scroll margintop90']").removeClass("margintop90");
-                        }
                     });
                 } //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
             }
@@ -63,7 +60,7 @@ function handlerData(data,clickState,muithis){
             var tzsjDate = new Date(tzsj);
             var tzsjDate = tzsjDate.Format("yyyy-MM-dd hh:mm:ss");
         }
-        var appendStr = $("<tr><td>" + brks + "</td><td>" + brxm + "</td><td>" + kssjDate + "</td><td>" + tzsjDate + "</td></tr>");
+        var appendStr = $("<tr class='content-box-cell'><td>" + brks + "</td><td>" + brxm + "</td><td>" + kssjDate + "</td><td>" + tzsjDate + "</td></tr>");
         appendStr.attr({
             zyhm: zyhm,
             brxm: brxm,
