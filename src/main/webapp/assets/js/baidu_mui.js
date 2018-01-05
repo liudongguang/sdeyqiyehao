@@ -26,7 +26,7 @@ jQuery(document).ready(function () {
                     if(typeof(clickHandler)!='undefined'){
                         clickHandler("");
                     }
-                    muithis.endPullupToRefresh(false);
+
                 }
             });
     });

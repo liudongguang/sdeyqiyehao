@@ -38,8 +38,13 @@ function handlerData(data,clickState,muithis){
     var pages = data.pages;
     $("#pageNumID").val(parseInt(pageNum) + 1);
     if (pageNum < pages) {
+        //console.log("还有数据")
+
         muithis.endPullupToRefresh(false);
+        muithis.enablePullupToRefresh();
+
     } else {
+        //console.log("数据没有了")
         muithis.endPullupToRefresh(true);
     }
     for (var i in list) {
