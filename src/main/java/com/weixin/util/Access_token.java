@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 
 public class Access_token {
 	private static String accessToken = null;
-
+	private static String sendmsgaccessToken = null;
 	private static String jsapi_ticket = null;
 
 	private static GroupTicket group = null;
@@ -24,7 +24,12 @@ public class Access_token {
 		String rtStr = htc.sendHttpGet(url);
 		AsscessToken ass = JsonUtil.getObjectByJSON(rtStr, AsscessToken.class);
 		accessToken = ass.getAccess_token();
-
+		/////////
+		String sendmsgurl = MessageFormat.format(getTokenAccessURL, corpid, PropertiesUtil.weixinPropertiesVal("sendsecret"));
+		HttpClientUtil sendmsghtc = HttpClientUtil.getInstance();
+		String sendmsgrtStr = sendmsghtc.sendHttpGet(sendmsgurl);
+		AsscessToken sendmsgass = JsonUtil.getObjectByJSON(sendmsgrtStr, AsscessToken.class);
+		sendmsgaccessToken=sendmsgass.getAccess_token();
 		// jssdk 签名获取
 		String jsapi_ticket_url = MessageFormat
 				.format(PropertiesUtil.weixinPropertiesVal(WeixinConstant.jssdk_get_jsapi_ticketURL), accessToken);
@@ -52,4 +57,7 @@ public class Access_token {
 		return group;
 	}
 
+	public static String getSendmsgaccessToken() {
+		return sendmsgaccessToken;
+	}
 }

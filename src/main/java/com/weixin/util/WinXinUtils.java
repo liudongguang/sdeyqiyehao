@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 public class WinXinUtils {
     public final static void sendJsonMsgToUser(String json){
         String sendMSGRUL = MessageFormat.format(PropertiesUtil.weixinPropertiesVal(WeixinConstant.SENDMSG),
-                Access_token.getAccessToken());
+                Access_token.getSendmsgaccessToken());
         String s = HttpClientUtil.getInstance().sendHttpPostJson(sendMSGRUL, json);
         System.out.println(s);
     }

@@ -207,22 +207,5 @@ public class YZCXHandlerController {
         param.setEnd(LdgDateUtil.parseLocalDateToDate(end));
         monthGuidang(param);
     }
-    @RequestMapping(value = "/sendBirthday")
-    @ResponseBody
-    public void sendBirthday() throws IOException, ParseException {
-        TuWenMsg tuWenMsg=new TuWenMsg();
-        TuWenMsg_news news=new TuWenMsg_news();
-        tuWenMsg.setNews(news);
-        TuWenMsg_news_articles tuWenMsg_news_articles=new TuWenMsg_news_articles();
-        tuWenMsg_news_articles.setTitle("生日祝福");
-        tuWenMsg_news_articles.setDescription("");
-        tuWenMsg_news_articles.setPicurl("http://jyxc.sdey.net:9000/sdeyqiyehao/assets/img/bir.jpg");
-        tuWenMsg_news_articles.setUrl("http://jyxc.sdey.net:9000/sdeyqiyehao/birthday/index.jsp");
-        news.getArticles().add(tuWenMsg_news_articles);
-        /////////////////
-        tuWenMsg.setTouser("ceshi22|5598|ssdf");
-        //tuWenMsg.setTouser("5598");
-         tuWenMsg.setAgentid(8);
-        WinXinUtils.sendJsonMsgToUser(JsonUtil.parseToJson(tuWenMsg));
-    }
+
 }
