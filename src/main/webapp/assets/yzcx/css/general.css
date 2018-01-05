@@ -166,22 +166,6 @@
 
 /*表格*/
 
-.table-box {
-	border-radius: 0px!important;
-}
-
-.whitebg {
-	background: #fff!important;
-}
-
-.graybg01 {
-	background: #fbfbfb!important;
-}
-
-.graybg02 {
-	background: #efefef!important;
-}
-
 table {
 	border-collapse: collapse;
 }
@@ -195,11 +179,18 @@ table.center tr td {
 	text-align: center;
 }
 
-table.listTable thead tr td {
-	background-color: #28b7a3;
-	color: #fff;
+table.listTable {
+	margin-top: 10px;
+}
+
+table.listTable tr td {
+	background-color: #fff;
 	font-size: 14px;
 	line-height: 24px;
+}
+
+table.listTable tr:first-child td {
+	background-color: #28b7a3;
 }
 
 table.listTable tr {
@@ -208,6 +199,10 @@ table.listTable tr {
 
 table.listTable tr td {
 	+border: #ededed 1px solid;
+}
+
+.detailTable tr {
+	border: #ededed 1px solid;
 }
 
 
@@ -269,4 +264,27 @@ ul.selectDate-box li {
 
 .toList {
 	font-size: 16px;
+}
+
+
+/*数据上拉加载*/
+
+.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+	top: 0px !important;
+}
+
+
+/*搜索弹出匹配结果列表*/
+
+.search-matchBox {
+	position: absolute;
+	top: 88px;
+	left: 0px;
+	width: 100%;
+	z-index: 100;
+}
+
+.search-matchBox .mui-table-view-cell {
+	padding: 8px 15px;
+	font-size:15px;
 }

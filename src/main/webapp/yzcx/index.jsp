@@ -158,7 +158,7 @@
                         <div class="mui-row" style="border-top:1px solid #ebebeb">
                             <div class="mui-col-sm-12 mui-col-xs-12 bedUse-profile">床位使用率：<fmt:formatNumber
                                     type="percent" value="${obj.zhuyuan.cwshiyonglv}"
-                                    maxFractionDigits="2"/>%
+                                    maxFractionDigits="2"/>
                             </div>
                         </div>
                         <!--图表容器 床位使用-->
