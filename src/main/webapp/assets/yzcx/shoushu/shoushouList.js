@@ -31,7 +31,7 @@ $(document).ready(function () {
 
 function handlerData(data, clickState,muithis) {
     if (clickState) {
-        $ssinfoID.empty();
+        $("#infoID tr").not(':eq(0)').empty();
     }
     var list = data.list;
     var pageNum = data.pageNum;
