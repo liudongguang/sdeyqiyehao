@@ -30,7 +30,7 @@
         <div class="mui-card table-box" style="margin: 0px 0px 10px 0px;">
             <div class="mui-card-content">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0"
-                       class="center datatable listTable detailTable">
+                       class="center datatable  detailTable">
                     <tbody>
                     <tr>
                         <td>病人姓名：</td>

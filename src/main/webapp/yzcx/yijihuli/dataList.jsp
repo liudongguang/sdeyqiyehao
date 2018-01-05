@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="assets/yzcx/css/general.css">
 </head>
 <body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+    <div class="mui-inner-wrap">
 <%@ include file="../yzcxNav.jsp" %>
 <!------------页面主标题 ------------>
 <header class="mui-bar mui-bar-nav">

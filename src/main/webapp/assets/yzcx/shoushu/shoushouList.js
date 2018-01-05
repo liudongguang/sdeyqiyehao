@@ -1,4 +1,4 @@
-var $ssinfoID = $("#ssinfoID");
+var $ssinfoID = $("#infoID");
 var muithis=null;
 $(document).ready(function () {
     initTapHandler();
@@ -7,7 +7,7 @@ $(document).ready(function () {
     mui('#offCanvasContentScroll').scroll();
     mui.init({
         pullRefresh : {
-            container:"#offCanvasContentScroll",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+            container:"#pullrefresh",//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
             up : {
                 height:50,//可选.默认50.触发上拉加载拖动距离
                 auto:true,//可选,默认false.自动上拉加载一次
@@ -22,10 +22,6 @@ $(document).ready(function () {
                      muithis=this;
                     ajaxRequest("webyzcxSsxx/shoushuList", {pageNum: parseInt(pageNumInputVal),"ksName":ksNameIDVal}, function (data) {
                         handlerData(data,false,muithis)
-                        //
-                        if(pageNumInputVal!=1){
-                            $("div[class='mui-scroll margintop90']").removeClass("margintop90");
-                        }
                     });
                 } //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
             }
