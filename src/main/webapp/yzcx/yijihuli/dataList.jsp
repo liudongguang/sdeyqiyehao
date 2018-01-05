@@ -27,7 +27,9 @@
 <!--搜索-->
 <div class="searchBox">
     <div class="mui-input-row mui-search">
-        <input type="search" class="mui-input-clear search" placeholder="住院号码或病人姓名">
+        <input type="search" class="mui-input-clear search" placeholder="科室名称或科室首字母" fangbaidu_searurl="hisoffice/searchKS">
+        <input type="hidden" value="" id="pageNumID"/>
+        <input type="hidden" value="" id="ksNameID"/>
     </div>
 </div>
 <!--列表-->
@@ -54,17 +56,14 @@
 <div class="mui-off-canvas-backdrop"></div>
 </div>
 </div>
-<!--搜索弹出匹配结果
-<div class="search-matchBox">
+<!--搜索弹出匹配结果-->
+<div class="search-matchBox" id="disRSDIVID" style="display: none">
     <div class="mui-content-padded" style="margin-top:0px; box-shadow:0px 4px 10px 0px #c3c3c3;">
-        <ul class="mui-table-view">
-            <li class="mui-table-view-cell">测试列表1</li>
-            <li class="mui-table-view-cell">测试列表2</li>
-            <li class="mui-table-view-cell">测试列表3</li>
+        <ul class="mui-table-view" id="addULID">
         </ul>
     </div>
 </div>
--->
+
 <!--引入 mui文件-->
 <script src="assets/yzcx/mui/js/mui.min.js"></script>
 <!--引入 自定义文件 -->
@@ -74,5 +73,6 @@
 <script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
 <script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
 <script language="javascript" type="text/javascript" src="assets/yzcx/yijihuli/dataList.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/baidu_mui.js"></script>
 </body>
 </html>
