@@ -93,6 +93,6 @@ function handlerData(data, clickState,muithis) {
 function clickHandler(ksname) {
     $("#ksNameID").val(ksname);
     ajaxRequest("webyzcxSsxx/shoushuList", {pageNum: 1, "ksName": ksname}, function (data) {
-        handlerData(data, true,muithis);
+        handlerData(data,true,muithis);
     });
 }
