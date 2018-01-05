@@ -24,7 +24,7 @@
         <!------------页面主标题 ------------>
         <header class="mui-bar mui-bar-nav">
             <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
-            <h1 class="mui-title">病人列表(<span id="memcount"></span>)</h1>
+            <h1 class="mui-title">病人列表(共<span id="memcount"></span>人)</h1>
         </header>
         <!--搜索-->
         <div class="searchBox">
