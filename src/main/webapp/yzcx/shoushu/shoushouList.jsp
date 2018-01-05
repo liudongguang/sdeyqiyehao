@@ -43,14 +43,16 @@
             <div id="pullrefresh" class="mui-content mui-scroll-wrapper">
                 <div class="mui-scroll">
                     <div class="mui-content-padded">
-                        <table  width="100%" border="0" cellspacing="0" cellpadding="0"
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0"
                                class="center datatable listTable content-box">
+                            <thead>
                             <tr class="content-box-cell">
                                 <td width="25%">所在科室</td>
                                 <td width="25%">患者姓名</td>
                                 <td width="25%">手术名称</td>
                                 <td width="25%">手术医生</td>
                             </tr>
+                            </thead>
                             <tbody id="infoID">
 
                             </tbody>
