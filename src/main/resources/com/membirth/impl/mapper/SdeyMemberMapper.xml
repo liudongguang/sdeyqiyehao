@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.membirth.impl.mapper.SdeyMemberMapper">
+    <resultMap id="BaseResultMap" type="com.membirth.api.po.SdeyMember">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="gonghao" jdbcType="VARCHAR" property="gonghao"/>
+        <result column="xingming" jdbcType="VARCHAR" property="xingming"/>
+        <result column="idcard" jdbcType="VARCHAR" property="idcard"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="month" jdbcType="INTEGER" property="month"/>
+        <result column="day" jdbcType="INTEGER" property="day"/>
+    </resultMap>
+    <select id="getAllByMonthNum" resultMap="BaseResultMap">
+       SELECT idcard from sdey_member where month=#{month,jdbcType=INTEGER}
+    </select>
+    <insert id="batchInsert" parameterType="java.util.List" flushCache="true">
+        insert into sdey_member (gonghao, xingming,
+        idcard,mobile,month,day
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.gonghao,jdbcType=VARCHAR}, #{item.xingming,jdbcType=VARCHAR},#{item.idcard,jdbcType=VARCHAR}, #{item.mobile,jdbcType=VARCHAR},
+            #{item.month,jdbcType=INTEGER},#{item.day,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+</mapper>

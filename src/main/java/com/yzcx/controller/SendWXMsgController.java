@@ -1,31 +1,32 @@
 package com.yzcx.controller;
 
 import com.ldg.api.util.JsonUtil;
-import com.ldg.api.util.RequestFileUtil;
 import com.weixin.util.WinXinUtils;
 import com.yzcx.api.bo.wxsendmsg.TuWenMsg;
 import com.yzcx.api.bo.wxsendmsg.TuWenMsg_news;
 import com.yzcx.api.bo.wxsendmsg.TuWenMsg_news_articles;
+import com.yzcx.api.service.ExcelImportService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/sendwxmsg")
 public class SendWXMsgController {
 
+    @Autowired
+    private ExcelImportService excelImportService;
+
     @RequestMapping(value = "/handlerBirthExcel")
     @ResponseBody
-    public String handlerBirthExcel(HttpServletRequest request) throws IOException, ParseException {
-        List<MultipartFile> uploadFile = RequestFileUtil.getUploadFile(request);
-        System.out.println(uploadFile);
-        return uploadFile.get(0).getName();
+    public String handlerBirthExcel(HttpServletRequest request) throws Exception {
+        String rs=excelImportService.saveExcelBirthData(request);
+        return rs;
     }
 
 

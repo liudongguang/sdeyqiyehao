@@ -57,7 +57,7 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         HttpClientUtil hc = HttpClientUtil.getInstance();
         final String s = hc.sendHttpPost(menzhenurl, requestparam);
         Json_Menzhen menzhenRs = JsonUtil.getObjectByJSON(s, Json_Menzhen.class);
-        if(menzhenRs==null||menzhenRs.getData()==null){
+        if (menzhenRs == null || menzhenRs.getData() == null) {
             return;
         }
         Map<String, Map<String, Long>> collect = menzhenRs.getData().stream().map(item -> {
@@ -139,7 +139,7 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         HttpClientUtil jibinghc = HttpClientUtil.getInstance();
         final String jibing = jibinghc.sendHttpPost(jibingurl, requestparam);
         Json_Jbzd jibingRs = JsonUtil.getObjectByJSON(jibing, Json_Jbzd.class);
-        if(jibingRs==null||jibingRs.getData()==null){
+        if (jibingRs == null || jibingRs.getData() == null) {
             return;
         }
         Map<String, Map<String, Long>> jbzdData = jibingRs.getData().stream().map(item -> {
@@ -163,7 +163,7 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("end", date23);
         yzcxHandleInfoDayMapper.deleteByTimeForType(param);//删除科室入院信息
         ZYXXModle fullDaydata = YzcxHttpRequest.getZYXX(requestparam);
-        if(fullDaydata==null||fullDaydata.getBingren()==null){
+        if (fullDaydata == null || fullDaydata.getBingren() == null) {
             return;
         }
         List<ZYXXzhuyuanbr> bingren = fullDaydata.getBingren();
@@ -172,7 +172,9 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
             return item;
         }).collect(Collectors.groupingBy(ZYXXzhuyuanbr::getRyrqStr, Collectors.groupingBy(ZYXXzhuyuanbr::getBrks, Collectors.counting())));
         List<YzcxHandleInfo> yzcxHandleInfos = YZCXscheduleMapToListHandler.handlerMapForHH(dateTime_ryks, YZCXConstant.zhuyuan_keshiruyuan);
-        yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);//保存入院信息
+        if (yzcxHandleInfos.size() != 0) {
+            yzcxHandleInfoDayMapper.batchInsert(yzcxHandleInfos);//保存入院信息
+        }
         List<Integer> zyxxType = Arrays.asList(YZCXConstant.zhuyuan_brqk, YZCXConstant.zhuyuan_cyfs,
                 YZCXConstant.zhuyuan_chuyuanRenshu, YZCXConstant.zhuyuan_ruyuanrenshu,
                 YZCXConstant.zhuyuan_zhuanchuKS, YZCXConstant.zhuyuan_zhuanruKS, YZCXConstant.zhuyuan_zaiyuan);
@@ -202,7 +204,9 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(zhuanchuKS, start, YZCXConstant.zhuyuan_zhuanchuKS));
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(zhuanruKS, start, YZCXConstant.zhuyuan_zhuanruKS));
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.zhuyuan_zaiyuanStr, YZCXConstant.zhuyuan_zaiyuan, start, zaiyuanNum.doubleValue()));
-        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存入院信息
+        if (rsList.size() != 0) {
+            yzcxHandleInfoDayMapper.batchInsert(rsList);//保存入院信息
+        }
     }
 
     private void menzhenDayHandler_yiji(YZCXSearchParam param, String date00, String date23) {
@@ -210,7 +214,7 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         YIJIModle yijiModle = YzcxHttpRequest.getYIJI(requestparam);
-        if(yijiModle==null){
+        if (yijiModle == null) {
             return;
         }
         final List<YiJiInfo> mzyiji = yijiModle.getMzyiji();
@@ -235,8 +239,10 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.yiji_zhuyuan_hejiStr, YZCXConstant.yiji_zhuyuan_heji, start, zhuyuanHeji.doubleValue()));
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(yijiFYType, start, YZCXConstant.yiji_type));
         param.setHandletype(Arrays.asList(YZCXConstant.yiji_menzhen, YZCXConstant.yiji_zhuyuan, YZCXConstant.yiji_type));
-        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
-        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存医技信息
+        if (rsList.size() != 0) {
+            yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+            yzcxHandleInfoDayMapper.batchInsert(rsList);//保存医技信息
+        }
     }
 
     private void menzhenDayHandler_shoushuxx(YZCXSearchParam param, String date00, String date23) throws ParseException {
@@ -244,15 +250,15 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         SSXXModle shoushuxx = YzcxHttpRequest.getShoushuxx(requestparam);
-        if(shoushuxx==null){
+        if (shoushuxx == null) {
             return;
         }
         //////////////////////////////////获取明天的手术安排
-        YZCXSearchParam nextOneDay= YZCXControllerUtil.getNextOneDay();
+        YZCXSearchParam nextOneDay = YZCXControllerUtil.getNextOneDay();
         requestparam.put("starte", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(nextOneDay.getStart()));
-        requestparam.put("end",  LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(nextOneDay.getEnd()));
+        requestparam.put("end", LdgDateUtil.getYyyy_mm_dd_hh_mm_ssString(nextOneDay.getEnd()));
         SSXXModle nextDayshoushuxx = YzcxHttpRequest.getShoushuxx(requestparam);
-        if(nextDayshoushuxx==null){
+        if (nextDayshoushuxx == null) {
             return;
         }
         /////////////////////////////////
@@ -267,15 +273,17 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         final Date start = param.getStart();
         Integer anpaiShu = ssap.size();
         Integer ssShu = ss.size();
-        Integer nextDayanpaiShu=nextDayshoushuxx.getSsap().size();
+        Integer nextDayanpaiShu = nextDayshoushuxx.getSsap().size();
         List<YzcxHandleInfo> rsList = new ArrayList<>();
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.shoushu_anpaiStr, YZCXConstant.shoushu_anpai, start, anpaiShu.doubleValue()));
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.shoushu_anpaiStr, YZCXConstant.shoushu_anpai_nextDay, start, nextDayanpaiShu.doubleValue()));
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo(YZCXConstant.shoushu_infoStr, YZCXConstant.shoushu_info, start, ssShu.doubleValue()));
         rsList.addAll(YZCXscheduleMapToListHandler.handlerMapForHH(ssfenji, YZCXConstant.shoushu_fenji));
-        param.setHandletype(Arrays.asList(YZCXConstant.shoushu_anpai, YZCXConstant.shoushu_info, YZCXConstant.shoushu_fenji,YZCXConstant.shoushu_anpai_nextDay));
-        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
-        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存手术
+        param.setHandletype(Arrays.asList(YZCXConstant.shoushu_anpai, YZCXConstant.shoushu_info, YZCXConstant.shoushu_fenji, YZCXConstant.shoushu_anpai_nextDay));
+        if (rsList.size() != 0) {
+            yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+            yzcxHandleInfoDayMapper.batchInsert(rsList);//保存手术
+        }
     }
 
     private void menzhenDayHandler_huizhen(YZCXSearchParam param, String date00, String date23) {
@@ -283,7 +291,7 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         HzxxModle huiZhenxx = YzcxHttpRequest.getHuiZhenxx(requestparam);
-        if(huiZhenxx==null){
+        if (huiZhenxx == null) {
             return;
         }
         Map<String, Long> jieshouKSAndSum = huiZhenxx.getJieshou().stream().collect(Collectors.groupingBy(HzxxInfo::getKs, Collectors.counting()));
@@ -293,8 +301,10 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(jieshouKSAndSum, start, YZCXConstant.huizhen_jieshou));
         rsList.addAll(YZCXscheduleMapToListHandler.handlerCommonData(shenqingKSAndSum, start, YZCXConstant.huizhen_shenqing));
         param.setHandletype(Arrays.asList(YZCXConstant.huizhen_jieshou, YZCXConstant.huizhen_shenqing));
-        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
-        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存会诊
+        if (rsList.size() != 0) {
+            yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+            yzcxHandleInfoDayMapper.batchInsert(rsList);//保存会诊
+        }
     }
 
     private void menzhenDayHandler_chufang(YZCXSearchParam param, String date00, String date23) {
@@ -302,7 +312,7 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         requestparam.put("starte", date00);
         requestparam.put("end", date23);
         ChuFangModle chuFang = YzcxHttpRequest.getChuFang(requestparam);
-        if(chuFang==null||chuFang.getData()==null){
+        if (chuFang == null || chuFang.getData() == null) {
             return;
         }
         DoubleSummaryStatistics summaryStatistics = chuFang.getData().stream().filter(item ->
@@ -346,8 +356,10 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         rsList.add(YzcxHandleInfoFactory.createYzcxHandleInfo("处方", YZCXConstant.chufang_jizhen, start, Double.valueOf(jzsum)));
         param.setHandletype(Arrays.asList(YZCXConstant.chufang_chufangshu, YZCXConstant.chufang_pjchufang, YZCXConstant.chufang_maxchufang
                 , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
-        yzcxHandleInfoDayMapper.deleteByTimeForType(param);
-        yzcxHandleInfoDayMapper.batchInsert(rsList);//保存处方
+        if (rsList.size() != 0) {
+            yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+            yzcxHandleInfoDayMapper.batchInsert(rsList);//保存处方
+        }
     }
 
     /**
