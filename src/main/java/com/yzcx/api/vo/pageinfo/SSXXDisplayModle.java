@@ -9,6 +9,15 @@ public class SSXXDisplayModle {
     private List<SSXX_anpai> list;
     private Integer pageNum;
     private Integer pages;
+    private Long total;
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
+    }
 
     public Integer getPageNum() {
         return pageNum;

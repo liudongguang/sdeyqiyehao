@@ -12,6 +12,15 @@ public class ZYXXzhuyuanbr {
     private Date ryrq;//入院日期
     private Date cyrq;//出院日期
     private String cyfs;//出院方式
+    private String lxdh;//联系电话
+
+    public String getLxdh() {
+        return lxdh;
+    }
+
+    public void setLxdh(String lxdh) {
+        this.lxdh = lxdh;
+    }
 
     private String ryrqStr;
 

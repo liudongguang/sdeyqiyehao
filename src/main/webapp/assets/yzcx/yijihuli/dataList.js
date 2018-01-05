@@ -36,6 +36,8 @@ function handlerData(data,clickState,muithis){
     var list = data.list;
     var pageNum = data.pageNum;
     var pages = data.pages;
+    var total=data.total;
+    $("#memcount").text(total);
     $("#pageNumID").val(parseInt(pageNum) + 1);
     if (pageNum < pages) {
         //console.log("还有数据")
