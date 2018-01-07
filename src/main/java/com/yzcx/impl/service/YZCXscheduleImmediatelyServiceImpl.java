@@ -362,7 +362,6 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
                 , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
         if (rsList.size() != 0) {
             yzcxHandleInfoDayMapper.deleteByTimeForType(param);
-            System.out.println(rsList);
             yzcxHandleInfoDayMapper.batchInsert(rsList);//保存处方
         }
     }
