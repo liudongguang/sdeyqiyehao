@@ -315,9 +315,13 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         if (chuFang == null || chuFang.getData() == null) {
             return;
         }
-        DoubleSummaryStatistics summaryStatistics = chuFang.getData().stream().filter(item ->
-                item.getHjje() >= 0
-        ).collect(Collectors.summarizingDouble(FYXXmenzhenchufang::getHjje));//最小，最大，平均金额,总额
+        List<FYXXmenzhenchufang> data = chuFang.getData().stream().filter(item ->
+                item.getHjje() >0
+        ).collect(Collectors.toList());
+        if (data.size() == 0) {
+            return;
+        }
+        DoubleSummaryStatistics summaryStatistics = data.stream().collect(Collectors.summarizingDouble(FYXXmenzhenchufang::getHjje));//最小，最大，平均金额,总额
         long chufangshu = summaryStatistics.getCount();//处方数
         double pjchufang = summaryStatistics.getAverage();//平均处方金额
         double maxchufang = summaryStatistics.getMax();//最大处方金额
@@ -358,6 +362,7 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
                 , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
         if (rsList.size() != 0) {
             yzcxHandleInfoDayMapper.deleteByTimeForType(param);
+            System.out.println(rsList);
             yzcxHandleInfoDayMapper.batchInsert(rsList);//保存处方
         }
     }
@@ -382,17 +387,17 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         LocalDateTime beforeOneHource = nowTime.minus(1, ChronoUnit.HOURS);
         String beforeOneHourceStr = beforeOneHource.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
         /////////////////////////////////////////////////////1.门诊/////////////////////////////////////////////////////////////////
-        menzhenDayHandler_menzhen(param, date00, date23, beforeOneHourceStr, nowDateTime_Str, nowDateTime, zhengshiTime_Date, zhengshiTime);
+        //menzhenDayHandler_menzhen(param, date00, date23, beforeOneHourceStr, nowDateTime_Str, nowDateTime, zhengshiTime_Date, zhengshiTime);
         ////////////////////////////////////////////////////2.疾病////////////////////////////////////////////////////////////////
-        menzhenDayHandler_jibing(param, date00, date23);
+        //menzhenDayHandler_jibing(param, date00, date23);
         //////////////////////////////////////////////////3.住院信息////////////////////////////////////////////////////////////////////
-        menzhenDayHandler_zhuyuan(param, date00, date23);
+        //menzhenDayHandler_zhuyuan(param, date00, date23);
         ////////////////////////////////////////////////////4.医技信息////////////////////////////////////////////////////////////////////
-        menzhenDayHandler_yiji(param, date00, date23);
+        //menzhenDayHandler_yiji(param, date00, date23);
         ////////////////////////////////////////////////////5.手术信息////////////////////////////////////////////////////////
-        menzhenDayHandler_shoushuxx(param, date00, date23);
+        //menzhenDayHandler_shoushuxx(param, date00, date23);
         /////////////////////////////////////////////////6.会诊信息////////////////////////////////////////////
-        menzhenDayHandler_huizhen(param, date00, date23);
+        //menzhenDayHandler_huizhen(param, date00, date23);
         ///////////////////////////////////////////7.处方
         menzhenDayHandler_chufang(param, date00, date23);
     }
