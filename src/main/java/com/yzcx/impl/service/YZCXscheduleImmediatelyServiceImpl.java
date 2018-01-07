@@ -387,17 +387,17 @@ public class YZCXscheduleImmediatelyServiceImpl implements YZCXscheduleImmediate
         LocalDateTime beforeOneHource = nowTime.minus(1, ChronoUnit.HOURS);
         String beforeOneHourceStr = beforeOneHource.format(LdgDateUtil.newDateFormat_yyyy_mm_dd_HH_00_00);
         /////////////////////////////////////////////////////1.门诊/////////////////////////////////////////////////////////////////
-        //menzhenDayHandler_menzhen(param, date00, date23, beforeOneHourceStr, nowDateTime_Str, nowDateTime, zhengshiTime_Date, zhengshiTime);
+        menzhenDayHandler_menzhen(param, date00, date23, beforeOneHourceStr, nowDateTime_Str, nowDateTime, zhengshiTime_Date, zhengshiTime);
         ////////////////////////////////////////////////////2.疾病////////////////////////////////////////////////////////////////
-        //menzhenDayHandler_jibing(param, date00, date23);
+        menzhenDayHandler_jibing(param, date00, date23);
         //////////////////////////////////////////////////3.住院信息////////////////////////////////////////////////////////////////////
-        //menzhenDayHandler_zhuyuan(param, date00, date23);
+        menzhenDayHandler_zhuyuan(param, date00, date23);
         ////////////////////////////////////////////////////4.医技信息////////////////////////////////////////////////////////////////////
-        //menzhenDayHandler_yiji(param, date00, date23);
+        menzhenDayHandler_yiji(param, date00, date23);
         ////////////////////////////////////////////////////5.手术信息////////////////////////////////////////////////////////
-        //menzhenDayHandler_shoushuxx(param, date00, date23);
+        menzhenDayHandler_shoushuxx(param, date00, date23);
         /////////////////////////////////////////////////6.会诊信息////////////////////////////////////////////
-        //menzhenDayHandler_huizhen(param, date00, date23);
+        menzhenDayHandler_huizhen(param, date00, date23);
         ///////////////////////////////////////////7.处方
         menzhenDayHandler_chufang(param, date00, date23);
     }
