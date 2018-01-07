@@ -242,6 +242,20 @@ public class LdgDateUtil {
     }
 
     /**
+     * 获取月的开始与结束
+     * @return
+     * @throws ParseException
+     */
+    public static YZCXSearchParam getSearchParamForThisMonth() throws ParseException {
+        YZCXSearchParam nobj=new YZCXSearchParam();
+        LocalDate nowDate = LocalDate.now();
+        nobj.setStart(get000000Time(parseLocalDateToDate(nowDate.with(TemporalAdjusters.firstDayOfMonth()))));  //一月的开始
+        nobj.setEnd(get235959Time(parseLocalDateToDate(nowDate.with(TemporalAdjusters.lastDayOfMonth()))));//一月的结束
+        nobj.setLocalDate(nowDate);
+        return nobj;
+    }
+
+    /**
      * 获取提前月数1号，到本日之前,区间为一天
      * @param tiqianNum
      * @return

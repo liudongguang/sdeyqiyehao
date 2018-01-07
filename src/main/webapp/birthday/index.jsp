@@ -9,10 +9,10 @@
 <body>
 <div style=" height: 1610px">
 	<img src="assets/img/birthday.jpg" style="width:100%; height: 100%;">
-	<div style="position:absolute;color:#8d6551;font-size:45px;top:300px;font-family: 华文楷体;left:100px;padding: 15px;">
-		<p>亲爱的xxx：</p><p style="text-indent:2em">时光的树越长越葱茏，生命的花越开越艳丽！一年一度，每一次生日都是崭新的开始，每一次祝福都是浓浓的情谊！
+	<div style="position:absolute;color:#8d6551;font-size:45px;top:150px;font-family: 华文楷体;left:100px;padding: 15px;">
+		<p>亲爱的${param.xingming}：</p><p style="text-indent:2em">时光的树越长越葱茏，生命的花越开越艳丽！一年一度，每一次生日都是崭新的开始，每一次祝福都是浓浓的情谊！
 	</p>
-	  <p style="text-indent:2em">×月×日是您的生日，山东大学齐鲁第二医院祝您生日快乐！愿您幸福安康、顺意连年！</p>
+	  <p style="text-indent:2em">${param.month}月${param.day}日是您的生日，山东大学齐鲁第二医院祝您生日快乐！愿您幸福安康、顺意连年！</p>
 		<p style="text-indent:2em">100元生日补贴已发放到您的善德餐卡中，浓浓的祝福请您收下。</p>
 		<p style="text-align: right">山东大学齐鲁第二医院工会</p>
 	</div>

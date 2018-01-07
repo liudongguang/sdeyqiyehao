@@ -35,6 +35,18 @@ public class SdeyMember {
      * 生日 日
      */
     private Integer day;
+    /**
+     * 发送状态
+     */
+    private String sendstate;
+
+    public String getSendstate() {
+        return sendstate;
+    }
+
+    public void setSendstate(String sendstate) {
+        this.sendstate = sendstate;
+    }
 
     /**
      * @return uid
@@ -156,5 +168,19 @@ public class SdeyMember {
      */
     public void setDay(Integer day) {
         this.day = day;
+    }
+
+    @Override
+    public String toString() {
+        return "SdeyMember{" +
+                "uid=" + uid +
+                ", gonghao='" + gonghao + '\'' +
+                ", xingming='" + xingming + '\'' +
+                ", idcard='" + idcard + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", month=" + month +
+                ", day=" + day +
+                ", sendstate='" + sendstate + '\'' +
+                '}';
     }
 }

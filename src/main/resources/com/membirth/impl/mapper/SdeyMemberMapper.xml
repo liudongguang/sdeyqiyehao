@@ -12,9 +12,14 @@
         <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
         <result column="month" jdbcType="INTEGER" property="month"/>
         <result column="day" jdbcType="INTEGER" property="day"/>
+        <result column="sendstate" jdbcType="VARCHAR" property="sendstate"/>
+
     </resultMap>
     <select id="getAllByMonthNum" resultMap="BaseResultMap">
        SELECT idcard from sdey_member where month=#{month,jdbcType=INTEGER}
+    </select>
+    <select id="getAllByMonthNumForSend" resultMap="BaseResultMap">
+        SELECT gonghao,xingming,month,day from sdey_member where month=#{month,jdbcType=INTEGER}
     </select>
     <insert id="batchInsert" parameterType="java.util.List" flushCache="true">
         insert into sdey_member (gonghao, xingming,
@@ -22,8 +27,12 @@
         )
         values
         <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.gonghao,jdbcType=VARCHAR}, #{item.xingming,jdbcType=VARCHAR},#{item.idcard,jdbcType=VARCHAR}, #{item.mobile,jdbcType=VARCHAR},
+            (#{item.gonghao,jdbcType=VARCHAR}, #{item.xingming,jdbcType=VARCHAR},#{item.idcard,jdbcType=VARCHAR},
+            #{item.mobile,jdbcType=VARCHAR},
             #{item.month,jdbcType=INTEGER},#{item.day,jdbcType=INTEGER})
         </foreach>
     </insert>
+    <update id="updateSendState" parameterType="com.membirth.api.po.SdeyMember">
+        update sdey_member set sendstate=#{sendstate,jdbcType=VARCHAR} where gonghao=#{gonghao,jdbcType=VARCHAR}
+    </update>
 </mapper>

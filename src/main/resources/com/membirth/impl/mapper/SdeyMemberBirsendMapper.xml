@@ -8,4 +8,7 @@
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="senddate" jdbcType="DATE" property="senddate" />
   </resultMap>
+  <select id="selectByDate" resultType="int" parameterType="com.yzcx.api.vo.YZCXSearchParam">
+       select count(1) from sdey_member_birsend where senddate BETWEEN #{start,jdbcType=DATE} and #{end,jdbcType=DATE}
+  </select>
 </mapper>

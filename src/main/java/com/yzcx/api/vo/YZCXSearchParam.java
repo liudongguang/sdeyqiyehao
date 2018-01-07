@@ -2,6 +2,7 @@ package com.yzcx.api.vo;
 
 import com.yzcx.api.util.LdgDateUtil;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,15 @@ public class YZCXSearchParam {
     private Date start;
     private Date end;
     private List<Integer> handletype;
+    private LocalDate localDate;
+
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
 
     public List<Integer> getHandletype() {
         return handletype;
