@@ -108,7 +108,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
 //            sdeyMember.setGonghao("ceshi22");
 //            sdeyMember.setMonth(3);
 //            sdeyMember.setDay(15);
-//            dbmonthData.add(sdeyMember);
+           // dbmonthData.add(sdeyMember);
             dbmonthData.forEach(item -> {
                 String xingming = item.getXingming();
                 Integer month = item.getMonth();
@@ -126,7 +126,7 @@ public class ExcelImportServiceImpl implements ExcelImportService {
                 /////////////////
                 tuWenMsg.setTouser(gonghao);
                 //tuWenMsg.setTouser("5598");
-                tuWenMsg.setAgentid(1000004);
+                tuWenMsg.setAgentid(0);
                 try {
                     String s = WinXinUtils.sendJsonMsgToUser(JsonUtil.parseToJson(tuWenMsg));
                     SdeyMember updatemem = new SdeyMember();

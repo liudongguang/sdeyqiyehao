@@ -1,10 +1,5 @@
 package com.yzcx.controller;
 
-import com.ldg.api.util.JsonUtil;
-import com.weixin.util.WinXinUtils;
-import com.yzcx.api.bo.wxsendmsg.TuWenMsg;
-import com.yzcx.api.bo.wxsendmsg.TuWenMsg_news;
-import com.yzcx.api.bo.wxsendmsg.TuWenMsg_news_articles;
 import com.yzcx.api.service.ExcelImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
