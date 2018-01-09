@@ -44,4 +44,5 @@ public class SendWXMsgController {
 //        tuWenMsg.setAgentid(1000004);
 //        WinXinUtils.sendJsonMsgToUser(JsonUtil.parseToJson(tuWenMsg));
     }
+    
 }
