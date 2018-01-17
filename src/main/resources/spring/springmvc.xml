@@ -80,5 +80,43 @@
 		</property>
 	</bean>
 
-
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.weixin.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/webyzcx/**" />
+			<mvc:exclude-mapping path="/webyzcx/login" />
+			<bean class="com.yzcx.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/webyzcxFeiYong/**" />
+			<bean class="com.yzcx.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/webyzcxHuanzhexx/**" />
+			<bean class="com.yzcx.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/webyzcxHuizhen/**" />
+			<bean class="com.yzcx.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/webyzcxSsxx/**" />
+			<bean class="com.yzcx.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/webyzcxyjhlxx/**" />
+			<bean class="com.yzcx.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/webyzcxyijixx/**" />
+			<bean class="com.yzcx.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/webyzcxZyxx/**" />
+			<bean class="com.yzcx.interceptor.ManagerLoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>
