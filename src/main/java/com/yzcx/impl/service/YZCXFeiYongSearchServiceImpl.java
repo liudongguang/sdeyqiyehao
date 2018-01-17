@@ -47,6 +47,12 @@ public class YZCXFeiYongSearchServiceImpl implements YZCXFeiYongSearchService {
         if (zhuyuanYiLiao == null || zhuyuanYao == null || zhuyuanQiTa == null || menzhenYiLiao == null || menzhenYao == null || menzhenQiTa == null) {
             return rs;
         }
+//        System.out.println("zhuyuanYiLiao:" + zhuyuanYiLiao);
+//        System.out.println("zhuyuanYao:" + zhuyuanYao);
+//        System.out.println("zhuyuanQiTa:" + zhuyuanQiTa);
+//        System.out.println("menzhenYiLiao:" + menzhenYiLiao);
+//        System.out.println("menzhenYao:" + menzhenYao);
+//        System.out.println("menzhenQiTa:" + menzhenQiTa);
         /////////////////////////////////////////////////////////////
         //Map<String,List<Number>> zysrMap=new HashMap<>();
         //zysrMap.put("住院收入", Arrays.asList(zhuyuanYiLiao, zhuyuanYao, zhuyuanQiTa));

@@ -582,7 +582,7 @@ $(document).ready(function () {
 
             },
             series: [{
-                name: '住院药费',
+                name: '门诊药费',
                 type: 'bar',
                 stack: '总量',
                 label: {
@@ -634,7 +634,7 @@ $(document).ready(function () {
                 data: mz_yaofei
             },
                 {
-                    name: '住院医疗费',
+                    name: '门诊医疗费',
                     type: 'bar',
                     stack: '总量',
                     label: {
@@ -686,7 +686,7 @@ $(document).ready(function () {
                     data: mz_yiliao
                 },
                 {
-                    name: '住院其他费',
+                    name: '门诊其他费',
                     type: 'bar',
                     stack: '总量',
                     label: {

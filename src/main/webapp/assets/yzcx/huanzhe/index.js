@@ -29,9 +29,9 @@ $(document).ready(function () {
                 }
             },
             legend: {
-                data: ['女', '男'],
-                left: 'left',
-                top: 280
+                data: ['女', '男']
+
+
             },
             grid: {
                 left: '3%',
@@ -84,6 +84,7 @@ $(document).ready(function () {
                 }
             ]
         };
+        console.log(JSON.stringify(option))
         myChart.setOption(option);
     });
 })

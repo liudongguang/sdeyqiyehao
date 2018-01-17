@@ -72,10 +72,10 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
 //            rs.setPutong(Double.valueOf(double_putong));
 //            rs.setJizhen(Double.valueOf(double_jizhen));
 //        }
-        param.setHandletype(Arrays.asList( YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
+        param.setHandletype(Arrays.asList(YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
         final List<YzcxHandleInfoDay> chuzhen = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         final Map<Integer, Double> zhuyuanMap = chuzhen.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
-        if(zhuyuanMap.get(YZCXConstant.chufang_jizhen)!=null) {
+        if (zhuyuanMap.get(YZCXConstant.chufang_jizhen) != null) {
             rs.setJizhen(zhuyuanMap.get(YZCXConstant.chufang_jizhen));
             rs.setPutong(zhuyuanMap.get(YZCXConstant.chufang_menzhen));
         }
@@ -100,7 +100,7 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
                 , YZCXConstant.chufang_minchufang, YZCXConstant.chufang_sumchufang, YZCXConstant.chufang_yssum, YZCXConstant.chufang_menzhen, YZCXConstant.chufang_jizhen));
         final List<YzcxHandleInfoDay> chuzhen = yzcxHandleInfoDayMapper.selectByDateAndType(param);
         final Map<Integer, Double> zhuyuanMap = chuzhen.stream().collect(Collectors.groupingBy(YzcxHandleInfoDay::getHandletype, Collectors.summingDouble(YzcxHandleInfoDay::getCount)));
-        if(zhuyuanMap.get(YZCXConstant.chufang_chufangshu)!=null) {
+        if (zhuyuanMap.get(YZCXConstant.chufang_chufangshu) != null) {
             rs.setChufangshu(zhuyuanMap.get(YZCXConstant.chufang_chufangshu).longValue());
             rs.setPjchufang(zhuyuanMap.get(YZCXConstant.chufang_pjchufang));
             rs.setMaxchufang(zhuyuanMap.get(YZCXConstant.chufang_maxchufang));
@@ -119,14 +119,27 @@ public class YZCXSearchServiceImpl implements YZCXSearchService {
         List<YzcxHandleInfo> feiyongList = yzcxHandleInfoMapper.selectByDateAndType(zuotian);
         Map<String, Double> zhuyuanMenzhenMap = feiyongList.stream().collect(Collectors.groupingBy(YzcxHandleInfo::getName, Collectors.summingDouble(YzcxHandleInfo::getCount)));
         Double zhuyuanYiLiao = zhuyuanMenzhenMap.get(YZCXConstant.zhuyuan_yiliao);
+        zhuyuanYiLiao=zhuyuanYiLiao!=null?zhuyuanYiLiao:0;
         Double zhuyuanYao = zhuyuanMenzhenMap.get(YZCXConstant.zhuyuan_yaofei);
+        zhuyuanYao=zhuyuanYao!=null?zhuyuanYao:0;
         Double zhuyuanQiTa = zhuyuanMenzhenMap.get(YZCXConstant.zhuyuan_qita);
+        zhuyuanQiTa=zhuyuanQiTa!=null?zhuyuanQiTa:0;
         Double menzhenYiLiao = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_yiliao);
+        menzhenYiLiao=menzhenYiLiao!=null?menzhenYiLiao:0;
         Double menzhenYao = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_yaofei);
+        menzhenYao=menzhenYao!=null?menzhenYao:0;
         Double menzhenQiTa = zhuyuanMenzhenMap.get(YZCXConstant.menzhen_qita);
-        rs.setYiLiao(zhuyuanYiLiao!=null?zhuyuanYiLiao:zhuyuanYiLiao+(menzhenYiLiao!=null?menzhenYiLiao:0));
-        rs.setYao(zhuyuanYao!=null?zhuyuanYao:zhuyuanYao+(menzhenYao!=null?menzhenYao:0));
-        rs.setQiTa(zhuyuanQiTa!=null?zhuyuanQiTa:zhuyuanQiTa+(menzhenQiTa!=null?menzhenQiTa:0));
+        menzhenQiTa=menzhenQiTa!=null?menzhenQiTa:0;
+//        System.out.println("zhuyuanYiLiao:" + zhuyuanYiLiao);
+//        System.out.println("zhuyuanYao:" + zhuyuanYao);
+//        System.out.println("zhuyuanQiTa:" + zhuyuanQiTa);
+//        System.out.println("menzhenYiLiao:" + menzhenYiLiao);
+//        System.out.println("menzhenYao:" + menzhenYao);
+//        System.out.println("menzhenQiTa:" + menzhenQiTa);
+
+        rs.setYiLiao(zhuyuanYiLiao + menzhenYiLiao);
+        rs.setYao(zhuyuanYao +menzhenYao);
+        rs.setQiTa(zhuyuanQiTa + menzhenQiTa);
         /////手术
         SsxxIndex shoushudata = yzcxShoushuSearchService.getIndexData(param);
         rs.setShoushudata(shoushudata);
