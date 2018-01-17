@@ -54,11 +54,6 @@ $(document).ready(function () {
                     type: 'category',
                     axisTick: {show: false},
                     data: ageStrList
-                },
-                {
-                    type: 'category',
-                    axisTick: {show: false},
-                    data: ageStrList
                 }
             ],
             series: [

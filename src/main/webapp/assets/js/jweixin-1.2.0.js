@@ -131,7 +131,7 @@
                 openAddress: "editAddress"
             }, q = function () {
                 var a = {};
-                for (var b in p)a[p[b]] = b;
+                for (var b in p) a[p[b]] = b;
                 return a
             }(), r = a.document, s = r.title, t = navigator.userAgent.toLowerCase(), u = navigator.platform.toLowerCase(),
             v = !(!u.match("mac") && !u.match("win")), w = -1 != t.indexOf("wxdebugger"),
@@ -170,12 +170,12 @@
                         return a.push(function () {
                             l()
                         }), E.complete = function (b) {
-                            for (var c = 0, d = a.length; d > c; ++c)a[c]();
+                            for (var c = 0, d = a.length; d > c; ++c) a[c]();
                             E._completes = []
                         }, E
                     }()), B.preVerifyStartTime = m(); else {
                         F.state = 1;
-                        for (var a = E._completes, d = 0, e = a.length; e > d; ++d)a[d]();
+                        for (var a = E._completes, d = 0, e = a.length; e > d; ++d) a[d]();
                         E._completes = []
                     }
                 }), D.beta && o()
@@ -449,7 +449,7 @@
                     if (e) {
                         a.preventDefault(), a.stopPropagation();
                         var f = b["wx-id"];
-                        if (f || (f = J++, b["wx-id"] = f), K[f])return;
+                        if (f || (f = J++, b["wx-id"] = f), K[f]) return;
                         K[f] = !0, wx.ready(function () {
                             wx.getLocalImgData({
                                 localId: d, success: function (a) {

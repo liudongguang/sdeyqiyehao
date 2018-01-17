@@ -13,6 +13,7 @@ import com.yzcx.api.vo.highchat.pie.HighchartsConfig_pie;
 import com.yzcx.api.vo.yzcxdisplay.Menzhen_Month_Yuyue;
 import com.yzcx.api.vo.yzcxdisplay.QyglVo;
 import com.yzcx.impl.service.handler.YzcxEHcacheUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,16 @@ import java.util.Map;
 public class YZCXWebController {
     @Autowired
     private YZCXSearchService yzcxSearchService;
+
+    @RequestMapping(value = "/login")
+    public String login(HttpServletRequest request, String userid) throws IOException, ParseException {
+        if(StringUtils.isBlank(userid)){
+            request.setAttribute("message","缺失登陆用户！");
+            return "/error.jsp";
+        }
+        request.getSession().setAttribute("userid",userid);
+        return "redirect:/webyzcx/index";
+    }
 
     /**
      * 进入医院概况页面

@@ -68,7 +68,8 @@ public class WXSQController {
 			return msg;
 		} else {
 			String openId = us.getOpenId();// 不是内部人员打开会是这个值
-
+			msg.setErrorCode(500);
+			msg.setErrorMsg("非企业号人员！");
 		}
 		return msg;
 	}

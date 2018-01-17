@@ -552,7 +552,7 @@ $(document).ready(function () {
                 }
             },
             legend: {
-                data: ['住院药费', '住院医疗费', '住院其他费']
+                data: ['门诊药费', '门诊医疗费', '门诊其他费']
             },
             grid: {
                 left: '3%',
