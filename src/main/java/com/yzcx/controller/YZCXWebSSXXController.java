@@ -26,7 +26,7 @@ public class YZCXWebSSXXController {
 
     @RequestMapping(value = "/index")
     public String index(HttpServletRequest request) throws IOException, ParseException {
-        YZCXSearchParam param= YZCXControllerUtil.getBeforeDayByNum(0);
+        YZCXSearchParam param= YZCXControllerUtil.getSearchParamForDay();
         SsxxIndex zyxxIndex=yzcxShoushuSearchService.getIndexData(param);
         request.setAttribute(YZCXConstant.obj, zyxxIndex);
         return "/yzcx/shoushu/index.jsp";
