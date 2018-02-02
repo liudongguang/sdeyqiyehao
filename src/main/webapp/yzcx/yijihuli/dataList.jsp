@@ -43,10 +43,10 @@
             <div class="mui-content-padded">
                 <table id="infoID"  width="100%" border="0" cellspacing="0" cellpadding="0" class="center datatable listTable content-box">
                     <tr class="content-box-cell">
-                        <td>患者科室</td>
-                        <td>患者姓名</td>
-                        <td>开始时间</td>
-                        <td>停止时间</td>
+                        <td width="25%">患者科室</td>
+                        <td width="25%">患者姓名</td>
+                        <td width="25%">开始时间</td>
+                        <td width="25%">停止时间</td>
                     </tr>
                 </table>
             </div>
