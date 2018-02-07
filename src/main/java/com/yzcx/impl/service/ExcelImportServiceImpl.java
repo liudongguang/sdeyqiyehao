@@ -79,7 +79,8 @@ public class ExcelImportServiceImpl implements ExcelImportService {
                     }).collect(Collectors.toList());
                     if (saveToDBData.size() != 0) {
                         sdeyMemberMapper.batchInsert(saveToDBData);
-                        return "人员添加完毕！";
+                        sendBirthday();
+                        return "祝福发送完毕！";
                     } else {
                         return "没有新增人员！";
                     }
