@@ -371,7 +371,7 @@ $(document).ready(function () {
                 stack: '总量',
                 label: {
                     normal: {
-                        show: true,
+                        show: false,
                         position: 'insideRight',
                         formatter: function (v) {
                             var val=v.value / 10000;
@@ -423,7 +423,7 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: true,
+                            show: false,
                             position: 'insideRight',
                             formatter: function (v) {
                                 var val=v.value / 10000;
@@ -475,7 +475,7 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: true,
+                            show: false,
                             position: 'right',
                             formatter: function (v) {
                                 if(v.value==0){
@@ -587,7 +587,7 @@ $(document).ready(function () {
                 stack: '总量',
                 label: {
                     normal: {
-                        show: true,
+                        show: false,
                         position: 'insideRight',
                         formatter: function (v) {
                             var val=v.value / 10000;
@@ -639,7 +639,7 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: true,
+                            show: false,
                             position: 'insideRight',
                             formatter: function (v) {
                                 var val=v.value / 10000;
@@ -691,7 +691,7 @@ $(document).ready(function () {
                     stack: '总量',
                     label: {
                         normal: {
-                            show: true,
+                            show: false,
                             position: 'right',
                             formatter: function (v) {
                                 if(v.value==0){

@@ -181,6 +181,7 @@ $(document).ready(function () {
             series: [{
                 name: '实占床位',
                 type: 'bar',
+                stack: '总量',
                 label: {
                     normal: {
                         show: true,
@@ -225,6 +226,7 @@ $(document).ready(function () {
                 {
                     name: '开放床位',
                     type: 'bar',
+                    stack: '总量',
                     label: {
                         normal: {
                             show: true,
