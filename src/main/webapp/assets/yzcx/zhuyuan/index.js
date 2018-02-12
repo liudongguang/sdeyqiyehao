@@ -106,7 +106,7 @@ $(document).ready(function () {
             series: [{
                 name: '入院数',
                 type: 'bar',
-                stack: '总量',
+                barGap: '1%',
                 label: {
                     normal: {
                         show: true,
@@ -181,7 +181,7 @@ $(document).ready(function () {
             series: [{
                 name: '实占床位',
                 type: 'bar',
-                stack: '总量',
+                barGap: '1%',
                 label: {
                     normal: {
                         show: true,
@@ -226,7 +226,7 @@ $(document).ready(function () {
                 {
                     name: '开放床位',
                     type: 'bar',
-                    stack: '总量',
+                    barGap: '1%',
                     label: {
                         normal: {
                             show: true,
