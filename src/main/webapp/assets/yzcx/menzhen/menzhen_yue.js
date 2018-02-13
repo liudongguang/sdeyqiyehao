@@ -94,8 +94,8 @@ $(document).ready(function () {
             series: [{
                 name: '普通门诊',
                 type: 'bar',
-                stack: '总量',
                 barWidth: 15,
+                barGap: '1%',
                 label: {
                     normal: {
                         show: true,
@@ -150,8 +150,8 @@ $(document).ready(function () {
                 {
                     name: '急诊',
                     type: 'bar',
-                    stack: '总量',
                     barWidth: 15,
+                    barGap: '1%',
                     label: {
                         normal: {
                             show: true,
@@ -258,8 +258,8 @@ $(document).ready(function () {
             series: [{
                 name: '普通门诊',
                 type: 'bar',
-                stack: '总量',
                 barWidth: 15,
+                barGap: '1%',
                 label: {
                     normal: {
                         show: true,
@@ -272,7 +272,7 @@ $(document).ready(function () {
                 {
                     name: '急诊',
                     type: 'bar',
-                    stack: '总量',
+                    barGap: '1%',
                     barWidth: 15,
                     label: {
                         normal: {
@@ -339,7 +339,7 @@ $(document).ready(function () {
                     label: {
                         normal: {
                             show: true,
-                            position: 'insideRight'
+                            position: 'right'
                         }
                     },
                     data: jibing_data

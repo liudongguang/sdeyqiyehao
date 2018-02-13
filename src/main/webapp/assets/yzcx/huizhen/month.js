@@ -68,6 +68,7 @@ $(document).ready(function () {
                 "type": "bar",
                 "itemStyle": {"normal": {"color": "#7cb5ec"}},
                 "data": shenqing,
+                barGap: '1%',
                 label: {
                     normal: {
                         show: true,
@@ -78,6 +79,7 @@ $(document).ready(function () {
                 "name": "会诊接受",
                 "type": "bar",
                 "data": jieshou,
+                barGap: '1%',
                 label: {
                     normal: {
                         show: true,

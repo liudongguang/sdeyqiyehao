@@ -88,6 +88,7 @@ $(document).ready(function () {
                     name: '人次',
                     type: 'bar',
                     data: renci,
+                    barGap: '1%',
                     label: {
                         normal: {
                             show: true,
@@ -99,6 +100,7 @@ $(document).ready(function () {
                     name: '费用',
                     type: 'bar',
                     data: heji,
+                    barGap: '1%',
                     label: {
                         normal: {
                             show: true,
