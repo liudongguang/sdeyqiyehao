@@ -18,6 +18,14 @@
     <link rel="stylesheet" href="assets/messageboard2/css/amazeui.min.css">
     <link rel="stylesheet" href="assets/messageboard2/css/style.css">
     <link rel="stylesheet" href="assets/messageboard2/css/abc.css">
+    <style>
+        .more{
+            width: 100%;
+            text-align: center;
+            display: block;
+            padding: 5px
+        }
+    </style>
 </head>
 <body class="bdbg">
 <div class="group-body nav_bgc blog_header_pd">
@@ -43,64 +51,66 @@
         </div>
     </div>
     <div class="tb_pad group-body">
-        <!--下拉刷新容器-->
-        <div id="refreshContainer" class="mui-content mui-scroll-wrapper">
-            <div class="mui-scroll">
-                <!--数据列表-->
-                <ul class="list mui-table-view mui-table-view-chevron">
-                    <c:choose>
-                        <c:when test="${fn:length(page.list) gt 0}">
-                            <c:forEach items="${page.list}" var="lymsg">
-                                <li target="_blank" class="item item-content blog_li">
-                                    <div class="blog_divs">
-                                        <div class="item-media">
-                                            <a href="">
-                                                <img class="blog_head_img" width="48" src="${lymsg.wxheadimg}">
-                                            </a>
+        <!--数据列表-->
+        <ul id="datacontentID" class="list">
+            <c:choose>
+                <c:when test="${fn:length(page.list) gt 0}">
+                    <c:forEach items="${page.list}" var="lymsg">
+                        <li target="_blank" class="item item-content blog_li">
+                            <div class="blog_divs">
+                                <div class="item-media">
+                                    <a href="">
+                                        <img class="blog_head_img" width="48" src="${lymsg.wxheadimg}">
+                                    </a>
+                                </div>
+                                <div class="item-main">
+                                    <a href="">
+                                        <div class="item-title-row">
+                                            <h2 class="item-title jy_tit">${lymsg.wxqyusername}</h2>
                                         </div>
-                                        <div class="item-main">
-                                            <a href="">
-                                                <div class="item-title-row">
-                                                    <h2 class="item-title jy_tit">${lymsg.wxqyusername}</h2>
-                                                </div>
-                                                <div class="item-title-row">
-                                                    <div class="item-subtitle"><fmt:formatDate
-                                                            value="${lymsg.createtime}"
-                                                            pattern=" yyyy-MM-dd HH:mm:ss"/></div>
-                                                </div>
-                                            </a>
+                                        <div class="item-title-row">
+                                            <div class="item-subtitle"><fmt:formatDate
+                                                    value="${lymsg.createtime}"
+                                                    pattern=" yyyy-MM-dd HH:mm:ss"/></div>
                                         </div>
-                                    </div>
-                                    <div class="blog_divs_pad">
-                                        <p class="blog_main_p">
-                                                ${lymsg.content}
-                                        </p>
-                                    </div>
-                                    <div class="blog_divs_say">
-                                        <c:if test="${fn:length(lymsg.pingLunByLY) gt 0}">
-                                            <span class="all_says">全部评论</span>
-                                            <c:forEach items="${lymsg.pingLunByLY}" var="pinglun">
-                                                <div class="says_txt">
-                                                    <span>${pinglun.wxqyusername}：</span>
-                                                    <span>${pinglun.hfnr}</span>
-                                                </div>
-                                            </c:forEach>
-                                        </c:if>
-                                    </div>
-                                </li>
-                            </c:forEach>
-                        </c:when>
-                    </c:choose>
-                </ul>
-            </div>
-        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog_divs_pad">
+                                <p class="blog_main_p">
+                                        ${lymsg.content}
+                                </p>
+                            </div>
+                            <div class="blog_divs_say">
+                                <c:if test="${fn:length(lymsg.pingLunByLY) gt 0}">
+                                    <span class="all_says">全部评论</span>
+                                    <c:forEach items="${lymsg.pingLunByLY}" var="pinglun">
+                                        <div class="says_txt">
+                                            <span>${pinglun.wxqyusername}：</span>
+                                            <span>${pinglun.hfnr}</span>
+                                        </div>
+                                    </c:forEach>
+                                </c:if>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </c:when>
+            </c:choose>
+        </ul>
     </div>
+    <span class="more" id="loadMore" onclick="load()"><a href="javascript:void(0)"
+                                                         data-am-modal="{target: '#my-alert'}" style="font-size: 14px">更多</a></span>
 </div>
 
 <script src="assets/messageboard2/js/jquery-3.2.1.js"></script>
 <script src="assets/messageboard2/js/amazeui.min.js"></script>
 <script src="assets/messageboard2/js/app.js"></script>
 <script src="assets/messageboard2/js/emotion.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
+<script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
+<script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
 <script src="assets/messageboard2/list.js"></script>
 </body>
 </html>

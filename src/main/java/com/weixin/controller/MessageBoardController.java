@@ -123,8 +123,8 @@ public class MessageBoardController {
 	public String liuYanListForMore(HttpServletRequest request, PageParam pageParam,MessageboardSearchParam searchParam)
 			throws UnsupportedEncodingException {
 		Page<MessageboardMessageSuper> page = messagesv.liuYanList(pageParam, searchParam);
-		request.setAttribute("morepage", page.toPageInfo());
-		return "/messageboard/list2_more.jsp";
+		request.setAttribute("page", page.toPageInfo());
+		return "/messageboard2/load.jsp";
 	}
 
 	/**
