@@ -162,4 +162,10 @@
 		select count(1) from messageboard_huifu where
 		messageid=#{messageid}
 	</select>
+	<select id="getPingLunByLYID" resultMap="BaseResultMap"
+			parameterType="java.lang.Integer">
+		select hfnr,wxqyusername from messageboard_huifu where
+		messageid=#{messageid} order by createtime desc
+	</select>
+
 </mapper>

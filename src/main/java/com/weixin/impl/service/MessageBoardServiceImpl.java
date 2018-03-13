@@ -14,6 +14,8 @@ import com.weixin.vo.MessageboardMessageSuper;
 import com.weixin.vo.MessageboardSearchParam;
 import com.weixin.vo.PageParam;
 
+import java.util.List;
+
 @Service
 public class MessageBoardServiceImpl implements MessageBoardService {
 	@Autowired
@@ -34,8 +36,9 @@ public class MessageBoardServiceImpl implements MessageBoardService {
 		}
 		Page<MessageboardMessageSuper> page = messageDao.liuYanList(searchParam);
 		for (MessageboardMessageSuper msg : page) {
-			Integer plcount=msgHFDao.getPingLunCountByMsgID(msg.getId());
-			msg.setPinglunCount(plcount);
+			//Integer plcount=msgHFDao.getPingLunCountByMsgID(msg.getId());
+			List<MessageboardHuifu> pingLunByLY = msgHFDao.getPingLunByLYID(msg.getId());
+			msg.setPingLunByLY(pingLunByLY);
 		}
 		return page;
 	}

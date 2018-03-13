@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.weixin.api.po.MessageboardHuifu;
 import com.weixin.vo.MessageboardSearchParam;
 
+import java.util.List;
+
 public interface MessageboardHuifuMapper {
 
 	/**
@@ -45,4 +47,6 @@ public interface MessageboardHuifuMapper {
 	Page<MessageboardHuifu> getLiuYanHuiFuList(MessageboardSearchParam searchParam);
 
 	Integer getPingLunCountByMsgID(Integer id);
+	////根据留言id获取回复的信息
+	List<MessageboardHuifu> getPingLunByLYID(Integer id);
 }
