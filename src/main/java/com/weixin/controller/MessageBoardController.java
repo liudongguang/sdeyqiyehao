@@ -6,14 +6,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ldg.api.util.RequestFileUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,6 +34,7 @@ import com.weixin.vo.MessageboardMessageSuper;
 import com.weixin.vo.MessageboardSearchParam;
 import com.weixin.vo.PageParam;
 import com.weixin.vo.ResponseStream;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping(value = "/messageboard")
@@ -60,43 +65,28 @@ public class MessageBoardController {
 	@RequestMapping(value = "/addLiuYan")
 	public String addLiuYan(HttpServletRequest request, MessageboardMessage message) throws IOException {
 		message.setCreatetime(new Date());
-		String wximages = message.getMessageimages();
-		String[] imgArr = wximages.split(",");
-		String accessToken = Access_token.getAccessToken();
-		StringBuilder newImgs = new StringBuilder();
-		for (String wximgServerID : imgArr) {
-			String url = MessageFormat.format(PropertiesUtil.weixinPropertiesVal(WeixinConstant.getLinShiSC),
-					accessToken, wximgServerID);
-			ResponseStream rsm = HttpClientUtil.getInstance().sendHttpGetForInputStream(url);
-			switch (rsm.getContentType()) {
-			case WeixinConstant.TYPE_jpeg:
-				StringBuilder dbIMGPath = new StringBuilder(WeixinConstant.uploadPath_liuyan);
-				String serverRealPath = request.getServletContext().getRealPath(WeixinConstant.uploadPath_liuyan);
-				File severFileMdr = new File(serverRealPath);
-				if (!severFileMdr.exists()) {
-					severFileMdr.mkdirs();
-				}
-				StringBuilder saveFile = new StringBuilder(serverRealPath);
-				StringBuilder fileName = new StringBuilder(UUID.randomUUID().toString());
-				fileName.append(".jpg");
-				dbIMGPath.append("/").append(fileName);
-				saveFile.append("/").append(fileName);
-				newImgs.append(dbIMGPath).append(",");
-				InputStream ins = rsm.getIn();
-				File file = new File(saveFile.toString());
-				FileOutputStream fos = new FileOutputStream(file);
-				IOUtils.copy(ins, fos);
-				IOUtils.closeQuietly(fos);
-				break;
-			default:
-				break;
+		List<MultipartFile> files = RequestFileUtil.getUploadFile(request);
+		StringBuilder images=null;
+		System.out.println("图片信息。。。。。。。。。。。。。。{}"+files.size());
+		if (!CollectionUtils.isEmpty(files)) {
+			images=new StringBuilder();
+			File savePath=new File(request.getServletContext().getRealPath(WeixinConstant.uploadPath_liuyan));
+			if(!savePath.exists()){
+				savePath.mkdirs();
+			}
+			for (int i = 0; i < files.size(); i++) {
+				MultipartFile mfile = files.get(i);
+				String fileName = RequestFileUtil.getSaveFileName(mfile.getOriginalFilename());
+				File localFile = new File(request.getServletContext().getRealPath(WeixinConstant.uploadPath_liuyan) + "/" + fileName);
+				mfile.transferTo(localFile);
+				images.append(WeixinConstant.uploadPath_liuyan).append("/").append(fileName).append(",");
 			}
 		}
-		if (newImgs.length() != 0) {
-			if (newImgs.lastIndexOf(",") != -1) {
-				message.setMessageimages(newImgs.substring(0, newImgs.length() - 1));
+		if (null!=images&&images.length() != 0) {
+			if (images.lastIndexOf(",") != -1) {
+				message.setMessageimages(images.substring(0, images.length() - 1));
 			} else {
-				message.setMessageimages(newImgs.toString());
+				message.setMessageimages(images.toString());
 			}
 		}
 		int i = messagesv.saveLiuyanContent(message);

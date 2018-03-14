@@ -108,7 +108,7 @@ var ImgIputHandler={
                             isShowImg=false;
                             $(this).parent().animate({marginTop:"0px"},300);
                            // $(this).parent().hide();                           
-                            ImgIputHandler.insertAtCursor($(".Input_text")[0],"["+$(this).attr("title")+"]");
+                            ImgIputHandler.insertAtCursor($(".Input_text")[1],"["+$(this).attr("title")+"]");
                         });
                     }
                 }else{

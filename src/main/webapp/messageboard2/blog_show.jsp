@@ -99,15 +99,15 @@
                                value="${object.id}" placeholder="留言id缺失"/>
                         <input
                                 placeholder="留言用户id缺失" type="hidden"
-                                value="${sessionScope.session_wxUSER.userid}1" id="wxUserID"
+                                value="${sessionScope.session_wxUSER.userid}" id="wxUserID"
                                 name="wxqyuserid"/>
                         <input type="hidden"
                                placeholder="留言用户姓名缺失"
-                               value="${sessionScope.session_wxUSER.name}2" id="wxUserNameID"
+                               value="${sessionScope.session_wxUSER.name}" id="wxUserNameID"
                                name="wxqyusername"/>
                         <input type="hidden"
                                placeholder="留言用户头像缺失"
-                               value="${sessionScope.session_wxUSER.avatar}3"
+                               value="${sessionScope.session_wxUSER.avatar}"
                                id="wxTouxiangID"
                                name="wxheadimg"/>
                         <input placeholder="请填写评论..." type="text" class="am-form-field send_ipt" name="hfnr" id="hfnrID">
