@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="assets/messageboard2/css/style.css">
     <link rel="stylesheet" href="assets/messageboard2/css/abc.css">
     <style>
-        .more{
+        .more {
             width: 100%;
             text-align: center;
             display: block;
@@ -38,19 +38,23 @@
 </div>
 
 <div class="em_all">
-    <div class="am-g send_fixed">
-        <div class="am-u-lg-12">
-            <div class="am-input-group">
-                <input type="text" class="am-form-field send_ipt">
-                <span class="am-input-group-btn">
-                        <button class="am-btn send_btn send_ipt" type="button">
+    <form action="messageboard/liuYanList" id="subForm" method="post">
+        <div class="am-g send_fixed">
+            <div class="am-u-lg-12">
+                <div class="am-input-group">
+                    <input type="text" class="am-form-field send_ipt" name="title" value="${param.title}"
+                           placeholder="模糊搜索标题..">
+                    <span class="am-input-group-btn">
+                        <button class="am-btn send_btn send_ipt" type="submit">
                             搜索
-                        </button>
-      </span>
+                        </button></span>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
     <div class="tb_pad group-body">
+        <input type="hidden" value="${page.pageNum}" id="pageNumID"/>
+        <input type="hidden" value="${page.pages}" id="pagesID"/>
         <!--数据列表-->
         <ul id="datacontentID" class="list">
             <c:choose>

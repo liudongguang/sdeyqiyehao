@@ -16,7 +16,13 @@ function load() {
         layer.alert("没有更多");
         return;
     }
-    ajaxRequest('messageboard/liuYanListForMore', {pageNum: pageNum+1}, function (data) {
+    var formdata = $("#subForm").serialize();
+    var ajaxurl =  'messageboard/liuYanListForMore';
+    if (formdata) {
+        ajaxurl=ajaxurl + "?" + formdata;
+    }
+    console.log(ajaxurl)
+    ajaxRequest(ajaxurl, {pageNum: pageNum+1}, function (data) {
         $("#pageNumID").remove();
         $("#pagesID").remove();
         $("#datacontentID").append(replace_em(data))
