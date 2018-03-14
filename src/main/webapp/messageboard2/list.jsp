@@ -68,7 +68,7 @@
                                     </a>
                                 </div>
                                 <div class="item-main">
-                                    <a href="">
+                                    <a href="messageboard/getLiuYanByID?id=${lymsg.id}">
                                         <div class="item-title-row">
                                             <h2 class="item-title jy_tit">${lymsg.wxqyusername}</h2>
                                         </div>

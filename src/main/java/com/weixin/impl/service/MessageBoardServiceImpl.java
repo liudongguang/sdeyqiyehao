@@ -44,8 +44,10 @@ public class MessageBoardServiceImpl implements MessageBoardService {
 	}
 
 	@Override
-	public MessageboardMessage getLiuYanByID(Integer id) {
-		return messageDao.selectByPrimaryKey(id);
+	public MessageboardMessageSuper getLiuYanByID(Integer id) {
+		MessageboardMessageSuper messageboardMessageSuper = messageDao.selectByPrimaryKeyForSuper(id);
+		messageboardMessageSuper.setPingLunByLY(msgHFDao.getPingLunByLYID(messageboardMessageSuper.getId()));
+		return messageboardMessageSuper;
 	}
 
 	@Override

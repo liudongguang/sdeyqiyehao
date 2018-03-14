@@ -13,7 +13,7 @@ public interface MessageBoardService {
 
 	Page<MessageboardMessageSuper> liuYanList(PageParam pageParam, MessageboardSearchParam searchParam);
 
-	MessageboardMessage getLiuYanByID(Integer id);
+	MessageboardMessageSuper getLiuYanByID(Integer id);
 
 	int addLiuYanHuiFu(MessageboardHuifu msghuifu);
 

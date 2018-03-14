@@ -46,4 +46,5 @@ public interface MessageboardMessageMapper {
 	Page<MessageboardMessageSuper> liuYanList(MessageboardSearchParam searchParam);
 
 
+	MessageboardMessageSuper selectByPrimaryKeyForSuper(Integer id);
 }

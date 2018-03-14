@@ -136,9 +136,9 @@ public class MessageBoardController {
 	 */
 	@RequestMapping(value = "/getLiuYanByID")
 	public String getLiuYanByID(HttpServletRequest request, Integer id) throws UnsupportedEncodingException {
-		MessageboardMessage msg = messagesv.getLiuYanByID(id);
+		MessageboardMessageSuper msg = messagesv.getLiuYanByID(id);
 		request.setAttribute("object", msg);
-		return "/messageboard/listshow.jsp";
+		return "/messageboard2/blog_show.jsp";
 	}
 
 	/**
