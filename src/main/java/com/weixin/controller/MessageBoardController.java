@@ -63,7 +63,7 @@ public class MessageBoardController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/addLiuYan")
-	public String addLiuYan(HttpServletRequest request, MessageboardMessage message) throws IOException {
+	public @ResponseBody ResultMsg addLiuYan(HttpServletRequest request, MessageboardMessage message) throws IOException {
 		message.setCreatetime(new Date());
 		List<MultipartFile> files = RequestFileUtil.getUploadFile(request);
 		StringBuilder images=null;
@@ -90,7 +90,8 @@ public class MessageBoardController {
 			}
 		}
 		int i = messagesv.saveLiuyanContent(message);
-		return "/messageboard/liuYanList";
+		ResultMsg msg=new ResultMsg();
+		return msg;
 	}
 
 	/**

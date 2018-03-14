@@ -12,7 +12,7 @@ $(document).ready(function (e) {
         }
     })
     ajaxFormInitial($("#subformID"), function (data) {
-        console.log(data)
+        location.href="messageboard/liuYanList";
     });
     $("#subBTID").click(function () {
         var lyuserid = $("#wxUserID").val();

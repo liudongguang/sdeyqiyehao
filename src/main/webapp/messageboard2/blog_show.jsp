@@ -55,6 +55,12 @@
                     <p class="blog_main_p">${object.content}
                     </p>
                 </div>
+                <div class="blog_divs_pad">
+                    <c:set value="${ fn:split(object.messageimages, ',') }" var="imagepaths" />
+                    <c:forEach items="${ imagepaths }" var="imgpath">
+                       <img src="${imgpath}"/>
+                    </c:forEach>
+                </div>
             </li>
         </ul>
         <div class="blog_divs_say_show">
