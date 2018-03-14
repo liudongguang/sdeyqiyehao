@@ -1,4 +1,6 @@
-var basePath=$("#basePath").val();
+$(document).ready(function(e) {
+    ImgIputHandler.Init();
+});
 var ImgIputHandler={
         facePath:[
 {faceName:"em_1",facePath:"1.gif"},
@@ -93,12 +95,14 @@ var ImgIputHandler={
                 $(this).parent().css("-webkit-box-shadow", "0 0 3px rgba(19,105,252,3)");
             });
             $(".imgBtn").click(function(){
+
                 if(isShowImg==false){
                     isShowImg=true;
-                    $(this).parent().prev().animate({marginTop:"-150px"},300);
+                    $(this).parent().prev().animate({marginTop:"-123px"},300);
                     if($(".faceDiv").children().length==0){
                         for(var i=0;i<ImgIputHandler.facePath.length;i++){
-                            $(".faceDiv").append("<img title=\""+ImgIputHandler.facePath[i].faceName+"\" src="+basePath+"/images/face/"+ImgIputHandler.facePath[i].facePath+" />");
+                            var addimg="<img title=\""+ImgIputHandler.facePath[i].faceName+"\" src=\"assets/messageboard/face/"+ImgIputHandler.facePath[i].facePath+"\""+"/>";
+                            $(".faceDiv").append(addimg);
                         }
                         $(".faceDiv>img").click(function(){
                             isShowImg=false;

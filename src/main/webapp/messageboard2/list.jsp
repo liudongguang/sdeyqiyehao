@@ -32,7 +32,7 @@
     <header class="navbar">
         <span class="navbar-title navbar-center">留言板列表</span>
         <div class="navbar-nav navbar-right">
-            <span class="navbar-title navbar-right">留言</span>
+            <span class="navbar-title navbar-right"><a style="color: #fff" href="messageboard2/blog_write.jsp">留言</a></span>
         </div>
     </header>
 </div>
