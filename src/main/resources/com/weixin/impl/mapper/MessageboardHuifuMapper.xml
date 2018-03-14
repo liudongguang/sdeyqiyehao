@@ -164,7 +164,7 @@
 	</select>
 	<select id="getPingLunByLYID" resultMap="BaseResultMap"
 			parameterType="java.lang.Integer">
-		select hfnr,wxqyusername from messageboard_huifu where
+		select id, messageid, hfnr, createtime, wxqyuserid, wxqyusername, wxheadimg from messageboard_huifu where
 		messageid=#{messageid} order by createtime desc
 	</select>
 

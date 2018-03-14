@@ -25,7 +25,7 @@
         <span class="navbar-title navbar-center">${object.title}</span>
 
         <div class="navbar-nav navbar-right">
-            <span class="navbar-title navbar-right">返回</span>
+            <span class="navbar-title navbar-right"><a style="color: #fff" href="messageboard/liuYanList">留言列表</a></span>
         </div>
     </header>
 </div>
@@ -35,12 +35,12 @@
             <li target="_blank" class="item item-content blog_li">
                 <div class="blog_divs">
                     <div class="item-media">
-                        <a href="">
+                        <a href="javascript:void(0)">
                             <img class="blog_head_img" width="48" src="${object.wxheadimg}">
                         </a>
                     </div>
                     <div class="item-main">
-                        <a href="">
+                        <a href="javascript:void(0)">
                             <div class="item-title-row">
                                 <h2 class="item-title jy_tit">${object.wxqyusername}</h2>
                             </div>
@@ -65,12 +65,12 @@
                         <li class="blog_divs_show_pad item-content">
                             <div class="blog_divs_show">
                                 <div class="item-media">
-                                    <a href="">
-                                        <img class="blog_head_img" width="42" src="images/2421.png">
+                                    <a href="javascript:void(0)">
+                                        <img class="blog_head_img" width="42" src="${pinglun.wxheadimg}">
                                     </a>
                                 </div>
                                 <div class="item-main">
-                                    <a href="">
+                                    <a href="javascript:void(0)">
                                         <div class="item-title-row">
                                             <h2 class="item-title jy_tit color_nam size_txt">${pinglun.wxqyusername}</h2>
                                         </div>
@@ -90,24 +90,48 @@
                 </ul>
             </c:if>
         </div>
-        <div class="am-g send_fixed am-u-sm-12">
-            <div class="am-u-lg-12">
-                <div class="am-input-group">
-                    <input type="text" class="am-form-field send_ipt">
-                    <span class="am-input-group-btn">
-                        <button class="am-btn send_btn send_ipt"
+        <form id="submitForm" action="messageboard/addLiuYanHuiFu"
+              method="post">
+            <div class="am-g send_fixed am-u-sm-12">
+                <div class="am-u-lg-12">
+                    <div class="am-input-group">
+                        <input type="hidden" id="messageID" name="messageid"
+                               value="${object.id}" placeholder="留言id缺失"/>
+                        <input
+                                placeholder="留言用户id缺失" type="hidden"
+                                value="${sessionScope.session_wxUSER.userid}1" id="wxUserID"
+                                name="wxqyuserid"/>
+                        <input type="hidden"
+                               placeholder="留言用户姓名缺失"
+                               value="${sessionScope.session_wxUSER.name}2" id="wxUserNameID"
+                               name="wxqyusername"/>
+                        <input type="hidden"
+                               placeholder="留言用户头像缺失"
+                               value="${sessionScope.session_wxUSER.avatar}3"
+                               id="wxTouxiangID"
+                               name="wxheadimg"/>
+                        <input placeholder="请填写评论..." type="text" class="am-form-field send_ipt" name="hfnr" id="hfnrID">
+                        <span class="am-input-group-btn">
+                        <button class="am-btn send_btn send_ipt" id="subBTID"
                                 style=""
                                 type="button">发表
-        </button>
-      </span>
+                        </button>
+                    </span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 <script src="assets/messageboard2/js/jquery-3.2.1.js"></script>
 <script src="assets/messageboard2/js/amazeui.min.js"></script>
 <script src="assets/messageboard2/js/app.js"></script>
 <script src="assets/messageboard2/js/emotion.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
+<script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
+<script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
+<script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
+<script src="assets/messageboard2/blog_show.js"></script>
 </body>
 </html>
