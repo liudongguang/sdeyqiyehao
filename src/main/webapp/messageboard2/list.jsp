@@ -63,7 +63,7 @@
                         <li target="_blank" class="item item-content blog_li">
                             <div class="blog_divs">
                                 <div class="item-media">
-                                    <a href="">
+                                    <a href="javascript:void(0)">
                                         <img class="blog_head_img" width="48" src="${lymsg.wxheadimg}">
                                     </a>
                                 </div>

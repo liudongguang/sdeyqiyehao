@@ -34,15 +34,15 @@
                     <div id="Demo">
                         <div class="Main">
                             <div class="Input_Box">
-                                <input type="hidden" value="${sessionScope.session_wxUSER.userid}1"
+                                <input type="hidden" value="${sessionScope.session_wxUSER.userid}"
                                        id="wxUserID" name="wxqyuserid"/>
                                 <input type="hidden"
-                                       value="${sessionScope.session_wxUSER.name}2"
+                                       value="${sessionScope.session_wxUSER.name}"
                                        id="wxUserNameID"
                                        name="wxqyusername"/>
                                 <input
                                         type="hidden"
-                                        value="${sessionScope.session_wxUSER.avatar}3" id="wxTouxiangID"
+                                        value="${sessionScope.session_wxUSER.avatar}" id="wxTouxiangID"
                                         name="wxheadimg"/>
                                 <input class="Input_text" type="text" id="titleid"
                                        maxlength="16" name="title" placeholder="请输入话题的标题(16字以内)"/>
