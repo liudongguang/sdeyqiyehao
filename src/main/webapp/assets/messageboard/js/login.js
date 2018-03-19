@@ -11,10 +11,11 @@ $(document).ready(function(e) {
 		}, function(data) {
 			if (data.errorCode == 0) {
 				layer.close(ii);
-				//location.href=basePath+'/messageboard/liuYanList';
-                ajaxRequest(basePath+'/messageboard/liuYanList', {}, function (data) {
-                    document.write(data);
-                }, 'html');
+                window.location.replace(basePath+'/messageboard/liuYanList')
+                // ajaxRequest(basePath+'/messageboard/liuYanList', {}, function (data) {
+                 //    document.write(data);
+                 //
+                // }, 'html');
 			}else{
 				layer.alert("授权失败");
 				layer.close(ii);

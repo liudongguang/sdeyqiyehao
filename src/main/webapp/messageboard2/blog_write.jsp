@@ -44,7 +44,7 @@
                                         type="hidden"
                                         value="${sessionScope.session_wxUSER.avatar}" id="wxTouxiangID"
                                         name="wxheadimg"/>
-                                <input class="Input_text" type="text" id="titleid"
+                                <input class="Input_text" type="hidden" id="titleid" value="默认标题"
                                        maxlength="16" name="title" placeholder="请输入话题的标题(16字以内)"/>
 
                                 <textarea id="content" placeholder="文本框中显示文字不超过500字，内容将由管理员筛选后发布.." name="content"

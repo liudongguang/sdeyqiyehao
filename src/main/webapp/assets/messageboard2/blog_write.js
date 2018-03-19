@@ -22,10 +22,10 @@ $(document).ready(function (e) {
         //     layer.alert("未登录用户！");
         //     return false;
         // }
-        if (!title) {
-            layer.alert("未填写标题！");
-            return false;
-        }
+        // if (!title) {
+        //     layer.alert("未填写标题！");
+        //     return false;
+        // }
         if (!content) {
             layer.alert("未填写留言内容！");
             return false;

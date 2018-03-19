@@ -22,7 +22,7 @@
 <body class="bdbg">
 <div class="group-body nav_bgc blog_header_pd">
     <header class="navbar">
-        <span class="navbar-title navbar-center">${object.title}</span>
+        <span class="navbar-title navbar-center"></span>
 
         <div class="navbar-nav navbar-right">
             <span class="navbar-title navbar-right"><a style="color: #fff" href="messageboard/liuYanList">留言列表</a></span>
