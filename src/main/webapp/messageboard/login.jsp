@@ -17,9 +17,11 @@
 		id="basePath" />
 	<input type="hidden" value="${param.code}" id="codeID" />
 	<script src="assets/messageboard/js/jquery.min.js"></script>
-	<script src="js/layer/layer.js"></script>
-	<script src="assets/messageboard/js/login.js">
-		
-	</script>
+	<script language="javascript" type="text/javascript" src="assets/js/pajax/jquery.pjax.js"></script>
+	<script language="javascript" type="text/javascript" src="assets/nprogress-0.2.0/nprogress.js"></script>
+	<script language="javascript" type="text/javascript" src="assets/js/jquery.form.min.js"></script>
+	<script language="javascript" type="text/javascript" src="assets/layer/layer.js"></script>
+	<script language="javascript" type="text/javascript" src="assets/js/commonMain2.js"></script>
+	<script src="assets/messageboard/js/login.js"></script>
 </body>
 </html>
