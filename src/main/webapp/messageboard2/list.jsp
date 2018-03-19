@@ -32,12 +32,14 @@
     <header class="navbar">
         <span class="navbar-title navbar-center">留言板列表</span>
         <div class="navbar-nav navbar-right">
-            <span class="navbar-title navbar-right"><a style="color: #fff" href="messageboard2/blog_write.jsp">留言</a></span>
+            <span class="navbar-title navbar-right"><a style="color: #fff"
+                                                       href="messageboard2/blog_write.jsp">留言</a></span>
         </div>
     </header>
 </div>
 
 <div class="em_all">
+    <!--
     <form action="messageboard/liuYanList" id="subForm" method="post">
         <div class="am-g send_fixed">
             <div class="am-u-lg-12">
@@ -52,6 +54,7 @@
             </div>
         </div>
     </form>
+    -->
     <div class="tb_pad group-body">
         <input type="hidden" value="${page.pageNum}" id="pageNumID"/>
         <input type="hidden" value="${page.pages}" id="pagesID"/>
@@ -86,7 +89,7 @@
                                 </p>
                             </div>
                             <div class="blog_divs_say">
-                                <c:if test="${fn:length(lymsg.pingLunByLY) gt 0}">
+                                <c:if test="${fn:length(lymsg.pingLunByLY) gt 0 && fn:length(lymsg.pingLunByLY) lt 4}">
                                     <span class="all_says">全部评论</span>
                                     <c:forEach items="${lymsg.pingLunByLY}" var="pinglun">
                                         <div class="says_txt">
@@ -94,6 +97,24 @@
                                             <span>${pinglun.hfnr}</span>
                                         </div>
                                     </c:forEach>
+                                </c:if>
+                                <c:if test="${fn:length(lymsg.pingLunByLY) gt 3}">
+                                    <span class="all_says">全部评论</span>
+                                    <c:forEach items="${lymsg.pingLunByLY}" varStatus="status" var="pinglun" end="2">
+                                        <div class="says_txt">
+                                            <span>${pinglun.wxqyusername}：</span>
+                                            <span>${pinglun.hfnr}</span>
+                                        </div>
+                                    </c:forEach>
+                                    <span id="morepinglun">......</span>
+                                    <div id="hidepinglun" style="display: none">
+                                        <c:forEach items="${lymsg.pingLunByLY}" var="pinglun" begin="3">
+                                            <div class="says_txt">
+                                                <span>${pinglun.wxqyusername}：</span>
+                                                <span>${pinglun.hfnr}</span>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
                                 </c:if>
                             </div>
                         </li>

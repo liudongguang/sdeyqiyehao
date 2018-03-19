@@ -4,6 +4,10 @@ $(document).ready(function (e) {
         var content = $(this).text();
         $(this).empty().append(replace_em(content))
     })
+    $("#morepinglun").click(function () {
+        $("#hidepinglun").css("display","block");
+        $(this).remove();
+    })
 });
 
 function load() {
