@@ -4,9 +4,10 @@ $(document).ready(function (e) {
         var content = $(this).text();
         $(this).empty().append(replace_em(content))
     })
-    $("#morepinglun").click(function () {
-        $("#hidepinglun").css("display","block");
-        $(this).remove();
+    $("span[id^=morepinglun]").click(function () {
+        var id=$(this).attr("id").split("-")[1];
+        $("#hidepinglun-"+id).css("display","block");
+        $("#slh-"+id).remove();
     })
 });
 
@@ -25,7 +26,6 @@ function load() {
     if (formdata) {
         ajaxurl=ajaxurl + "?" + formdata;
     }
-    console.log(ajaxurl)
     ajaxRequest(ajaxurl, {pageNum: pageNum+1}, function (data) {
         $("#pageNumID").remove();
         $("#pagesID").remove();

@@ -99,15 +99,15 @@
                                     </c:forEach>
                                 </c:if>
                                 <c:if test="${fn:length(lymsg.pingLunByLY) gt 3}">
-                                    <span class="all_says">全部评论</span>
+                                    <span id="morepinglun-${lymsg.id}" class="all_says">全部评论</span>
                                     <c:forEach items="${lymsg.pingLunByLY}" varStatus="status" var="pinglun" end="2">
                                         <div class="says_txt">
                                             <span>${pinglun.wxqyusername}：</span>
                                             <span>${pinglun.hfnr}</span>
                                         </div>
                                     </c:forEach>
-                                    <span id="morepinglun">......</span>
-                                    <div id="hidepinglun" style="display: none">
+                                    <span id="slh-${lymsg.id}">......</span>
+                                    <div id="hidepinglun-${lymsg.id}" style="display: none">
                                         <c:forEach items="${lymsg.pingLunByLY}" var="pinglun" begin="3">
                                             <div class="says_txt">
                                                 <span>${pinglun.wxqyusername}：</span>
